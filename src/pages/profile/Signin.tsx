@@ -50,10 +50,8 @@ const Signin = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         var uid = user.uid;
-        console.log(uid);
-        window.localStorage.setItem("userId", JSON.stringify(uid));
-      } else {
-        alert("Please sign in");
+        // console.log(uid);
+        window.localStorage.setItem("userId", uid);
       }
     });
   };

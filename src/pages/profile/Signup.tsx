@@ -40,12 +40,12 @@ const Signup = () => {
     password: "",
   });
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(recipient.email, recipient.password)
       .then(() => {
-        navigate("/profile");
+        navigate("/");
       });
   };
 
