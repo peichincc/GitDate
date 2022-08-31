@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-// import firebase from "../../utils/firebase";
-import { initializeApp } from "firebase/app";
 import { getFirestore, getDocs, collection } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const Wrapper = styled.div`
   display: block;
@@ -12,33 +12,40 @@ const Wrapper = styled.div`
 `;
 
 const Profile = () => {
-  // const firebaseConfig = {
-  //   apiKey: "AIzaSyCWUzuq_-Y83KTKEpicxofIFb7isMyq-sE",
-  //   authDomain: "gitdate-ec8a6.firebaseapp.com",
-  //   projectId: "gitdate-ec8a6",
-  //   storageBucket: "gitdate-ec8a6.appspot.com",
-  //   messagingSenderId: "879193846506",
-  //   appId: "1:879193846506:web:e433e0479a915cf9b11d93",
-  //   measurementId: "G-RH7X04NJ9S",
-  // };
+  const [imageUpload, setImageUpload] = useState(null);
+  const [imageURL, setImageURL] = useState("");
+  const db = getFirestore();
+  const readData = async () => {
+    const querySnapshot = await getDocs(collection(db, "Users"));
+    querySnapshot.forEach((doc) => {
+      console.table(doc.data());
+    });
+  };
 
-  // const app = initializeApp(firebaseConfig);
-  // const db = getFirestore(app);
+  const storage = getStorage();
 
-  // const readData = async () => {
-  //   const querySnapshot = await getDocs(collection(db, "Users"));
-  //   querySnapshot.forEach((doc) => {
-  //     console.table(doc.data());
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   readData();
-  // }, []);
+  const uploadImage = async () => {
+    if (imageUpload == null) return;
+    const imageRef = ref(storage, `test.jpg`);
+    await uploadBytes(imageRef, imageUpload).then(() => {
+      alert("uploaded!");
+    });
+    const downloadUrl = await getDownloadURL(imageRef);
+    setImageURL(downloadUrl);
+  };
 
   return (
     <>
-      <Wrapper>test</Wrapper>
+      <Wrapper>
+        <input
+          type="file"
+          onChange={(e: any) => {
+            setImageUpload(e.target.files[0]);
+          }}
+        ></input>
+        <button onClick={uploadImage}>Upload</button>
+        {imageURL && <img src={imageURL} alt="photo" />}
+      </Wrapper>
     </>
   );
 };

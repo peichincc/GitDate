@@ -3,8 +3,6 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import "firebase/compat/firestore";
 
 const Wrapper = styled.div`
   display: block;
@@ -13,7 +11,6 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1``;
-
 const FormGroup = styled.div``;
 const FormLabel = styled.div``;
 const FormControl = styled.input``;
@@ -47,10 +44,32 @@ const Signin = () => {
       .auth()
       .signInWithEmailAndPassword(recipient.email, recipient.password)
       .then(() => {
-        navigate("/profile");
+        navigate("/");
       });
   };
-  aa;
+  const loginCheck = () => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        var uid = user.uid;
+        console.log(uid);
+      } else {
+      }
+    });
+  };
+  loginCheck();
+
+  const signout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        console.log("sign out!");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <Wrapper>
@@ -68,6 +87,7 @@ const Signin = () => {
           </FormGroup>
         ))}
         <SubmitBtn onClick={onSubmit}>Send</SubmitBtn>
+        <SubmitBtn onClick={signout}>Sign out</SubmitBtn>
       </Wrapper>
     </>
   );
