@@ -14,7 +14,6 @@ const Title = styled.h1``;
 const FormGroup = styled.div``;
 const FormLabel = styled.div``;
 const FormControl = styled.input``;
-
 const SubmitBtn = styled.button``;
 
 interface ListData {
@@ -52,7 +51,9 @@ const Signin = () => {
       if (user) {
         var uid = user.uid;
         console.log(uid);
+        window.localStorage.setItem("userId", JSON.stringify(uid));
       } else {
+        alert("Please sign in");
       }
     });
   };
