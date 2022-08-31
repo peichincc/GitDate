@@ -38,7 +38,7 @@ const Profile = () => {
 
   return (
     <>
-      <Wrapper></Wrapper>
+      <Wrapper>test</Wrapper>
     </>
   );
 };
