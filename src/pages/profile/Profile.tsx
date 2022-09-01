@@ -16,6 +16,15 @@ const Wrapper = styled.div`
   max-width: 1376px;
   margin: 0 auto;
 `;
+const FormGroup = styled.div``;
+const FormLabel = styled.div``;
+const FormCheck = styled.div``;
+const FormCheckInput = styled.input``;
+const FormCheckLabel = styled.label``;
+const FormText = styled.textarea`
+  resize: none;
+`;
+const FormControl = styled.input``;
 
 const Block = styled.div`
   margin-top: 50px;
@@ -53,47 +62,112 @@ const Profile = () => {
   // 把使用者放進db
   const pushtodb = async () => {
     await setDoc(doc(db, "Users", `${getUser}`), {
-      name: "penny",
+      user_id: `${getUser}`,
     });
   };
 
   // 使用者更新資訊
   type ListData = {
-    user_id: number;
-    last_name: string;
-    first_name: string;
-    age: number;
+    lastname: string;
+    firstname: string;
+    age: number | undefined;
     gender: string;
     email: string;
     githublink: string;
     details: string;
-    inerested_gender: string;
+    gender_interested: string;
     // inerested_gender: [];
     main_photo: string;
     relationship: string;
     wish_relationship: string;
   };
 
-  const [isRadio, setIsRadio] = useState("");
-  const handleChange = (e: any) => {
-    console.log(e.currentTarget.value);
-    setIsRadio(e.currentTarget.value);
-  };
-
+  const uploadFormGroups = [
+    { label: "First Name", key: "firstname" },
+    { label: "Last Name", key: "lastname" },
+    { label: "Age", key: "age" },
+    {
+      label: "Gender",
+      key: "gender",
+      options: [
+        { label: "Male", value: "male" },
+        { label: "Female", value: "female" },
+        { label: "Prefer not to say", value: "not_to_say" },
+      ],
+    },
+    {
+      label: "Interested Gender",
+      key: "gender_interested",
+      options: [
+        { label: "Male", value: "interested_male" },
+        { label: "Female", value: "interested_female" },
+        { label: "Prefer not to say", value: "interested_not_to_say" },
+      ],
+    },
+    { label: "Email", key: "email" },
+    {
+      label: "Wish relationship",
+      key: "wish_relationship",
+      options: [
+        { label: "Date", value: "date" },
+        { label: "BFF", value: "bff" },
+      ],
+    },
+    { label: "Details", key: "details", textarea: true },
+  ];
   const [recipient, setRecipient] = useState<ListData>({
-    user_id: getUser,
-    last_name: "",
-    first_name: "",
-    age: 20,
+    lastname: "",
+    firstname: "",
+    age: undefined,
     gender: "",
     email: "",
     githublink: "",
     details: "",
-    inerested_gender: "",
+    gender_interested: "",
     main_photo: "",
     relationship: "",
     wish_relationship: "",
   });
+  const uploadFormInputCheck = (
+    label: string,
+    key: string,
+    textarea: boolean | undefined,
+    options: any
+  ) => {
+    if (options) {
+      return (options as unknown as any[]).map((option) => (
+        <FormCheck key={option.value}>
+          <FormCheckInput
+            type="radio"
+            checked={recipient[key as keyof typeof recipient] === option.value}
+            onChange={(e) => {
+              if (e.target.checked)
+                setRecipient({ ...recipient, [key]: option.value });
+            }}
+          />
+          <FormCheckLabel>{option.label}</FormCheckLabel>
+        </FormCheck>
+      ));
+    } else if (textarea) {
+      return (
+        <FormText
+          value={recipient[key as keyof typeof recipient]}
+          onChange={(e) =>
+            setRecipient({ ...recipient, [key]: e.target.value })
+          }
+        />
+      );
+    } else {
+      return (
+        <FormControl
+          value={recipient[key as keyof typeof recipient]}
+          onChange={(e) =>
+            setRecipient({ ...recipient, [key]: e.target.value })
+          }
+        />
+      );
+    }
+  };
 
   // 讀取使用者資料
 
@@ -103,39 +177,12 @@ const Profile = () => {
         <button onClick={pushtodb}>Set user</button>
         <Block>
           <div>
-            <p>first name</p>
-            <input></input>
-            <p>last name</p>
-            <input></input>
-            <p>age</p>
-            <input></input>
-            <p>gender</p>
-            <input type="radio" value="male" name="gender"></input>Male
-            <input type="radio" value="female" name="gender"></input>Female
-            {/* <input type="radio" value="nb" name="gender"></input>Non-binary
-            <input type="radio" value="trans" name="gender"></input>Transgender
-            <input type="radio" value="intersex" name="gender"></input>Intersex */}
-            <input type="radio" value="not_to_say" name="gender"></input>Prefer
-            not to say
-            <p>interested gender</p>
-            <input
-              type="radio"
-              value="male"
-              name="gender_interested"
-              onChange={handleChange}
-            ></input>
-            Male
-            <input
-              type="radio"
-              value="female"
-              name="gender_interested"
-              onChange={handleChange}
-            ></input>
-            Female
-            <p>email</p>
-            <input></input>
-            <p>details</p>
-            <textarea></textarea>
+            {uploadFormGroups.map(({ label, key, textarea, options }) => (
+              <FormGroup key={key}>
+                <FormLabel>{label}</FormLabel>
+                {uploadFormInputCheck(label, key, textarea, options)}
+              </FormGroup>
+            ))}
           </div>
           <input
             type="file"
@@ -143,8 +190,11 @@ const Profile = () => {
               setImageUpload(e.target.files[0]);
             }}
           ></input>
-          <button onClick={uploadImage}>Upload</button>
+          <button onClick={uploadImage}>Upload image</button>
           {imageURL && <img src={imageURL} alt="profile" />}
+          <div>
+            <button>Update Profile</button>
+          </div>
         </Block>
       </Wrapper>
     </>
