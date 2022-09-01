@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDocs,
-  collection,
-  updateDoc,
-} from "firebase/firestore";
+import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -37,12 +30,6 @@ const Profile = () => {
   const [imageURL, setImageURL] = useState("");
   const db = getFirestore();
   const storage = getStorage();
-  // const readData = async () => {
-  //   const querySnapshot = await getDocs(collection(db, "Users"));
-  //   querySnapshot.forEach((doc) => {
-  //     console.table(doc.data());
-  //   });
-  // };
 
   useEffect(() => {
     const userId = window.localStorage.getItem("userId");
@@ -63,7 +50,6 @@ const Profile = () => {
     firstname: string;
     age: number | undefined;
     gender: string;
-    email: string;
     githublink: string;
     details: string;
     gender_interested: string;
@@ -94,7 +80,7 @@ const Profile = () => {
         { label: "Prefer not to say", value: "interested_not_to_say" },
       ],
     },
-    { label: "Email", key: "email" },
+    { label: "Githublink", key: "githublink" },
     {
       label: "Wish relationship",
       key: "wish_relationship",
@@ -110,7 +96,6 @@ const Profile = () => {
     firstname: "",
     age: undefined,
     gender: "",
-    email: "",
     githublink: "",
     details: "",
     gender_interested: "",
@@ -173,8 +158,6 @@ const Profile = () => {
     await updateDoc(userRef, { ...recipient, main_photo: imageURL });
     alert("updated!");
   };
-
-  // 讀取使用者資料
 
   return (
     <>

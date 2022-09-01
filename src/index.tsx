@@ -12,11 +12,9 @@ import Profile from "./pages/profile/Profile";
 import Signin from "./pages/profile/Signin";
 import Signup from "./pages/profile/Signup";
 import Readme from "./pages/profile/Readme";
+import CreateIssue from "./pages/issue/CreateIssue";
 
 const store = createStore(allReducers, composeWithDevTools());
-
-// dispatch
-/// store.subscribe(update())
 
 const root = ReactDOM.createRoot(document.getElementById("root")!);
 
@@ -30,6 +28,7 @@ root.render(
           <Route path="readme/:id" element={<Readme />} />
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<Signup />} />
+          <Route path="createissue" element={<CreateIssue />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

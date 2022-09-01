@@ -18,7 +18,6 @@ const Readme = () => {
     firstname: string;
     age: number | undefined;
     gender: string;
-    email: string;
     githublink: string;
     details: string;
     gender_interested: string;
@@ -33,7 +32,7 @@ const Readme = () => {
     const docRef = doc(db, "Users", `${getUser}`);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      // console.log("Document data:", docSnap.data());
+      console.log("Document data:", docSnap.data());
       const userDataFromDB = docSnap.data() as ListData;
       setUserData(userDataFromDB);
     } else {
@@ -47,7 +46,7 @@ const Readme = () => {
     console.log(userId);
     if (userId) setGetUser(userId);
     readData();
-    // console.log(userData?.gender);
+    console.log(userData);
   }, []);
 
   return (
@@ -69,6 +68,10 @@ const Readme = () => {
             {userData.gender}
             <p>Interested in:</p>
             {userData.gender_interested}
+            <p>GithubLink:</p>
+            {userData.githublink}
+            <p>Details:</p>
+            {userData.details}
           </div>
         )}
       </Wrapper>
