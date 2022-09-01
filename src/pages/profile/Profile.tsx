@@ -1,44 +1,190 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-// import firebase from "../../utils/firebase";
-import { initializeApp } from "firebase/app";
-import { getFirestore, getDocs, collection } from "firebase/firestore";
+import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
   margin: 0 auto;
 `;
+const FormGroup = styled.div``;
+const FormLabel = styled.div``;
+const FormCheck = styled.div``;
+const FormCheckInput = styled.input``;
+const FormCheckLabel = styled.label``;
+const FormText = styled.textarea`
+  resize: none;
+`;
+const FormControl = styled.input``;
+
+const Block = styled.div`
+  margin-top: 50px;
+`;
 
 const Profile = () => {
-  // const firebaseConfig = {
-  //   apiKey: "AIzaSyCWUzuq_-Y83KTKEpicxofIFb7isMyq-sE",
-  //   authDomain: "gitdate-ec8a6.firebaseapp.com",
-  //   projectId: "gitdate-ec8a6",
-  //   storageBucket: "gitdate-ec8a6.appspot.com",
-  //   messagingSenderId: "879193846506",
-  //   appId: "1:879193846506:web:e433e0479a915cf9b11d93",
-  //   measurementId: "G-RH7X04NJ9S",
-  // };
+  const [getUser, setGetUser] = useState<any>("");
+  const [imageUpload, setImageUpload] = useState(null);
+  const [imageURL, setImageURL] = useState("");
+  const db = getFirestore();
+  const storage = getStorage();
 
-  // const app = initializeApp(firebaseConfig);
-  // const db = getFirestore(app);
+  useEffect(() => {
+    const userId = window.localStorage.getItem("userId");
+    console.log(userId);
+    if (userId) setGetUser(userId);
+  }, []);
 
-  // const readData = async () => {
-  //   const querySnapshot = await getDocs(collection(db, "Users"));
-  //   querySnapshot.forEach((doc) => {
-  //     console.table(doc.data());
-  //   });
-  // };
+  // 把使用者放進db
+  const pushtodb = async () => {
+    await setDoc(doc(db, "Users", `${getUser}`), {
+      user_id: `${getUser}`,
+    });
+  };
 
-  // useEffect(() => {
-  //   readData();
-  // }, []);
+  // 使用者更新資訊
+  type ListData = {
+    lastname: string;
+    firstname: string;
+    age: number | undefined;
+    gender: string;
+    githublink: string;
+    details: string;
+    gender_interested: string;
+    // inerested_gender: [];
+    main_photo: string;
+    wish_relationship: string;
+  };
+
+  const uploadFormGroups = [
+    { label: "First Name", key: "firstname" },
+    { label: "Last Name", key: "lastname" },
+    { label: "Age", key: "age" },
+    {
+      label: "Gender",
+      key: "gender",
+      options: [
+        { label: "Male", value: "male" },
+        { label: "Female", value: "female" },
+        { label: "Prefer not to say", value: "not_to_say" },
+      ],
+    },
+    {
+      label: "Interested Gender",
+      key: "gender_interested",
+      options: [
+        { label: "Male", value: "interested_male" },
+        { label: "Female", value: "interested_female" },
+        { label: "Prefer not to say", value: "interested_not_to_say" },
+      ],
+    },
+    { label: "Githublink", key: "githublink" },
+    {
+      label: "Wish relationship",
+      key: "wish_relationship",
+      options: [
+        { label: "Date", value: "date" },
+        { label: "BFF", value: "bff" },
+      ],
+    },
+    { label: "Details", key: "details", textarea: true },
+  ];
+  const [recipient, setRecipient] = useState<ListData>({
+    lastname: "",
+    firstname: "",
+    age: undefined,
+    gender: "",
+    githublink: "",
+    details: "",
+    gender_interested: "",
+    main_photo: "",
+    wish_relationship: "",
+  });
+  const uploadFormInputCheck = (
+    label: string,
+    key: string,
+    textarea: boolean | undefined,
+    options: any
+  ) => {
+    if (options) {
+      return (options as unknown as any[]).map((option) => (
+        <FormCheck key={option.value}>
+          <FormCheckInput
+            type="radio"
+            checked={recipient[key as keyof typeof recipient] === option.value}
+            onChange={(e) => {
+              if (e.target.checked)
+                setRecipient({ ...recipient, [key]: option.value });
+            }}
+          />
+          <FormCheckLabel>{option.label}</FormCheckLabel>
+        </FormCheck>
+      ));
+    } else if (textarea) {
+      return (
+        <FormText
+          value={recipient[key as keyof typeof recipient]}
+          onChange={(e) =>
+            setRecipient({ ...recipient, [key]: e.target.value })
+          }
+        />
+      );
+    } else {
+      return (
+        <FormControl
+          value={recipient[key as keyof typeof recipient]}
+          onChange={(e) =>
+            setRecipient({ ...recipient, [key]: e.target.value })
+          }
+        />
+      );
+    }
+  };
+  // 上傳照片
+  const uploadImage = async () => {
+    if (imageUpload == null) return;
+    const imageRef = ref(storage, `${getUser}.jpg`);
+    await uploadBytes(imageRef, imageUpload).then(() => {
+      alert("uploaded!");
+    });
+    const downloadUrl = await getDownloadURL(imageRef);
+    setImageURL(downloadUrl);
+  };
+  // 更新資料庫
+  const updateDB = async () => {
+    const userRef = doc(db, "Users", `${getUser}`);
+    await updateDoc(userRef, { ...recipient, main_photo: imageURL });
+    alert("updated!");
+  };
 
   return (
     <>
-      <Wrapper></Wrapper>
+      <Wrapper>
+        <button onClick={pushtodb}>Set user</button>
+        <Block>
+          <div>
+            {uploadFormGroups.map(({ label, key, textarea, options }) => (
+              <FormGroup key={key}>
+                <FormLabel>{label}</FormLabel>
+                {uploadFormInputCheck(label, key, textarea, options)}
+              </FormGroup>
+            ))}
+          </div>
+          <input
+            type="file"
+            onChange={(e: any) => {
+              setImageUpload(e.target.files[0]);
+            }}
+          ></input>
+          <button onClick={uploadImage}>Upload image</button>
+          {imageURL && <img src={imageURL} alt="profile" />}
+          <div>
+            <button onClick={updateDB}>Update Profile</button>
+          </div>
+        </Block>
+      </Wrapper>
     </>
   );
 };

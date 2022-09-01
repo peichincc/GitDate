@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { signin } from "../../actions";
 
 import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import "firebase/compat/firestore";
 
 const Wrapper = styled.div`
   display: block;
@@ -13,11 +13,9 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1``;
-
 const FormGroup = styled.div``;
 const FormLabel = styled.div``;
 const FormControl = styled.input``;
-
 const SubmitBtn = styled.button``;
 
 interface ListData {
@@ -32,6 +30,8 @@ const signInData: ListData[] = [
 ];
 
 const Signin = () => {
+  const dispatch = useDispatch();
+  const isLogged = useSelector((state: any) => state.isLogged);
   const navigate = useNavigate();
   interface recipient {
     email: string;
@@ -47,13 +47,48 @@ const Signin = () => {
       .auth()
       .signInWithEmailAndPassword(recipient.email, recipient.password)
       .then(() => {
-        navigate("/profile");
+        navigate("/");
       });
+  };
+  const loginCheck = () => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        var uid = user.uid;
+        // console.log(uid);
+        window.localStorage.setItem("userId", uid);
+      }
+    });
+  };
+  loginCheck();
+
+  const signout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        console.log("sign out!");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    localStorage.removeItem("userId");
   };
 
   return (
     <>
       <Wrapper>
+        {isLogged ? (
+          <p>redux test: already log in</p>
+        ) : (
+          <p>redux test: not log in</p>
+        )}
+        <button
+          onClick={() => {
+            dispatch(signin());
+          }}
+        >
+          redux test
+        </button>
         <Title>Member Sign In</Title>
         {signInData.map(({ label, key, type }: ListData) => (
           <FormGroup key={key}>
@@ -68,6 +103,7 @@ const Signin = () => {
           </FormGroup>
         ))}
         <SubmitBtn onClick={onSubmit}>Send</SubmitBtn>
+        <SubmitBtn onClick={signout}>Sign out</SubmitBtn>
       </Wrapper>
     </>
   );

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 import firebase from "../../utils/firebase";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const Wrapper = styled.div`
   display: block;
@@ -41,7 +40,7 @@ const Signup = () => {
     password: "",
   });
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(recipient.email, recipient.password)
