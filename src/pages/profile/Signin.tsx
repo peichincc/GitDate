@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { signin } from "../../actions";
 
 import firebase from "firebase/compat/app";
 
@@ -28,6 +30,8 @@ const signInData: ListData[] = [
 ];
 
 const Signin = () => {
+  const dispatch = useDispatch();
+  const isLogged = useSelector((state: any) => state.isLogged);
   const navigate = useNavigate();
   interface recipient {
     email: string;
@@ -67,11 +71,24 @@ const Signin = () => {
       .catch((error) => {
         console.log(error);
       });
+    localStorage.removeItem("userId");
   };
 
   return (
     <>
       <Wrapper>
+        {isLogged ? (
+          <p>redux test: already log in</p>
+        ) : (
+          <p>redux test: not log in</p>
+        )}
+        <button
+          onClick={() => {
+            dispatch(signin());
+          }}
+        >
+          redux test
+        </button>
         <Title>Member Sign In</Title>
         {signInData.map(({ label, key, type }: ListData) => (
           <FormGroup key={key}>

@@ -7,6 +7,7 @@ import {
   setDoc,
   getDocs,
   collection,
+  updateDoc,
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -35,6 +36,7 @@ const Profile = () => {
   const [imageUpload, setImageUpload] = useState(null);
   const [imageURL, setImageURL] = useState("");
   const db = getFirestore();
+  const storage = getStorage();
   // const readData = async () => {
   //   const querySnapshot = await getDocs(collection(db, "Users"));
   //   querySnapshot.forEach((doc) => {
@@ -47,17 +49,6 @@ const Profile = () => {
     console.log(userId);
     if (userId) setGetUser(userId);
   }, []);
-
-  const storage = getStorage();
-  const uploadImage = async () => {
-    if (imageUpload == null) return;
-    const imageRef = ref(storage, `${getUser}.jpg`);
-    await uploadBytes(imageRef, imageUpload).then(() => {
-      alert("uploaded!");
-    });
-    const downloadUrl = await getDownloadURL(imageRef);
-    setImageURL(downloadUrl);
-  };
 
   // 把使用者放進db
   const pushtodb = async () => {
@@ -78,7 +69,6 @@ const Profile = () => {
     gender_interested: string;
     // inerested_gender: [];
     main_photo: string;
-    relationship: string;
     wish_relationship: string;
   };
 
@@ -125,7 +115,6 @@ const Profile = () => {
     details: "",
     gender_interested: "",
     main_photo: "",
-    relationship: "",
     wish_relationship: "",
   });
   const uploadFormInputCheck = (
@@ -168,6 +157,22 @@ const Profile = () => {
       );
     }
   };
+  // 上傳照片
+  const uploadImage = async () => {
+    if (imageUpload == null) return;
+    const imageRef = ref(storage, `${getUser}.jpg`);
+    await uploadBytes(imageRef, imageUpload).then(() => {
+      alert("uploaded!");
+    });
+    const downloadUrl = await getDownloadURL(imageRef);
+    setImageURL(downloadUrl);
+  };
+  // 更新資料庫
+  const updateDB = async () => {
+    const userRef = doc(db, "Users", `${getUser}`);
+    await updateDoc(userRef, { ...recipient, main_photo: imageURL });
+    alert("updated!");
+  };
 
   // 讀取使用者資料
 
@@ -193,7 +198,7 @@ const Profile = () => {
           <button onClick={uploadImage}>Upload image</button>
           {imageURL && <img src={imageURL} alt="profile" />}
           <div>
-            <button>Update Profile</button>
+            <button onClick={updateDB}>Update Profile</button>
           </div>
         </Block>
       </Wrapper>
