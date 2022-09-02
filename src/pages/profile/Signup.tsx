@@ -11,12 +11,12 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1``;
-
 const FormGroup = styled.div``;
 const FormLabel = styled.div``;
 const FormControl = styled.input``;
-
-const SubmitBtn = styled.button``;
+const SubmitBtn = styled.button`
+  width: 200px;
+`;
 
 interface ListData {
   label: string;
@@ -31,6 +31,8 @@ const signInData: ListData[] = [
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [errorMsg, setErrorMsg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   interface recipient {
     email: string;
     password: string;
@@ -40,12 +42,23 @@ const Signup = () => {
     password: "",
   });
 
-  const onSubmit = async () => {
+  const onSubmit = () => {
+    setIsLoading(true);
     firebase
       .auth()
       .createUserWithEmailAndPassword(recipient.email, recipient.password)
       .then(() => {
         navigate("/");
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        switch (error.code) {
+          case "auth/email-already-in-use": {
+            setErrorMsg("Email already in use");
+            break;
+          }
+        }
+        setIsLoading(false);
       });
   };
 
@@ -65,7 +78,10 @@ const Signup = () => {
             />
           </FormGroup>
         ))}
-        <SubmitBtn onClick={onSubmit}>Send</SubmitBtn>
+        {errorMsg && <p>{errorMsg}</p>}
+        <SubmitBtn onClick={onSubmit}>
+          {isLoading ? "Loading" : "Send"}
+        </SubmitBtn>
       </Wrapper>
     </>
   );
