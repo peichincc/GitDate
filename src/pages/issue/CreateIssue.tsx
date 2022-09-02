@@ -10,12 +10,7 @@ import {
   collection,
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  uploadBytesResumable,
-} from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const Wrapper = styled.div`
   display: block;
@@ -33,7 +28,6 @@ const CreateIssue = () => {
   const storage = getStorage();
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [fileSrc, setFileSrc] = useState<any>(null);
-  const [checked, setChecked] = useState(false);
   const MyCheckBoxList: Data[] = [
     {
       order: 0,
@@ -101,19 +95,18 @@ const CreateIssue = () => {
     if (userId) setGetUser(userId);
   }, []);
 
-  // get id before setDoc
-  const newIssueRef = doc(collection(db, "Issues"));
-
   const recipient = {
     category: category,
     title: title,
     content: content,
     tags: tags,
-    // main_image: downloadUrl,
     status: "open",
     posted_by: getUser,
     posted_at: serverTimestamp(),
   };
+
+  // get id before setDoc
+  const newIssueRef = doc(collection(db, "Issues"));
 
   // upload photo w/ doc id, get photo URL, then setDoc
   const postIssue = async () => {
