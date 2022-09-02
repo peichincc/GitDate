@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -30,8 +30,13 @@ const signInData: ListData[] = [
 ];
 
 const Signin = () => {
+  //redux test
   const dispatch = useDispatch();
   const isLogged = useSelector((state: any) => state.isLogged);
+  //
+  const [errorMsg, setErrorMsg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [alreadyLogged, setAlreadyLogged] = useState(false);
   const navigate = useNavigate();
   interface recipient {
     email: string;
@@ -42,24 +47,36 @@ const Signin = () => {
     password: "",
   });
 
-  const onSubmit = () => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(recipient.email, recipient.password)
-      .then(() => {
-        navigate("/");
-      });
-  };
-  const loginCheck = () => {
+  useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         var uid = user.uid;
         // console.log(uid);
         window.localStorage.setItem("userId", uid);
+        setAlreadyLogged(true);
       }
     });
+  }, []);
+
+  const onSubmit = () => {
+    setIsLoading(true);
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(recipient.email, recipient.password)
+      .then(() => {
+        navigate("/");
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        switch (error.code) {
+          case "auth/email-already-in-use": {
+            setErrorMsg("Email already in use");
+            break;
+          }
+        }
+        setIsLoading(false);
+      });
   };
-  loginCheck();
 
   const signout = () => {
     firebase
@@ -90,20 +107,26 @@ const Signin = () => {
           redux test
         </button>
         <Title>Member Sign In</Title>
-        {signInData.map(({ label, key, type }: ListData) => (
-          <FormGroup key={key}>
-            <FormLabel>{label}</FormLabel>
-            <FormControl
-              type={type}
-              value={recipient[key as keyof recipient]}
-              onChange={(e) =>
-                setRecipient({ ...recipient, [key]: e.target.value })
-              }
-            />
-          </FormGroup>
-        ))}
-        <SubmitBtn onClick={onSubmit}>Send</SubmitBtn>
-        <SubmitBtn onClick={signout}>Sign out</SubmitBtn>
+        {alreadyLogged ? (
+          "Welcome!"
+        ) : (
+          <>
+            {signInData.map(({ label, key, type }: ListData) => (
+              <FormGroup key={key}>
+                <FormLabel>{label}</FormLabel>
+                <FormControl
+                  type={type}
+                  value={recipient[key as keyof recipient]}
+                  onChange={(e) =>
+                    setRecipient({ ...recipient, [key]: e.target.value })
+                  }
+                />
+              </FormGroup>
+            ))}
+            <SubmitBtn onClick={onSubmit}>Send</SubmitBtn>
+            <SubmitBtn onClick={signout}>Sign out</SubmitBtn>
+          </>
+        )}
       </Wrapper>
     </>
   );
