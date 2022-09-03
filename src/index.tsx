@@ -14,6 +14,7 @@ import Signup from "./pages/profile/Signup";
 import Readme from "./pages/profile/Readme";
 import CreateIssue from "./pages/issue/CreateIssue";
 import Issue from "./pages/issue/Issue";
+import IssueAll from "./pages/issue/IssuesAll";
 
 const store = createStore(allReducers, composeWithDevTools());
 
@@ -31,6 +32,7 @@ root.render(
           <Route path="signup" element={<Signup />} />
           <Route path="createissue" element={<CreateIssue />} />
           <Route path="issue/:id" element={<Issue />} />
+          <Route path="issues" element={<IssueAll />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
