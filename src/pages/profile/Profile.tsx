@@ -145,7 +145,7 @@ const Profile = () => {
   // 上傳照片
   const uploadImage = async () => {
     if (imageUpload == null) return;
-    const imageRef = ref(storage, `${getUser}.jpg`);
+    const imageRef = ref(storage, `users/${getUser}.jpg`);
     await uploadBytes(imageRef, imageUpload).then(() => {
       alert("uploaded!");
     });
