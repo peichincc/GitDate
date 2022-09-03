@@ -8,6 +8,7 @@ import {
   query,
   where,
   getDocs,
+  deleteDoc,
 } from "firebase/firestore";
 import styled from "styled-components";
 
@@ -15,6 +16,7 @@ const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
   margin: 0 auto;
+  margin-bottom: 100px;
 `;
 
 const Issue = () => {
@@ -68,8 +70,19 @@ const Issue = () => {
     });
   };
 
+  const deleteIssue = async (id: any) => {
+    await deleteDoc(doc(db, "Issues", id))
+      .then(() => {
+        alert("Delete successful!");
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error);
+      });
+  };
+
   useEffect(() => {
     readData(id);
+    console.log(id);
     // console.log(userData);
   }, []);
 
@@ -109,6 +122,15 @@ const Issue = () => {
             ))}
           </div>
         )}
+        <br />
+        <h2>Area for author</h2>
+        <button
+          onClick={() => {
+            deleteIssue(id);
+          }}
+        >
+          Delete this issue
+        </button>
       </Wrapper>
     </>
   );
