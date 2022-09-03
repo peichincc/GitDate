@@ -10,9 +10,8 @@ const Wrapper = styled.div`
 `;
 
 const Readme = () => {
-  const [getUser, setGetUser] = useState<any>("");
   const db = getFirestore();
-  const { id } = useParams();
+  const { id } = useParams<any>();
   type ListData = {
     lastname: string;
     firstname: string;
@@ -28,25 +27,21 @@ const Readme = () => {
   const [userData, setUserData] = useState<ListData | null>(null);
 
   // 讀取使用者資料
-  const readData = async () => {
-    const docRef = doc(db, "Users", `${getUser}`);
+  const readData = async (id: any) => {
+    const docRef = doc(db, "Users", id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       console.log("Document data:", docSnap.data());
       const userDataFromDB = docSnap.data() as ListData;
       setUserData(userDataFromDB);
     } else {
-      // doc.data() will be undefined in this case
       console.log("No such document!");
     }
   };
 
   useEffect(() => {
-    const userId = window.localStorage.getItem("userId");
-    console.log(userId);
-    if (userId) setGetUser(userId);
-    readData();
-    console.log(userData);
+    readData(id);
+    // console.log(userData);
   }, []);
 
   return (
