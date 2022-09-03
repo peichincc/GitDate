@@ -6,7 +6,6 @@ import {
   getFirestore,
   collection,
   query,
-  onSnapshot,
   where,
   getDocs,
 } from "firebase/firestore";
@@ -92,7 +91,7 @@ const Issue = () => {
             <p>Issue status:</p>
             {userData.status}
             <p>Posted by:</p>
-            name: {getUser}
+            Author name: {getUser}
             <button
               onClick={() => {
                 navigate("/readme/" + userData.posted_by);
