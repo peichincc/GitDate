@@ -13,6 +13,7 @@ import Signin from "./pages/profile/Signin";
 import Signup from "./pages/profile/Signup";
 import Readme from "./pages/profile/Readme";
 import CreateIssue from "./pages/issue/CreateIssue";
+import Issue from "./pages/issue/Issue";
 
 const store = createStore(allReducers, composeWithDevTools());
 
@@ -29,6 +30,7 @@ root.render(
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<Signup />} />
           <Route path="createissue" element={<CreateIssue />} />
+          <Route path="issue/:id" element={<Issue />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
