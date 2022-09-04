@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  doc,
-  getDoc,
-  getFirestore,
-  collection,
-  query,
-  where,
-  getDocs,
-  deleteDoc,
-} from "firebase/firestore";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -23,18 +14,6 @@ const IssueAll = () => {
   let navigate = useNavigate();
   const db = getFirestore();
   const [docs, setDocs] = useState([]);
-
-  // const getAllDocs = async () => {
-  //   const querySnapshot = await getDocs(collection(db, "Issues"));
-  //   querySnapshot.forEach((doc) => {
-  //     // doc.data() is never undefined for query doc snapshots
-  //     // console.log(doc.data());
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   getAllDocs();
-  // }, []);
 
   const unsubscribe = async () => {
     const querySnapshot = await getDocs(collection(db, "Issues"));
@@ -55,11 +34,10 @@ const IssueAll = () => {
   return (
     <>
       <Wrapper>
-        <p>Display all issues here.</p>
+        <h1>Display all issues here.</h1>
         {docs.map((blog: any) => (
           <>
-            <p>Blog title:</p>
-            {blog.title}
+            <h2>Blog title: {blog.title}</h2>
             <button
               onClick={() => {
                 navigate("/issue/" + blog.issue_id);
