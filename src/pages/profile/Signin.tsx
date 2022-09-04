@@ -89,6 +89,7 @@ const Signin = () => {
         console.log(error);
       });
     localStorage.removeItem("userId");
+    navigate("/");
   };
 
   return (
@@ -108,7 +109,10 @@ const Signin = () => {
         </button>
         <Title>Member Sign In</Title>
         {alreadyLogged ? (
-          "Welcome!"
+          <>
+            <h2>Welcome!</h2>
+            <SubmitBtn onClick={signout}>Sign out</SubmitBtn>
+          </>
         ) : (
           <>
             {signInData.map(({ label, key, type }: ListData) => (
@@ -124,7 +128,6 @@ const Signin = () => {
               </FormGroup>
             ))}
             <SubmitBtn onClick={onSubmit}>Send</SubmitBtn>
-            <SubmitBtn onClick={signout}>Sign out</SubmitBtn>
           </>
         )}
       </Wrapper>
