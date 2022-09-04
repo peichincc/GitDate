@@ -38,11 +38,11 @@ const Signin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [alreadyLogged, setAlreadyLogged] = useState(false);
   const navigate = useNavigate();
-  interface recipient {
+  interface recipientType {
     email: string;
     password: string;
   }
-  const [recipient, setRecipient] = useState<recipient>({
+  const [recipient, setRecipient] = useState<recipientType>({
     email: "",
     password: "",
   });
@@ -120,7 +120,7 @@ const Signin = () => {
                 <FormLabel>{label}</FormLabel>
                 <FormControl
                   type={type}
-                  value={recipient[key as keyof recipient]}
+                  value={recipient[key as keyof recipientType]}
                   onChange={(e) =>
                     setRecipient({ ...recipient, [key]: e.target.value })
                   }

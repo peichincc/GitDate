@@ -9,6 +9,8 @@ import {
   where,
   getDocs,
   deleteDoc,
+  updateDoc,
+  arrayUnion,
 } from "firebase/firestore";
 import styled from "styled-components";
 
@@ -17,6 +19,18 @@ const Wrapper = styled.div`
   max-width: 1376px;
   margin: 0 auto;
   margin-bottom: 100px;
+`;
+const PRbtn = styled.button`
+  margin: 20px;
+  color: white;
+  background-color: #2da44e;
+  padding: 5px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+  border: 1px solid;
+  border-radius: 6px;
 `;
 
 const Issue = () => {
@@ -86,6 +100,15 @@ const Issue = () => {
     // console.log(userData);
   }, []);
 
+  const sendRequest = async () => {
+    // const userRef = doc(db, "friends", getUser);
+    // await updateDoc(userRef, {
+    //   invitationLists: arrayUnion("Penny"),
+    // });
+    // console.log(`Invitation Sent to ${getUser}`);
+    // // console.log(getUser);
+  };
+
   return (
     <>
       <Wrapper>
@@ -123,6 +146,7 @@ const Issue = () => {
           </div>
         )}
         <br />
+        <PRbtn onClick={sendRequest}>Create Pull Request</PRbtn>
         <h2>Area for author</h2>
         <button
           onClick={() => {
