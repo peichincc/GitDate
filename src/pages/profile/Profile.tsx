@@ -39,6 +39,7 @@ const Profile = () => {
   const db = getFirestore();
   const storage = getStorage();
   // Friend
+  const [sentInvitationList, setSentInvitationList] = useState<any>();
   const [getInvitationList, setGetInvitationList] = useState<any>();
 
   useEffect(() => {
@@ -183,8 +184,10 @@ const Profile = () => {
   const getFriend = (id: string) => {
     onSnapshot(doc(collection(db, "Users"), id), (doc) => {
       if (doc.exists()) {
-        setGetInvitationList(doc.data().friend_sent_request);
+        setSentInvitationList(doc.data().friend_sent_request);
         console.log(doc.data().friend_sent_request);
+        setGetInvitationList(doc.data().friend_request);
+        console.log(doc.data().friend_request);
       }
     });
   };
@@ -217,7 +220,10 @@ const Profile = () => {
         </Block>
         <Block>
           <h1>Invitations area</h1>
-          <Friend getInvitationList={getInvitationList} />
+          <Friend
+            sentInvitationList={sentInvitationList}
+            getInvitationList={getInvitationList}
+          />
         </Block>
         <Block>
           <h1>Issues</h1>

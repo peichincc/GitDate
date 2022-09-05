@@ -73,8 +73,8 @@ const Issue = () => {
             );
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
-              // console.log(doc.data().lastname);
-              setGetAuthor(doc.data().lastname);
+              // console.log(doc.data().firstname);
+              setGetAuthor(doc.data().firstname);
               // console.log(doc.data().user_id);
               setGetAuthorID(doc.data().user_id);
             });
