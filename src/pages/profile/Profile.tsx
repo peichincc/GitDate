@@ -56,6 +56,9 @@ const Profile = () => {
     // inerested_gender: [];
     main_photo: string;
     wish_relationship: string;
+    friend_list: [];
+    friend_request: [];
+    friend_sent_request: [];
   };
 
   const uploadFormGroups = [
@@ -101,6 +104,9 @@ const Profile = () => {
     gender_interested: "",
     main_photo: "",
     wish_relationship: "",
+    friend_list: [],
+    friend_request: [],
+    friend_sent_request: [],
   });
   const uploadFormInputCheck = (
     label: string,
