@@ -49,7 +49,7 @@ const Issue = () => {
   };
   const [userData, setUserData] = useState<ListData | null>(null);
   const [newT, setNewT] = useState("");
-  const [getUser, setGetUser] = useState<any>("");
+  const [getUser, setGetUser] = useState("");
   const [getAuthor, setGetAuthor] = useState("");
   const [getAuthorID, setGetAuthorID] = useState("");
 

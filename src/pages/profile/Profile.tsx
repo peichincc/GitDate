@@ -7,9 +7,11 @@ import {
   setDoc,
   updateDoc,
   collection,
+  onSnapshot,
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import Friend from "./FriendRequest";
 
 const Wrapper = styled.div`
   display: block;
@@ -31,11 +33,13 @@ const Block = styled.div`
 `;
 
 const Profile = () => {
-  const [getUser, setGetUser] = useState<any>("");
+  const [getUser, setGetUser] = useState("");
   const [imageUpload, setImageUpload] = useState(null);
   const [imageURL, setImageURL] = useState("");
   const db = getFirestore();
   const storage = getStorage();
+  // Friend
+  const [getInvitationList, setGetInvitationList] = useState<any>();
 
   useEffect(() => {
     const userId = window.localStorage.getItem("userId");
@@ -171,6 +175,16 @@ const Profile = () => {
     alert("updated!");
   };
 
+  // 讀取好友邀請(讀DB中的friend_request -> get ID -> Search name -> Display name)
+  useEffect(() => {
+    const unsub = onSnapshot(doc(collection(db, "Users"), getUser), (doc) => {
+      if (doc.exists()) {
+        setGetInvitationList(doc.data().friend_sent_request);
+        console.log(doc.data().friend_sent_request);
+      }
+    });
+  }, []);
+
   return (
     <>
       <Wrapper>
@@ -199,6 +213,7 @@ const Profile = () => {
         </Block>
         <Block>
           <h1>Invitations area</h1>
+          <Friend getInvitationList={getInvitationList} />
         </Block>
         <Block>
           <h1>Issues</h1>
