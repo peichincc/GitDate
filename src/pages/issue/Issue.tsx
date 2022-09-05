@@ -49,7 +49,9 @@ const Issue = () => {
   };
   const [userData, setUserData] = useState<ListData | null>(null);
   const [newT, setNewT] = useState("");
-  const [getUser, setGetUser] = useState("");
+  const [getUser, setGetUser] = useState<any>("");
+  const [getAuthor, setGetAuthor] = useState("");
+  const [getAuthorID, setGetAuthorID] = useState("");
 
   // 讀取使用者資料
   const readData = async (id: string | undefined) => {
@@ -59,7 +61,6 @@ const Issue = () => {
         const userDataFromDB = doc.data() as ListData;
         setUserData(userDataFromDB);
         if (userDataFromDB) {
-          console.log("hi");
           const newT = new Date(
             userDataFromDB.posted_at.seconds * 1000
           ).toString();
@@ -72,8 +73,10 @@ const Issue = () => {
             );
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
-              console.log(doc.data().lastname);
-              setGetUser(doc.data().lastname);
+              // console.log(doc.data().lastname);
+              setGetAuthor(doc.data().lastname);
+              // console.log(doc.data().user_id);
+              setGetAuthorID(doc.data().user_id);
             });
           };
           searchUser();
@@ -95,18 +98,26 @@ const Issue = () => {
   };
 
   useEffect(() => {
+    const userId = window.localStorage.getItem("userId");
+    console.log(userId);
+    if (userId) setGetUser(userId);
     readData(id);
-    console.log(id);
+    // console.log(id);
+    // console.log(getAuthorID);
     // console.log(userData);
   }, []);
 
   const sendRequest = async () => {
-    // const userRef = doc(db, "friends", getUser);
-    // await updateDoc(userRef, {
-    //   invitationLists: arrayUnion("Penny"),
-    // });
-    // console.log(`Invitation Sent to ${getUser}`);
-    // // console.log(getUser);
+    // console.log(`User:${getAuthorID}`);
+    const userRef = doc(db, "Users", getAuthorID);
+    await updateDoc(userRef, {
+      friend_request: arrayUnion(getUser),
+    });
+    console.log(`Invitation Sent to ${getAuthor}`);
+    const userRef2 = doc(db, "Users", getUser);
+    await updateDoc(userRef2, {
+      friend_sent_request: arrayUnion(getAuthorID),
+    });
   };
 
   return (
@@ -127,7 +138,7 @@ const Issue = () => {
             <p>Issue status:</p>
             {userData.status}
             <p>Posted by:</p>
-            Author name: {getUser}
+            Author name: {getAuthor}
             <button
               onClick={() => {
                 navigate("/readme/" + userData.posted_by);
