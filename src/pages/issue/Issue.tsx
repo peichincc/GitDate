@@ -48,12 +48,12 @@ const Issue = () => {
     tags: [];
   };
   const [userData, setUserData] = useState<ListData | null>(null);
-  const [newT, setNewT] = useState<any>("");
+  const [newT, setNewT] = useState("");
   const [getUser, setGetUser] = useState("");
 
   // 讀取使用者資料
-  const readData = async (id: any) => {
-    const docRef = doc(db, "Issues", id);
+  const readData = async (id: string | undefined) => {
+    const docRef = doc(collection(db, "Issues"), id);
     await getDoc(docRef).then((doc) => {
       if (doc.exists()) {
         const userDataFromDB = doc.data() as ListData;
@@ -84,8 +84,8 @@ const Issue = () => {
     });
   };
 
-  const deleteIssue = async (id: any) => {
-    await deleteDoc(doc(db, "Issues", id))
+  const deleteIssue = async (id: string | undefined) => {
+    await deleteDoc(doc(collection(db, "Issues"), id))
       .then(() => {
         alert("Delete successful!");
       })

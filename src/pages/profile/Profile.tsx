@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  updateDoc,
+  collection,
+} from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -39,7 +45,7 @@ const Profile = () => {
 
   // 把使用者放進db
   const pushtodb = async () => {
-    await setDoc(doc(db, "Users", `${getUser}`), {
+    await setDoc(doc(collection(db, "Users"), `${getUser}`), {
       user_id: `${getUser}`,
     });
   };
@@ -160,7 +166,7 @@ const Profile = () => {
   };
   // 更新資料庫
   const updateDB = async () => {
-    const userRef = doc(db, "Users", `${getUser}`);
+    const userRef = doc(collection(db, "Users"), `${getUser}`);
     await updateDoc(userRef, { ...recipient, main_photo: imageURL });
     alert("updated!");
   };
