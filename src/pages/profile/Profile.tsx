@@ -164,6 +164,7 @@ const Profile = () => {
       <Wrapper>
         <button onClick={pushtodb}>Set user</button>
         <Block>
+          <h1>Edit profile</h1>
           <div>
             {uploadFormGroups.map(({ label, key, textarea, options }) => (
               <FormGroup key={key}>
@@ -183,6 +184,15 @@ const Profile = () => {
           <div>
             <button onClick={updateDB}>Update Profile</button>
           </div>
+        </Block>
+        <Block>
+          <h1>Invitations area</h1>
+        </Block>
+        <Block>
+          <h1>Issues</h1>
+        </Block>
+        <Block>
+          <h1>Branches</h1>
         </Block>
       </Wrapper>
     </>
