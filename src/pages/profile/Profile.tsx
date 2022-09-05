@@ -41,6 +41,7 @@ const Profile = () => {
   // Friend
   const [sentInvitationList, setSentInvitationList] = useState<any>();
   const [getInvitationList, setGetInvitationList] = useState<any>();
+  const [openFriend, setOpenFriend] = useState(false);
 
   useEffect(() => {
     const userId = window.localStorage.getItem("userId");
@@ -185,11 +186,15 @@ const Profile = () => {
     onSnapshot(doc(collection(db, "Users"), id), (doc) => {
       if (doc.exists()) {
         setSentInvitationList(doc.data().friend_sent_request);
-        console.log(doc.data().friend_sent_request);
+        // console.log(doc.data().friend_sent_request);
         setGetInvitationList(doc.data().friend_request);
-        console.log(doc.data().friend_request);
+        // console.log(doc.data().friend_request);
       }
     });
+  };
+
+  const handleChange = async () => {
+    await setOpenFriend(true);
   };
 
   return (
@@ -220,10 +225,13 @@ const Profile = () => {
         </Block>
         <Block>
           <h1>Invitations area</h1>
-          <Friend
-            sentInvitationList={sentInvitationList}
-            getInvitationList={getInvitationList}
-          />
+          <button onClick={handleChange}>Open the friend area</button>
+          {openFriend && getInvitationList && (
+            <Friend
+              sentInvitationList={sentInvitationList}
+              getInvitationList={getInvitationList}
+            />
+          )}
         </Block>
         <Block>
           <h1>Issues</h1>
