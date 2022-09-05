@@ -44,7 +44,11 @@ const Profile = () => {
   useEffect(() => {
     const userId = window.localStorage.getItem("userId");
     console.log(userId);
-    if (userId) setGetUser(userId);
+    if (userId) {
+      setGetUser(userId);
+      // get friend
+      getFriend(userId);
+    }
   }, []);
 
   // 把使用者放進db
@@ -176,14 +180,14 @@ const Profile = () => {
   };
 
   // 讀取好友邀請(讀DB中的friend_request -> get ID -> Search name -> Display name)
-  useEffect(() => {
-    const unsub = onSnapshot(doc(collection(db, "Users"), getUser), (doc) => {
+  const getFriend = (id: string) => {
+    onSnapshot(doc(collection(db, "Users"), id), (doc) => {
       if (doc.exists()) {
         setGetInvitationList(doc.data().friend_sent_request);
         console.log(doc.data().friend_sent_request);
       }
     });
-  }, []);
+  };
 
   return (
     <>

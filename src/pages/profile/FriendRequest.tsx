@@ -43,6 +43,10 @@ const Friend = ({ getInvitationList }: Props) => {
   };
   getName();
 
+  // useEffect(() => {
+  //   getName();
+  // }, []);
+
   return (
     <>
       <p>Recieved request:</p>
