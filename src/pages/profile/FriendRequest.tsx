@@ -7,6 +7,7 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
+import firebaseapi from "../../utils/firebaseapi";
 
 interface Props {
   sentInvitationList: [];
@@ -105,13 +106,17 @@ const Friend = ({ sentInvitationList, getInvitationList }: Props) => {
     getRecievedRequestName();
   }, []);
 
+  const getID = (e: any) => {
+    console.log(e.target.value);
+  };
+
   return (
     <>
       <p>Recieved request:</p>
       {getInvitationList && (
         <div>
           Recieved invitation from
-          {getAuthor2.map((item) => {
+          {getAuthor2.map((item, key) => {
             return (
               <>
                 <div>{item}</div>

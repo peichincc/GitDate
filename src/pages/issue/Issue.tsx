@@ -111,12 +111,15 @@ const Issue = () => {
     // console.log(`User:${getAuthorID}`);
     const userRef = doc(db, "Users", getAuthorID);
     await updateDoc(userRef, {
-      friend_request: arrayUnion(getUser),
+      friend_request: arrayUnion({ user_id: getUser, user_name: "Penny" }),
     });
     console.log(`Invitation Sent to ${getAuthor}`);
     const userRef2 = doc(db, "Users", getUser);
     await updateDoc(userRef2, {
-      friend_sent_request: arrayUnion(getAuthorID),
+      friend_sent_request: arrayUnion({
+        user_id: getAuthorID,
+        user_name: getAuthor,
+      }),
     });
   };
 

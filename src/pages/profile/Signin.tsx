@@ -5,6 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { signin } from "../../actions";
 
 import firebase from "firebase/compat/app";
+import firebaseapi from "../../utils/firebaseapi";
+import { auth } from "../../utils/firebase";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 
 const Wrapper = styled.div`
   display: block;
@@ -46,23 +49,39 @@ const Signin = () => {
     email: "",
     password: "",
   });
+  const [userName, setUserName] = useState(
+    window.localStorage.getItem("userName")
+  );
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
         var uid = user.uid;
         // console.log(uid);
         window.localStorage.setItem("userId", uid);
+        firebaseapi.searchUserName(uid).then((result) => {
+          if (result) {
+            console.log(result);
+            console.log(result["firstname"]);
+            window.localStorage.setItem("userName", result["firstname"]);
+            // const userName = result.firstname as string;
+            // console.log(userName);
+          }
+          // window.localStorage.setItem("userName", `${result}`);
+        });
         setAlreadyLogged(true);
       }
     });
+    // firebaseapi.test(`hi`);
   }, []);
+
+  // const tempId = "5LqBAtOZfwd32EgGLwuhzzqcvdD3";
+  // const result = firebaseapi.searchUserName(tempId);
+  // console.log(result);
 
   const onSubmit = () => {
     setIsLoading(true);
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(recipient.email, recipient.password)
+    signInWithEmailAndPassword(auth, recipient.email, recipient.password)
       .then(() => {
         navigate("/");
         setIsLoading(false);
@@ -110,7 +129,7 @@ const Signin = () => {
         <Title>Member Sign In</Title>
         {alreadyLogged ? (
           <>
-            <h2>Welcome!</h2>
+            <h2>Welcome! {userName}</h2>
             <SubmitBtn onClick={signout}>Sign out</SubmitBtn>
           </>
         ) : (

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-import firebase from "../../utils/firebase";
+import { auth } from "../../utils/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const Wrapper = styled.div`
   display: block;
@@ -44,9 +45,7 @@ const Signup = () => {
 
   const onSubmit = () => {
     setIsLoading(true);
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(recipient.email, recipient.password)
+    createUserWithEmailAndPassword(auth, recipient.email, recipient.password)
       .then(() => {
         navigate("/");
         setIsLoading(false);

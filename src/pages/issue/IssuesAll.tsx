@@ -19,11 +19,13 @@ const IssueAll = () => {
     const querySnapshot = await getDocs(collection(db, "Issues"));
     const document = [] as any;
     querySnapshot.forEach((doc) => {
-      document.push({
-        ...doc.data(),
-        id: doc.id,
-      });
+      document.push(doc.data());
+      // document.push({
+      //   ...doc.data(),
+      //   id: doc.id,
+      // });
     });
+    console.log(document);
     setDocs(document);
   };
 
