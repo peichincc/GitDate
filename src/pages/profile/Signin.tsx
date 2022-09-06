@@ -7,7 +7,11 @@ import { signin } from "../../actions";
 import firebase from "firebase/compat/app";
 import firebaseapi from "../../utils/firebaseapi";
 import { auth } from "../../utils/firebase";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 
 const Wrapper = styled.div`
   display: block;
@@ -98,9 +102,7 @@ const Signin = () => {
   };
 
   const signout = () => {
-    firebase
-      .auth()
-      .signOut()
+    signOut(auth)
       .then(() => {
         console.log("sign out!");
       })
