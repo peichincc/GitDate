@@ -15,6 +15,7 @@ import Readme from "./pages/profile/Readme";
 import CreateIssue from "./pages/issue/CreateIssue";
 import Issue from "./pages/issue/Issue";
 import IssueAll from "./pages/issue/IssuesAll";
+import ChatList from "./pages/chatroom/ChatList";
 
 const store = createStore(allReducers, composeWithDevTools());
 
@@ -33,6 +34,7 @@ root.render(
           <Route path="createissue" element={<CreateIssue />} />
           <Route path="issue/:id" element={<Issue />} />
           <Route path="issues" element={<IssueAll />} />
+          <Route path="chatlist" element={<ChatList />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

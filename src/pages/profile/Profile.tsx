@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 import {
   getFirestore,
@@ -33,6 +34,7 @@ const Block = styled.div`
 `;
 
 const Profile = () => {
+  let navigate = useNavigate();
   const [getUser, setGetUser] = useState("");
   const [imageUpload, setImageUpload] = useState(null);
   const [imageURL, setImageURL] = useState("");
@@ -233,6 +235,13 @@ const Profile = () => {
             />
           )}
         </Block>
+        <button
+          onClick={() => {
+            navigate("/chatlist");
+          }}
+        >
+          To see chatlist (all friend_list: repo/chatroom)
+        </button>
         <Block>
           <h1>Issues</h1>
         </Block>

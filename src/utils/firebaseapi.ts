@@ -180,7 +180,7 @@ const firebaseapi = {
     });
   },
   // Confirm 交友邀請
-  // 更新DB ->
+  // Merge: 更新DB -> add id/name to friend_list, 從對方DB (friend_sent_request)移除自己, 從自己DB (friend_request)移除對方
 };
 
 export default firebaseapi;
