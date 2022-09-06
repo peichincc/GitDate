@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { doc, getDoc, getFirestore, collection } from "firebase/firestore";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -28,7 +28,7 @@ const Readme = () => {
 
   // 讀取使用者資料
   const readData = async (id: any) => {
-    const docRef = doc(db, "Users", id);
+    const docRef = doc(collection(db, "Users"), id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       console.log("Document data:", docSnap.data());

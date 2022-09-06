@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-import firebase from "../../utils/firebase";
+import { auth } from "../../utils/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const Wrapper = styled.div`
   display: block;
@@ -33,20 +34,18 @@ const Signup = () => {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  interface recipient {
+  interface recipientType {
     email: string;
     password: string;
   }
-  const [recipient, setRecipient] = useState<recipient>({
+  const [recipient, setRecipient] = useState<recipientType>({
     email: "",
     password: "",
   });
 
   const onSubmit = () => {
     setIsLoading(true);
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(recipient.email, recipient.password)
+    createUserWithEmailAndPassword(auth, recipient.email, recipient.password)
       .then(() => {
         navigate("/");
         setIsLoading(false);
@@ -71,7 +70,7 @@ const Signup = () => {
             <FormLabel>{label}</FormLabel>
             <FormControl
               type={type}
-              value={recipient[key as keyof recipient]}
+              value={recipient[key as keyof recipientType]}
               onChange={(e) =>
                 setRecipient({ ...recipient, [key]: e.target.value })
               }

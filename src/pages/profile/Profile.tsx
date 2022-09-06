@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
-import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  updateDoc,
+  collection,
+  onSnapshot,
+} from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import Friend from "./FriendRequest";
 
 const Wrapper = styled.div`
   display: block;
@@ -25,21 +34,30 @@ const Block = styled.div`
 `;
 
 const Profile = () => {
-  const [getUser, setGetUser] = useState<any>("");
+  let navigate = useNavigate();
+  const [getUser, setGetUser] = useState("");
   const [imageUpload, setImageUpload] = useState(null);
   const [imageURL, setImageURL] = useState("");
   const db = getFirestore();
   const storage = getStorage();
+  // Friend
+  const [sentInvitationList, setSentInvitationList] = useState<any>();
+  const [getInvitationList, setGetInvitationList] = useState<any>();
+  const [openFriend, setOpenFriend] = useState(false);
 
   useEffect(() => {
     const userId = window.localStorage.getItem("userId");
     console.log(userId);
-    if (userId) setGetUser(userId);
+    if (userId) {
+      setGetUser(userId);
+      // get friend
+      getFriend(userId);
+    }
   }, []);
 
   // 把使用者放進db
   const pushtodb = async () => {
-    await setDoc(doc(db, "Users", `${getUser}`), {
+    await setDoc(doc(collection(db, "Users"), `${getUser}`), {
       user_id: `${getUser}`,
     });
   };
@@ -56,6 +74,9 @@ const Profile = () => {
     // inerested_gender: [];
     main_photo: string;
     wish_relationship: string;
+    friend_list: [];
+    friend_request: [];
+    friend_sent_request: [];
   };
 
   const uploadFormGroups = [
@@ -101,6 +122,9 @@ const Profile = () => {
     gender_interested: "",
     main_photo: "",
     wish_relationship: "",
+    friend_list: [],
+    friend_request: [],
+    friend_sent_request: [],
   });
   const uploadFormInputCheck = (
     label: string,
@@ -154,9 +178,25 @@ const Profile = () => {
   };
   // 更新資料庫
   const updateDB = async () => {
-    const userRef = doc(db, "Users", `${getUser}`);
+    const userRef = doc(collection(db, "Users"), `${getUser}`);
     await updateDoc(userRef, { ...recipient, main_photo: imageURL });
     alert("updated!");
+  };
+
+  // 讀取好友邀請(讀DB中的friend_request -> get ID -> Search name -> Display name)
+  const getFriend = (id: string) => {
+    onSnapshot(doc(collection(db, "Users"), id), (doc) => {
+      if (doc.exists()) {
+        setSentInvitationList(doc.data().friend_sent_request);
+        // console.log(doc.data().friend_sent_request);
+        setGetInvitationList(doc.data().friend_request);
+        // console.log(doc.data().friend_request);
+      }
+    });
+  };
+
+  const handleChange = async () => {
+    await setOpenFriend(true);
   };
 
   return (
@@ -164,6 +204,7 @@ const Profile = () => {
       <Wrapper>
         <button onClick={pushtodb}>Set user</button>
         <Block>
+          <h1>Edit profile</h1>
           <div>
             {uploadFormGroups.map(({ label, key, textarea, options }) => (
               <FormGroup key={key}>
@@ -183,6 +224,29 @@ const Profile = () => {
           <div>
             <button onClick={updateDB}>Update Profile</button>
           </div>
+        </Block>
+        <Block>
+          <h1>Invitations area</h1>
+          <button onClick={handleChange}>Open the friend area</button>
+          {openFriend && getInvitationList && (
+            <Friend
+              sentInvitationList={sentInvitationList}
+              getInvitationList={getInvitationList}
+            />
+          )}
+        </Block>
+        <button
+          onClick={() => {
+            navigate("/chatlist");
+          }}
+        >
+          To see chatlist (all friend_list: repo/chatroom)
+        </button>
+        <Block>
+          <h1>Issues</h1>
+        </Block>
+        <Block>
+          <h1>Branches</h1>
         </Block>
       </Wrapper>
     </>
