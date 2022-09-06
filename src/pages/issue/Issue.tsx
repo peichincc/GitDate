@@ -50,6 +50,7 @@ const Issue = () => {
   const [userData, setUserData] = useState<ListData | null>(null);
   const [newT, setNewT] = useState("");
   const [getUser, setGetUser] = useState("");
+  const [getUserName, setGetUserName] = useState("");
   const [getAuthor, setGetAuthor] = useState("");
   const [getAuthorID, setGetAuthorID] = useState("");
 
@@ -99,8 +100,13 @@ const Issue = () => {
 
   useEffect(() => {
     const userId = window.localStorage.getItem("userId");
+    const userName = window.localStorage.getItem("userName");
     console.log(userId);
-    if (userId) setGetUser(userId);
+    console.log(userName);
+    if (userId && userName) {
+      setGetUser(userId);
+      setGetUserName(userName);
+    }
     readData(id);
     // console.log(id);
     // console.log(getAuthorID);
@@ -111,7 +117,7 @@ const Issue = () => {
     // console.log(`User:${getAuthorID}`);
     const userRef = doc(db, "Users", getAuthorID);
     await updateDoc(userRef, {
-      friend_request: arrayUnion({ user_id: getUser, user_name: "Penny" }),
+      friend_request: arrayUnion({ user_id: getUser, user_name: getUserName }),
     });
     console.log(`Invitation Sent to ${getAuthor}`);
     const userRef2 = doc(db, "Users", getUser);
