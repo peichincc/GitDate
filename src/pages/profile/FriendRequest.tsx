@@ -43,7 +43,7 @@ const Friend = ({ sentInvitationList, getInvitationList }: Props) => {
     console.log(getUserName);
     console.log(e.target.value);
     const index = e.target.value;
-    const newArr = getInvitationList.splice(index, 1);
+    const newArr = getInvitationList.splice(index, 1) as any;
     console.log(newArr); // 被切出來的[obj]
     console.log(getInvitationList); // 留下來的[obj]
     const otherUserID = newArr[0]["user_id"];
@@ -54,17 +54,6 @@ const Friend = ({ sentInvitationList, getInvitationList }: Props) => {
       friend_request: getInvitationList,
     });
     console.log("更新了自己的DB: friend_request: getInvitationList");
-    // 丟進Friend_list (自己的)
-    await updateDoc(userRef, {
-      friend_list: arrayUnion(...newArr),
-    });
-    console.log("更新了自己的DB: friend_list");
-    // 丟進Friend_list (對方的)
-    const userRef2 = doc(db, "Users", otherUserID);
-    await updateDoc(userRef2, {
-      friend_list: arrayUnion({ user_id: getUser, user_name: getUserName }),
-    });
-    console.log("更新了自己的DB: friend_list");
     // 打開repo (setDoc in Chatrooms collection)
     const newChatRef = doc(collection(db, "Chatrooms"));
     await setDoc(newChatRef, {
@@ -77,6 +66,23 @@ const Friend = ({ sentInvitationList, getInvitationList }: Props) => {
       text: "test",
       timestamp: serverTimestamp(),
     });
+    // 把名單, repo ID都丟進Friend_list (自己的)
+    // const newdata = { ...newArr, chat_id: newChatRef.id };
+    newArr[0].chat_id = newChatRef.id;
+    await updateDoc(userRef, {
+      friend_list: arrayUnion(newArr[0]),
+    });
+    console.log("更新了自己的DB: friend_list");
+    // 丟進Friend_list (對方的)
+    const userRef2 = doc(db, "Users", otherUserID);
+    await updateDoc(userRef2, {
+      friend_list: arrayUnion({
+        user_id: getUser,
+        user_name: getUserName,
+        chat_id: newChatRef.id,
+      }),
+    });
+    console.log("更新了自己的DB: friend_list");
   };
 
   const close = async (e: any) => {

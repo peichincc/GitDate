@@ -1,7 +1,23 @@
 import React, { useEffect, useState } from "react";
 import firebaseapi from "../../utils/firebaseapi";
+import {
+  doc,
+  setDoc,
+  collection,
+  serverTimestamp,
+  query,
+  where,
+  getDoc,
+  getDocs,
+  getFirestore,
+  deleteDoc,
+  updateDoc,
+  arrayUnion,
+  onSnapshot,
+} from "firebase/firestore";
 
 const ChatList = () => {
+  const db = getFirestore();
   const [getUser, setGetUser] = useState("");
   const [friendList, setFriendList] = useState<any>();
 
@@ -14,11 +30,11 @@ const ChatList = () => {
         if (result) {
           console.log(result["friend_list"]);
           setFriendList(result["friend_list"]);
-          // const userName = result.firstname as string;
-          // console.log(userName);
         }
       });
     }
+    const chatRef = collection(db, "Chatrooms");
+    const q = query(chatRef, where("user_id", "==", userId));
   }, []);
 
   return (
