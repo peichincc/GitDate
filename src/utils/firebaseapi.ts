@@ -25,6 +25,7 @@ const usersRef = collection(db, "Users");
 const issuesRef = collection(db, "Issues");
 const branchesRef = collection(db, "Branches");
 const chatsRef = collection(db, "Chatrooms");
+const newIssueRef = doc(collection(db, "Issues"));
 
 const firebaseapi = {
   test(msg: string) {
@@ -82,8 +83,6 @@ const firebaseapi = {
     // }[];
     querySnapshot.forEach((doc) => {
       temp.push(doc.data());
-      // return temp.push(doc.data());
-      // temp = [...temp, doc.data()];
     });
     return temp;
   },
@@ -91,19 +90,19 @@ const firebaseapi = {
   // Post Issue
   // imageUpload -> State to store the e.target.files[0]
   // recipient -> State from create issue data form
-  async postIssue(imageUpload: File, issuesRef: any, recipient: any) {
-    const imageRef = ref(storage, `issues/${issuesRef.id}.jpg`);
+  async postIssue(imageUpload: File, newIssueRef: any, recipient: any) {
+    const imageRef = ref(storage, `issues/${newIssueRef.id}.jpg`);
     await uploadBytes(imageRef, imageUpload)
       .then(() => {
         alert("uploaded!");
-      })
-      .then(() => {
-        setDoc(issuesRef, recipient);
+        console.log(newIssueRef);
+        console.log(recipient);
+        setDoc(newIssueRef, recipient);
       })
       .then(async () => {
         const downloadUrl = await getDownloadURL(imageRef);
-        updateDoc(issuesRef, {
-          issue_id: issuesRef.id,
+        updateDoc(newIssueRef, {
+          issue_id: newIssueRef.id,
           main_image: downloadUrl,
         });
       });

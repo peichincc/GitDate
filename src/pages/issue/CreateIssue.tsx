@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 import {
   getFirestore,
   doc,
-  setDoc,
-  updateDoc,
   serverTimestamp,
   collection,
 } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+import firebaseapi from "../../utils/firebaseapi";
 
 const Wrapper = styled.div`
   display: block;
@@ -25,7 +24,7 @@ interface Data {
 
 const CreateIssue = () => {
   const db = getFirestore();
-  const storage = getStorage();
+  let navigate = useNavigate();
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [fileSrc, setFileSrc] = useState<any>(null);
   const MyCheckBoxList: Data[] = [
@@ -105,25 +104,13 @@ const CreateIssue = () => {
     posted_at: serverTimestamp(),
   };
 
-  // get id before setDoc
-  const newIssueRef = doc(collection(db, "Issues"));
-
   // upload photo w/ doc id, get photo URL, then setDoc
   const postIssue = async () => {
-    const imageRef = ref(storage, `issues/${newIssueRef.id}.jpg`);
-    await uploadBytes(imageRef, imageUpload)
+    const newIssueRef = doc(collection(db, "Issues"));
+    await firebaseapi
+      .postIssue(imageUpload, newIssueRef, recipient)
       .then(() => {
-        alert("uploaded!");
-      })
-      .then(() => {
-        setDoc(newIssueRef, recipient);
-      })
-      .then(async () => {
-        const downloadUrl = await getDownloadURL(imageRef);
-        updateDoc(newIssueRef, {
-          issue_id: newIssueRef.id,
-          main_image: downloadUrl,
-        });
+        navigate("/");
       });
   };
 

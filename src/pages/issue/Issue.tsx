@@ -1,17 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  doc,
-  getDoc,
-  getFirestore,
-  collection,
-  query,
-  where,
-  getDocs,
-  deleteDoc,
-  updateDoc,
-  arrayUnion,
-} from "firebase/firestore";
+import { doc, getFirestore, updateDoc, arrayUnion } from "firebase/firestore";
 import styled from "styled-components";
 
 import firebaseapi from "../../utils/firebaseapi";
@@ -136,13 +125,13 @@ const Issue = () => {
       friend_request: arrayUnion({ user_id: getUser, user_name: getUserName }),
     });
     console.log(`Invitation Sent to ${getAuthor}`);
-    const userRef2 = doc(db, "Users", getUser);
-    await updateDoc(userRef2, {
-      friend_sent_request: arrayUnion({
-        user_id: getAuthorID,
-        user_name: getAuthor,
-      }),
-    });
+    // const userRef2 = doc(db, "Users", getUser);
+    // await updateDoc(userRef2, {
+    //   friend_sent_request: arrayUnion({
+    //     user_id: getAuthorID,
+    //     user_name: getAuthor,
+    //   }),
+    // });
   };
 
   return (
