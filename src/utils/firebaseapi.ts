@@ -109,7 +109,7 @@ const firebaseapi = {
   },
   // In Readme
   // 讀取Users中使用者資料
-  async readUserData(id: string) {
+  async readUserData(id: string | undefined) {
     const docRef = doc(usersRef, id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
