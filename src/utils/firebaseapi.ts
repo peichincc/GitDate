@@ -42,7 +42,7 @@ const firebaseapi = {
     return temp;
   },
   // 讀取Issues中的單篇文章資料
-  async readIssueData(id: string) {
+  async readIssueData(id: string | undefined) {
     const docRef = doc(issuesRef, id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -53,7 +53,7 @@ const firebaseapi = {
     }
   },
   // 刪除單篇文章Issue
-  async deleteIssue(id: string) {
+  async deleteIssue(id: string | undefined) {
     await deleteDoc(doc(issuesRef, id))
       .then(() => {
         alert("Delete successful!");

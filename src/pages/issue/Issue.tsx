@@ -14,6 +14,8 @@ import {
 } from "firebase/firestore";
 import styled from "styled-components";
 
+import firebaseapi from "../../utils/firebaseapi";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
@@ -47,7 +49,8 @@ const Issue = () => {
     posted_at: any;
     tags: [];
   };
-  const [userData, setUserData] = useState<ListData | null>(null);
+  const [userData, setUserData] = useState<any>(null);
+  // const [userData, setUserData] = useState<ListData | null>(null);
   const [newT, setNewT] = useState("");
   const [getUser, setGetUser] = useState("");
   const [getUserName, setGetUserName] = useState("");
@@ -55,47 +58,49 @@ const Issue = () => {
   const [getAuthorID, setGetAuthorID] = useState("");
 
   // 讀取使用者資料
-  const readData = async (id: string | undefined) => {
-    const docRef = doc(collection(db, "Issues"), id);
-    await getDoc(docRef).then((doc) => {
-      if (doc.exists()) {
-        const userDataFromDB = doc.data() as ListData;
-        setUserData(userDataFromDB);
-        if (userDataFromDB) {
-          const newT = new Date(
-            userDataFromDB.posted_at.seconds * 1000
-          ).toString();
-          setNewT(newT);
-          const searchUser = async () => {
-            const userRef = collection(db, "Users");
-            const q = query(
-              userRef,
-              where("user_id", "==", userDataFromDB.posted_by)
-            );
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-              // console.log(doc.data().firstname);
-              setGetAuthor(doc.data().firstname);
-              // console.log(doc.data().user_id);
-              setGetAuthorID(doc.data().user_id);
-            });
-          };
-          searchUser();
-        }
-      } else {
-        console.log("No such document!");
-      }
-    });
-  };
+  // const readData = async (id: string | undefined) => {
+  //   const docRef = doc(collection(db, "Issues"), id);
+  //   await getDoc(docRef).then((doc) => {
+  //     if (doc.exists()) {
+  //       const userDataFromDB = doc.data() as ListData;
+  //       setUserData(userDataFromDB);
+  //       if (userDataFromDB) {
+  //         const newT = new Date(
+  //           userDataFromDB.posted_at.seconds * 1000
+  //         ).toString();
+  //         setNewT(newT);
+  //         const searchUser = async () => {
+  //           const userRef = collection(db, "Users");
+  //           const q = query(
+  //             userRef,
+  //             where("user_id", "==", userDataFromDB.posted_by)
+  //           );
+  //           const querySnapshot = await getDocs(q);
+  //           querySnapshot.forEach((doc) => {
+  //             // console.log(doc.data().firstname);
+  //             setGetAuthor(doc.data().firstname);
+  //             // console.log(doc.data().user_id);
+  //             setGetAuthorID(doc.data().user_id);
+  //           });
+  //         };
+  //         searchUser();
+  //       }
+  //     } else {
+  //       console.log("No such document!");
+  //     }
+  //   });
+  // };
 
   const deleteIssue = async (id: string | undefined) => {
-    await deleteDoc(doc(collection(db, "Issues"), id))
-      .then(() => {
-        alert("Delete successful!");
-      })
-      .catch((error) => {
-        console.error("Error removing document: ", error);
-      });
+    await firebaseapi.deleteIssue(id);
+    navigate("/");
+    // await deleteDoc(doc(collection(db, "Issues"), id))
+    //   .then(() => {
+    //     alert("Delete successful!");
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error removing document: ", error);
+    //   });
   };
 
   useEffect(() => {
@@ -107,10 +112,21 @@ const Issue = () => {
       setGetUser(userId);
       setGetUserName(userName);
     }
-    readData(id);
-    // console.log(id);
-    // console.log(getAuthorID);
-    // console.log(userData);
+    firebaseapi.readIssueData(id).then((res) => {
+      if (res) {
+        console.log(res);
+        const newT = new Date(res.posted_at.seconds * 1000).toString();
+        setNewT(newT);
+        setUserData(res);
+      }
+      firebaseapi.searchUserName(res?.posted_by).then((res) => {
+        if (res) {
+          console.log(res["firstname"]);
+          setGetAuthor(res["firstname"]);
+          setGetAuthorID(res["user_id"]);
+        }
+      });
+    });
   }, []);
 
   const sendRequest = async () => {
@@ -158,7 +174,7 @@ const Issue = () => {
             <p>Posted at:</p>
             {newT}
             <p>Tags:</p>
-            {userData.tags.map((tag) => (
+            {userData.tags.map((tag: any) => (
               <>
                 <p>{tag}</p>
               </>
