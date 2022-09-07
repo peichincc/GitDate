@@ -4,6 +4,8 @@ import firebaseapi from "../../utils/firebaseapi";
 import {
   doc,
   getDoc,
+  setDoc,
+  addDoc,
   getFirestore,
   collection,
   query,
@@ -12,6 +14,7 @@ import {
   deleteDoc,
   updateDoc,
   arrayUnion,
+  serverTimestamp,
 } from "firebase/firestore";
 
 interface Props {
@@ -62,6 +65,18 @@ const Friend = ({ sentInvitationList, getInvitationList }: Props) => {
       friend_list: arrayUnion({ user_id: getUser, user_name: getUserName }),
     });
     console.log("更新了自己的DB: friend_list");
+    // 打開repo (setDoc in Chatrooms collection)
+    const newChatRef = doc(collection(db, "Chatrooms"));
+    await setDoc(newChatRef, {
+      chat_id: newChatRef.id,
+      users: [otherUserID, getUser],
+    });
+    await addDoc(collection(db, "Chatrooms", newChatRef.id, "messages"), {
+      sender_id: getUser,
+      sender_name: getUserName,
+      text: "test",
+      timestamp: serverTimestamp(),
+    });
   };
 
   const close = async (e: any) => {
