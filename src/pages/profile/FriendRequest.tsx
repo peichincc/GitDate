@@ -3,19 +3,15 @@ import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
 import {
   doc,
-  getDoc,
   setDoc,
   addDoc,
   getFirestore,
   collection,
-  query,
-  where,
-  getDocs,
-  deleteDoc,
   updateDoc,
   arrayUnion,
   serverTimestamp,
 } from "firebase/firestore";
+import { useSelector, useDispatch } from "react-redux";
 
 interface Props {
   sentInvitationList: [];
@@ -23,13 +19,14 @@ interface Props {
 }
 
 const Friend = ({ sentInvitationList, getInvitationList }: Props) => {
+  const userData = useSelector((state) => state) as any;
   const db = getFirestore();
   const [getUser, setGetUser] = useState("");
   const [getUserName, setGetUserName] = useState("");
 
   useEffect(() => {
-    const userId = window.localStorage.getItem("userId");
-    const userName = window.localStorage.getItem("userName");
+    const userId = userData.user.user_id;
+    const userName = userData.user.user_name;
     console.log(userId);
     console.log(userName);
     if (userId && userName) {

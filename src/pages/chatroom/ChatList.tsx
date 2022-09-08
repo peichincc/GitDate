@@ -2,21 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
-import {
-  doc,
-  setDoc,
-  collection,
-  serverTimestamp,
-  query,
-  where,
-  getDoc,
-  getDocs,
-  getFirestore,
-  deleteDoc,
-  updateDoc,
-  arrayUnion,
-  onSnapshot,
-} from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import { useSelector, useDispatch } from "react-redux";
 
 const Wrapper = styled.div`

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 import {
   getFirestore,
@@ -23,6 +24,7 @@ interface Data {
 }
 
 const CreateIssue = () => {
+  const userData = useSelector((state) => state) as any;
   const db = getFirestore();
   let navigate = useNavigate();
   const [imageUpload, setImageUpload] = useState<any>(null);
@@ -89,7 +91,7 @@ const CreateIssue = () => {
 
   const [getUser, setGetUser] = useState<any>("");
   useEffect(() => {
-    const userId = window.localStorage.getItem("userId");
+    const userId = userData.user.user_id;
     console.log(userId);
     if (userId) setGetUser(userId);
   }, []);

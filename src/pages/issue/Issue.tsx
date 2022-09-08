@@ -10,6 +10,8 @@ import {
 } from "firebase/firestore";
 import styled from "styled-components";
 
+import { useSelector, useDispatch } from "react-redux";
+
 import firebaseapi from "../../utils/firebaseapi";
 
 const Wrapper = styled.div`
@@ -32,6 +34,7 @@ const PRbtn = styled.button`
 `;
 
 const Issue = () => {
+  const userData = useSelector((state) => state) as any;
   let navigate = useNavigate();
   const db = getFirestore();
   const { id } = useParams<any>();
@@ -45,7 +48,7 @@ const Issue = () => {
     posted_at: any;
     tags: [];
   };
-  const [userData, setUserData] = useState<DocumentData>();
+  const [issueData, setIssueData] = useState<DocumentData>();
   // const [userData, setUserData] = useState<ListData | null>(null);
   const [newT, setNewT] = useState("");
   const [getUser, setGetUser] = useState("");
@@ -100,8 +103,8 @@ const Issue = () => {
   };
 
   useEffect(() => {
-    const userId = window.localStorage.getItem("userId");
-    const userName = window.localStorage.getItem("userName");
+    const userId = userData.user.user_id;
+    const userName = userData.user.user_name;
     console.log(userId);
     console.log(userName);
     if (userId && userName) {
@@ -113,7 +116,7 @@ const Issue = () => {
         console.log(res);
         const newT = new Date(res.posted_at.seconds * 1000).toString();
         setNewT(newT);
-        setUserData(res);
+        setIssueData(res);
       }
       firebaseapi.searchUserName(res?.posted_by).then((res) => {
         if (res) {
@@ -146,23 +149,23 @@ const Issue = () => {
       <Wrapper>
         <p>this page is issue page</p>
         <p>issue id: {id}</p>
-        {userData && (
+        {issueData && (
           <div>
             <br />
-            <img src={userData.main_image} alt="main_photo" />
+            <img src={issueData.main_image} alt="main_photo" />
             <p>Category:</p>
-            {userData.category}
+            {issueData.category}
             <h2>Title:</h2>
-            {userData.title}
+            {issueData.title}
             <p>Content:</p>
-            {userData.content}
+            {issueData.content}
             <p>Issue status:</p>
-            {userData.status}
+            {issueData.status}
             <p>Posted by:</p>
             Author name: {getAuthor}
             <button
               onClick={() => {
-                navigate("/readme/" + userData.posted_by);
+                navigate("/readme/" + issueData.posted_by);
               }}
             >
               Readme
@@ -170,7 +173,7 @@ const Issue = () => {
             <p>Posted at:</p>
             {newT}
             <p>Tags:</p>
-            {userData.tags.map((tag: any) => (
+            {issueData.tags.map((tag: any) => (
               <>
                 <p>{tag}</p>
               </>
