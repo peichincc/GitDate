@@ -180,6 +180,18 @@ const firebaseapi = {
   },
   // Confirm 交友邀請
   // Merge: 更新DB -> add id/name to friend_list, 從對方DB (friend_sent_request)移除自己, 從自己DB (friend_request)移除對方
+  // Chatroom
+  // 讀取chatroom doc
+  async readChatData(id: string | undefined) {
+    const docRef = doc(chatsRef, id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log("No such chatroom!");
+      return null;
+    }
+  },
 };
 
 export default firebaseapi;
