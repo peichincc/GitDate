@@ -17,6 +17,7 @@ import {
   arrayUnion,
   onSnapshot,
 } from "firebase/firestore";
+import { useSelector, useDispatch } from "react-redux";
 
 const Wrapper = styled.div`
   display: block;
@@ -26,6 +27,7 @@ const Wrapper = styled.div`
 `;
 
 const ChatList = () => {
+  const userData = useSelector((state) => state) as any;
   let navigate = useNavigate();
   const db = getFirestore();
   const [getUser, setGetUser] = useState("");
@@ -33,7 +35,7 @@ const ChatList = () => {
   const [chatRoomId, setChatRoomId] = useState([]);
 
   useEffect(() => {
-    const userId = window.localStorage.getItem("userId");
+    const userId = userData.user.user_id;
     console.log(userId);
     if (userId) {
       setGetUser(userId);

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { signin } from "../../actions";
+import { setUserData, signin } from "../../actions";
 
 import firebase from "firebase/compat/app";
 import firebaseapi from "../../utils/firebaseapi";
@@ -37,6 +37,7 @@ const signInData: ListData[] = [
 ];
 
 const Signin = () => {
+  const userData = useSelector((state) => state) as any;
   //redux test
   const dispatch = useDispatch();
   const isLogged = useSelector((state: any) => state.isLogged);
@@ -62,12 +63,15 @@ const Signin = () => {
       if (user) {
         var uid = user.uid;
         // console.log(uid);
-        window.localStorage.setItem("userId", uid);
+        // window.localStorage.setItem("userId", uid);
         firebaseapi.searchUserName(uid).then((result) => {
           if (result) {
             console.log(result);
             console.log(result["firstname"]);
-            window.localStorage.setItem("userName", result["firstname"]);
+            // window.localStorage.setItem("userName", result["firstname"]);
+            dispatch(setUserData(result["user_id"], result["firstname"]));
+            console.log(userData);
+            // dispatch(signin());
             // const userName = result.firstname as string;
             // console.log(userName);
           }
@@ -131,7 +135,7 @@ const Signin = () => {
         <Title>Member Sign In</Title>
         {alreadyLogged ? (
           <>
-            <h2>Welcome! {userName}</h2>
+            <h2>Welcome! {userData.user.user_name}</h2>
             <SubmitBtn onClick={signout}>Sign out</SubmitBtn>
           </>
         ) : (

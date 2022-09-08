@@ -5,6 +5,8 @@ import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
 import "./chatroom.css";
 
+import { useSelector, useDispatch } from "react-redux";
+
 import {
   addDoc,
   collection,
@@ -33,6 +35,7 @@ const ChatContainer = styled.div`
 `;
 
 const Chatroom = () => {
+  const userData = useSelector((state) => state) as any;
   const db = getFirestore();
   const { id } = useParams<any>();
   const [messages, setMessages] = useState<any>([]);
@@ -74,13 +77,13 @@ const Chatroom = () => {
 
   // test send msg function
   const [value, setValue] = useState<any>("");
-  const user = { id: "5LqBAtOZfwd32EgGLwuhzzqcvdD3", name: "Penny" } as any;
+  const user = userData.user;
 
   const sendMessage = async (id: any, user: any, text: string) => {
     try {
       await addDoc(collection(db, "Chatrooms", id, "messages"), {
-        sender_id: user.id,
-        sender_name: user.name,
+        sender_id: user.user_id,
+        sender_name: user.user_name,
         timestamp: serverTimestamp(),
         text: text.trim(),
       });
@@ -108,7 +111,7 @@ const Chatroom = () => {
                 <Message
                   key={x.id}
                   message={x}
-                  isOwnMessage={x.sender_id === user.id}
+                  isOwnMessage={x.sender_id === user.user_id}
                 />
               ))}
             </ul>
