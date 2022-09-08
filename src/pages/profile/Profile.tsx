@@ -14,6 +14,8 @@ import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Friend from "./FriendRequest";
 
+import { useSelector, useDispatch } from "react-redux";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
@@ -34,6 +36,7 @@ const Block = styled.div`
 `;
 
 const Profile = () => {
+  const userData = useSelector((state) => state) as any;
   let navigate = useNavigate();
   const [getUser, setGetUser] = useState("");
   const [imageUpload, setImageUpload] = useState(null);
@@ -46,7 +49,7 @@ const Profile = () => {
   const [openFriend, setOpenFriend] = useState(false);
 
   useEffect(() => {
-    const userId = window.localStorage.getItem("userId");
+    const userId = userData.user.user_id;
     console.log(userId);
     if (userId) {
       setGetUser(userId);

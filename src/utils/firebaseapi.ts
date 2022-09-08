@@ -25,6 +25,7 @@ const usersRef = collection(db, "Users");
 const issuesRef = collection(db, "Issues");
 const branchesRef = collection(db, "Branches");
 const chatsRef = collection(db, "Chatrooms");
+const newIssueRef = doc(collection(db, "Issues"));
 
 const firebaseapi = {
   test(msg: string) {
@@ -42,7 +43,7 @@ const firebaseapi = {
     return temp;
   },
   // 讀取Issues中的單篇文章資料
-  async readIssueData(id: string) {
+  async readIssueData(id: string | undefined) {
     const docRef = doc(issuesRef, id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -53,7 +54,7 @@ const firebaseapi = {
     }
   },
   // 刪除單篇文章Issue
-  async deleteIssue(id: string) {
+  async deleteIssue(id: string | undefined) {
     await deleteDoc(doc(issuesRef, id))
       .then(() => {
         alert("Delete successful!");
@@ -82,8 +83,6 @@ const firebaseapi = {
     // }[];
     querySnapshot.forEach((doc) => {
       temp.push(doc.data());
-      // return temp.push(doc.data());
-      // temp = [...temp, doc.data()];
     });
     return temp;
   },
@@ -91,26 +90,26 @@ const firebaseapi = {
   // Post Issue
   // imageUpload -> State to store the e.target.files[0]
   // recipient -> State from create issue data form
-  async postIssue(imageUpload: File, issuesRef: any, recipient: any) {
-    const imageRef = ref(storage, `issues/${issuesRef.id}.jpg`);
+  async postIssue(imageUpload: File, newIssueRef: any, recipient: any) {
+    const imageRef = ref(storage, `issues/${newIssueRef.id}.jpg`);
     await uploadBytes(imageRef, imageUpload)
       .then(() => {
         alert("uploaded!");
-      })
-      .then(() => {
-        setDoc(issuesRef, recipient);
+        console.log(newIssueRef);
+        console.log(recipient);
+        setDoc(newIssueRef, recipient);
       })
       .then(async () => {
         const downloadUrl = await getDownloadURL(imageRef);
-        updateDoc(issuesRef, {
-          issue_id: issuesRef.id,
+        updateDoc(newIssueRef, {
+          issue_id: newIssueRef.id,
           main_image: downloadUrl,
         });
       });
   },
   // In Readme
   // 讀取Users中使用者資料
-  async readUserData(id: string) {
+  async readUserData(id: string | undefined) {
     const docRef = doc(usersRef, id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -181,6 +180,18 @@ const firebaseapi = {
   },
   // Confirm 交友邀請
   // Merge: 更新DB -> add id/name to friend_list, 從對方DB (friend_sent_request)移除自己, 從自己DB (friend_request)移除對方
+  // Chatroom
+  // 讀取chatroom doc
+  async readChatData(id: string | undefined) {
+    const docRef = doc(chatsRef, id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log("No such chatroom!");
+      return null;
+    }
+  },
 };
 
 export default firebaseapi;

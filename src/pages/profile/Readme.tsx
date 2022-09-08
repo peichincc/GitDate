@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { doc, getDoc, getFirestore, collection } from "firebase/firestore";
 import styled from "styled-components";
 
+import firebaseapi from "../../utils/firebaseapi";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
@@ -24,24 +26,30 @@ const Readme = () => {
     main_photo: string;
     wish_relationship: string;
   };
-  const [userData, setUserData] = useState<ListData | null>(null);
+  // const [userData, setUserData] = useState<ListData | null>(null);
+  const [userData, setUserData] = useState<any>(null);
 
   // 讀取使用者資料
-  const readData = async (id: any) => {
-    const docRef = doc(collection(db, "Users"), id);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-      const userDataFromDB = docSnap.data() as ListData;
-      setUserData(userDataFromDB);
-    } else {
-      console.log("No such document!");
-    }
-  };
+  // const readData = async (id: any) => {
+  //   const docRef = doc(collection(db, "Users"), id);
+  //   const docSnap = await getDoc(docRef);
+  //   if (docSnap.exists()) {
+  //     console.log("Document data:", docSnap.data());
+  //     const userDataFromDB = docSnap.data() as ListData;
+  //     setUserData(userDataFromDB);
+  //   } else {
+  //     console.log("No such document!");
+  //   }
+  // };
 
   useEffect(() => {
-    readData(id);
+    // readData(id);
     // console.log(userData);
+    firebaseapi.readUserData(id).then((res) => {
+      if (res) {
+        setUserData(res);
+      }
+    });
   }, []);
 
   return (

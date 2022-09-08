@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { signin } from "../../actions";
+import { setUserData, signin } from "../../actions";
 
-import firebase from "firebase/compat/app";
 import firebaseapi from "../../utils/firebaseapi";
 import { auth } from "../../utils/firebase";
 import {
@@ -37,10 +36,8 @@ const signInData: ListData[] = [
 ];
 
 const Signin = () => {
-  //redux test
   const dispatch = useDispatch();
-  const isLogged = useSelector((state: any) => state.isLogged);
-  //
+  const userData = useSelector((state) => state) as any;
   const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [alreadyLogged, setAlreadyLogged] = useState(false);
@@ -53,40 +50,29 @@ const Signin = () => {
     email: "",
     password: "",
   });
-  const [userName, setUserName] = useState(
-    window.localStorage.getItem("userName")
-  );
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         var uid = user.uid;
-        // console.log(uid);
-        window.localStorage.setItem("userId", uid);
         firebaseapi.searchUserName(uid).then((result) => {
           if (result) {
             console.log(result);
             console.log(result["firstname"]);
-            window.localStorage.setItem("userName", result["firstname"]);
-            // const userName = result.firstname as string;
-            // console.log(userName);
+            dispatch(setUserData(result["user_id"], result["firstname"]));
+            console.log(userData);
           }
-          // window.localStorage.setItem("userName", `${result}`);
         });
         setAlreadyLogged(true);
       }
     });
-    // firebaseapi.test(`hi`);
   }, []);
-
-  // const tempId = "5LqBAtOZfwd32EgGLwuhzzqcvdD3";
-  // const result = firebaseapi.searchUserName(tempId);
-  // console.log(result);
 
   const onSubmit = () => {
     setIsLoading(true);
     signInWithEmailAndPassword(auth, recipient.email, recipient.password)
       .then(() => {
+        dispatch(signin());
         navigate("/");
         setIsLoading(false);
       })
@@ -116,22 +102,10 @@ const Signin = () => {
   return (
     <>
       <Wrapper>
-        {isLogged ? (
-          <p>redux test: already log in</p>
-        ) : (
-          <p>redux test: not log in</p>
-        )}
-        <button
-          onClick={() => {
-            dispatch(signin());
-          }}
-        >
-          redux test
-        </button>
         <Title>Member Sign In</Title>
         {alreadyLogged ? (
           <>
-            <h2>Welcome! {userName}</h2>
+            <h2>Welcome! {userData.user.user_name}</h2>
             <SubmitBtn onClick={signout}>Sign out</SubmitBtn>
           </>
         ) : (

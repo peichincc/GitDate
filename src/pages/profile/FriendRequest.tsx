@@ -3,16 +3,15 @@ import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
 import {
   doc,
-  getDoc,
+  setDoc,
+  addDoc,
   getFirestore,
   collection,
-  query,
-  where,
-  getDocs,
-  deleteDoc,
   updateDoc,
   arrayUnion,
+  serverTimestamp,
 } from "firebase/firestore";
+import { useSelector, useDispatch } from "react-redux";
 
 interface Props {
   sentInvitationList: [];
@@ -20,13 +19,14 @@ interface Props {
 }
 
 const Friend = ({ sentInvitationList, getInvitationList }: Props) => {
+  const userData = useSelector((state) => state) as any;
   const db = getFirestore();
   const [getUser, setGetUser] = useState("");
   const [getUserName, setGetUserName] = useState("");
 
   useEffect(() => {
-    const userId = window.localStorage.getItem("userId");
-    const userName = window.localStorage.getItem("userName");
+    const userId = userData.user.user_id;
+    const userName = userData.user.user_name;
     console.log(userId);
     console.log(userName);
     if (userId && userName) {
@@ -40,7 +40,7 @@ const Friend = ({ sentInvitationList, getInvitationList }: Props) => {
     console.log(getUserName);
     console.log(e.target.value);
     const index = e.target.value;
-    const newArr = getInvitationList.splice(index, 1);
+    const newArr = getInvitationList.splice(index, 1) as any;
     console.log(newArr); // 被切出來的[obj]
     console.log(getInvitationList); // 留下來的[obj]
     const otherUserID = newArr[0]["user_id"];
@@ -51,15 +51,33 @@ const Friend = ({ sentInvitationList, getInvitationList }: Props) => {
       friend_request: getInvitationList,
     });
     console.log("更新了自己的DB: friend_request: getInvitationList");
-    // 丟進Friend_list (自己的)
+    // 打開repo (setDoc in Chatrooms collection)
+    const newChatRef = doc(collection(db, "Chatrooms"));
+    await setDoc(newChatRef, {
+      chat_id: newChatRef.id,
+      users: [otherUserID, getUser],
+    });
+    await addDoc(collection(db, "Chatrooms", newChatRef.id, "messages"), {
+      sender_id: getUser,
+      sender_name: getUserName,
+      text: "test",
+      timestamp: serverTimestamp(),
+    });
+    // 把名單, repo ID都丟進Friend_list (自己的)
+    // const newdata = { ...newArr, chat_id: newChatRef.id };
+    newArr[0].chat_id = newChatRef.id;
     await updateDoc(userRef, {
-      friend_list: arrayUnion(...newArr),
+      friend_list: arrayUnion(newArr[0]),
     });
     console.log("更新了自己的DB: friend_list");
     // 丟進Friend_list (對方的)
     const userRef2 = doc(db, "Users", otherUserID);
     await updateDoc(userRef2, {
-      friend_list: arrayUnion({ user_id: getUser, user_name: getUserName }),
+      friend_list: arrayUnion({
+        user_id: getUser,
+        user_name: getUserName,
+        chat_id: newChatRef.id,
+      }),
     });
     console.log("更新了自己的DB: friend_list");
   };

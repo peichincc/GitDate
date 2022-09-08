@@ -2,17 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   doc,
-  getDoc,
   getFirestore,
-  collection,
-  query,
-  where,
-  getDocs,
-  deleteDoc,
   updateDoc,
   arrayUnion,
+  QueryDocumentSnapshot,
+  DocumentData,
 } from "firebase/firestore";
 import styled from "styled-components";
+
+import { useSelector, useDispatch } from "react-redux";
+
+import firebaseapi from "../../utils/firebaseapi";
 
 const Wrapper = styled.div`
   display: block;
@@ -34,6 +34,7 @@ const PRbtn = styled.button`
 `;
 
 const Issue = () => {
+  const userData = useSelector((state) => state) as any;
   let navigate = useNavigate();
   const db = getFirestore();
   const { id } = useParams<any>();
@@ -47,7 +48,8 @@ const Issue = () => {
     posted_at: any;
     tags: [];
   };
-  const [userData, setUserData] = useState<ListData | null>(null);
+  const [issueData, setIssueData] = useState<DocumentData>();
+  // const [userData, setUserData] = useState<ListData | null>(null);
   const [newT, setNewT] = useState("");
   const [getUser, setGetUser] = useState("");
   const [getUserName, setGetUserName] = useState("");
@@ -55,62 +57,75 @@ const Issue = () => {
   const [getAuthorID, setGetAuthorID] = useState("");
 
   // 讀取使用者資料
-  const readData = async (id: string | undefined) => {
-    const docRef = doc(collection(db, "Issues"), id);
-    await getDoc(docRef).then((doc) => {
-      if (doc.exists()) {
-        const userDataFromDB = doc.data() as ListData;
-        setUserData(userDataFromDB);
-        if (userDataFromDB) {
-          const newT = new Date(
-            userDataFromDB.posted_at.seconds * 1000
-          ).toString();
-          setNewT(newT);
-          const searchUser = async () => {
-            const userRef = collection(db, "Users");
-            const q = query(
-              userRef,
-              where("user_id", "==", userDataFromDB.posted_by)
-            );
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-              // console.log(doc.data().firstname);
-              setGetAuthor(doc.data().firstname);
-              // console.log(doc.data().user_id);
-              setGetAuthorID(doc.data().user_id);
-            });
-          };
-          searchUser();
-        }
-      } else {
-        console.log("No such document!");
-      }
-    });
-  };
+  // const readData = async (id: string | undefined) => {
+  //   const docRef = doc(collection(db, "Issues"), id);
+  //   await getDoc(docRef).then((doc) => {
+  //     if (doc.exists()) {
+  //       const userDataFromDB = doc.data() as ListData;
+  //       setUserData(userDataFromDB);
+  //       if (userDataFromDB) {
+  //         const newT = new Date(
+  //           userDataFromDB.posted_at.seconds * 1000
+  //         ).toString();
+  //         setNewT(newT);
+  //         const searchUser = async () => {
+  //           const userRef = collection(db, "Users");
+  //           const q = query(
+  //             userRef,
+  //             where("user_id", "==", userDataFromDB.posted_by)
+  //           );
+  //           const querySnapshot = await getDocs(q);
+  //           querySnapshot.forEach((doc) => {
+  //             // console.log(doc.data().firstname);
+  //             setGetAuthor(doc.data().firstname);
+  //             // console.log(doc.data().user_id);
+  //             setGetAuthorID(doc.data().user_id);
+  //           });
+  //         };
+  //         searchUser();
+  //       }
+  //     } else {
+  //       console.log("No such document!");
+  //     }
+  //   });
+  // };
 
   const deleteIssue = async (id: string | undefined) => {
-    await deleteDoc(doc(collection(db, "Issues"), id))
-      .then(() => {
-        alert("Delete successful!");
-      })
-      .catch((error) => {
-        console.error("Error removing document: ", error);
-      });
+    await firebaseapi.deleteIssue(id);
+    navigate("/");
+    // await deleteDoc(doc(collection(db, "Issues"), id))
+    //   .then(() => {
+    //     alert("Delete successful!");
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error removing document: ", error);
+    //   });
   };
 
   useEffect(() => {
-    const userId = window.localStorage.getItem("userId");
-    const userName = window.localStorage.getItem("userName");
+    const userId = userData.user.user_id;
+    const userName = userData.user.user_name;
     console.log(userId);
     console.log(userName);
     if (userId && userName) {
       setGetUser(userId);
       setGetUserName(userName);
     }
-    readData(id);
-    // console.log(id);
-    // console.log(getAuthorID);
-    // console.log(userData);
+    firebaseapi.readIssueData(id).then((res) => {
+      if (res) {
+        console.log(res);
+        const newT = new Date(res.posted_at.seconds * 1000).toString();
+        setNewT(newT);
+        setIssueData(res);
+      }
+      firebaseapi.searchUserName(res?.posted_by).then((res) => {
+        if (res) {
+          console.log(res["firstname"]);
+          setGetAuthor(res["firstname"]);
+          setGetAuthorID(res["user_id"]);
+        }
+      });
+    });
   }, []);
 
   const sendRequest = async () => {
@@ -120,13 +135,13 @@ const Issue = () => {
       friend_request: arrayUnion({ user_id: getUser, user_name: getUserName }),
     });
     console.log(`Invitation Sent to ${getAuthor}`);
-    const userRef2 = doc(db, "Users", getUser);
-    await updateDoc(userRef2, {
-      friend_sent_request: arrayUnion({
-        user_id: getAuthorID,
-        user_name: getAuthor,
-      }),
-    });
+    // const userRef2 = doc(db, "Users", getUser);
+    // await updateDoc(userRef2, {
+    //   friend_sent_request: arrayUnion({
+    //     user_id: getAuthorID,
+    //     user_name: getAuthor,
+    //   }),
+    // });
   };
 
   return (
@@ -134,23 +149,23 @@ const Issue = () => {
       <Wrapper>
         <p>this page is issue page</p>
         <p>issue id: {id}</p>
-        {userData && (
+        {issueData && (
           <div>
             <br />
-            <img src={userData.main_image} alt="main_photo" />
+            <img src={issueData.main_image} alt="main_photo" />
             <p>Category:</p>
-            {userData.category}
+            {issueData.category}
             <h2>Title:</h2>
-            {userData.title}
+            {issueData.title}
             <p>Content:</p>
-            {userData.content}
+            {issueData.content}
             <p>Issue status:</p>
-            {userData.status}
+            {issueData.status}
             <p>Posted by:</p>
             Author name: {getAuthor}
             <button
               onClick={() => {
-                navigate("/readme/" + userData.posted_by);
+                navigate("/readme/" + issueData.posted_by);
               }}
             >
               Readme
@@ -158,7 +173,7 @@ const Issue = () => {
             <p>Posted at:</p>
             {newT}
             <p>Tags:</p>
-            {userData.tags.map((tag) => (
+            {issueData.tags.map((tag: any) => (
               <>
                 <p>{tag}</p>
               </>

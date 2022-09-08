@@ -38,6 +38,8 @@ const Header = () => {
         <CategoryLinks>
           <Category to="issues">Issues</Category>
           <Category to="createissue">Post issue</Category>
+          {/* <Category to="branches">Branch</Category>
+          <Category to="createbranch">New Branch</Category> */}
           <Category to="profile">Profile(member)</Category>
           <Category to="signin">Log In</Category>
           <Category to="signup">Sign Up</Category>

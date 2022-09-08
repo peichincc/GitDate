@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import styled from "styled-components";
 
+import firebaseapi from "../../utils/firebaseapi";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
@@ -15,22 +17,28 @@ const IssueAll = () => {
   const db = getFirestore();
   const [docs, setDocs] = useState([]);
 
-  const unsubscribe = async () => {
-    const querySnapshot = await getDocs(collection(db, "Issues"));
-    const document = [] as any;
-    querySnapshot.forEach((doc) => {
-      document.push(doc.data());
-      // document.push({
-      //   ...doc.data(),
-      //   id: doc.id,
-      // });
-    });
-    console.log(document);
-    setDocs(document);
-  };
+  // const unsubscribe = async () => {
+  //   const querySnapshot = await getDocs(collection(db, "Issues"));
+  //   const document = [] as any;
+  //   querySnapshot.forEach((doc) => {
+  //     document.push(doc.data());
+  //     // document.push({
+  //     //   ...doc.data(),
+  //     //   id: doc.id,
+  //     // });
+  //   });
+  //   console.log(document);
+  //   setDocs(document);
+  // };
 
   useEffect(() => {
-    unsubscribe();
+    // unsubscribe();
+    const issuesRef = collection(db, "Issues");
+    firebaseapi.readAllIssues(issuesRef).then((res) => {
+      if (res) {
+        setDocs(res);
+      }
+    });
   }, []);
 
   return (
