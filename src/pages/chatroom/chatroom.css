@@ -11,6 +11,14 @@
   align-items: flex-start;
 }
 
+.message {
+  padding: 8px 16px;
+  margin-bottom: 8px;
+  background: var(--color-gray);
+  border-radius: var(--border-radius);
+  text-align: left;
+}
+
 .own-message {
   background: var(--color-blue);
   align-self: flex-end;

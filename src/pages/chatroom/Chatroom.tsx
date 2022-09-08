@@ -32,14 +32,6 @@ const ChatContainer = styled.div`
   overflow: hidden;
 `;
 
-const Messages = styled.li`
-  padding: 8px 16px;
-  margin-bottom: 8px;
-  background: var(--color-gray);
-  border-radius: var(--border-radius);
-  text-align: left;
-`;
-
 const Chatroom = () => {
   const db = getFirestore();
   const { id } = useParams<any>();
