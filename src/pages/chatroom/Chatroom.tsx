@@ -1,23 +1,16 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import firebaseapi from "../../utils/firebaseapi";
+import "./chatroom.css";
 
 import {
   addDoc,
-  doc,
-  setDoc,
   collection,
   serverTimestamp,
   query,
-  where,
-  getDoc,
-  getDocs,
   getFirestore,
-  deleteDoc,
-  updateDoc,
-  arrayUnion,
   onSnapshot,
   orderBy,
 } from "firebase/firestore";
@@ -38,18 +31,23 @@ const ChatContainer = styled.div`
   flex-grow: 1;
   overflow: hidden;
 `;
-const User1 = styled.div``;
-const User2 = styled.div``;
+
+const Messages = styled.li`
+  padding: 8px 16px;
+  margin-bottom: 8px;
+  background: var(--color-gray);
+  border-radius: var(--border-radius);
+  text-align: left;
+`;
 
 const Chatroom = () => {
   const db = getFirestore();
   const { id } = useParams<any>();
-  const chatsRef = collection(db, "Chatrooms");
   const [messages, setMessages] = useState<any>([]);
 
   //
   const containerRef = useRef<any>(null);
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
