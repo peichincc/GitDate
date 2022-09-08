@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { doc, getFirestore, updateDoc, arrayUnion } from "firebase/firestore";
+import {
+  doc,
+  getFirestore,
+  updateDoc,
+  arrayUnion,
+  QueryDocumentSnapshot,
+  DocumentData,
+} from "firebase/firestore";
 import styled from "styled-components";
 
 import firebaseapi from "../../utils/firebaseapi";
@@ -38,7 +45,7 @@ const Issue = () => {
     posted_at: any;
     tags: [];
   };
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<DocumentData>();
   // const [userData, setUserData] = useState<ListData | null>(null);
   const [newT, setNewT] = useState("");
   const [getUser, setGetUser] = useState("");
