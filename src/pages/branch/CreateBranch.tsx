@@ -26,8 +26,10 @@ const CreateBranch = () => {
 
   useEffect(() => {
     const userId = userData.user.user_id;
+    if (userId) {
+      setGetUser(userId);
+    }
     console.log(userId);
-    if (userId) setGetUser(userId);
   }, []);
 
   const handleUploadFile = (e: any) => {

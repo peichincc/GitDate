@@ -18,6 +18,7 @@ import IssueAll from "./pages/issue/IssuesAll";
 import ChatList from "./pages/chatroom/ChatList";
 import Chatroom from "./pages/chatroom/Chatroom";
 import CreateBranch from "./pages/branch/CreateBranch";
+import MapHome from "./components/map/index";
 
 const store = createStore(allReducers, composeWithDevTools());
 
@@ -39,6 +40,7 @@ root.render(
           <Route path="chatlist" element={<ChatList />} />
           <Route path="chatroom/:id" element={<Chatroom />} />
           <Route path="createbranch" element={<CreateBranch />} />
+          <Route path="map" element={<MapHome />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
