@@ -2,3 +2,17 @@
   width: 100%;
   height: 100vh;
 }
+
+.places-container {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: 300px;
+}
+
+.input-container {
+  width: 100%;
+  padding: 0.5rem;
+}
