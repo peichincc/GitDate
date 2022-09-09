@@ -25,6 +25,7 @@ const usersRef = collection(db, "Users");
 const issuesRef = collection(db, "Issues");
 const branchesRef = collection(db, "Branches");
 const chatsRef = collection(db, "Chatrooms");
+const newBranchRef = doc(collection(db, "Branches"));
 const newIssueRef = doc(collection(db, "Issues"));
 
 const firebaseapi = {
@@ -191,6 +192,24 @@ const firebaseapi = {
       console.log("No such chatroom!");
       return null;
     }
+  },
+  // CreateBranch
+  async createBranch(imageUpload: File, newBranchRef: any, recipient: any) {
+    const imageRef = ref(storage, `branches/${newBranchRef.id}.jpg`);
+    await uploadBytes(imageRef, imageUpload)
+      .then(() => {
+        alert("uploaded!");
+        console.log(newBranchRef);
+        console.log(recipient);
+        setDoc(newBranchRef, recipient);
+      })
+      .then(async () => {
+        const downloadUrl = await getDownloadURL(imageRef);
+        updateDoc(newBranchRef, {
+          issue_id: newBranchRef.id,
+          main_image: downloadUrl,
+        });
+      });
   },
 };
 
