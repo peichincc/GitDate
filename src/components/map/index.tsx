@@ -1,11 +1,16 @@
 import React, { useMemo } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
+
 import "./map.css";
 
 const MapHome = () => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
-    // googleMapsApiKey: "AIzaSyCw_qQBU9DfIIv73eFYJ3eXNojopGmgXI8",
+    libraries: ["places"],
   });
 
   if (!isLoaded) return <div>Loading...</div>;
