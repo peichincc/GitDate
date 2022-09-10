@@ -3,7 +3,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import firebaseapi from "../../utils/firebaseapi";
-import { DocumentData } from "firebase/firestore";
+import {
+  doc,
+  getFirestore,
+  updateDoc,
+  arrayUnion,
+  QueryDocumentSnapshot,
+  DocumentData,
+} from "firebase/firestore";
 
 import { ShowMap } from "../../components/map/ShowMap";
 
@@ -33,6 +40,7 @@ const CheckOutBtn = styled.button`
 `;
 
 const Branch = () => {
+  const db = getFirestore();
   let navigate = useNavigate();
   const userData = useSelector((state) => state) as any;
   const { id } = useParams<any>();
@@ -70,6 +78,14 @@ const Branch = () => {
       });
     });
   }, []);
+
+  const attendActivity = async () => {
+    const userRef = doc(db, "Users", getUser);
+    await updateDoc(userRef, {
+      activity_attend: arrayUnion(id),
+    });
+    console.log(`${getUserName} attended this activity!`);
+  };
 
   const deleteBranch = async (id: string | undefined) => {
     await firebaseapi.deleteBranch(id);
@@ -113,7 +129,7 @@ const Branch = () => {
           </div>
         )}
         <br />
-        <CheckOutBtn>git checkout</CheckOutBtn>
+        <CheckOutBtn onClick={attendActivity}>git checkout</CheckOutBtn>
         <h2>Area for author</h2>
         <button
           onClick={() => {
