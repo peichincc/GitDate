@@ -5,11 +5,18 @@ import { useSelector, useDispatch } from "react-redux";
 import firebaseapi from "../../utils/firebaseapi";
 import { DocumentData } from "firebase/firestore";
 
+import { ShowMap } from "../../components/map/ShowMap";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
   margin: 0 auto;
   margin-bottom: 100px;
+`;
+
+const MapContainer = styled.div`
+  width: 400px;
+  height: 200px;
 `;
 
 const CheckOutBtn = styled.button`
@@ -35,6 +42,7 @@ const Branch = () => {
   const [getAuthorID, setGetAuthorID] = useState("");
   const [branchData, setBranchData] = useState<DocumentData>();
   const [newT, setNewT] = useState("");
+  const [center, setCenter] = useState();
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -51,6 +59,7 @@ const Branch = () => {
         const newT = new Date(res.posted_at.seconds * 1000).toString();
         setNewT(newT);
         setBranchData(res);
+        setCenter(res.location);
       }
       firebaseapi.searchUserName(res?.hosted_by).then((res) => {
         if (res) {
@@ -86,6 +95,9 @@ const Branch = () => {
             <p>Date:</p>
             {branchData.date}
             <p>Location: pending to show the map</p>
+            <MapContainer>
+              <ShowMap center={center} />
+            </MapContainer>
             {/* {branchData.location} */}
             <p>Posted by:</p>
             Author name: {getAuthor}

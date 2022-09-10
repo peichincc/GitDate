@@ -37,12 +37,12 @@ const Header = () => {
         <LogoContainer />
         <CategoryLinks>
           <Category to="issues">Issues</Category>
-          <Category to="createissue">Post issue</Category>
+          <Category to="createissue">PostIssue</Category>
           <Category to="branches">Branch</Category>
-          <Category to="createbranch">New Branch</Category>
+          <Category to="createbranch">NewBranch</Category>
           <Category to="profile">Profile(member)</Category>
-          <Category to="signin">Log In</Category>
-          <Category to="signup">Sign Up</Category>
+          <Category to="signin">LogIn</Category>
+          <Category to="signup">SignUp</Category>
         </CategoryLinks>
       </Wrapper>
     </>
