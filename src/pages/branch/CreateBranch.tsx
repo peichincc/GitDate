@@ -114,7 +114,6 @@ const CreateBranch = () => {
         <br />
         <p>Location</p>
         {/* <input onChange={getLocation}></input> */}
-        <br />
         <MapContainer>
           <MapHome setLocation={setLocation} />
         </MapContainer>
