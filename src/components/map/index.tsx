@@ -9,9 +9,10 @@ import useOnclickOutside from "react-cool-onclickoutside";
 import "./map.css";
 
 const MapHome = () => {
+  const libraries = String(["places"]);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
-    libraries: ["places"],
+    [libraries]: libraries,
   });
 
   if (!isLoaded) return <div>Loading...</div>;
