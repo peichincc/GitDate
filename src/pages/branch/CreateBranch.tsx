@@ -7,6 +7,8 @@ import {
   doc,
   serverTimestamp,
   collection,
+  updateDoc,
+  arrayUnion,
 } from "firebase/firestore";
 import firebaseapi from "../../utils/firebaseapi";
 
@@ -81,12 +83,18 @@ const CreateBranch = () => {
   };
 
   // upload photo w/ doc id, get photo URL, then setDoc
+  // then update user db while hosting an activity
   const createBranch = async () => {
     const newBranchRef = doc(collection(db, "Branches"));
+    const userRef = doc(db, "Users", getUser);
     await firebaseapi
       .createBranch(imageUpload, newBranchRef, recipient)
       .then(() => {
         navigate("/");
+        updateDoc(userRef, {
+          activity_hosted: arrayUnion(newBranchRef.id),
+        });
+        console.log(`${getUser} hosted this activity!`);
       });
   };
 
