@@ -10,10 +10,16 @@ import {
 } from "firebase/firestore";
 import firebaseapi from "../../utils/firebaseapi";
 
+import MapHome from "../../components/map";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
   margin: 0 auto;
+`;
+const MapContainer = styled.div`
+  width: 400px;
+  height: 200px;
 `;
 
 const CreateBranch = () => {
@@ -58,7 +64,7 @@ const CreateBranch = () => {
   const getTime = (e: any) => {
     setDate(e.target.value);
   };
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState();
   const getLocation = (e: any) => {
     setLocation(e.target.value);
   };
@@ -107,8 +113,11 @@ const CreateBranch = () => {
         <input type="datetime-local" onChange={getTime} />
         <br />
         <p>Location</p>
-        <input onChange={getLocation}></input>
+        {/* <input onChange={getLocation}></input> */}
         <br />
+        <MapContainer>
+          <MapHome setLocation={setLocation} />
+        </MapContainer>
         <br />
         <h2>Upload image</h2>
         <input type="file" onChange={handleUploadFile}></input>

@@ -8,25 +8,27 @@ import useOnclickOutside from "react-cool-onclickoutside";
 
 import "./map.css";
 
-const MapHome = () => {
-  const libraries = String(["places"]);
+const MapHome = ({ setLocation }: any) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
-    [libraries]: libraries,
+    libraries: ["places"],
   });
 
   if (!isLoaded) return <div>Loading...</div>;
-  return <Map />;
+  return <Map setLocation={setLocation} />;
 };
 
-const Map = () => {
+const Map = ({ setLocation }: any) => {
   const center = useMemo(() => ({ lat: 25.0384803, lng: 121.5301824 }), []);
   const [selected, setSelected] = useState(null);
 
   return (
     <>
       <div className="places-container">
-        <PlacesAutocomplete setSelected={setSelected} />
+        <PlacesAutocomplete
+          setSelected={setSelected}
+          setLocation={setLocation}
+        />
       </div>
       <GoogleMap
         zoom={10}
@@ -39,7 +41,7 @@ const Map = () => {
   );
 };
 
-const PlacesAutocomplete = ({ setSelected }: any) => {
+const PlacesAutocomplete = ({ setLocation, setSelected }: any) => {
   const {
     ready,
     value,
@@ -71,6 +73,7 @@ const PlacesAutocomplete = ({ setSelected }: any) => {
         const { lat, lng } = getLatLng(results[0]);
         console.log("📍 Coordinates: ", { lat, lng });
         setSelected({ lat, lng });
+        setLocation({ lat, lng });
       });
     };
 
