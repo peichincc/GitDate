@@ -85,8 +85,8 @@ const Branch = () => {
             {branchData.status}
             <p>Date:</p>
             {branchData.date}
-            <p>Location:</p>
-            {branchData.location}
+            <p>Location: pending to show the map</p>
+            {/* {branchData.location} */}
             <p>Posted by:</p>
             Author name: {getAuthor}
             <button

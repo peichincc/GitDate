@@ -206,10 +206,19 @@ const firebaseapi = {
       .then(async () => {
         const downloadUrl = await getDownloadURL(imageRef);
         updateDoc(newBranchRef, {
-          issue_id: newBranchRef.id,
+          branch_id: newBranchRef.id,
           main_image: downloadUrl,
         });
       });
+  },
+  // 讀全部Branches
+  async readAllBranches(branchesRef: any) {
+    const querySnapshot = await getDocs(branchesRef);
+    let temp = [] as any;
+    querySnapshot.forEach((doc) => {
+      temp.push(doc.data());
+    });
+    return temp;
   },
   // 讀取單一Branch資料
   async readBranchData(id: string | undefined) {
