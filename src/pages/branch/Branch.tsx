@@ -9,7 +9,9 @@ import {
   updateDoc,
   arrayUnion,
   QueryDocumentSnapshot,
+  collection,
   DocumentData,
+  onSnapshot,
 } from "firebase/firestore";
 
 import { ShowMap } from "../../components/map/ShowMap";
@@ -22,6 +24,12 @@ const Wrapper = styled.div`
 `;
 
 const MapContainer = styled.div`
+  width: 400px;
+  height: 200px;
+`;
+
+const ParticipantsContainer = styled.div`
+  border: 1px solid black;
   width: 400px;
   height: 200px;
 `;
@@ -51,6 +59,7 @@ const Branch = () => {
   const [branchData, setBranchData] = useState<DocumentData>();
   const [newT, setNewT] = useState("");
   const [center, setCenter] = useState();
+  const [newList, setNewList] = useState([]);
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -77,14 +86,30 @@ const Branch = () => {
         }
       });
     });
-  }, []);
+  }, [newList]);
 
   const attendActivity = async () => {
-    const userRef = doc(db, "Users", getUser);
+    const userRef = doc(collection(db, "Users"), getUser);
+    const branchRef = doc(collection(db, "Branches"), id);
     await updateDoc(userRef, {
       activity_attend: arrayUnion(id),
     });
     console.log(`${getUserName} attended this activity!`);
+    await updateDoc(branchRef, {
+      participants: arrayUnion(getUser),
+    });
+    await getUpdatedBranchInfo();
+  };
+
+  const getUpdatedBranchInfo = async () => {
+    const branchRef = doc(collection(db, "Branches"), id);
+    await onSnapshot(branchRef, (doc) => {
+      console.log("Current data: ", doc.data());
+      if (doc.exists()) {
+        console.log(doc.data().participants);
+        setNewList(doc.data().participants);
+      }
+    });
   };
 
   const deleteBranch = async (id: string | undefined) => {
@@ -128,6 +153,10 @@ const Branch = () => {
             {newT}
           </div>
         )}
+        <br />
+        <ParticipantsContainer>
+          Participants:{newList && newList.map((list: any) => <>{list}</>)}
+        </ParticipantsContainer>
         <br />
         <CheckOutBtn onClick={attendActivity}>git checkout</CheckOutBtn>
         <h2>Area for author</h2>

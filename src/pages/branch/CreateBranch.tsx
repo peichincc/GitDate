@@ -95,6 +95,9 @@ const CreateBranch = () => {
           activity_hosted: arrayUnion(newBranchRef.id),
         });
         console.log(`${getUser} hosted this activity!`);
+        updateDoc(newBranchRef, {
+          attened_list: arrayUnion(getUser),
+        });
       });
   };
 
@@ -102,7 +105,7 @@ const CreateBranch = () => {
     <>
       <Wrapper>
         New branch here
-        <h1>To create an branch</h1>
+        <h1>To create a branch</h1>
         <p>Type</p>
         <select onChange={getType}>
           <option value="0">Please Select your brnach type</option>
