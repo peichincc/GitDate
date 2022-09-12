@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 
 import { ShowMap } from "../../components/map/ShowMap";
+import Participants from "./Participants";
 
 const Wrapper = styled.div`
   display: block;
@@ -60,6 +61,8 @@ const Branch = () => {
   const [newT, setNewT] = useState("");
   const [center, setCenter] = useState();
   const [newList, setNewList] = useState([]);
+  const [openParticipants, setOpenParticipants] = useState(false);
+  const [participantsList, setParticipantsList] = useState<any>();
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -86,7 +89,7 @@ const Branch = () => {
         }
       });
     });
-  }, [newList]);
+  }, [openParticipants, participantsList]);
 
   const attendActivity = async () => {
     const userRef = doc(collection(db, "Users"), getUser);
@@ -97,19 +100,43 @@ const Branch = () => {
     console.log(`${getUserName} attended this activity!`);
     await updateDoc(branchRef, {
       participants: arrayUnion(getUser),
+      // participants: arrayUnion({ user_id: getUser, user_name: getUserName }),
     });
-    await getUpdatedBranchInfo();
   };
 
-  const getUpdatedBranchInfo = async () => {
+  const getParticipants = async () => {
     const branchRef = doc(collection(db, "Branches"), id);
-    await onSnapshot(branchRef, (doc) => {
+    onSnapshot(branchRef, async (doc) => {
       console.log("Current data: ", doc.data());
       if (doc.exists()) {
         console.log(doc.data().participants);
-        setNewList(doc.data().participants);
+        const newArr = [] as any;
+        for (let i = 0; i < doc.data().participants.length; i++) {
+          await firebaseapi
+            .searchUserName(doc.data().participants[i])
+            .then((res) => {
+              console.log(res);
+              if (res) {
+                console.log(res["firstname"]);
+                console.log(res["main_photo"]);
+                const tempObj = {
+                  name: res["firstname"],
+                  photo: res["main_photo"],
+                };
+                newArr.push(tempObj);
+              }
+            });
+        }
+        // Promise.all(promises).then((res) => console.log(res));
+        console.log(newArr);
+        setParticipantsList(newArr);
       }
     });
+  };
+
+  const handleChange = async () => {
+    await getParticipants();
+    setOpenParticipants(true);
   };
 
   const deleteBranch = async (id: string | undefined) => {
@@ -122,42 +149,64 @@ const Branch = () => {
       <Wrapper>
         Display branch here <p>branch id: {id}</p>
         {branchData && (
-          <div>
+          <>
+            <div>
+              <br />
+              <img src={branchData.main_image} alt="main_photo" />
+              <p>Type:</p>
+              {branchData.type}
+              <h2>Title:</h2>
+              {branchData.title}
+              <p>Content:</p>
+              {branchData.content}
+              <p>Branch status:</p>
+              {branchData.status}
+              <p>Date:</p>
+              {branchData.date}
+              <p>Location: </p>
+              {branchData.address}
+              <MapContainer>
+                <ShowMap center={center} />
+              </MapContainer>
+              {/* {branchData.location} */}
+              <p>Posted by:</p>
+              Author name: {getAuthor}
+              <button
+                onClick={() => {
+                  navigate("/readme/" + branchData.hosted_by);
+                }}
+              >
+                Readme
+              </button>
+              <p>Posted at:</p>
+              {newT}
+            </div>
             <br />
-            <img src={branchData.main_image} alt="main_photo" />
-            <p>Type:</p>
-            {branchData.type}
-            <h2>Title:</h2>
-            {branchData.title}
-            <p>Content:</p>
-            {branchData.content}
-            <p>Branch status:</p>
-            {branchData.status}
-            <p>Date:</p>
-            {branchData.date}
-            <p>Location: </p>
-            {branchData.address}
-            <MapContainer>
-              <ShowMap center={center} />
-            </MapContainer>
-            {/* {branchData.location} */}
-            <p>Posted by:</p>
-            Author name: {getAuthor}
-            <button
-              onClick={() => {
-                navigate("/readme/" + branchData.hosted_by);
-              }}
-            >
-              Readme
-            </button>
-            <p>Posted at:</p>
-            {newT}
-          </div>
+            <button onClick={handleChange}>Open the participants area</button>
+            <ParticipantsContainer>
+              {openParticipants && participantsList && (
+                <Participants participantsList={participantsList} />
+              )}
+              {/* Participants:
+              {openParticipants &&
+                participantsList &&
+                participantsList.map((list: any) => (
+                  <>
+                    {list.name} _{" "}
+                    <img
+                      src={list.photo}
+                      alt="Participants_photo"
+                      style={{ width: 50, height: 50 }}
+                    />
+                  </>
+                ))} */}
+              {/* {branchData.participants.map((list: string) => (
+                <>{list}, </>
+              ))} */}
+              {/* {newList && newList.map((list: any) => <>{list}</>)} */}
+            </ParticipantsContainer>
+          </>
         )}
-        <br />
-        <ParticipantsContainer>
-          Participants:{newList && newList.map((list: any) => <>{list}</>)}
-        </ParticipantsContainer>
         <br />
         <CheckOutBtn onClick={attendActivity}>git checkout</CheckOutBtn>
         <h2>Area for author</h2>
