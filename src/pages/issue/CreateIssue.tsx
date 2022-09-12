@@ -164,6 +164,7 @@ const CreateIssue = () => {
         <p>Preview photo:</p>
         {fileSrc && <img src={fileSrc} alt="main_image" />}
         <h2>More images: pending</h2>
+        <br />
         <button onClick={postIssue}>git commit</button>
       </Wrapper>
     </>

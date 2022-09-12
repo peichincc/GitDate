@@ -163,7 +163,7 @@ const Branch = () => {
               <p>Branch status:</p>
               {branchData.status}
               <p>Date:</p>
-              {branchData.date}
+              {branchData.date} - {branchData.time}
               <p>Location: </p>
               {branchData.address}
               <MapContainer>
