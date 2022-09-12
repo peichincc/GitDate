@@ -6,6 +6,7 @@ import {
   query,
   where,
   DocumentData,
+  orderBy,
 } from "firebase/firestore";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
@@ -28,7 +29,6 @@ const IssueAll = () => {
   const [dateIssue, setDateIssue] = useState<DocumentData>();
 
   useEffect(() => {
-    // unsubscribe();
     const issuesRef = collection(db, "Issues");
     firebaseapi.readAllIssues(issuesRef).then(async (res) => {
       if (res) {
@@ -39,7 +39,8 @@ const IssueAll = () => {
         let temp = [] as any;
         const q = query(
           collection(db, "Issues"),
-          where("status", "==", "open")
+          where("status", "==", "open"),
+          orderBy("timestamp", "asc")
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -132,6 +133,8 @@ const IssueAll = () => {
         <button onClick={dateIssues}>Date</button>
         <button onClick={hangOutIssues}>Hang out</button>
         <button onClick={networkingIssues}>Networking</button>
+        <br />
+        Filter by Tags: (pending)
         {docs && <IssuesList issuesStatus={issuesStatus} docs={docs} />}
       </Wrapper>
     </>

@@ -14,6 +14,7 @@ import {
   updateDoc,
   arrayUnion,
   onSnapshot,
+  orderBy,
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -67,21 +68,10 @@ const firebaseapi = {
   // In IssuesAll
   // 讀取全部Issues
   async readAllIssues(issuesRef: any) {
-    const querySnapshot = await getDocs(issuesRef);
+    const querySnapshot = await getDocs(
+      query(issuesRef, orderBy("posted_at", "desc"))
+    );
     let temp = [] as any;
-    // = []
-    // as {
-    //   category: string;
-    //   content: string;
-    //   id: string;
-    //   issue_id: string;
-    //   main_image: string;
-    //   posted_at: { nanoseconds: number; seconds: number };
-    //   posted_by: string;
-    //   status: string;
-    //   tags: string[];
-    //   title: string;
-    // }[];
     querySnapshot.forEach((doc) => {
       temp.push(doc.data());
     });
