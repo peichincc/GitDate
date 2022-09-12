@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   getFirestore,
   collection,
@@ -9,9 +8,7 @@ import {
   DocumentData,
 } from "firebase/firestore";
 import styled from "styled-components";
-
 import firebaseapi from "../../utils/firebaseapi";
-
 import IssuesList from "./IssuesList";
 
 const Wrapper = styled.div`
@@ -28,6 +25,7 @@ const IssueAll = () => {
   const [allIssue, setAllIssue] = useState<DocumentData>();
   const [openIssue, setOpenIssue] = useState<DocumentData>();
   const [closedIssue, setClosedIssue] = useState<DocumentData>();
+  const [dateIssue, setDateIssue] = useState<DocumentData>();
 
   useEffect(() => {
     // unsubscribe();
@@ -48,6 +46,7 @@ const IssueAll = () => {
           temp.push(doc.data());
         });
         setOpenIssue(temp);
+        // get closed issues
         let temp2 = [] as any;
         const q2 = query(
           collection(db, "Issues"),
@@ -58,6 +57,39 @@ const IssueAll = () => {
           temp2.push(doc.data());
         });
         setClosedIssue(temp2);
+        // get issues by category: Date
+        let tempDate = [] as any;
+        const qDate = query(
+          collection(db, "Issues"),
+          where("category", "==", "date")
+        );
+        const querySnapshotDate = await getDocs(qDate);
+        querySnapshotDate.forEach((doc) => {
+          tempDate.push(doc.data());
+        });
+        setDateIssue(tempDate);
+        // get issues by category: Hang out
+        let tempHangOut = [] as any;
+        const qHangOut = query(
+          collection(db, "Issues"),
+          where("category", "==", "hangout")
+        );
+        const querySnapshotHangOut = await getDocs(qHangOut);
+        querySnapshotHangOut.forEach((doc) => {
+          tempHangOut.push(doc.data());
+        });
+        setDateIssue(tempHangOut);
+        // get issues by category: Networking
+        let tempNetworking = [] as any;
+        const qNetworking = query(
+          collection(db, "Issues"),
+          where("category", "==", "networking")
+        );
+        const querySnapshotNetworking = await getDocs(qNetworking);
+        querySnapshotNetworking.forEach((doc) => {
+          tempNetworking.push(doc.data());
+        });
+        setDateIssue(tempNetworking);
       }
     });
   }, []);
@@ -66,24 +98,40 @@ const IssueAll = () => {
     setIssuesSatus("ALL");
     setDocs(allIssue);
   };
-
   const searchOpenIssues = () => {
     setIssuesSatus("Open");
     setDocs(openIssue);
   };
-
   const searchClosedIssues = () => {
     setIssuesSatus("Closed");
     setDocs(closedIssue);
   };
 
+  const dateIssues = () => {
+    setIssuesSatus("Date");
+    setDocs(dateIssue);
+  };
+  const hangOutIssues = () => {
+    setIssuesSatus("Hang Out");
+    setDocs(dateIssue);
+  };
+  const networkingIssues = () => {
+    setIssuesSatus("Networking");
+    setDocs(dateIssue);
+  };
+
   return (
     <>
       <Wrapper>
+        Filter by Status:
         <button onClick={allIssues}>All</button>
         <button onClick={searchOpenIssues}>Status Open</button>
         <button onClick={searchClosedIssues}>Status Close</button>
         <br />
+        Filter by Category:
+        <button onClick={dateIssues}>Date</button>
+        <button onClick={hangOutIssues}>Hang out</button>
+        <button onClick={networkingIssues}>Networking</button>
         {docs && <IssuesList issuesStatus={issuesStatus} docs={docs} />}
       </Wrapper>
     </>

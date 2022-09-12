@@ -5,7 +5,7 @@ const IssuesList = ({ issuesStatus, docs }: any) => {
   let navigate = useNavigate();
   return (
     <>
-      Display {issuesStatus} issues here
+      <h1>Display {issuesStatus} issues here</h1>
       {docs.map((blog: any) => (
         <>
           <h2>Blog title: {blog.title}</h2>
