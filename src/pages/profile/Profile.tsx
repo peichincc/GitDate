@@ -57,6 +57,7 @@ const Profile = () => {
   const [sentInvitationList, setSentInvitationList] = useState<any>();
   const [getInvitationList, setGetInvitationList] = useState<any>();
   const [openFriend, setOpenFriend] = useState(false);
+  // Issues and branches
   const [openIssues, setOpenIssues] = useState(false);
   const [postedIssues, setPostedIssues] = useState<DocumentData>();
   const [hostedIssues, setHostedIssues] = useState<DocumentData>();

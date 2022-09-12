@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -51,6 +51,11 @@ const CreateIssue = () => {
       name: "JavaScript",
     },
   ];
+  // Select Photo and preview
+  const hiddenFileInput = useRef<any>(null);
+  const handleClick = () => {
+    hiddenFileInput.current.click();
+  };
   const handleUploadFile = (e: any) => {
     if (!e.target.files[0]) return;
     var reader = new FileReader();
@@ -149,11 +154,17 @@ const CreateIssue = () => {
         </ul>
         <br />
         <h2>Upload Main image</h2>
-        <input type="file" onChange={handleUploadFile}></input>
+        <button onClick={handleClick}>git add</button>
+        <input
+          type="file"
+          ref={hiddenFileInput}
+          onChange={handleUploadFile}
+          style={{ display: "none" }}
+        ></input>
         <p>Preview photo:</p>
         {fileSrc && <img src={fileSrc} alt="main_image" />}
         <h2>More images: pending</h2>
-        <button onClick={postIssue}>Post</button>
+        <button onClick={postIssue}>git commit</button>
       </Wrapper>
     </>
   );

@@ -75,16 +75,6 @@ const IssueAll = () => {
   const searchClosedIssues = () => {
     setIssuesSatus("Closed");
     setDocs(closedIssue);
-    // const q = query(collection(db, "Issues"), where("status", "==", "closed"));
-    // const querySnapshot = await getDocs(q);
-    // querySnapshot.forEach((doc) => {
-    //   // doc.data() is never undefined for query doc snapshots
-    //   // console.log(doc.id, " => ", doc.data());
-    //   if (doc.data()) {
-    //     setDocs(doc.data());
-    //     setIssuesSatus("Closed");
-    //   }
-    // });
   };
 
   return (
