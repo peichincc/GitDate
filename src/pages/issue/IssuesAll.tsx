@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  query,
+  where,
+  DocumentData,
+} from "firebase/firestore";
 import styled from "styled-components";
 
 import firebaseapi from "../../utils/firebaseapi";
+
+import IssuesList from "./IssuesList";
 
 const Wrapper = styled.div`
   display: block;
@@ -13,50 +22,78 @@ const Wrapper = styled.div`
 `;
 
 const IssueAll = () => {
-  let navigate = useNavigate();
   const db = getFirestore();
-  const [docs, setDocs] = useState([]);
-
-  // const unsubscribe = async () => {
-  //   const querySnapshot = await getDocs(collection(db, "Issues"));
-  //   const document = [] as any;
-  //   querySnapshot.forEach((doc) => {
-  //     document.push(doc.data());
-  //     // document.push({
-  //     //   ...doc.data(),
-  //     //   id: doc.id,
-  //     // });
-  //   });
-  //   console.log(document);
-  //   setDocs(document);
-  // };
+  const [docs, setDocs] = useState<DocumentData>();
+  const [issuesStatus, setIssuesSatus] = useState("");
+  const [allIssue, setAllIssue] = useState<DocumentData>();
+  const [openIssue, setOpenIssue] = useState<DocumentData>();
+  const [closedIssue, setClosedIssue] = useState<DocumentData>();
 
   useEffect(() => {
     // unsubscribe();
     const issuesRef = collection(db, "Issues");
-    firebaseapi.readAllIssues(issuesRef).then((res) => {
+    firebaseapi.readAllIssues(issuesRef).then(async (res) => {
       if (res) {
         setDocs(res);
+        setAllIssue(res);
+        setIssuesSatus("All");
+        // get open issues
+        let temp = [] as any;
+        const q = query(
+          collection(db, "Issues"),
+          where("status", "==", "open")
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          temp.push(doc.data());
+        });
+        setOpenIssue(temp);
+        let temp2 = [] as any;
+        const q2 = query(
+          collection(db, "Issues"),
+          where("status", "==", "closed")
+        );
+        const querySnapshot2 = await getDocs(q2);
+        querySnapshot2.forEach((doc) => {
+          temp2.push(doc.data());
+        });
+        setClosedIssue(temp2);
       }
     });
   }, []);
 
+  const allIssues = () => {
+    setDocs(allIssue);
+  };
+
+  const searchOpenIssues = () => {
+    setIssuesSatus("Open");
+    setDocs(openIssue);
+  };
+
+  const searchClosedIssues = () => {
+    setIssuesSatus("Closed");
+    setDocs(closedIssue);
+    // const q = query(collection(db, "Issues"), where("status", "==", "closed"));
+    // const querySnapshot = await getDocs(q);
+    // querySnapshot.forEach((doc) => {
+    //   // doc.data() is never undefined for query doc snapshots
+    //   // console.log(doc.id, " => ", doc.data());
+    //   if (doc.data()) {
+    //     setDocs(doc.data());
+    //     setIssuesSatus("Closed");
+    //   }
+    // });
+  };
+
   return (
     <>
       <Wrapper>
-        <h1>Display all issues here.</h1>
-        {docs.map((blog: any) => (
-          <>
-            <h2>Blog title: {blog.title}</h2>
-            <button
-              onClick={() => {
-                navigate("/issue/" + blog.issue_id);
-              }}
-            >
-              Click to issue
-            </button>
-          </>
-        ))}
+        <button onClick={allIssues}>All</button>
+        <button onClick={searchOpenIssues}>Status Open</button>
+        <button onClick={searchClosedIssues}>Status Close</button>
+        <br />
+        {docs && <IssuesList issuesStatus={issuesStatus} docs={docs} />}
       </Wrapper>
     </>
   );

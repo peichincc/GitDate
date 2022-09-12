@@ -9,6 +9,10 @@ import {
   updateDoc,
   collection,
   onSnapshot,
+  collectionGroup,
+  query,
+  where,
+  getDocs,
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -55,8 +59,19 @@ const Profile = () => {
       setGetUser(userId);
       // get friend
       getFriend(userId);
+      searchIssues(userId);
     }
   }, []);
+
+  // 搜尋使用者發過的文
+  const searchIssues = async (userId: string) => {
+    const q = query(collection(db, "Issues"), where("posted_by", "==", userId));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+    });
+  };
 
   // 把使用者放進db
   const pushtodb = async () => {

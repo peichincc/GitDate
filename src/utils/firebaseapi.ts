@@ -87,6 +87,16 @@ const firebaseapi = {
     });
     return temp;
   },
+  // Read different status issues
+  async readStatusIssues(status: string) {
+    let temp = [] as any;
+    const q = query(collection(db, "Issues"), where("status", "==", status));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      temp.push(doc.data());
+    });
+    return temp;
+  },
   // In CreateIssue
   // Post Issue
   // imageUpload -> State to store the e.target.files[0]
