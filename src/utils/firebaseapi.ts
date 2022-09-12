@@ -25,6 +25,7 @@ const usersRef = collection(db, "Users");
 const issuesRef = collection(db, "Issues");
 const branchesRef = collection(db, "Branches");
 const chatsRef = collection(db, "Chatrooms");
+const newBranchRef = doc(collection(db, "Branches"));
 const newIssueRef = doc(collection(db, "Issues"));
 
 const firebaseapi = {
@@ -192,6 +193,55 @@ const firebaseapi = {
       return null;
     }
   },
+  // CreateBranch
+  async createBranch(imageUpload: File, newBranchRef: any, recipient: any) {
+    const imageRef = ref(storage, `branches/${newBranchRef.id}.jpg`);
+    await uploadBytes(imageRef, imageUpload)
+      .then(() => {
+        alert("uploaded!");
+        console.log(newBranchRef);
+        console.log(recipient);
+        setDoc(newBranchRef, recipient);
+      })
+      .then(async () => {
+        const downloadUrl = await getDownloadURL(imageRef);
+        updateDoc(newBranchRef, {
+          branch_id: newBranchRef.id,
+          main_image: downloadUrl,
+        });
+      });
+  },
+  // 讀全部Branches
+  async readAllBranches(branchesRef: any) {
+    const querySnapshot = await getDocs(branchesRef);
+    let temp = [] as any;
+    querySnapshot.forEach((doc) => {
+      temp.push(doc.data());
+    });
+    return temp;
+  },
+  // 讀取單一Branch資料
+  async readBranchData(id: string | undefined) {
+    const docRef = doc(branchesRef, id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log("No such document!");
+      return null;
+    }
+  },
+  // 刪除單一Branch
+  async deleteBranch(id: string | undefined) {
+    await deleteDoc(doc(branchesRef, id))
+      .then(() => {
+        alert("Delete successful!");
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error);
+      });
+  },
+  // 參加活動 git checkout -> 使用者資料更新acitivity_attend(寫入branch id)
 };
 
 export default firebaseapi;

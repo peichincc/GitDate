@@ -58,8 +58,6 @@ const CreateIssue = () => {
       setFileSrc(reader.result);
     };
     reader?.readAsDataURL(e?.target?.files[0]);
-    // e.target.value = "";
-    // setRecipientImage({ ...recipientImage, main_image: e.target.files });
     setImageUpload(e.target.files[0]);
   };
 
@@ -77,7 +75,6 @@ const CreateIssue = () => {
   };
   const [tags, setTags] = useState<any>([]);
   const getTags = (e: any) => {
-    // setTags([...tags, e.target.value]);
     if (e.target.checked) {
       setTags([...tags, e.target.value]);
     } else {
