@@ -63,6 +63,7 @@ const IssueAll = () => {
   }, []);
 
   const allIssues = () => {
+    setIssuesSatus("ALL");
     setDocs(allIssue);
   };
 

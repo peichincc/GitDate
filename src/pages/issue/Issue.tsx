@@ -194,7 +194,6 @@ const Issue = () => {
         <PRbtn onClick={sendRequest}>Create Pull Request</PRbtn>
         <h2>Area for author</h2>
         <button onClick={changeIssueStatus}>Close this issue</button>
-        <p>Default: Status Open</p>
         <br />
         <button
           onClick={() => {
