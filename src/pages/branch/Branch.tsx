@@ -102,6 +102,7 @@ const Branch = () => {
       participants: arrayUnion(getUser),
       // participants: arrayUnion({ user_id: getUser, user_name: getUserName }),
     });
+    await getParticipants();
   };
 
   const getParticipants = async () => {
