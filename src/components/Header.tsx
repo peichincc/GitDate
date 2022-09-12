@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import logo from "./logo.png";
 import { Link, useNavigate } from "react-router-dom";
+
+import { useSelector, useDispatch } from "react-redux";
+import { setUserData, signin } from "../../src/actions/index";
+import firebaseapi from "../../src/utils/firebaseapi";
+import { auth } from "../../src/utils/firebase";
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 
 const Wrapper = styled.div`
   max-width: 1376px;
@@ -31,6 +41,27 @@ const Category = styled(Link)`
 
 const Header = () => {
   let navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state) as any;
+  const [alreadyLogged, setAlreadyLogged] = useState(false);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        var uid = user.uid;
+        firebaseapi.searchUserName(uid).then((result) => {
+          if (result) {
+            console.log(result);
+            console.log(result["firstname"]);
+            dispatch(setUserData(result["user_id"], result["firstname"]));
+            console.log(userData);
+          }
+        });
+        setAlreadyLogged(true);
+      }
+    });
+  }, []);
+
   return (
     <>
       <Wrapper>

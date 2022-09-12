@@ -67,6 +67,7 @@ const CreateBranch = () => {
     setDate(e.target.value);
   };
   const [location, setLocation] = useState();
+  const [formatAddress, setFormatAddress] = useState("");
   const getLocation = (e: any) => {
     setLocation(e.target.value);
   };
@@ -77,6 +78,7 @@ const CreateBranch = () => {
     content: content,
     date: date,
     location: location,
+    address: formatAddress,
     status: "upcoming",
     hosted_by: getUser,
     posted_at: serverTimestamp(),
@@ -95,9 +97,6 @@ const CreateBranch = () => {
           activity_hosted: arrayUnion(newBranchRef.id),
         });
         console.log(`${getUser} hosted this activity!`);
-        updateDoc(newBranchRef, {
-          attened_list: arrayUnion(getUser),
-        });
       });
   };
 
@@ -124,9 +123,11 @@ const CreateBranch = () => {
         <input type="datetime-local" onChange={getTime} />
         <br />
         <p>Location</p>
-        {/* <input onChange={getLocation}></input> */}
         <MapContainer>
-          <MapHome setLocation={setLocation} />
+          <MapHome
+            setLocation={setLocation}
+            setFormatAddress={setFormatAddress}
+          />
         </MapContainer>
         <br />
         <h2>Upload image</h2>

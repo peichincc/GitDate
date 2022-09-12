@@ -8,17 +8,17 @@ import useOnclickOutside from "react-cool-onclickoutside";
 
 import "./map.css";
 
-const MapHome = ({ setLocation }: any) => {
+const MapHome = ({ setLocation, setFormatAddress }: any) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
     libraries: ["places"],
   });
 
   if (!isLoaded) return <div>Loading...</div>;
-  return <Map setLocation={setLocation} />;
+  return <Map setLocation={setLocation} setFormatAddress={setFormatAddress} />;
 };
 
-const Map = ({ setLocation }: any) => {
+const Map = ({ setLocation, setFormatAddress }: any) => {
   const center = useMemo(() => ({ lat: 25.0384803, lng: 121.5301824 }), []);
   const [selected, setSelected] = useState(null);
 
@@ -28,6 +28,7 @@ const Map = ({ setLocation }: any) => {
         <PlacesAutocomplete
           setSelected={setSelected}
           setLocation={setLocation}
+          setFormatAddress={setFormatAddress}
         />
       </div>
       <GoogleMap
@@ -41,7 +42,11 @@ const Map = ({ setLocation }: any) => {
   );
 };
 
-const PlacesAutocomplete = ({ setLocation, setSelected }: any) => {
+const PlacesAutocomplete = ({
+  setLocation,
+  setSelected,
+  setFormatAddress,
+}: any) => {
   const {
     ready,
     value,
@@ -70,10 +75,12 @@ const PlacesAutocomplete = ({ setLocation, setSelected }: any) => {
 
       // Get latitude and longitude via utility functions
       getGeocode({ address: description }).then((results) => {
+        console.log(results[0].formatted_address);
         const { lat, lng } = getLatLng(results[0]);
         console.log("📍 Coordinates: ", { lat, lng });
         setSelected({ lat, lng });
         setLocation({ lat, lng });
+        setFormatAddress(results[0].formatted_address);
       });
     };
 

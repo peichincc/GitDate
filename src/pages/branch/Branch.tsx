@@ -135,7 +135,8 @@ const Branch = () => {
             {branchData.status}
             <p>Date:</p>
             {branchData.date}
-            <p>Location: pending to show the map</p>
+            <p>Location: </p>
+            {branchData.address}
             <MapContainer>
               <ShowMap center={center} />
             </MapContainer>
