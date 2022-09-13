@@ -9,10 +9,19 @@ import {
   updateDoc,
   collection,
   onSnapshot,
+  collectionGroup,
+  query,
+  where,
+  getDocs,
+  DocumentData,
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import firebaseapi from "../../utils/firebaseapi";
 import Friend from "./FriendRequest";
+import PostedIssues from "./PostIssues";
+import HostedBranches from "./HostedBranches";
+import AttendedBranches from "./AttendedBranches";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -20,6 +29,7 @@ const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
   margin: 0 auto;
+  margin-bottom: 100px;
 `;
 const FormGroup = styled.div``;
 const FormLabel = styled.div``;
@@ -47,6 +57,13 @@ const Profile = () => {
   const [sentInvitationList, setSentInvitationList] = useState<any>();
   const [getInvitationList, setGetInvitationList] = useState<any>();
   const [openFriend, setOpenFriend] = useState(false);
+  // Issues and branches
+  const [openIssues, setOpenIssues] = useState(false);
+  const [postedIssues, setPostedIssues] = useState<DocumentData>();
+  const [hostedIssues, setHostedIssues] = useState<DocumentData>();
+  const [attendedIssues, setAttendedIssues] = useState<DocumentData>();
+  const [openHostedBranches, setOpenHostedBranches] = useState(false);
+  const [openAttendedBranches, setOpenAttendedBranches] = useState(false);
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -55,6 +72,9 @@ const Profile = () => {
       setGetUser(userId);
       // get friend
       getFriend(userId);
+      searchIssues(userId);
+      searchHostedBranches(userId);
+      searchAttenedBranches(userId);
     }
   }, []);
 
@@ -198,8 +218,75 @@ const Profile = () => {
     });
   };
 
-  const handleChange = async () => {
-    await setOpenFriend(true);
+  // 開啟好友邀請列表
+  const handleChange = () => {
+    setOpenFriend(true);
+  };
+
+  // 開啟Issues列表
+  const handleIssues = () => {
+    setOpenIssues(true);
+  };
+  // 搜尋使用者發過的文
+  const searchIssues = async (userId: string) => {
+    let temp = [] as any;
+    const q = query(collection(db, "Issues"), where("posted_by", "==", userId));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data());
+      temp.push(doc.data());
+    });
+    setPostedIssues(temp);
+  };
+
+  // 開啟Branches列表
+  const handleHostedIssues = () => {
+    setOpenHostedBranches(true);
+  };
+  const handleAttendedIssues = () => {
+    setOpenAttendedBranches(true);
+  };
+  // 搜尋使用者的活動
+  const searchHostedBranches = async (userId: string) => {
+    let temp = [] as any;
+    const q = query(
+      collection(db, "Branches"),
+      where("hosted_by", "==", userId)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data());
+      temp.push(doc.data());
+    });
+    setHostedIssues(temp);
+  };
+  const searchAttenedBranches = async (userId: string) => {
+    onSnapshot(doc(collection(db, "Users"), userId), async (doc) => {
+      if (doc.exists()) {
+        console.log(doc.data().activity_attend);
+        const newArr = [] as any;
+        for (let i = 0; i < doc.data().activity_attend.length; i++) {
+          await firebaseapi
+            .readBranchData(doc.data().activity_attend[i])
+            .then((res) => {
+              console.log(res);
+              if (res) {
+                console.log(res["title"]);
+                console.log(res["main_image"]);
+                const tempObj = {
+                  id: res["branch_id"],
+                  title: res["title"],
+                  photo: res["main_image"],
+                };
+                newArr.push(tempObj);
+              }
+            });
+        }
+        // Promise.all(promises).then((res) => console.log(res));
+        console.log(newArr);
+        setAttendedIssues(newArr);
+      }
+    });
   };
 
   return (
@@ -247,9 +334,29 @@ const Profile = () => {
         </button>
         <Block>
           <h1>Issues</h1>
+          <button onClick={handleIssues}>Open the issues area</button>
+          <br />
+          {openIssues && postedIssues && (
+            <PostedIssues postedIssues={postedIssues} />
+          )}
         </Block>
         <Block>
           <h1>Branches</h1>
+          <button onClick={handleHostedIssues}>
+            Open the hosted branches area
+          </button>
+          <br />
+          {openHostedBranches && hostedIssues && (
+            <HostedBranches hostedIssues={hostedIssues} />
+          )}
+          <hr></hr>
+          <button onClick={handleAttendedIssues}>
+            Open the attended branches area
+          </button>
+          <br />
+          {openAttendedBranches && attendedIssues && (
+            <AttendedBranches attendedIssues={attendedIssues} />
+          )}
         </Block>
       </Wrapper>
     </>

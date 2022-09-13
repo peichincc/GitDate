@@ -6,6 +6,7 @@ import {
   updateDoc,
   arrayUnion,
   QueryDocumentSnapshot,
+  collection,
   DocumentData,
 } from "firebase/firestore";
 import styled from "styled-components";
@@ -89,6 +90,15 @@ const Issue = () => {
   //     }
   //   });
   // };
+
+  const changeIssueStatus = () => {
+    const issueRef = collection(db, "Issues");
+    const updateRef = doc(issueRef, `${id}`);
+    updateDoc(updateRef, {
+      status: "closed",
+    });
+    alert("Successfully closed this issue!");
+  };
 
   const deleteIssue = async (id: string | undefined) => {
     await firebaseapi.deleteIssue(id);
@@ -183,6 +193,8 @@ const Issue = () => {
         <br />
         <PRbtn onClick={sendRequest}>Create Pull Request</PRbtn>
         <h2>Area for author</h2>
+        <button onClick={changeIssueStatus}>Close this issue</button>
+        <br />
         <button
           onClick={() => {
             deleteIssue(id);

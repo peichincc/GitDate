@@ -163,13 +163,12 @@ const Branch = () => {
               <p>Branch status:</p>
               {branchData.status}
               <p>Date:</p>
-              {branchData.date}
+              {branchData.date} - {branchData.time}
               <p>Location: </p>
               {branchData.address}
               <MapContainer>
                 <ShowMap center={center} />
               </MapContainer>
-              {/* {branchData.location} */}
               <p>Posted by:</p>
               Author name: {getAuthor}
               <button
@@ -188,23 +187,6 @@ const Branch = () => {
               {openParticipants && participantsList && (
                 <Participants participantsList={participantsList} />
               )}
-              {/* Participants:
-              {openParticipants &&
-                participantsList &&
-                participantsList.map((list: any) => (
-                  <>
-                    {list.name} _{" "}
-                    <img
-                      src={list.photo}
-                      alt="Participants_photo"
-                      style={{ width: 50, height: 50 }}
-                    />
-                  </>
-                ))} */}
-              {/* {branchData.participants.map((list: string) => (
-                <>{list}, </>
-              ))} */}
-              {/* {newList && newList.map((list: any) => <>{list}</>)} */}
             </ParticipantsContainer>
           </>
         )}

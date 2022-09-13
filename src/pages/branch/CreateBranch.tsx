@@ -63,8 +63,12 @@ const CreateBranch = () => {
     setContent(e.target.value);
   };
   const [date, setDate] = useState("");
-  const getTime = (e: any) => {
+  const getDate = (e: any) => {
     setDate(e.target.value);
+  };
+  const [time, setTime] = useState("");
+  const getTime = (e: any) => {
+    setTime(e.target.value);
   };
   const [location, setLocation] = useState();
   const [formatAddress, setFormatAddress] = useState("");
@@ -77,6 +81,7 @@ const CreateBranch = () => {
     title: title,
     content: content,
     date: date,
+    time: time,
     location: location,
     address: formatAddress,
     status: "upcoming",
@@ -120,7 +125,9 @@ const CreateBranch = () => {
         <textarea onChange={getContent}></textarea>
         <br />
         <p>Time</p>
-        <input type="datetime-local" onChange={getTime} />
+        <input type="date" onChange={getDate} />
+        <input type="time" onChange={getTime} />
+        {/* <input type="datetime-local" onChange={getTime} /> */}
         <br />
         <p>Location</p>
         <MapContainer>

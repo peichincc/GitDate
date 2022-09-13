@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -29,28 +29,33 @@ const CreateIssue = () => {
   let navigate = useNavigate();
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [fileSrc, setFileSrc] = useState<any>(null);
-  const MyCheckBoxList: Data[] = [
-    {
-      order: 0,
-      name: "Angular",
-    },
-    {
-      order: 1,
-      name: "React",
-    },
-    {
-      order: 2,
-      name: "Java",
-    },
-    {
-      order: 4,
-      name: "Python",
-    },
-    {
-      order: 3,
-      name: "JavaScript",
-    },
-  ];
+  // const MyCheckBoxList: Data[] = [
+  //   {
+  //     order: 0,
+  //     name: "Angular",
+  //   },
+  //   {
+  //     order: 1,
+  //     name: "React",
+  //   },
+  //   {
+  //     order: 2,
+  //     name: "Java",
+  //   },
+  //   {
+  //     order: 4,
+  //     name: "Python",
+  //   },
+  //   {
+  //     order: 3,
+  //     name: "JavaScript",
+  //   },
+  // ];
+  // Select Photo and preview
+  const hiddenFileInput = useRef<any>(null);
+  const handleClick = () => {
+    hiddenFileInput.current.click();
+  };
   const handleUploadFile = (e: any) => {
     if (!e.target.files[0]) return;
     var reader = new FileReader();
@@ -73,17 +78,32 @@ const CreateIssue = () => {
   const getContent = (e: any) => {
     setContent(e.target.value);
   };
-  const [tags, setTags] = useState<any>([]);
-  const getTags = (e: any) => {
-    if (e.target.checked) {
-      setTags([...tags, e.target.value]);
-    } else {
-      setTags(
-        tags.filter(function (val: any) {
-          return val !== e.target.value;
-        })
-      );
-    }
+  // const [tags, setTags] = useState<any>([]);
+  // const getTags = (e: any) => {
+  //   if (e.target.checked) {
+  //     setTags([...tags, e.target.value]);
+  //   } else {
+  //     setTags(
+  //       tags.filter(function (val: any) {
+  //         return val !== e.target.value;
+  //       })
+  //     );
+  //   }
+  // };
+  const tagRef = useRef<HTMLInputElement>(null);
+  const [tags, setTags] = useState<string[]>([]);
+  const addTag = () => {
+    if (!tagRef.current) return;
+    let currentTags = [...tags];
+    currentTags.push(tagRef.current.value);
+    setTags(currentTags);
+  };
+  const removeTag = (e: React.MouseEvent<HTMLElement>) => {
+    if (!tagRef.current) return;
+    let currentTags = [...tags];
+    let button = e.target as HTMLDivElement;
+    let newTags = currentTags.filter((tag) => tag !== button.parentElement!.id);
+    setTags(newTags);
   };
 
   const [getUser, setGetUser] = useState<any>("");
@@ -113,6 +133,12 @@ const CreateIssue = () => {
       });
   };
 
+  // const addTags = () => {
+  //   // let newArr;
+  //   // newArr = MyCheckBoxList.push({ order: 8, name: "default" });
+  //   // console.log(newArr);
+  // };
+
   return (
     <>
       <Wrapper>
@@ -132,8 +158,8 @@ const CreateIssue = () => {
         <textarea onChange={getContent}></textarea>
         <br />
         <p>Tags</p>
-        <ul>
-          {MyCheckBoxList.map(({ name, order }, index) => {
+        {/* <ul>
+           {MyCheckBoxList.map(({ name, order }, index) => {
             return (
               <li key={index}>
                 <input
@@ -145,15 +171,41 @@ const CreateIssue = () => {
                 {name}
               </li>
             );
+          })} 
+        </ul> */}
+        {tags &&
+          tags.map((tag) => {
+            return (
+              <div key={tag} id={tag}>
+                <div>{tag}</div>
+                <button onClick={(e) => removeTag(e)}>x</button>
+              </div>
+            );
           })}
-        </ul>
+        <input
+          type="text"
+          ref={tagRef}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              addTag();
+            }
+          }}
+        ></input>
+        <br />
         <br />
         <h2>Upload Main image</h2>
-        <input type="file" onChange={handleUploadFile}></input>
+        <button onClick={handleClick}>git add</button>
+        <input
+          type="file"
+          ref={hiddenFileInput}
+          onChange={handleUploadFile}
+          style={{ display: "none" }}
+        ></input>
         <p>Preview photo:</p>
         {fileSrc && <img src={fileSrc} alt="main_image" />}
         <h2>More images: pending</h2>
-        <button onClick={postIssue}>Post</button>
+        <br />
+        <button onClick={postIssue}>git commit</button>
       </Wrapper>
     </>
   );
