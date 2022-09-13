@@ -8,7 +8,13 @@ const IssuesList = ({ issuesStatus, docs }: any) => {
     <>
       <h1>Display {issuesStatus} issues here</h1>
       {docs.map((blog: any) => {
-        const postTime = new Date(blog?.posted_at.seconds * 1000).toString();
+        const newT = new Date(blog?.posted_at.seconds * 1000);
+        const postTime =
+          newT.getFullYear() +
+          "-" +
+          ("0" + (newT.getMonth() + 1)).slice(-2) +
+          "-" +
+          ("0" + newT.getDate()).slice(-2);
         return (
           <>
             <h2>Blog title: {blog.title}</h2>
