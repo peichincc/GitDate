@@ -46,9 +46,10 @@ const Signup = () => {
   const onSubmit = () => {
     setIsLoading(true);
     createUserWithEmailAndPassword(auth, recipient.email, recipient.password)
-      .then(() => {
-        navigate("/");
+      .then((res) => {
+        // navigate("/");
         setIsLoading(false);
+        console.log(res);
       })
       .catch((error) => {
         switch (error.code) {
