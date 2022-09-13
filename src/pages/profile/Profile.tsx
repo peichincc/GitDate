@@ -2,28 +2,11 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  updateDoc,
-  collection,
-  onSnapshot,
-  collectionGroup,
-  query,
-  where,
-  getDocs,
-  DocumentData,
-} from "firebase/firestore";
+import { getFirestore, doc, updateDoc, collection } from "firebase/firestore";
+import { auth } from "../../utils/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import firebaseapi from "../../utils/firebaseapi";
-import Friend from "./FriendRequest";
-import PostedIssues from "./PostIssues";
-import HostedBranches from "./HostedBranches";
-import AttendedBranches from "./AttendedBranches";
-
-import { useSelector, useDispatch } from "react-redux";
 
 const Wrapper = styled.div`
   display: block;
@@ -41,49 +24,22 @@ const FormText = styled.textarea`
 `;
 const FormControl = styled.input``;
 
-const Block = styled.div`
-  margin-top: 50px;
-`;
-
 const Profile = () => {
-  const userData = useSelector((state) => state) as any;
   let navigate = useNavigate();
   const [getUser, setGetUser] = useState("");
   const [imageUpload, setImageUpload] = useState(null);
   const [imageURL, setImageURL] = useState("");
   const db = getFirestore();
   const storage = getStorage();
-  // Friend
-  const [sentInvitationList, setSentInvitationList] = useState<any>();
-  const [getInvitationList, setGetInvitationList] = useState<any>();
-  const [openFriend, setOpenFriend] = useState(false);
-  // Issues and branches
-  const [openIssues, setOpenIssues] = useState(false);
-  const [postedIssues, setPostedIssues] = useState<DocumentData>();
-  const [hostedIssues, setHostedIssues] = useState<DocumentData>();
-  const [attendedIssues, setAttendedIssues] = useState<DocumentData>();
-  const [openHostedBranches, setOpenHostedBranches] = useState(false);
-  const [openAttendedBranches, setOpenAttendedBranches] = useState(false);
 
   useEffect(() => {
-    const userId = userData.user.user_id;
-    console.log(userId);
-    if (userId) {
-      setGetUser(userId);
-      // get friend
-      getFriend(userId);
-      searchIssues(userId);
-      searchHostedBranches(userId);
-      searchAttenedBranches(userId);
-    }
-  }, []);
-
-  // 把使用者放進db
-  const pushtodb = async () => {
-    await setDoc(doc(collection(db, "Users"), `${getUser}`), {
-      user_id: `${getUser}`,
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        var uid = user.uid;
+        setGetUser(uid);
+      }
     });
-  };
+  }, []);
 
   // 使用者更新資訊
   type ListData = {
@@ -206,158 +162,29 @@ const Profile = () => {
     alert("updated!");
   };
 
-  // 讀取好友邀請(讀DB中的friend_request -> get ID -> Search name -> Display name)
-  const getFriend = (id: string) => {
-    onSnapshot(doc(collection(db, "Users"), id), (doc) => {
-      if (doc.exists()) {
-        setSentInvitationList(doc.data().friend_sent_request);
-        // console.log(doc.data().friend_sent_request);
-        setGetInvitationList(doc.data().friend_request);
-        // console.log(doc.data().friend_request);
-      }
-    });
-  };
-
-  // 開啟好友邀請列表
-  const handleChange = () => {
-    setOpenFriend(true);
-  };
-
-  // 開啟Issues列表
-  const handleIssues = () => {
-    setOpenIssues(true);
-  };
-  // 搜尋使用者發過的文
-  const searchIssues = async (userId: string) => {
-    let temp = [] as any;
-    const q = query(collection(db, "Issues"), where("posted_by", "==", userId));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      console.log(doc.data());
-      temp.push(doc.data());
-    });
-    setPostedIssues(temp);
-  };
-
-  // 開啟Branches列表
-  const handleHostedIssues = () => {
-    setOpenHostedBranches(true);
-  };
-  const handleAttendedIssues = () => {
-    setOpenAttendedBranches(true);
-  };
-  // 搜尋使用者的活動
-  const searchHostedBranches = async (userId: string) => {
-    let temp = [] as any;
-    const q = query(
-      collection(db, "Branches"),
-      where("hosted_by", "==", userId)
-    );
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      console.log(doc.data());
-      temp.push(doc.data());
-    });
-    setHostedIssues(temp);
-  };
-  const searchAttenedBranches = async (userId: string) => {
-    onSnapshot(doc(collection(db, "Users"), userId), async (doc) => {
-      if (doc.exists()) {
-        console.log(doc.data().activity_attend);
-        const newArr = [] as any;
-        for (let i = 0; i < doc.data().activity_attend.length; i++) {
-          await firebaseapi
-            .readBranchData(doc.data().activity_attend[i])
-            .then((res) => {
-              console.log(res);
-              if (res) {
-                console.log(res["title"]);
-                console.log(res["main_image"]);
-                const tempObj = {
-                  id: res["branch_id"],
-                  title: res["title"],
-                  photo: res["main_image"],
-                };
-                newArr.push(tempObj);
-              }
-            });
-        }
-        // Promise.all(promises).then((res) => console.log(res));
-        console.log(newArr);
-        setAttendedIssues(newArr);
-      }
-    });
-  };
-
   return (
     <>
       <Wrapper>
-        <button onClick={pushtodb}>Set user</button>
-        <Block>
-          <h1>Edit profile</h1>
-          <div>
-            {uploadFormGroups.map(({ label, key, textarea, options }) => (
-              <FormGroup key={key}>
-                <FormLabel>{label}</FormLabel>
-                {uploadFormInputCheck(label, key, textarea, options)}
-              </FormGroup>
-            ))}
-          </div>
-          <input
-            type="file"
-            onChange={(e: any) => {
-              setImageUpload(e.target.files[0]);
-            }}
-          ></input>
-          <button onClick={uploadImage}>Upload image</button>
-          {imageURL && <img src={imageURL} alt="profile" />}
-          <div>
-            <button onClick={updateDB}>Update Profile</button>
-          </div>
-        </Block>
-        <Block>
-          <h1>Invitations area</h1>
-          <button onClick={handleChange}>Open the friend area</button>
-          {openFriend && getInvitationList && (
-            <Friend
-              sentInvitationList={sentInvitationList}
-              getInvitationList={getInvitationList}
-            />
-          )}
-        </Block>
-        <button
-          onClick={() => {
-            navigate("/chatlist");
+        <h1>Edit profile</h1>
+        <div>
+          {uploadFormGroups.map(({ label, key, textarea, options }) => (
+            <FormGroup key={key}>
+              <FormLabel>{label}</FormLabel>
+              {uploadFormInputCheck(label, key, textarea, options)}
+            </FormGroup>
+          ))}
+        </div>
+        <input
+          type="file"
+          onChange={(e: any) => {
+            setImageUpload(e.target.files[0]);
           }}
-        >
-          To see chatlist (all friend_list: repo/chatroom)
-        </button>
-        <Block>
-          <h1>Issues</h1>
-          <button onClick={handleIssues}>Open the issues area</button>
-          <br />
-          {openIssues && postedIssues && (
-            <PostedIssues postedIssues={postedIssues} />
-          )}
-        </Block>
-        <Block>
-          <h1>Branches</h1>
-          <button onClick={handleHostedIssues}>
-            Open the hosted branches area
-          </button>
-          <br />
-          {openHostedBranches && hostedIssues && (
-            <HostedBranches hostedIssues={hostedIssues} />
-          )}
-          <hr></hr>
-          <button onClick={handleAttendedIssues}>
-            Open the attended branches area
-          </button>
-          <br />
-          {openAttendedBranches && attendedIssues && (
-            <AttendedBranches attendedIssues={attendedIssues} />
-          )}
-        </Block>
+        ></input>
+        <button onClick={uploadImage}>Upload image</button>
+        {imageURL && <img src={imageURL} alt="profile" />}
+        <div>
+          <button onClick={updateDB}>Update Profile</button>
+        </div>
       </Wrapper>
     </>
   );

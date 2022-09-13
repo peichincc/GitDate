@@ -45,22 +45,22 @@ const Header = () => {
   const userData = useSelector((state) => state) as any;
   const [alreadyLogged, setAlreadyLogged] = useState(false);
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        var uid = user.uid;
-        firebaseapi.searchUserName(uid).then((result) => {
-          if (result) {
-            console.log(result);
-            console.log(result["firstname"]);
-            dispatch(setUserData(result["user_id"], result["firstname"]));
-            console.log(userData);
-          }
-        });
-        setAlreadyLogged(true);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       var uid = user.uid;
+  //       firebaseapi.searchUserName(uid).then((result) => {
+  //         if (result) {
+  //           console.log(result);
+  //           console.log(result["firstname"]);
+  //           dispatch(setUserData(result["user_id"], result["firstname"]));
+  //           console.log(userData);
+  //         }
+  //       });
+  //       setAlreadyLogged(true);
+  //     }
+  //   });
+  // }, []);
 
   return (
     <>
