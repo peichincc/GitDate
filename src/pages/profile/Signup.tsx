@@ -11,34 +11,76 @@ const Wrapper = styled.div`
   margin: 0 auto;
 `;
 
-const Title = styled.h1``;
-const FormGroup = styled.div``;
-const FormLabel = styled.div``;
-const FormControl = styled.input``;
-const SubmitBtn = styled.button`
-  width: 200px;
+const Container = styled.div`
+  margin-top: 120px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #202637;
+  border-radius: 6px;
+  max-width: 576px;
+  padding: 24px;
 `;
 
-interface ListData {
-  label: string;
-  key: string;
-  type?: string;
-}
+const Title = styled.div`
+  font-size: 16px;
+`;
+const InputContainer = styled.div`
+  margin-top: 20px;
+`;
+const FormGroup = styled.div``;
+const FormLabel = styled.div``;
+const FormInputContainer = styled.div`
+  display: flex;
+  margin-bottom: 10px;
+`;
+const FormControl = styled.input`
+  border: 0 0 1 0px;
+  width: 100%;
+`;
+const ContinueBtn = styled.button`
+  border: 1px solid #627597;
+  border-radius: 6px;
+  background: none;
+  padding: 5px 12px;
+  cursor: pointer;
+`;
+const SubmitBtn = styled.button`
+  margin-top: 20px;
+  width: 200px;
+  border: 1px solid #627597;
+  border-radius: 6px;
+  background: none;
+  padding: 5px 12px;
+  cursor: pointer;
+`;
+const InsideContainer = styled.div`
+  width: 100%;
+`;
 
-const signInData: ListData[] = [
-  { label: "Email", key: "email", type: "text" },
-  { label: "Password", key: "password", type: "password" },
-];
+const TextReminder = styled.div`
+  font-size: 16px;
+  text-align: right;
+`;
+const SignInBtn = styled.button`
+  padding: 5px;
+  background: none;
+  font-size: 16px;
+  border: 0px;
+  cursor: pointer;
+`;
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [showPasswordInput, setShowPasswordInput] = useState(false);
+  const [showSignUp, setShowSignUp] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  interface recipientType {
-    email: string;
-    password: string;
-  }
-  const [recipient, setRecipient] = useState<recipientType>({
+
+  const [recipient, setRecipient] = useState({
     email: "",
     password: "",
   });
@@ -65,23 +107,74 @@ const Signup = () => {
   return (
     <>
       <Wrapper>
-        <Title>Member Sign Up</Title>
-        {signInData.map(({ label, key, type }: ListData) => (
-          <FormGroup key={key}>
-            <FormLabel>{label}</FormLabel>
-            <FormControl
-              type={type}
-              value={recipient[key as keyof recipientType]}
-              onChange={(e) =>
-                setRecipient({ ...recipient, [key]: e.target.value })
-              }
-            />
-          </FormGroup>
-        ))}
-        {errorMsg && <p>{errorMsg}</p>}
-        <SubmitBtn onClick={onSubmit}>
-          {isLoading ? "Loading" : "Send"}
-        </SubmitBtn>
+        <TextReminder>
+          Already have account?
+          <SignInBtn onClick={() => navigate("/signin")}>Sign In ➜</SignInBtn>
+        </TextReminder>
+        <Container>
+          <InsideContainer>
+            <Title>
+              Welcome to GitDate!
+              <br />
+              Let's begin the adventure
+            </Title>
+            <InputContainer>
+              <FormGroup key="email">
+                <FormLabel>Enter your email</FormLabel>
+                <FormInputContainer>
+                  {showPasswordInput ? " ✔️ " : " ➜ "}
+                  <FormControl
+                    type="text"
+                    value={recipient.email}
+                    onChange={(e) =>
+                      setRecipient({ ...recipient, email: e.target.value })
+                    }
+                  />
+                  <ContinueBtn onClick={() => setShowPasswordInput(true)}>
+                    Continue
+                  </ContinueBtn>
+                </FormInputContainer>
+              </FormGroup>
+              {showPasswordInput && (
+                <FormGroup key="password">
+                  <FormLabel>Create a password</FormLabel>
+                  <FormInputContainer>
+                    {showSignUp ? " ✔️ " : " ➜ "}
+                    <FormControl
+                      type="password"
+                      value={recipient.password}
+                      onChange={(e) =>
+                        setRecipient({ ...recipient, password: e.target.value })
+                      }
+                    />
+                    <ContinueBtn onClick={() => setShowSignUp(true)}>
+                      Continue
+                    </ContinueBtn>
+                  </FormInputContainer>
+                </FormGroup>
+              )}
+            </InputContainer>
+          </InsideContainer>
+          {/* {signInData.map(({ label, key, type }: ListData) => (
+              <FormGroup key={key}>
+                <FormLabel>{label}</FormLabel>
+                <FormControl
+                  type={type}
+                  value={recipient[key as keyof recipientType]}
+                  onChange={(e) =>
+                    setRecipient({ ...recipient, [key]: e.target.value })
+                  }
+                />
+              </FormGroup>
+            ))} */}
+
+          {errorMsg && <p>{errorMsg}</p>}
+          {showSignUp && (
+            <SubmitBtn onClick={onSubmit}>
+              {isLoading ? "Loading" : "Sign Up"}
+            </SubmitBtn>
+          )}
+        </Container>
       </Wrapper>
     </>
   );
