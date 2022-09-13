@@ -103,6 +103,13 @@ const Issue = () => {
   const deleteIssue = async (id: string | undefined) => {
     await firebaseapi.deleteIssue(id);
     navigate("/");
+    // await deleteDoc(doc(collection(db, "Issues"), id))
+    //   .then(() => {
+    //     alert("Delete successful!");
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error removing document: ", error);
+    //   });
   };
 
   useEffect(() => {

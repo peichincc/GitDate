@@ -39,8 +39,7 @@ const IssueAll = () => {
         let temp = [] as any;
         const q = query(
           collection(db, "Issues"),
-          where("status", "==", "open"),
-          orderBy("timestamp", "asc")
+          where("status", "==", "open")
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
