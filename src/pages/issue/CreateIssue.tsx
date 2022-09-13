@@ -29,28 +29,28 @@ const CreateIssue = () => {
   let navigate = useNavigate();
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [fileSrc, setFileSrc] = useState<any>(null);
-  const MyCheckBoxList: Data[] = [
-    {
-      order: 0,
-      name: "Angular",
-    },
-    {
-      order: 1,
-      name: "React",
-    },
-    {
-      order: 2,
-      name: "Java",
-    },
-    {
-      order: 4,
-      name: "Python",
-    },
-    {
-      order: 3,
-      name: "JavaScript",
-    },
-  ];
+  // const MyCheckBoxList: Data[] = [
+  //   {
+  //     order: 0,
+  //     name: "Angular",
+  //   },
+  //   {
+  //     order: 1,
+  //     name: "React",
+  //   },
+  //   {
+  //     order: 2,
+  //     name: "Java",
+  //   },
+  //   {
+  //     order: 4,
+  //     name: "Python",
+  //   },
+  //   {
+  //     order: 3,
+  //     name: "JavaScript",
+  //   },
+  // ];
   // Select Photo and preview
   const hiddenFileInput = useRef<any>(null);
   const handleClick = () => {
@@ -78,17 +78,25 @@ const CreateIssue = () => {
   const getContent = (e: any) => {
     setContent(e.target.value);
   };
-  const [tags, setTags] = useState<any>([]);
-  const getTags = (e: any) => {
-    if (e.target.checked) {
-      setTags([...tags, e.target.value]);
-    } else {
-      setTags(
-        tags.filter(function (val: any) {
-          return val !== e.target.value;
-        })
-      );
-    }
+  // const [tags, setTags] = useState<any>([]);
+  // const getTags = (e: any) => {
+  //   if (e.target.checked) {
+  //     setTags([...tags, e.target.value]);
+  //   } else {
+  //     setTags(
+  //       tags.filter(function (val: any) {
+  //         return val !== e.target.value;
+  //       })
+  //     );
+  //   }
+  // };
+  const tagRef = useRef<HTMLInputElement>(null);
+  const [tags, setTags] = useState<string[]>([]);
+  const addTag = () => {
+    if (!tagRef.current) return;
+    let currentTags = [...tags];
+    currentTags.push(tagRef.current.value);
+    setTags(currentTags);
   };
 
   const [getUser, setGetUser] = useState<any>("");
@@ -118,6 +126,12 @@ const CreateIssue = () => {
       });
   };
 
+  // const addTags = () => {
+  //   // let newArr;
+  //   // newArr = MyCheckBoxList.push({ order: 8, name: "default" });
+  //   // console.log(newArr);
+  // };
+
   return (
     <>
       <Wrapper>
@@ -137,8 +151,8 @@ const CreateIssue = () => {
         <textarea onChange={getContent}></textarea>
         <br />
         <p>Tags</p>
-        <ul>
-          {MyCheckBoxList.map(({ name, order }, index) => {
+        {/* <ul>
+           {MyCheckBoxList.map(({ name, order }, index) => {
             return (
               <li key={index}>
                 <input
@@ -150,8 +164,26 @@ const CreateIssue = () => {
                 {name}
               </li>
             );
+          })} 
+        </ul> */}
+        {tags &&
+          tags.map((tag) => {
+            return (
+              <div key={tag} id={tag}>
+                <div>{tag}</div>
+              </div>
+            );
           })}
-        </ul>
+        <input
+          type="text"
+          ref={tagRef}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              addTag();
+            }
+          }}
+        ></input>
+        <br />
         <br />
         <h2>Upload Main image</h2>
         <button onClick={handleClick}>git add</button>
