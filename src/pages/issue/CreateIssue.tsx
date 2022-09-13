@@ -98,6 +98,13 @@ const CreateIssue = () => {
     currentTags.push(tagRef.current.value);
     setTags(currentTags);
   };
+  const removeTag = (e: React.MouseEvent<HTMLElement>) => {
+    if (!tagRef.current) return;
+    let currentTags = [...tags];
+    let button = e.target as HTMLDivElement;
+    let newTags = currentTags.filter((tag) => tag !== button.parentElement!.id);
+    setTags(newTags);
+  };
 
   const [getUser, setGetUser] = useState<any>("");
   useEffect(() => {
@@ -171,6 +178,7 @@ const CreateIssue = () => {
             return (
               <div key={tag} id={tag}>
                 <div>{tag}</div>
+                <button onClick={(e) => removeTag(e)}>x</button>
               </div>
             );
           })}
