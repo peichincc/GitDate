@@ -2,13 +2,56 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { doc, getDoc, getFirestore, collection } from "firebase/firestore";
 import styled from "styled-components";
-
 import firebaseapi from "../../utils/firebaseapi";
 
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
   margin: 0 auto;
+`;
+const Container = styled.div`
+  margin-top: 50px;
+  display: flex;
+  height: 80vh;
+`;
+const LeftContainer = styled.div`
+  margin-left: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const PhotoContainer = styled.div`
+  padding: 10px;
+  width: 100%;
+  max-width: 200px;
+  height: 200px;
+`;
+const PhotoContainerImg = styled.img`
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 50%;
+`;
+const RightContainer = styled.div`
+  margin-left: 20px;
+  flex-grow: 4;
+`;
+
+const FormText = styled.div`
+  line-height: 19px;
+  font-size: 16px;
+  color: #3f3a3a;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: 5px;
+  margin-bottom: 10px;
+`;
+const DataCard = styled.div`
+  border-radius: 8px;
+  background-color: #edede9;
+  padding: 5px;
+  margin-right: 10px;
 `;
 
 const Readme = () => {
@@ -22,25 +65,11 @@ const Readme = () => {
     githublink: string;
     details: string;
     gender_interested: string;
-    // inerested_gender: [];
     main_photo: string;
     wish_relationship: string;
   };
   // const [userData, setUserData] = useState<ListData | null>(null);
   const [userData, setUserData] = useState<any>(null);
-
-  // 讀取使用者資料
-  // const readData = async (id: any) => {
-  //   const docRef = doc(collection(db, "Users"), id);
-  //   const docSnap = await getDoc(docRef);
-  //   if (docSnap.exists()) {
-  //     console.log("Document data:", docSnap.data());
-  //     const userDataFromDB = docSnap.data() as ListData;
-  //     setUserData(userDataFromDB);
-  //   } else {
-  //     console.log("No such document!");
-  //   }
-  // };
 
   useEffect(() => {
     // readData(id);
@@ -55,28 +84,50 @@ const Readme = () => {
   return (
     <>
       <Wrapper>
-        <p>this page is member public page</p>
-        <p>id: {id}</p>
-        {userData && (
-          <div>
-            <br />
-            <p>the pulic readme: data from db</p>
-            <img src={userData.main_photo} alt="main_photo" />
-            <p>Name:</p>
-            {userData.firstname}
-            {userData.lastname}
-            <p>Age:</p>
-            {userData.age}
-            <p>Gender:</p>
-            {userData.gender}
-            <p>Interested in:</p>
-            {userData.gender_interested}
-            <p>GithubLink:</p>
-            {userData.githublink}
-            <p>Details:</p>
-            {userData.details}
-          </div>
-        )}
+        <Container>
+          {userData && (
+            <>
+              <LeftContainer>
+                <PhotoContainer>
+                  <PhotoContainerImg
+                    src={userData.main_photo}
+                    alt="main_photo"
+                  />
+                </PhotoContainer>
+              </LeftContainer>
+              <RightContainer>
+                <FormText>
+                  <DataCard> Name </DataCard>
+                  {userData.firstname} {userData.lastname}
+                </FormText>
+                <FormText>
+                  <DataCard>Age</DataCard> {userData.age}
+                </FormText>
+                <FormText>
+                  <DataCard> Gender </DataCard> {userData.gender}
+                </FormText>
+                <FormText>
+                  <DataCard> Interested in </DataCard>
+                  {userData.gender_interested}
+                </FormText>
+                <FormText>
+                  <DataCard> GithubLink</DataCard>
+                  <a
+                    href={userData.githublink}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {userData.githublink}
+                  </a>
+                </FormText>
+                <FormText>
+                  <DataCard> Details</DataCard>
+                  {userData.details}
+                </FormText>
+              </RightContainer>
+            </>
+          )}
+        </Container>
       </Wrapper>
     </>
   );

@@ -28,7 +28,7 @@ const FormGroup = styled.div`
 `;
 const FormLabel = styled.div``;
 const FormControl = styled.input`
-  border: 0 0 1 0px;
+  border: 1 px;
   width: 200px;
 `;
 
