@@ -11,6 +11,7 @@ import Home from "./pages/home/Home";
 import Profile from "./pages/profile/Profile";
 import Signin from "./pages/profile/Signin";
 import Signup from "./pages/profile/Signup";
+import Member from "./pages/profile/Member";
 import Readme from "./pages/profile/Readme";
 import CreateIssue from "./pages/issue/CreateIssue";
 import Issue from "./pages/issue/Issue";
@@ -33,6 +34,7 @@ root.render(
         <Route path="/" element={<App />}>
           <Route index element={<Home />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="member" element={<Member />} />
           <Route path="readme/:id" element={<Readme />} />
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<Signup />} />
