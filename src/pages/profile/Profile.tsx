@@ -14,6 +14,19 @@ const Wrapper = styled.div`
   margin: 0 auto;
   margin-bottom: 100px;
 `;
+const Container = styled.div`
+  margin-top: 50px;
+  display: flex;
+`;
+const LeftContainer = styled.div`
+  flex-grow: 1;
+`;
+const RightContainer = styled.div`
+  flex-grow: 1;
+  border: 1px solid #202637;
+  border-radius: 6px;
+  padding: 20px;
+`;
 const FormGroup = styled.div``;
 const FormLabel = styled.div``;
 const FormCheck = styled.div``;
@@ -165,26 +178,37 @@ const Profile = () => {
   return (
     <>
       <Wrapper>
-        <h1>Edit profile</h1>
-        <div>
-          {uploadFormGroups.map(({ label, key, textarea, options }) => (
-            <FormGroup key={key}>
-              <FormLabel>{label}</FormLabel>
-              {uploadFormInputCheck(label, key, textarea, options)}
-            </FormGroup>
-          ))}
-        </div>
-        <input
-          type="file"
-          onChange={(e: any) => {
-            setImageUpload(e.target.files[0]);
-          }}
-        ></input>
-        <button onClick={uploadImage}>Upload image</button>
-        {imageURL && <img src={imageURL} alt="profile" />}
-        <div>
-          <button onClick={updateDB}>Update Profile</button>
-        </div>
+        <Container>
+          <LeftContainer>
+            <h1>
+              Welcome to GitDate
+              <br />
+              We are glad that you are here
+            </h1>
+          </LeftContainer>
+          <RightContainer>
+            <h1>Edit profile</h1>
+            <div>
+              {uploadFormGroups.map(({ label, key, textarea, options }) => (
+                <FormGroup key={key}>
+                  <FormLabel>{label}</FormLabel>
+                  {uploadFormInputCheck(label, key, textarea, options)}
+                </FormGroup>
+              ))}
+            </div>
+            <input
+              type="file"
+              onChange={(e: any) => {
+                setImageUpload(e.target.files[0]);
+              }}
+            ></input>
+            <button onClick={uploadImage}>Upload image</button>
+            {imageURL && <img src={imageURL} alt="profile" />}
+            <div>
+              <button onClick={updateDB}>Update Profile</button>
+            </div>
+          </RightContainer>
+        </Container>
       </Wrapper>
     </>
   );

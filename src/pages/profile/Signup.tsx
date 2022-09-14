@@ -42,7 +42,7 @@ export const FormInputContainer = styled.div`
   margin-bottom: 10px;
 `;
 const FormControl = styled.input`
-  border: 0 0 1 0px;
+  border: 0px;
   width: 100%;
 `;
 const ContinueBtn = styled.button`
@@ -128,6 +128,15 @@ const Signup = () => {
       });
   };
 
+  const handleEmailInput = () => {
+    if (!recipient.email) return;
+    setShowPasswordInput(true);
+  };
+  const handlePasswordInput = () => {
+    if (!recipient.password) return;
+    setShowSignUp(true);
+  };
+
   return (
     <>
       <Wrapper>
@@ -154,9 +163,7 @@ const Signup = () => {
                       setRecipient({ ...recipient, email: e.target.value })
                     }
                   />
-                  <ContinueBtn onClick={() => setShowPasswordInput(true)}>
-                    Continue
-                  </ContinueBtn>
+                  <ContinueBtn onClick={handleEmailInput}>Continue</ContinueBtn>
                 </FormInputContainer>
               </FormGroup>
               {showPasswordInput && (
@@ -171,7 +178,7 @@ const Signup = () => {
                         setRecipient({ ...recipient, password: e.target.value })
                       }
                     />
-                    <ContinueBtn onClick={() => setShowSignUp(true)}>
+                    <ContinueBtn onClick={handlePasswordInput}>
                       Continue
                     </ContinueBtn>
                   </FormInputContainer>
