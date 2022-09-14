@@ -21,13 +21,13 @@ const LeftContainer = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const PhotoContainer = styled.div`
+export const PhotoContainer = styled.div`
   padding: 10px;
   width: 100%;
   max-width: 200px;
   height: 200px;
 `;
-const PhotoContainerImg = styled.img`
+export const PhotoContainerImg = styled.img`
   max-width: 100%;
   max-height: 100%;
   border-radius: 50%;
@@ -37,7 +37,7 @@ const RightContainer = styled.div`
   flex-grow: 4;
 `;
 
-const FormText = styled.div`
+export const FormTextRead = styled.div`
   line-height: 19px;
   font-size: 16px;
   color: #3f3a3a;
@@ -47,7 +47,7 @@ const FormText = styled.div`
   padding: 5px;
   margin-bottom: 10px;
 `;
-const DataCard = styled.div`
+export const DataCard = styled.div`
   border-radius: 8px;
   background-color: #edede9;
   padding: 5px;
@@ -96,21 +96,21 @@ const Readme = () => {
                 </PhotoContainer>
               </LeftContainer>
               <RightContainer>
-                <FormText>
+                <FormTextRead>
                   <DataCard> Name </DataCard>
                   {userData.firstname} {userData.lastname}
-                </FormText>
-                <FormText>
+                </FormTextRead>
+                <FormTextRead>
                   <DataCard>Age</DataCard> {userData.age}
-                </FormText>
-                <FormText>
+                </FormTextRead>
+                <FormTextRead>
                   <DataCard> Gender </DataCard> {userData.gender}
-                </FormText>
-                <FormText>
+                </FormTextRead>
+                <FormTextRead>
                   <DataCard> Interested in </DataCard>
                   {userData.gender_interested}
-                </FormText>
-                <FormText>
+                </FormTextRead>
+                <FormTextRead>
                   <DataCard> GithubLink</DataCard>
                   <a
                     href={userData.githublink}
@@ -119,11 +119,11 @@ const Readme = () => {
                   >
                     {userData.githublink}
                   </a>
-                </FormText>
-                <FormText>
+                </FormTextRead>
+                <FormTextRead>
                   <DataCard> Details</DataCard>
                   {userData.details}
-                </FormText>
+                </FormTextRead>
               </RightContainer>
             </>
           )}

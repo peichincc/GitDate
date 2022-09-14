@@ -7,8 +7,14 @@ import { auth } from "../../utils/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import firebaseapi from "../../utils/firebaseapi";
 
-import Readme from "./Readme";
+import {
+  DataCard,
+  PhotoContainer,
+  PhotoContainerImg,
+  FormTextRead,
+} from "./Readme";
 
 const Wrapper = styled.div`
   display: block;
@@ -167,6 +173,16 @@ const Btn = styled.button`
   }
 `;
 
+const WelcomeMsg = styled.div`
+  margin-top: 30vh;
+`;
+
+const PreviewReadmeContainer = styled.div`
+  display: flex;
+`;
+const PreviewReadmeContainerLeft = styled.div``;
+const PreviewReadmeContainerRight = styled.div``;
+
 const Profile = () => {
   let navigate = useNavigate();
   const [getUser, setGetUser] = useState("");
@@ -174,6 +190,8 @@ const Profile = () => {
   const [imageURL, setImageURL] = useState("");
   const db = getFirestore();
   const storage = getStorage();
+  const [userData, setUserData] = useState<any>(null);
+  const [showPreviewReadme, setShowPreviewReadme] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -308,6 +326,8 @@ const Profile = () => {
 
   const [showTextInput, setShowTextInput] = useState(false);
   const [hidePhotoInput, setHidePhotoInput] = useState(true);
+  const [showWelcomeMsg, setShowWelcomeMsg] = useState(false);
+  const [hideTitle, setHideTitle] = useState(true);
 
   // 上傳照片
   const uploadImage = async () => {
@@ -324,6 +344,15 @@ const Profile = () => {
     const userRef = doc(collection(db, "Users"), `${getUser}`);
     await updateDoc(userRef, { ...recipient, main_photo: imageURL });
     alert("updated README!");
+    setShowPreviewReadme(true);
+    await firebaseapi.readUserData(getUser).then((res) => {
+      if (res) {
+        setUserData(res);
+      }
+    });
+    setShowWelcomeMsg(true);
+    setShowTextInput(false);
+    setHideTitle(false);
   };
 
   return (
@@ -338,6 +367,54 @@ const Profile = () => {
             </h1>
             <PreviewContainer>
               Your README.md
+              {showPreviewReadme && (
+                <>
+                  {userData && (
+                    <>
+                      <PreviewReadmeContainer>
+                        <PreviewReadmeContainerLeft>
+                          <PhotoContainer>
+                            <PhotoContainerImg
+                              src={userData.main_photo}
+                              alt="main_photo"
+                            />
+                          </PhotoContainer>
+                        </PreviewReadmeContainerLeft>
+                        <PreviewReadmeContainerRight>
+                          <FormTextRead>
+                            <DataCard> Name </DataCard>
+                            {userData.firstname} {userData.lastname}
+                          </FormTextRead>
+                          <FormTextRead>
+                            <DataCard>Age</DataCard> {userData.age}
+                          </FormTextRead>
+                          <FormTextRead>
+                            <DataCard> Gender </DataCard> {userData.gender}
+                          </FormTextRead>
+                          <FormTextRead>
+                            <DataCard> Interested in </DataCard>
+                            {userData.gender_interested}
+                          </FormTextRead>
+                          <FormTextRead>
+                            <DataCard> GithubLink</DataCard>
+                            <a
+                              href={userData.githublink}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {userData.githublink}
+                            </a>
+                          </FormTextRead>
+                          <FormTextRead>
+                            <DataCard> Details</DataCard>
+                            {userData.details}
+                          </FormTextRead>
+                        </PreviewReadmeContainerRight>
+                      </PreviewReadmeContainer>
+                    </>
+                  )}
+                </>
+              )}
               {/* {imageURL && (
                 <ReadmePreviewPhoto>
                   <ReadmePreviewPhotoImg src={imageURL} alt="profile" />
@@ -346,7 +423,7 @@ const Profile = () => {
             </PreviewContainer>
           </LeftContainer>
           <RightContainer>
-            <h1>To write your README.md</h1>
+            {hideTitle && <h1>To write your README.md</h1>}
             {hidePhotoInput && (
               <PhotoInputCard>
                 <UploadCardStyled>
@@ -387,6 +464,11 @@ const Profile = () => {
                 </TextInputCard>
                 <Btn onClick={updateDB}>Update Profile</Btn>
               </>
+            )}
+            {showWelcomeMsg && (
+              <WelcomeMsg>
+                <h1>Let's explore GitDate!</h1>
+              </WelcomeMsg>
             )}
           </RightContainer>
         </Container>
