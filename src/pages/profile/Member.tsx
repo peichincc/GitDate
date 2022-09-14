@@ -40,17 +40,18 @@ const MainContainer = styled.div`
 const LayoutContainer = styled.div`
   padding-right: 32px;
   padding-left: 32px;
-  display: grid; ;
+  display: grid;
+  width: 100%;
 `;
 const SidebarLayout = styled.div`
   display: flex;
   flex-direction: column;
   grid-column: 1;
+  align-items: center;
 `;
 const MainLayout = styled.div`
-  grid-column: 2 / span 2;
-  margin-left: 20px;
-  width: 100%;
+  grid-column: 3 / span 10;
+  max-width: 900px;
 `;
 const NavContainer = styled.div`
   margin-top: 48px;
