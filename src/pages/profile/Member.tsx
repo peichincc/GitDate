@@ -33,18 +33,25 @@ const UpperContainer = styled.div`
   width: 100%;
   border-bottom: 1px solid #d0d7de;
 `;
-const MainContainer = styled.div``;
+const MainContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 const LayoutContainer = styled.div`
   padding-right: 32px;
   padding-left: 32px;
-  display: flex;
+  display: grid; ;
 `;
 const SidebarLayout = styled.div`
   display: flex;
   flex-direction: column;
-  width: 296px;
+  grid-column: 1;
 `;
-const MainLayout = styled.div``;
+const MainLayout = styled.div`
+  grid-column: 2 / span 2;
+  margin-left: 20px;
+  width: 100%;
+`;
 const NavContainer = styled.div`
   margin-top: 48px;
   padding-left: 296px;

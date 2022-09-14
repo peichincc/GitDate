@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { BoxHeader } from "../../pages/profile/Profile";
+
 const AttendedBranches = ({ attendedBranches }: any) => {
   let navigate = useNavigate();
   return (
     <>
-      Display attended branches
+      <BoxHeader>Display attended branches</BoxHeader>
       {attendedBranches.map((blog: any) => (
         <>
           <h2>Blog title: {blog.title}</h2>
