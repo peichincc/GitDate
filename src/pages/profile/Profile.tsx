@@ -34,9 +34,8 @@ const LeftContainer = styled.div`
 const PreviewContainer = styled.div`
   margin-top: 20px;
   margin-right: 50px;
-  border: 1px solid #202637;
+  border: 1px solid #d0d7de;
   border-radius: 6px;
-  padding: 20px;
   height: 50vh;
 `;
 const ReadmePreviewPhotoImg = styled.img`
@@ -52,9 +51,8 @@ const ReadmePreviewPhoto = styled.div`
 const RightContainer = styled.div`
   margin-right: 20px;
   flex-grow: 1.5;
-  border: 1px solid #202637;
+  border: 1px solid #d0d7de;
   border-radius: 6px;
-  padding: 20px;
   width: 750px;
 `;
 const FormGroup = styled.div`
@@ -182,6 +180,19 @@ const PreviewReadmeContainer = styled.div`
 `;
 const PreviewReadmeContainerLeft = styled.div``;
 const PreviewReadmeContainerRight = styled.div``;
+
+export const BoxHeader = styled.div`
+  padding: 16px;
+  background-color: #f6f8fa;
+  border-color: #d0d7de;
+  border-style: solid;
+  border-width: 1px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  margin: -1px -1px 0;
+  display: flex;
+  align-items: center;
+`;
 
 const Profile = () => {
   let navigate = useNavigate();
@@ -366,7 +377,7 @@ const Profile = () => {
               We are glad that you are here
             </h1>
             <PreviewContainer>
-              Your README.md
+              <BoxHeader>≡ Your README.md</BoxHeader>
               {showPreviewReadme && (
                 <>
                   {userData && (
@@ -423,7 +434,11 @@ const Profile = () => {
             </PreviewContainer>
           </LeftContainer>
           <RightContainer>
-            {hideTitle && <h1>To write your README.md</h1>}
+            {hideTitle && (
+              <BoxHeader>
+                <h1>To write your README.md</h1>
+              </BoxHeader>
+            )}
             {hidePhotoInput && (
               <PhotoInputCard>
                 <UploadCardStyled>

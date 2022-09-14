@@ -4,15 +4,23 @@ import { doc, getDoc, getFirestore, collection } from "firebase/firestore";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
 
+import { BoxHeader } from "./Profile";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
   margin: 0 auto;
 `;
 const Container = styled.div`
-  margin-top: 50px;
+  margin-top: 20px;
+  margin-right: 50px;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  height: 50vh;
+`;
+const InsideContainder = styled.div`
   display: flex;
-  height: 80vh;
+  margin-top: 20px;
 `;
 const LeftContainer = styled.div`
   margin-left: 20px;
@@ -84,50 +92,53 @@ const Readme = () => {
   return (
     <>
       <Wrapper>
-        <Container>
-          {userData && (
-            <>
-              <LeftContainer>
-                <PhotoContainer>
-                  <PhotoContainerImg
-                    src={userData.main_photo}
-                    alt="main_photo"
-                  />
-                </PhotoContainer>
-              </LeftContainer>
-              <RightContainer>
-                <FormTextRead>
-                  <DataCard> Name </DataCard>
-                  {userData.firstname} {userData.lastname}
-                </FormTextRead>
-                <FormTextRead>
-                  <DataCard>Age</DataCard> {userData.age}
-                </FormTextRead>
-                <FormTextRead>
-                  <DataCard> Gender </DataCard> {userData.gender}
-                </FormTextRead>
-                <FormTextRead>
-                  <DataCard> Interested in </DataCard>
-                  {userData.gender_interested}
-                </FormTextRead>
-                <FormTextRead>
-                  <DataCard> GithubLink</DataCard>
-                  <a
-                    href={userData.githublink}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {userData.githublink}
-                  </a>
-                </FormTextRead>
-                <FormTextRead>
-                  <DataCard> Details</DataCard>
-                  {userData.details}
-                </FormTextRead>
-              </RightContainer>
-            </>
-          )}
-        </Container>
+        {userData && (
+          <>
+            <Container>
+              <BoxHeader>≡ README.md</BoxHeader>
+              <InsideContainder>
+                <LeftContainer>
+                  <PhotoContainer>
+                    <PhotoContainerImg
+                      src={userData.main_photo}
+                      alt="main_photo"
+                    />
+                  </PhotoContainer>
+                </LeftContainer>
+                <RightContainer>
+                  <FormTextRead>
+                    <DataCard> Name </DataCard>
+                    {userData.firstname} {userData.lastname}
+                  </FormTextRead>
+                  <FormTextRead>
+                    <DataCard>Age</DataCard> {userData.age}
+                  </FormTextRead>
+                  <FormTextRead>
+                    <DataCard> Gender </DataCard> {userData.gender}
+                  </FormTextRead>
+                  <FormTextRead>
+                    <DataCard> Interested in </DataCard>
+                    {userData.gender_interested}
+                  </FormTextRead>
+                  <FormTextRead>
+                    <DataCard> GithubLink</DataCard>
+                    <a
+                      href={userData.githublink}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {userData.githublink}
+                    </a>
+                  </FormTextRead>
+                  <FormTextRead>
+                    <DataCard> Details</DataCard>
+                    {userData.details}
+                  </FormTextRead>
+                </RightContainer>
+              </InsideContainder>
+            </Container>
+          </>
+        )}
       </Wrapper>
     </>
   );

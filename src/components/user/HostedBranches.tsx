@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const AttendedBranches = ({ attendedIssues }: any) => {
+const HostedBranches = ({ hostedBranches }: any) => {
   let navigate = useNavigate();
   return (
     <>
-      Display attended branches
-      {attendedIssues.map((blog: any) => (
+      Display hosted branches
+      {hostedBranches.map((blog: any) => (
         <>
           <h2>Blog title: {blog.title}</h2>
           <button
             onClick={() => {
-              navigate("/branch/" + blog.id);
+              navigate("/issue/" + blog.issue_id);
             }}
           >
             Click to issue
@@ -22,4 +22,4 @@ const AttendedBranches = ({ attendedIssues }: any) => {
   );
 };
 
-export default AttendedBranches;
+export default HostedBranches;

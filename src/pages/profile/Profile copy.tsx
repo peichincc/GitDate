@@ -18,10 +18,10 @@ import {
 import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import firebaseapi from "../../utils/firebaseapi";
-import Friend from "./FriendRequest";
-import PostedIssues from "./PostIssues";
-import HostedBranches from "./HostedBranches";
-import AttendedBranches from "./AttendedBranches";
+import Friend from "../../components/user/FriendRequest";
+import PostedIssues from "../../components/user/PostedIssues";
+import HostedBranches from "../../components/user/HostedBranches";
+import AttendedBranches from "../../components/user/AttendedBranches";
 
 import { useSelector, useDispatch } from "react-redux";
 

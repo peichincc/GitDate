@@ -71,7 +71,8 @@ const Header = () => {
           <Category to="createissue">PostIssue</Category>
           <Category to="branches">Branch</Category>
           <Category to="createbranch">NewBranch</Category>
-          <Category to="profile">Profile(member)</Category>
+          <Category to="profile">Profile</Category>
+          <Category to="member">Member</Category>
           <Category to="signin">LogIn</Category>
           <Category to="signup">SignUp</Category>
         </CategoryLinks>
