@@ -5,10 +5,6 @@
   },
   "rewrites": [
     {
-      "source": "/apps/**",
-      "destination": "/apps.html"
-    },
-    {
       "source": "**",
       "destination": "/index.html"
     }

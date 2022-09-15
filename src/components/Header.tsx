@@ -14,7 +14,6 @@ import {
 } from "firebase/auth";
 
 const Wrapper = styled.div`
-  max-width: 1376px;
   display: flex;
   margin: 0 auto;
   height: 62px;
@@ -45,22 +44,22 @@ const Header = () => {
   const userData = useSelector((state) => state) as any;
   const [alreadyLogged, setAlreadyLogged] = useState(false);
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        var uid = user.uid;
-        firebaseapi.searchUserName(uid).then((result) => {
-          if (result) {
-            console.log(result);
-            console.log(result["firstname"]);
-            dispatch(setUserData(result["user_id"], result["firstname"]));
-            console.log(userData);
-          }
-        });
-        setAlreadyLogged(true);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       var uid = user.uid;
+  //       firebaseapi.searchUserName(uid).then((result) => {
+  //         if (result) {
+  //           console.log(result);
+  //           console.log(result["firstname"]);
+  //           dispatch(setUserData(result["user_id"], result["firstname"]));
+  //           console.log(userData);
+  //         }
+  //       });
+  //       setAlreadyLogged(true);
+  //     }
+  //   });
+  // }, []);
 
   return (
     <>
@@ -71,7 +70,8 @@ const Header = () => {
           <Category to="createissue">PostIssue</Category>
           <Category to="branches">Branch</Category>
           <Category to="createbranch">NewBranch</Category>
-          <Category to="profile">Profile(member)</Category>
+          <Category to="profile">Profile</Category>
+          <Category to="member">Member</Category>
           <Category to="signin">LogIn</Category>
           <Category to="signup">SignUp</Category>
         </CategoryLinks>

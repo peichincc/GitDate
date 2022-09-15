@@ -2,28 +2,19 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  updateDoc,
-  collection,
-  onSnapshot,
-  collectionGroup,
-  query,
-  where,
-  getDocs,
-  DocumentData,
-} from "firebase/firestore";
+import { getFirestore, doc, updateDoc, collection } from "firebase/firestore";
+import { auth } from "../../utils/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import firebaseapi from "../../utils/firebaseapi";
-import Friend from "./FriendRequest";
-import PostedIssues from "./PostIssues";
-import HostedBranches from "./HostedBranches";
-import AttendedBranches from "./AttendedBranches";
 
-import { useSelector, useDispatch } from "react-redux";
+import {
+  DataCard,
+  PhotoContainer,
+  PhotoContainerImg,
+  FormTextRead,
+} from "./Readme";
 
 const Wrapper = styled.div`
   display: block;
@@ -31,59 +22,206 @@ const Wrapper = styled.div`
   margin: 0 auto;
   margin-bottom: 100px;
 `;
-const FormGroup = styled.div``;
-const FormLabel = styled.div``;
-const FormCheck = styled.div``;
-const FormCheckInput = styled.input``;
-const FormCheckLabel = styled.label``;
+const Container = styled.div`
+  margin-top: 50px;
+  display: flex;
+  height: auto;
+  @media screen and (max-width: 770px) {
+    flex-direction: column;
+    height: auto;
+  }
+`;
+const LeftContainer = styled.div`
+  margin-left: 20px;
+  flex-grow: 1;
+  @media screen and (max-width: 770px) {
+    margin-left: 0px;
+  }
+`;
+const PreviewContainer = styled.div`
+  margin-top: 20px;
+  margin-right: 50px;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  height: auto;
+  @media screen and (max-width: 770px) {
+    margin: 0 auto;
+    width: 100%;
+  }
+`;
+const RightContainer = styled.div`
+  margin-right: 20px;
+  flex-grow: 1.5;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  width: 750px;
+  padding: 20px;
+  height: auto;
+  @media screen and (max-width: 770px) {
+    margin-top: 20px;
+    width: 100%;
+  }
+`;
+const FormGroup = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: no-wrap;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  /* max-width: 600px; */
+`;
+const FormLabel = styled.div`
+  width: 130px;
+  line-height: 19px;
+  font-size: 16px;
+  color: #3f3a3a;
+  display: block;
+`;
+const FormCheck = styled.div`
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  /* & + & {
+    margin-left: 30px;
+  } */
+`;
+const FormCheckInput = styled.input`
+  margin: 0;
+  width: 15px;
+  height: 16px;
+`;
+const FormCheckLabel = styled.label`
+  margin-left: 5px;
+  line-height: 26px;
+`;
 const FormText = styled.textarea`
+  width: 80%;
+  height: 100px;
+  border-radius: 8px;
   resize: none;
 `;
-const FormControl = styled.input``;
+const FormControl = styled.input`
+  width: 250px;
+  height: 30px;
+  border-radius: 8px;
+  border: solid 1px #979797;
+`;
 
-const Block = styled.div`
-  margin-top: 50px;
+const TextInputCard = styled.div`
+  padding: 20px;
+`;
+const PhotoInputCard = styled.div`
+  margin: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+const UploadCardStyled = styled.label`
+  background-color: #fff;
+  padding: 10px;
+  width: 100%;
+  max-width: 400px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.08);
+  position: relative;
+  cursor: pointer;
+`;
+const UploadCardButton = styled.span`
+  background-color: #fff;
+  border: solid 2px #e6e6e6;
+  padding: 10px 10px;
+  border-radius: 30px;
+  font-size: 17px;
+  line-height: 1.24;
+  margin-bottom: 10px;
+  cursor: pointer;
+  &:hover {
+    background-color: gray;
+    color: #fff;
+    transition: 1s;
+  }
+`;
+const UploadCardInput = styled.input.attrs({
+  type: "file",
+  accept: "image/png, image/jpeg",
+})`
+  opacity: 0;
+  z-index: -1;
+  position: absolute;
+`;
+const UploadPreview = styled.div`
+  max-width: 100%;
+  max-height: 100%;
+  text-align: center;
+`;
+const UploadPreviewImg = styled.img`
+  max-width: 100%;
+  max-height: 100%;
+`;
+
+const Btn = styled.button`
+  font-size: 16px;
+  margin-top: 20px;
+  width: 200px;
+  border: 1px solid #627597;
+  border-radius: 6px;
+  background: none;
+  padding: 5px 12px;
+  cursor: pointer;
+  &:hover {
+    background-color: #edede9;
+  }
+`;
+
+const WelcomeMsg = styled.div`
+  margin-top: 30vh;
+`;
+
+const PreviewReadmeContainer = styled.div`
+  display: flex;
+  padding: 20px;
+`;
+const PreviewReadmeContainerLeft = styled.div``;
+const PreviewReadmeContainerRight = styled.div``;
+
+export const BoxHeader = styled.div`
+  padding: 16px;
+  background-color: #f6f8fa;
+  border-color: #d0d7de;
+  border-style: solid;
+  border-width: 1px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  margin: -1px -1px 0;
+  display: flex;
+  align-items: center;
 `;
 
 const Profile = () => {
-  const userData = useSelector((state) => state) as any;
   let navigate = useNavigate();
   const [getUser, setGetUser] = useState("");
   const [imageUpload, setImageUpload] = useState(null);
   const [imageURL, setImageURL] = useState("");
   const db = getFirestore();
   const storage = getStorage();
-  // Friend
-  const [sentInvitationList, setSentInvitationList] = useState<any>();
-  const [getInvitationList, setGetInvitationList] = useState<any>();
-  const [openFriend, setOpenFriend] = useState(false);
-  // Issues and branches
-  const [openIssues, setOpenIssues] = useState(false);
-  const [postedIssues, setPostedIssues] = useState<DocumentData>();
-  const [hostedIssues, setHostedIssues] = useState<DocumentData>();
-  const [attendedIssues, setAttendedIssues] = useState<DocumentData>();
-  const [openHostedBranches, setOpenHostedBranches] = useState(false);
-  const [openAttendedBranches, setOpenAttendedBranches] = useState(false);
+  const [userData, setUserData] = useState<any>(null);
+  const [showPreviewReadme, setShowPreviewReadme] = useState(false);
 
   useEffect(() => {
-    const userId = userData.user.user_id;
-    console.log(userId);
-    if (userId) {
-      setGetUser(userId);
-      // get friend
-      getFriend(userId);
-      searchIssues(userId);
-      searchHostedBranches(userId);
-      searchAttenedBranches(userId);
-    }
-  }, []);
-
-  // 把使用者放進db
-  const pushtodb = async () => {
-    await setDoc(doc(collection(db, "Users"), `${getUser}`), {
-      user_id: `${getUser}`,
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        var uid = user.uid;
+        setGetUser(uid);
+      }
     });
-  };
+  }, []);
 
   // 使用者更新資訊
   type ListData = {
@@ -105,23 +243,30 @@ const Profile = () => {
   const uploadFormGroups = [
     { label: "First Name", key: "firstname" },
     { label: "Last Name", key: "lastname" },
+    { label: "Occupation", key: "occupation" },
     { label: "Age", key: "age" },
     {
       label: "Gender",
       key: "gender",
       options: [
-        { label: "Male", value: "male" },
-        { label: "Female", value: "female" },
-        { label: "Prefer not to say", value: "not_to_say" },
+        { label: "Male", value: "Male" },
+        { label: "Female", value: "Female" },
+        { label: "Non-binary", value: "Non Binary" },
+        { label: "Transgender", value: "Transgender" },
+        { label: "Intersex", value: "Intersex" },
+        { label: "Prefer not to say", value: "Prefer not to say" },
       ],
     },
     {
-      label: "Interested Gender",
+      label: "Interested in",
       key: "gender_interested",
       options: [
-        { label: "Male", value: "interested_male" },
-        { label: "Female", value: "interested_female" },
-        { label: "Prefer not to say", value: "interested_not_to_say" },
+        { label: "Male", value: "Male" },
+        { label: "Female", value: "Female" },
+        { label: "Non-binary", value: "Non Binary" },
+        { label: "Transgender", value: "Transgender" },
+        { label: "Intersex", value: "Intersex" },
+        { label: "Prefer not to say", value: "Prefer not to say" },
       ],
     },
     { label: "Githublink", key: "githublink" },
@@ -131,6 +276,7 @@ const Profile = () => {
       options: [
         { label: "Date", value: "date" },
         { label: "BFF", value: "bff" },
+        { label: "Co-worker", value: "coworker" },
       ],
     },
     { label: "Details", key: "details", textarea: true },
@@ -189,12 +335,28 @@ const Profile = () => {
       );
     }
   };
+  const [fileSrc, setFileSrc] = useState<any>();
+  const handleUploadPhoto = (e: any) => {
+    if (!e.target.files[0]) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      setFileSrc(reader.result);
+    };
+    reader?.readAsDataURL(e?.target?.files[0]);
+    setImageUpload(e.target.files[0]);
+  };
+
+  const [showTextInput, setShowTextInput] = useState(false);
+  const [hidePhotoInput, setHidePhotoInput] = useState(true);
+  const [showWelcomeMsg, setShowWelcomeMsg] = useState(false);
+  const [hideTitle, setHideTitle] = useState(true);
+
   // 上傳照片
   const uploadImage = async () => {
     if (imageUpload == null) return;
     const imageRef = ref(storage, `users/${getUser}.jpg`);
     await uploadBytes(imageRef, imageUpload).then(() => {
-      alert("uploaded!");
+      alert("uploaded photo!");
     });
     const downloadUrl = await getDownloadURL(imageRef);
     setImageURL(downloadUrl);
@@ -203,161 +365,142 @@ const Profile = () => {
   const updateDB = async () => {
     const userRef = doc(collection(db, "Users"), `${getUser}`);
     await updateDoc(userRef, { ...recipient, main_photo: imageURL });
-    alert("updated!");
-  };
-
-  // 讀取好友邀請(讀DB中的friend_request -> get ID -> Search name -> Display name)
-  const getFriend = (id: string) => {
-    onSnapshot(doc(collection(db, "Users"), id), (doc) => {
-      if (doc.exists()) {
-        setSentInvitationList(doc.data().friend_sent_request);
-        // console.log(doc.data().friend_sent_request);
-        setGetInvitationList(doc.data().friend_request);
-        // console.log(doc.data().friend_request);
+    alert("updated README!");
+    setShowPreviewReadme(true);
+    await firebaseapi.readUserData(getUser).then((res) => {
+      if (res) {
+        setUserData(res);
       }
     });
-  };
-
-  // 開啟好友邀請列表
-  const handleChange = () => {
-    setOpenFriend(true);
-  };
-
-  // 開啟Issues列表
-  const handleIssues = () => {
-    setOpenIssues(true);
-  };
-  // 搜尋使用者發過的文
-  const searchIssues = async (userId: string) => {
-    let temp = [] as any;
-    const q = query(collection(db, "Issues"), where("posted_by", "==", userId));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      console.log(doc.data());
-      temp.push(doc.data());
-    });
-    setPostedIssues(temp);
-  };
-
-  // 開啟Branches列表
-  const handleHostedIssues = () => {
-    setOpenHostedBranches(true);
-  };
-  const handleAttendedIssues = () => {
-    setOpenAttendedBranches(true);
-  };
-  // 搜尋使用者的活動
-  const searchHostedBranches = async (userId: string) => {
-    let temp = [] as any;
-    const q = query(
-      collection(db, "Branches"),
-      where("hosted_by", "==", userId)
-    );
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      console.log(doc.data());
-      temp.push(doc.data());
-    });
-    setHostedIssues(temp);
-  };
-  const searchAttenedBranches = async (userId: string) => {
-    onSnapshot(doc(collection(db, "Users"), userId), async (doc) => {
-      if (doc.exists()) {
-        console.log(doc.data().activity_attend);
-        const newArr = [] as any;
-        for (let i = 0; i < doc.data().activity_attend.length; i++) {
-          await firebaseapi
-            .readBranchData(doc.data().activity_attend[i])
-            .then((res) => {
-              console.log(res);
-              if (res) {
-                console.log(res["title"]);
-                console.log(res["main_image"]);
-                const tempObj = {
-                  id: res["branch_id"],
-                  title: res["title"],
-                  photo: res["main_image"],
-                };
-                newArr.push(tempObj);
-              }
-            });
-        }
-        // Promise.all(promises).then((res) => console.log(res));
-        console.log(newArr);
-        setAttendedIssues(newArr);
-      }
-    });
+    setShowWelcomeMsg(true);
+    setShowTextInput(false);
+    setHideTitle(false);
   };
 
   return (
     <>
       <Wrapper>
-        <button onClick={pushtodb}>Set user</button>
-        <Block>
-          <h1>Edit profile</h1>
-          <div>
-            {uploadFormGroups.map(({ label, key, textarea, options }) => (
-              <FormGroup key={key}>
-                <FormLabel>{label}</FormLabel>
-                {uploadFormInputCheck(label, key, textarea, options)}
-              </FormGroup>
-            ))}
-          </div>
-          <input
-            type="file"
-            onChange={(e: any) => {
-              setImageUpload(e.target.files[0]);
-            }}
-          ></input>
-          <button onClick={uploadImage}>Upload image</button>
-          {imageURL && <img src={imageURL} alt="profile" />}
-          <div>
-            <button onClick={updateDB}>Update Profile</button>
-          </div>
-        </Block>
-        <Block>
-          <h1>Invitations area</h1>
-          <button onClick={handleChange}>Open the friend area</button>
-          {openFriend && getInvitationList && (
-            <Friend
-              sentInvitationList={sentInvitationList}
-              getInvitationList={getInvitationList}
-            />
-          )}
-        </Block>
-        <button
-          onClick={() => {
-            navigate("/chatlist");
-          }}
-        >
-          To see chatlist (all friend_list: repo/chatroom)
-        </button>
-        <Block>
-          <h1>Issues</h1>
-          <button onClick={handleIssues}>Open the issues area</button>
-          <br />
-          {openIssues && postedIssues && (
-            <PostedIssues postedIssues={postedIssues} />
-          )}
-        </Block>
-        <Block>
-          <h1>Branches</h1>
-          <button onClick={handleHostedIssues}>
-            Open the hosted branches area
-          </button>
-          <br />
-          {openHostedBranches && hostedIssues && (
-            <HostedBranches hostedIssues={hostedIssues} />
-          )}
-          <hr></hr>
-          <button onClick={handleAttendedIssues}>
-            Open the attended branches area
-          </button>
-          <br />
-          {openAttendedBranches && attendedIssues && (
-            <AttendedBranches attendedIssues={attendedIssues} />
-          )}
-        </Block>
+        <Container>
+          <LeftContainer>
+            <h1>
+              Welcome to GitDate
+              <br />
+              We are glad that you are here
+            </h1>
+            <PreviewContainer>
+              <BoxHeader>≡ Your README.md</BoxHeader>
+              {showPreviewReadme && (
+                <>
+                  {userData && (
+                    <>
+                      <PreviewReadmeContainer>
+                        <PreviewReadmeContainerLeft>
+                          <PhotoContainer>
+                            <PhotoContainerImg
+                              src={userData.main_photo}
+                              alt="main_photo"
+                            />
+                          </PhotoContainer>
+                        </PreviewReadmeContainerLeft>
+                        <PreviewReadmeContainerRight>
+                          <FormTextRead>
+                            <DataCard> Name </DataCard>
+                            {userData.firstname} {userData.lastname}
+                          </FormTextRead>
+                          <FormTextRead>
+                            <DataCard>Occupation</DataCard>
+                            {userData.occupation}
+                          </FormTextRead>
+                          <FormTextRead>
+                            <DataCard>Age</DataCard> {userData.age}
+                          </FormTextRead>
+                          <FormTextRead>
+                            <DataCard> Gender </DataCard> {userData.gender}
+                          </FormTextRead>
+                          <FormTextRead>
+                            <DataCard> Interested in </DataCard>
+                            {userData.gender_interested}
+                          </FormTextRead>
+                          <FormTextRead>
+                            <DataCard> Wish relationship </DataCard>
+                            {userData.wish_relationship}
+                          </FormTextRead>
+                          <FormTextRead>
+                            <DataCard> GithubLink</DataCard>
+                            <a
+                              href={userData.githublink}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {userData.githublink}
+                            </a>
+                          </FormTextRead>
+                          <FormTextRead>
+                            <DataCard> Details</DataCard>
+                            {userData.details}
+                          </FormTextRead>
+                        </PreviewReadmeContainerRight>
+                      </PreviewReadmeContainer>
+                    </>
+                  )}
+                </>
+              )}
+            </PreviewContainer>
+          </LeftContainer>
+          <RightContainer>
+            {hideTitle && (
+              <BoxHeader>
+                <h1>To write your README.md</h1>
+              </BoxHeader>
+            )}
+            {hidePhotoInput && (
+              <PhotoInputCard>
+                <UploadCardStyled>
+                  {fileSrc ? (
+                    <>
+                      <UploadPreview>
+                        <UploadPreviewImg src={fileSrc} />
+                      </UploadPreview>
+                    </>
+                  ) : (
+                    <UploadCardButton>
+                      Select your profile photo
+                    </UploadCardButton>
+                  )}
+                  <UploadCardInput onChange={handleUploadPhoto} />
+                </UploadCardStyled>
+                <Btn onClick={uploadImage}>Upload photo</Btn>
+                <br />
+                <Btn
+                  onClick={() => {
+                    setShowTextInput(true);
+                    setHidePhotoInput(false);
+                  }}
+                >
+                  Continue
+                </Btn>
+              </PhotoInputCard>
+            )}
+            {showTextInput && (
+              <>
+                <TextInputCard>
+                  {uploadFormGroups.map(({ label, key, textarea, options }) => (
+                    <FormGroup key={key}>
+                      <FormLabel>{label}</FormLabel>
+                      {uploadFormInputCheck(label, key, textarea, options)}
+                    </FormGroup>
+                  ))}
+                </TextInputCard>
+                <Btn onClick={updateDB}>Update Profile</Btn>
+              </>
+            )}
+            {showWelcomeMsg && (
+              <WelcomeMsg>
+                <h1>Let's explore GitDate!</h1>
+              </WelcomeMsg>
+            )}
+          </RightContainer>
+        </Container>
       </Wrapper>
     </>
   );
