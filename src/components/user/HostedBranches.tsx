@@ -45,7 +45,7 @@ const HostedBranches = ({ hostedBranches }: any) => {
                 <BlogTitle>{blog.title}</BlogTitle>
                 <ClickBtn
                   onClick={() => {
-                    navigate("/issue/" + blog.issue_id);
+                    navigate("/branch/" + blog.branch_id);
                   }}
                 >
                   Click to branch

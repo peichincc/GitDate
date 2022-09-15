@@ -18,7 +18,7 @@ import {
 import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import firebaseapi from "../../utils/firebaseapi";
-import Friend from "../../components/user/FriendRequest";
+import FriendRequest from "../../components/user/FriendRequest";
 import PostedIssues from "../../components/user/PostedIssues";
 import HostedBranches from "../../components/user/HostedBranches";
 import AttendedBranches from "../../components/user/AttendedBranches";
@@ -319,8 +319,8 @@ const Profile = () => {
           <h1>Invitations area</h1>
           <button onClick={handleChange}>Open the friend area</button>
           {openFriend && getInvitationList && (
-            <Friend
-              sentInvitationList={sentInvitationList}
+            <FriendRequest
+              // sentInvitationList={sentInvitationList}
               getInvitationList={getInvitationList}
             />
           )}

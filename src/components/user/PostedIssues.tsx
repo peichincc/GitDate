@@ -32,6 +32,8 @@ const BlogStatus = styled.div`
   border-radius: 2em;
   border: 1px solid;
   margin-right: 20px;
+  width: 60px;
+  text-align: center;
 `;
 const ClickBtn = styled.button`
   border: 1px solid transparent;

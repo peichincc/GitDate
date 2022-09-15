@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
 import {
@@ -12,13 +13,106 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { useSelector, useDispatch } from "react-redux";
+import { BoxHeader } from "../../pages/profile/Profile";
+
+import pr from "./pr_icon.png";
+import merge from "./merge.png";
+import close from "./close.png";
+
+const PR = styled.div`
+  width: 16px;
+  height: 16px;
+  background-image: url(${pr});
+  background-size: contain;
+  margin-right: 5px;
+`;
+const Merge = styled.div`
+  width: 16px;
+  height: 16px;
+  background-image: url(${merge});
+  background-size: contain;
+`;
+const Close = styled.div`
+  width: 16px;
+  height: 16px;
+  background-image: url(${close});
+  background-size: contain;
+`;
+
+const Container = styled.div`
+  width: 100%;
+  margin-top: 20px;
+  margin-right: 50px;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  height: auto;
+`;
+const ContentContainer = styled.div`
+  padding: 20px;
+`;
+
+const ListContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const NameContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const BtnContainer = styled.div`
+  display: flex;
+`;
+const MergeBtn = styled.button`
+  margin-right: 5px;
+  padding: 5px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+  border: 1px solid rgba(27, 31, 36, 0.15);
+  background-color: #2da44e;
+  color: white;
+  border-radius: 6px;
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  :hover {
+    background-color: #216e39;
+  }
+`;
+const CloseBtn = styled.button`
+  padding: 5px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+  border: 1px solid rgba(27, 31, 36, 0.15);
+  background-color: #d62828;
+  color: white;
+  border-radius: 6px;
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  :hover {
+    background-color: #e63946;
+  }
+`;
+const ClickBtn = styled.button`
+  border: 1px solid transparent;
+  border-radius: 2em;
+  cursor: pointer;
+  margin-left: 5px;
+`;
 
 interface Props {
-  sentInvitationList: [];
   getInvitationList: [];
 }
 
-const Friend = ({ sentInvitationList, getInvitationList }: Props) => {
+const FriendRequest = ({ getInvitationList }: Props) => {
+  let navigate = useNavigate();
   const userData = useSelector((state) => state) as any;
   const db = getFirestore();
   const [getUser, setGetUser] = useState("");
@@ -98,36 +192,41 @@ const Friend = ({ sentInvitationList, getInvitationList }: Props) => {
 
   return (
     <>
-      <p>Recieved request:</p>
-      {getInvitationList &&
-        getInvitationList.map((anObjectMapped, index) => {
-          return (
-            <div>
-              <p key={`${anObjectMapped["user_name"]}`}>
-                {anObjectMapped["user_name"]} - {anObjectMapped["user_id"]}
-              </p>
-              <button value={index} onClick={merge}>
-                Merge
-              </button>
-              <button value={index} onClick={close}>
-                Close
-              </button>
-            </div>
-          );
-        })}
-      <p>Sent request: (pending)</p>
-      {sentInvitationList &&
-        sentInvitationList.map((anObjectMapped, index) => {
-          return (
-            <div>
-              <p key={`${anObjectMapped["user_name"]}`}>
-                {anObjectMapped["user_name"]} - {anObjectMapped["user_id"]}
-              </p>
-            </div>
-          );
-        })}
+      <Container>
+        <BoxHeader>Pull requests</BoxHeader>
+        <ContentContainer>
+          {getInvitationList &&
+            getInvitationList.map((otherUser, index) => {
+              return (
+                <ListContainer>
+                  <NameContainer>
+                    <PR />
+                    <p key={`${otherUser["user_name"]}`}>
+                      {otherUser["user_name"]}
+                    </p>
+                    <ClickBtn
+                      onClick={() => {
+                        navigate("/readme/" + otherUser["user_id"]);
+                      }}
+                    >
+                      README
+                    </ClickBtn>
+                  </NameContainer>
+                  <BtnContainer>
+                    <MergeBtn value={index} onClick={merge}>
+                      Merge
+                    </MergeBtn>
+                    <CloseBtn value={index} onClick={close}>
+                      Close
+                    </CloseBtn>
+                  </BtnContainer>
+                </ListContainer>
+              );
+            })}
+        </ContentContainer>
+      </Container>
     </>
   );
 };
 
-export default Friend;
+export default FriendRequest;

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserData, signin } from "../../actions";
+import back from "./back.jpg";
 
 import firebaseapi from "../../utils/firebaseapi";
 import { auth } from "../../utils/firebase";
@@ -12,7 +13,6 @@ import {
   signOut,
 } from "firebase/auth";
 
-import { Container } from "./Signup";
 import { Title } from "./Signup";
 import { FormInputContainer } from "./Signup";
 import { SubmitBtn } from "./Signup";
@@ -21,6 +21,48 @@ const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
   margin: 0 auto;
+`;
+const BlockInnerImg = styled.div`
+  background-image: url(${back});
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #ffc629;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #333;
+  @media (min-width: 770px) {
+    height: calc(100vh - 64px);
+  }
+`;
+const BlockInner = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  max-width: 100%;
+  padding: 16px;
+`;
+const BlockContent = styled.div`
+  display: block;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  @media screen and (min-width: 900px) {
+    max-width: 680px;
+    padding: 32px;
+  }
+`;
+const Container = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 576px;
+  padding: 24px;
 `;
 
 const FormGroup = styled.div`
@@ -112,46 +154,58 @@ const Signin = () => {
   return (
     <>
       <Wrapper>
-        <Container>
-          <Title>Sign In to GitDate</Title>
-          {alreadyLogged ? (
-            <>
-              <h2>Welcome! {userData.user.user_name}</h2>
-              <SubmitBtn onClick={signout}>Sign out</SubmitBtn>
-            </>
-          ) : (
-            <>
-              <FormGroup key="email">
-                <FormLabel>email address</FormLabel>
-                <FormInputContainer>
-                  <FormControl
-                    type="text"
-                    value={recipient.email}
-                    onChange={(e) =>
-                      setRecipient({ ...recipient, email: e.target.value })
-                    }
-                  />
-                </FormInputContainer>
-              </FormGroup>
-              <FormGroup key="password">
-                <FormLabel>Password</FormLabel>
-                <FormInputContainer>
-                  <FormControl
-                    type="password"
-                    value={recipient.password}
-                    onChange={(e) =>
-                      setRecipient({ ...recipient, password: e.target.value })
-                    }
-                  />
-                </FormInputContainer>
-              </FormGroup>
-              <SubmitBtn onClick={onSubmit}>Sign In</SubmitBtn>
-              <TextReminder>
-                New to GitDate? <SignUpBtn>Create an account.</SignUpBtn>
-              </TextReminder>
-            </>
-          )}
-        </Container>
+        <BlockInnerImg>
+          <BlockInner>
+            <BlockContent>
+              <Container>
+                <Title>Sign In to GitDate</Title>
+                {alreadyLogged ? (
+                  <>
+                    <h2>Welcome! {userData.user.user_name}</h2>
+                    <SubmitBtn onClick={signout}>Sign out</SubmitBtn>
+                  </>
+                ) : (
+                  <>
+                    <FormGroup key="email">
+                      <FormLabel>email address</FormLabel>
+                      <FormInputContainer>
+                        <FormControl
+                          type="text"
+                          value={recipient.email}
+                          onChange={(e) =>
+                            setRecipient({
+                              ...recipient,
+                              email: e.target.value,
+                            })
+                          }
+                        />
+                      </FormInputContainer>
+                    </FormGroup>
+                    <FormGroup key="password">
+                      <FormLabel>Password</FormLabel>
+                      <FormInputContainer>
+                        <FormControl
+                          type="password"
+                          value={recipient.password}
+                          onChange={(e) =>
+                            setRecipient({
+                              ...recipient,
+                              password: e.target.value,
+                            })
+                          }
+                        />
+                      </FormInputContainer>
+                    </FormGroup>
+                    <SubmitBtn onClick={onSubmit}>Sign In</SubmitBtn>
+                    <TextReminder>
+                      New to GitDate? <SignUpBtn>Create an account.</SignUpBtn>
+                    </TextReminder>
+                  </>
+                )}
+              </Container>
+            </BlockContent>
+          </BlockInner>
+        </BlockInnerImg>
       </Wrapper>
     </>
   );

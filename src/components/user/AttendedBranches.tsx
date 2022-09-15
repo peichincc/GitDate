@@ -45,7 +45,7 @@ const AttendedBranches = ({ attendedBranches }: any) => {
                 <BlogTitle>{blog.title}</BlogTitle>
                 <ClickBtn
                   onClick={() => {
-                    navigate("/branch/" + blog.id);
+                    navigate("/branch/" + blog.branch_id);
                   }}
                 >
                   Click to branch

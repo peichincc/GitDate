@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import PR from "./pr_icon.png";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../utils/firebase";
-import { onAuthStateChanged } from "firebase/auth";
 import {
   getFirestore,
   doc,
-  setDoc,
-  updateDoc,
   collection,
   onSnapshot,
-  collectionGroup,
   query,
   where,
   getDocs,
@@ -22,6 +18,14 @@ import { useSelector, useDispatch } from "react-redux";
 import PostedIssues from "../../components/user/PostedIssues";
 import AttendedBranches from "../../components/user/AttendedBranches";
 import HostedBranches from "../../components/user/HostedBranches";
+import FriendRequest from "../../components/user/FriendRequest";
+
+const IconContainer = styled.div`
+  width: 16px;
+  height: 16px;
+  background-image: url(${PR});
+  background-size: contain;
+`;
 
 const Wrapper = styled.div`
   display: block;
@@ -106,22 +110,86 @@ const EditBtn = styled.button`
   }
 `;
 
+const OverviewContainer = styled.div`
+  margin-top: 20px;
+`;
+const OverViewNav = styled.div`
+  display: flex;
+`;
+const OverViewCardContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap-reverse;
+`;
+const OverViewCard = styled.div`
+  border-color: #d0d7de;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 6px;
+`;
+
+//Readme part
+const Container = styled.div`
+  margin-top: 20px;
+  margin-right: 50px;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  height: 50vh;
+`;
+const InsideContainder = styled.div`
+  display: flex;
+  margin-top: 20px;
+  flex-direction: column;
+  padding-left: 20px;
+`;
+const BoxHeader = styled.div`
+  padding: 16px;
+  background-color: #f6f8fa;
+  border-color: #d0d7de;
+  border-style: solid;
+  border-width: 1px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  margin: -1px -1px 0;
+  display: flex;
+  align-items: center;
+`;
+const FormTextRead = styled.div`
+  line-height: 19px;
+  font-size: 16px;
+  color: #3f3a3a;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: 5px;
+  margin-bottom: 10px;
+`;
+const DataCard = styled.div`
+  border-radius: 8px;
+  background-color: #edede9;
+  padding: 5px;
+  margin-right: 10px;
+`;
+
 const Member = () => {
   let navigate = useNavigate();
   const db = getFirestore();
   const userInfo = useSelector((state) => state) as any;
   const [getUser, setGetUser] = useState("");
   const [userData, setUserData] = useState<any>(null);
+  const [memberOverview, setMemberOverview] = useState(true);
   const [openIssue, setOpenIssue] = useState(false);
   const [postedIssues, setPostedIssues] = useState<DocumentData>();
   const [hostedBranches, setHostedBranches] = useState<DocumentData>();
   const [attendedBranches, setAttendedBranches] = useState<DocumentData>();
   const [openBranches, setOpenBranches] = useState(false);
+  const [getInvitationList, setGetInvitationList] = useState<any>();
+  const [openFriend, setOpenFriend] = useState(false);
 
   useEffect(() => {
     const userId = userInfo.user.user_id;
     console.log(userId);
     setGetUser(userId);
+    getFriend(userId);
     searchIssues(userId);
     searchHostedBranches(userId);
     searchAttenedBranches(userId);
@@ -130,18 +198,17 @@ const Member = () => {
         setUserData(res);
       }
     });
-    // onAuthStateChanged(auth, async (user) => {
-    //   if (user) {
-    //     var uid = user.uid;
-    //     setGetUser(uid);
-    //     await firebaseapi.readUserData(getUser).then((res) => {
-    //       if (res) {
-    //         setUserData(res);
-    //       }
-    //     });
-    //   }
-    // });
   }, []);
+
+  // 讀取好友邀請(讀DB中的friend_request -> get ID -> Search name -> Display name)
+  const getFriend = (id: string) => {
+    onSnapshot(doc(collection(db, "Users"), id), (doc) => {
+      if (doc.exists()) {
+        setGetInvitationList(doc.data().friend_request);
+        // console.log(doc.data().friend_request);
+      }
+    });
+  };
 
   // 搜尋使用者發過的文
   const searchIssues = async (userId: string) => {
@@ -203,7 +270,14 @@ const Member = () => {
       <Wrapper>
         <UpperContainer>
           <NavContainer>
-            <NavTab>
+            <NavTab
+              onClick={() => {
+                setMemberOverview(true);
+                setOpenFriend(false);
+                setOpenIssue(false);
+                setOpenBranches(false);
+              }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -218,8 +292,40 @@ const Member = () => {
             </NavTab>
             <NavTab
               onClick={() => {
+                setOpenFriend(true);
+                setMemberOverview(false);
+                setOpenIssue(false);
+                setOpenBranches(false);
+              }}
+            >
+              <IconContainer />- Pull requests
+            </NavTab>
+            <NavTab
+              onClick={() => {
+                setOpenIssue(false);
+                setOpenBranches(false);
+                setMemberOverview(true);
+                setOpenFriend(false);
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-box"
+                viewBox="0 0 16 16"
+              >
+                <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5 8.186 1.113zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
+              </svg>
+              - Repositories
+            </NavTab>
+            <NavTab
+              onClick={() => {
                 setOpenIssue(true);
                 setOpenBranches(false);
+                setMemberOverview(false);
+                setOpenFriend(false);
               }}
             >
               <svg
@@ -242,6 +348,8 @@ const Member = () => {
               onClick={() => {
                 setOpenBranches(true);
                 setOpenIssue(false);
+                setMemberOverview(false);
+                setOpenFriend(false);
               }}
             >
               <svg
@@ -279,6 +387,48 @@ const Member = () => {
               )}
             </SidebarLayout>
             <MainLayout>
+              {userData && memberOverview && (
+                <>
+                  <OverviewContainer>
+                    <Container>
+                      <BoxHeader>≡ README.md</BoxHeader>
+                      <InsideContainder>
+                        <FormTextRead>
+                          <DataCard> Name </DataCard>
+                          {userData.firstname} {userData.lastname}
+                        </FormTextRead>
+                        <FormTextRead>
+                          <DataCard>Age</DataCard> {userData.age}
+                        </FormTextRead>
+                        <FormTextRead>
+                          <DataCard> Gender </DataCard> {userData.gender}
+                        </FormTextRead>
+                        <FormTextRead>
+                          <DataCard> Interested in </DataCard>
+                          {userData.gender_interested}
+                        </FormTextRead>
+                        <FormTextRead>
+                          <DataCard> GithubLink</DataCard>
+                          <a
+                            href={userData.githublink}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {userData.githublink}
+                          </a>
+                        </FormTextRead>
+                        <FormTextRead>
+                          <DataCard> Details</DataCard>
+                          {userData.details}
+                        </FormTextRead>
+                      </InsideContainder>
+                    </Container>
+                  </OverviewContainer>
+                </>
+              )}
+              {openFriend && (
+                <FriendRequest getInvitationList={getInvitationList} />
+              )}
               {openIssue && postedIssues && (
                 <PostedIssues postedIssues={postedIssues} />
               )}
