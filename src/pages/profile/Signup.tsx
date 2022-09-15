@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
@@ -9,14 +9,20 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
+import img01 from "./slider/slider01.jpg";
+import img02 from "./slider/slider02.jpg";
+import img03 from "./slider/slider03.jpg";
+import img04 from "./slider/slider04.jpg";
+import img05 from "./slider/slider05.jpg";
+import img06 from "./slider/slider06.jpg";
+
 const Wrapper = styled.div`
   display: block;
-  max-width: 1376px;
+  width: 100%;
   margin: 0 auto;
 `;
 
 export const Container = styled.div`
-  margin-top: 120px;
   margin-left: auto;
   margin-right: auto;
   display: flex;
@@ -86,7 +92,38 @@ const SignInBtn = styled.button`
   }
 `;
 
+const BlockInnerImg = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #333;
+  height: calc(100vh - 64px);
+  transition: 300ms;
+`;
+const BlockInner = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  max-width: 100%;
+  padding: 16px;
+`;
+const BlockContent = styled.div`
+  display: block;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  @media screen and (min-width: 900px) {
+    max-width: 680px;
+    padding: 32px;
+  }
+`;
+
 const Signup = () => {
+  const [photo, setPhoto] = useState(1);
   const db = getFirestore();
   const navigate = useNavigate();
   const [showPasswordInput, setShowPasswordInput] = useState(false);
@@ -97,6 +134,42 @@ const Signup = () => {
     email: "",
     password: "",
   });
+
+  const change = () => {
+    if (photo === 7) {
+      setPhoto(1);
+      return;
+    }
+    setPhoto((prev) => prev + 1);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      change();
+    }, 10000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [photo]);
+
+  const returnPhotoURL = () => {
+    switch (photo) {
+      case 1:
+        return img01;
+      case 2:
+        return img02;
+      case 3:
+        return img03;
+      case 4:
+        return img04;
+      case 5:
+        return img05;
+      case 6:
+        return img06;
+      default:
+        return img01;
+    }
+  };
 
   const onSubmit = () => {
     setIsLoading(true);
@@ -140,53 +213,70 @@ const Signup = () => {
   return (
     <>
       <Wrapper>
-        <TextReminder>
-          Already have account?
-          <SignInBtn onClick={() => navigate("/signin")}>Sign In ➜</SignInBtn>
-        </TextReminder>
-        <Container>
-          <InsideContainer>
-            <Title>
-              Welcome to GitDate!
-              <br />
-              Let's begin the adventure
-            </Title>
-            <InputContainer>
-              <FormGroup key="email">
-                <FormLabel>Enter your email</FormLabel>
-                <FormInputContainer>
-                  {showPasswordInput ? " ✔️ " : " ➜ "}
-                  <FormControl
-                    type="text"
-                    value={recipient.email}
-                    onChange={(e) =>
-                      setRecipient({ ...recipient, email: e.target.value })
-                    }
-                  />
-                  <ContinueBtn onClick={handleEmailInput}>Continue</ContinueBtn>
-                </FormInputContainer>
-              </FormGroup>
-              {showPasswordInput && (
-                <FormGroup key="password">
-                  <FormLabel>Create a password</FormLabel>
-                  <FormInputContainer>
-                    {showSignUp ? " ✔️ " : " ➜ "}
-                    <FormControl
-                      type="password"
-                      value={recipient.password}
-                      onChange={(e) =>
-                        setRecipient({ ...recipient, password: e.target.value })
-                      }
-                    />
-                    <ContinueBtn onClick={handlePasswordInput}>
-                      Continue
-                    </ContinueBtn>
-                  </FormInputContainer>
-                </FormGroup>
-              )}
-            </InputContainer>
-          </InsideContainer>
-          {/* {signInData.map(({ label, key, type }: ListData) => (
+        <BlockInnerImg
+          style={{
+            backgroundImage: `url(${returnPhotoURL()})`,
+          }}
+        >
+          <BlockInner>
+            <BlockContent>
+              <TextReminder>
+                Already have account?
+                <SignInBtn onClick={() => navigate("/signin")}>
+                  Sign In ➜
+                </SignInBtn>
+              </TextReminder>
+              <Container>
+                <InsideContainer>
+                  <Title>
+                    Welcome to GitDate!
+                    <br />
+                    Let's begin the adventure
+                  </Title>
+                  <InputContainer>
+                    <FormGroup key="email">
+                      <FormLabel>Enter your email</FormLabel>
+                      <FormInputContainer>
+                        {showPasswordInput ? " ✔️ " : " ➜ "}
+                        <FormControl
+                          type="text"
+                          value={recipient.email}
+                          onChange={(e) =>
+                            setRecipient({
+                              ...recipient,
+                              email: e.target.value,
+                            })
+                          }
+                        />
+                        <ContinueBtn onClick={handleEmailInput}>
+                          Continue
+                        </ContinueBtn>
+                      </FormInputContainer>
+                    </FormGroup>
+                    {showPasswordInput && (
+                      <FormGroup key="password">
+                        <FormLabel>Create a password</FormLabel>
+                        <FormInputContainer>
+                          {showSignUp ? " ✔️ " : " ➜ "}
+                          <FormControl
+                            type="password"
+                            value={recipient.password}
+                            onChange={(e) =>
+                              setRecipient({
+                                ...recipient,
+                                password: e.target.value,
+                              })
+                            }
+                          />
+                          <ContinueBtn onClick={handlePasswordInput}>
+                            Continue
+                          </ContinueBtn>
+                        </FormInputContainer>
+                      </FormGroup>
+                    )}
+                  </InputContainer>
+                </InsideContainer>
+                {/* {signInData.map(({ label, key, type }: ListData) => (
               <FormGroup key={key}>
                 <FormLabel>{label}</FormLabel>
                 <FormControl
@@ -198,13 +288,16 @@ const Signup = () => {
                 />
               </FormGroup>
             ))} */}
-          {errorMsg && <p>{errorMsg}</p>}
-          {showSignUp && (
-            <SubmitBtn onClick={onSubmit}>
-              {isLoading ? "Loading" : "Sign Up"}
-            </SubmitBtn>
-          )}
-        </Container>
+                {errorMsg && <p>{errorMsg}</p>}
+                {showSignUp && (
+                  <SubmitBtn onClick={onSubmit}>
+                    {isLoading ? "Loading" : "Sign Up"}
+                  </SubmitBtn>
+                )}
+              </Container>
+            </BlockContent>
+          </BlockInner>
+        </BlockInnerImg>
       </Wrapper>
     </>
   );
