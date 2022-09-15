@@ -116,10 +116,12 @@ const BlockContent = styled.div`
   width: 100%;
   background-color: rgba(255, 255, 255, 0.9);
   text-align: center;
-  @media screen and (min-width: 900px) {
+  max-width: 680px;
+  padding: 32px;
+  /* @media screen and (min-width: 770px) {
     max-width: 680px;
     padding: 32px;
-  }
+  } */
 `;
 
 const Signup = () => {
