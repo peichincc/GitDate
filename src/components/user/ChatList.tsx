@@ -70,7 +70,6 @@ const ChatList = () => {
   const db = getFirestore();
   const [getUser, setGetUser] = useState("");
   const [friendList, setFriendList] = useState<any>();
-  const [chatRoomId, setChatRoomId] = useState([]);
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -81,14 +80,6 @@ const ChatList = () => {
         if (result) {
           console.log(result["friend_list"]);
           setFriendList(result["friend_list"]);
-          let chatRoomArr = [] as any;
-          result["friend_list"].map((tmp: any) => {
-            console.log(tmp?.chat_id);
-            chatRoomArr.push(tmp?.chat_id);
-            return chatRoomArr;
-          });
-          console.log(chatRoomArr);
-          setChatRoomId(chatRoomArr);
         }
       });
     }

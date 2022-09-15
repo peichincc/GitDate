@@ -422,6 +422,10 @@ const Member = () => {
                           {userData.gender_interested}
                         </FormTextRead>
                         <FormTextRead>
+                          <DataCard> Wish relationship </DataCard>
+                          {userData.wish_relationship}
+                        </FormTextRead>
+                        <FormTextRead>
                           <DataCard> GithubLink</DataCard>
                           <a
                             href={userData.githublink}

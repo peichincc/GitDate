@@ -400,6 +400,10 @@ const Profile = () => {
                             {userData.firstname} {userData.lastname}
                           </FormTextRead>
                           <FormTextRead>
+                            <DataCard>Occupation</DataCard>
+                            {userData.occupation}
+                          </FormTextRead>
+                          <FormTextRead>
                             <DataCard>Age</DataCard> {userData.age}
                           </FormTextRead>
                           <FormTextRead>
@@ -408,6 +412,10 @@ const Profile = () => {
                           <FormTextRead>
                             <DataCard> Interested in </DataCard>
                             {userData.gender_interested}
+                          </FormTextRead>
+                          <FormTextRead>
+                            <DataCard> Wish relationship </DataCard>
+                            {userData.wish_relationship}
                           </FormTextRead>
                           <FormTextRead>
                             <DataCard> GithubLink</DataCard>

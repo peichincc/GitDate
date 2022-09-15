@@ -1,10 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { doc, getDoc, getFirestore, collection } from "firebase/firestore";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
+import {
+  getFirestore,
+  doc,
+  collection,
+  onSnapshot,
+  query,
+  where,
+  getDocs,
+  DocumentData,
+} from "firebase/firestore";
 
 import { BoxHeader } from "./Profile";
+
+import PostedIssues from "../../components/user/PostedIssues";
+import HostedBranches from "../../components/user/HostedBranches";
+import AttendedBranches from "../../components/user/AttendedBranches";
 
 const Wrapper = styled.div`
   display: block;
@@ -24,6 +37,7 @@ const InsideContainder = styled.div`
 `;
 const LeftContainer = styled.div`
   margin-left: 20px;
+  margin-bottom: 20px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -43,6 +57,11 @@ export const PhotoContainerImg = styled.img`
 const RightContainer = styled.div`
   margin-left: 20px;
   flex-grow: 4;
+  margin-top: 20px;
+  margin-bottom: 20px;
+`;
+const NameCard = styled.div`
+  padding-top: 8px;
 `;
 
 export const FormTextRead = styled.div`
@@ -80,6 +99,9 @@ const Readme = () => {
   };
   // const [userData, setUserData] = useState<ListData | null>(null);
   const [userData, setUserData] = useState<any>(null);
+  const [postedIssues, setPostedIssues] = useState<DocumentData>();
+  const [hostedBranches, setHostedBranches] = useState<DocumentData>();
+  const [attendedBranches, setAttendedBranches] = useState<DocumentData>();
 
   useEffect(() => {
     // readData(id);
@@ -87,9 +109,62 @@ const Readme = () => {
     firebaseapi.readUserData(id).then((res) => {
       if (res) {
         setUserData(res);
+        console.log(res.user_id);
+        searchIssues(res.user_id);
+        searchHostedBranches(res.user_id);
+        searchAttenedBranches(res.user_id);
       }
     });
   }, []);
+
+  // 搜尋使用者發過的文
+  const searchIssues = async (userId: string) => {
+    let temp = [] as any;
+    const q = query(collection(db, "Issues"), where("posted_by", "==", userId));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data());
+      temp.push(doc.data());
+    });
+    setPostedIssues(temp);
+  };
+  // 搜尋使用者的活動
+  const searchHostedBranches = async (userId: string) => {
+    let temp = [] as any;
+    const q = query(
+      collection(db, "Branches"),
+      where("hosted_by", "==", userId)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      temp.push(doc.data());
+    });
+    setHostedBranches(temp);
+  };
+  const searchAttenedBranches = async (userId: string) => {
+    onSnapshot(doc(collection(db, "Users"), userId), async (doc) => {
+      if (doc.exists()) {
+        console.log(doc.data().activity_attend);
+        const newArr = [] as any;
+        for (let i = 0; i < doc.data().activity_attend.length; i++) {
+          await firebaseapi
+            .readBranchData(doc.data().activity_attend[i])
+            .then((res) => {
+              if (res) {
+                const tempObj = {
+                  id: res["branch_id"],
+                  title: res["title"],
+                  photo: res["main_image"],
+                };
+                newArr.push(tempObj);
+              }
+            });
+        }
+        // Promise.all(promises).then((res) => console.log(res));
+        setAttendedBranches(newArr);
+      }
+    });
+  };
 
   return (
     <>
@@ -106,15 +181,14 @@ const Readme = () => {
                       alt="main_photo"
                     />
                   </PhotoContainer>
+                  <NameCard>
+                    <b>
+                      {userData.firstname} {userData.lastname}
+                    </b>
+                  </NameCard>
+                  <NameCard>{userData.occupation}</NameCard>
                 </LeftContainer>
                 <RightContainer>
-                  <FormTextRead>
-                    <DataCard> Name </DataCard>
-                    {userData.firstname} {userData.lastname}
-                  </FormTextRead>
-                  <FormTextRead>
-                    <DataCard> Occupation </DataCard> {userData.occupation}
-                  </FormTextRead>
                   <FormTextRead>
                     <DataCard>Age</DataCard> {userData.age}
                   </FormTextRead>
@@ -124,6 +198,10 @@ const Readme = () => {
                   <FormTextRead>
                     <DataCard> Interested in </DataCard>
                     {userData.gender_interested}
+                  </FormTextRead>
+                  <FormTextRead>
+                    <DataCard> Wish relationship </DataCard>
+                    {userData.wish_relationship}
                   </FormTextRead>
                   <FormTextRead>
                     <DataCard> GithubLink</DataCard>
@@ -142,6 +220,13 @@ const Readme = () => {
                 </RightContainer>
               </InsideContainder>
             </Container>
+            {postedIssues && <PostedIssues postedIssues={postedIssues} />}
+            {hostedBranches && (
+              <>
+                <HostedBranches hostedBranches={hostedBranches} />
+                <AttendedBranches attendedBranches={attendedBranches} />
+              </>
+            )}
           </>
         )}
       </Wrapper>

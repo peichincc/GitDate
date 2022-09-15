@@ -10,7 +10,7 @@ const Container = styled.div`
   margin-right: 50px;
   border: 1px solid #d0d7de;
   border-radius: 6px;
-  height: 50vh;
+  height: auto;
 `;
 const ContentContainer = styled.div`
   padding: 20px;

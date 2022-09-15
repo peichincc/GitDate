@@ -54,6 +54,9 @@ const ContentContainer = styled.div`
 const ListContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  border-bottom: 1px solid #d0d7de;
+  padding-top: 10px;
+  padding-bottom: 10px;
 `;
 
 const NameContainer = styled.div`
