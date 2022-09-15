@@ -25,28 +25,29 @@ const Wrapper = styled.div`
 const Container = styled.div`
   margin-top: 50px;
   display: flex;
-  height: 80vh;
+  height: auto;
+  @media screen and (max-width: 770px) {
+    flex-direction: column;
+    height: auto;
+  }
 `;
 const LeftContainer = styled.div`
   margin-left: 20px;
   flex-grow: 1;
+  @media screen and (max-width: 770px) {
+    margin-left: 0px;
+  }
 `;
 const PreviewContainer = styled.div`
   margin-top: 20px;
   margin-right: 50px;
   border: 1px solid #d0d7de;
   border-radius: 6px;
-  height: 50vh;
-`;
-const ReadmePreviewPhotoImg = styled.img`
-  max-width: 100%;
-  max-height: 100%;
-`;
-const ReadmePreviewPhoto = styled.div`
-  padding: 10px;
-  width: 100%;
-  max-width: 200px;
-  height: 200px;
+  height: auto;
+  @media screen and (max-width: 770px) {
+    margin: 0 auto;
+    width: 100%;
+  }
 `;
 const RightContainer = styled.div`
   margin-right: 20px;
@@ -54,6 +55,12 @@ const RightContainer = styled.div`
   border: 1px solid #d0d7de;
   border-radius: 6px;
   width: 750px;
+  padding: 20px;
+  height: auto;
+  @media screen and (max-width: 770px) {
+    margin-top: 20px;
+    width: 100%;
+  }
 `;
 const FormGroup = styled.div`
   display: flex;
@@ -179,6 +186,7 @@ const WelcomeMsg = styled.div`
 
 const PreviewReadmeContainer = styled.div`
   display: flex;
+  padding: 20px;
 `;
 const PreviewReadmeContainerLeft = styled.div``;
 const PreviewReadmeContainerRight = styled.div``;
@@ -437,11 +445,6 @@ const Profile = () => {
                   )}
                 </>
               )}
-              {/* {imageURL && (
-                <ReadmePreviewPhoto>
-                  <ReadmePreviewPhotoImg src={imageURL} alt="profile" />
-                </ReadmePreviewPhoto>
-              )} */}
             </PreviewContainer>
           </LeftContainer>
           <RightContainer>

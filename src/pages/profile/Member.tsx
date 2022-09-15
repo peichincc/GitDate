@@ -32,7 +32,6 @@ const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
   margin: 0 auto;
-  width: 90%;
 `;
 const UpperContainer = styled.div`
   height: 48px;
@@ -112,25 +111,9 @@ const EditBtn = styled.button`
   }
 `;
 
-const OverviewContainer = styled.div`
-  margin-top: 20px;
-`;
-const OverViewNav = styled.div`
-  display: flex;
-`;
-const OverViewCardContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap-reverse;
-`;
-const OverViewCard = styled.div`
-  border-color: #d0d7de;
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 6px;
-`;
-
 //Readme part
 const Container = styled.div`
+  width: 100%;
   margin-top: 20px;
   margin-right: 50px;
   border: 1px solid #d0d7de;
@@ -141,7 +124,6 @@ const InsideContainder = styled.div`
   display: flex;
   margin-top: 20px;
   flex-direction: column;
-  padding-left: 20px;
   height: auto;
 `;
 const BoxHeader = styled.div`
@@ -173,6 +155,10 @@ const DataCard = styled.div`
   margin-right: 10px;
   width: 120px;
   text-align: center;
+`;
+
+const TextArea = styled.div`
+  max-width: 400px;
 `;
 
 const Member = () => {
@@ -400,49 +386,47 @@ const Member = () => {
             <MainLayout>
               {userData && memberOverview && (
                 <>
-                  <OverviewContainer>
-                    <Container>
-                      <BoxHeader>≡ README.md</BoxHeader>
-                      <InsideContainder>
-                        <FormTextRead>
-                          <DataCard> Name </DataCard>
-                          {userData.firstname} {userData.lastname}
-                        </FormTextRead>
-                        <FormTextRead>
-                          <DataCard> Occupation </DataCard>
-                          {userData.occupation}
-                        </FormTextRead>
-                        <FormTextRead>
-                          <DataCard>Age</DataCard> {userData.age}
-                        </FormTextRead>
-                        <FormTextRead>
-                          <DataCard> Gender </DataCard> {userData.gender}
-                        </FormTextRead>
-                        <FormTextRead>
-                          <DataCard> Interested in </DataCard>
-                          {userData.gender_interested}
-                        </FormTextRead>
-                        <FormTextRead>
-                          <DataCard> Wish relationship </DataCard>
-                          {userData.wish_relationship}
-                        </FormTextRead>
-                        <FormTextRead>
-                          <DataCard> GithubLink</DataCard>
-                          <a
-                            href={userData.githublink}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {userData.githublink}
-                          </a>
-                        </FormTextRead>
-                        <FormTextRead>
-                          <DataCard> Details</DataCard>
-                          {userData.details}
-                        </FormTextRead>
-                      </InsideContainder>
-                    </Container>
-                  </OverviewContainer>
+                  <Container>
+                    <BoxHeader>≡ README.md</BoxHeader>
+                    <InsideContainder>
+                      <FormTextRead>
+                        <DataCard> Name </DataCard>
+                        {userData.firstname} {userData.lastname}
+                      </FormTextRead>
+                      <FormTextRead>
+                        <DataCard> Occupation </DataCard>
+                        {userData.occupation}
+                      </FormTextRead>
+                      <FormTextRead>
+                        <DataCard>Age</DataCard> {userData.age}
+                      </FormTextRead>
+                      <FormTextRead>
+                        <DataCard> Gender </DataCard> {userData.gender}
+                      </FormTextRead>
+                      <FormTextRead>
+                        <DataCard> Interested in </DataCard>
+                        {userData.gender_interested}
+                      </FormTextRead>
+                      <FormTextRead>
+                        <DataCard> Wish relationship </DataCard>
+                        {userData.wish_relationship}
+                      </FormTextRead>
+                      <FormTextRead>
+                        <DataCard> GithubLink</DataCard>
+                        <a
+                          href={userData.githublink}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {userData.githublink}
+                        </a>
+                      </FormTextRead>
+                      <FormTextRead>
+                        <DataCard> Details</DataCard>
+                        <TextArea>{userData.details}</TextArea>
+                      </FormTextRead>
+                    </InsideContainder>
+                  </Container>
                 </>
               )}
               {openFriend && (
