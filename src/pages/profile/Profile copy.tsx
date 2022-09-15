@@ -45,7 +45,7 @@ const Block = styled.div`
   margin-top: 50px;
 `;
 
-const Profile = () => {
+const Profilex = () => {
   const userData = useSelector((state) => state) as any;
   let navigate = useNavigate();
   const [getUser, setGetUser] = useState("");
@@ -363,4 +363,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Profilex;

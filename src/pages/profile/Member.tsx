@@ -19,6 +19,7 @@ import PostedIssues from "../../components/user/PostedIssues";
 import AttendedBranches from "../../components/user/AttendedBranches";
 import HostedBranches from "../../components/user/HostedBranches";
 import FriendRequest from "../../components/user/FriendRequest";
+import ChatList from "../../components/user/ChatList";
 
 const IconContainer = styled.div`
   width: 16px;
@@ -133,13 +134,14 @@ const Container = styled.div`
   margin-right: 50px;
   border: 1px solid #d0d7de;
   border-radius: 6px;
-  height: 50vh;
+  height: auto;
 `;
 const InsideContainder = styled.div`
   display: flex;
   margin-top: 20px;
   flex-direction: column;
   padding-left: 20px;
+  height: auto;
 `;
 const BoxHeader = styled.div`
   padding: 16px;
@@ -168,6 +170,8 @@ const DataCard = styled.div`
   background-color: #edede9;
   padding: 5px;
   margin-right: 10px;
+  width: 120px;
+  text-align: center;
 `;
 
 const Member = () => {
@@ -184,6 +188,7 @@ const Member = () => {
   const [openBranches, setOpenBranches] = useState(false);
   const [getInvitationList, setGetInvitationList] = useState<any>();
   const [openFriend, setOpenFriend] = useState(false);
+  const [openRepo, setOpenRepo] = useState(false);
 
   useEffect(() => {
     const userId = userInfo.user.user_id;
@@ -276,6 +281,7 @@ const Member = () => {
                 setOpenFriend(false);
                 setOpenIssue(false);
                 setOpenBranches(false);
+                setOpenRepo(false);
               }}
             >
               <svg
@@ -296,15 +302,17 @@ const Member = () => {
                 setMemberOverview(false);
                 setOpenIssue(false);
                 setOpenBranches(false);
+                setOpenRepo(false);
               }}
             >
               <IconContainer />- Pull requests
             </NavTab>
             <NavTab
               onClick={() => {
+                setOpenRepo(true);
                 setOpenIssue(false);
                 setOpenBranches(false);
-                setMemberOverview(true);
+                setMemberOverview(false);
                 setOpenFriend(false);
               }}
             >
@@ -326,6 +334,7 @@ const Member = () => {
                 setOpenBranches(false);
                 setMemberOverview(false);
                 setOpenFriend(false);
+                setOpenRepo(false);
               }}
             >
               <svg
@@ -350,6 +359,7 @@ const Member = () => {
                 setOpenIssue(false);
                 setMemberOverview(false);
                 setOpenFriend(false);
+                setOpenRepo(false);
               }}
             >
               <svg
@@ -398,6 +408,10 @@ const Member = () => {
                           {userData.firstname} {userData.lastname}
                         </FormTextRead>
                         <FormTextRead>
+                          <DataCard> Occupation </DataCard>
+                          {userData.occupation}
+                        </FormTextRead>
+                        <FormTextRead>
                           <DataCard>Age</DataCard> {userData.age}
                         </FormTextRead>
                         <FormTextRead>
@@ -429,6 +443,7 @@ const Member = () => {
               {openFriend && (
                 <FriendRequest getInvitationList={getInvitationList} />
               )}
+              {openRepo && <ChatList />}
               {openIssue && postedIssues && (
                 <PostedIssues postedIssues={postedIssues} />
               )}

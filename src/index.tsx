@@ -16,7 +16,7 @@ import Readme from "./pages/profile/Readme";
 import CreateIssue from "./pages/issue/CreateIssue";
 import Issue from "./pages/issue/Issue";
 import IssueAll from "./pages/issue/IssuesAll";
-import ChatList from "./pages/chatroom/ChatList";
+import ChatList from "./components/user/ChatList";
 import Chatroom from "./pages/chatroom/Chatroom";
 import CreateBranch from "./pages/branch/CreateBranch";
 import Branch from "./pages/branch/Branch";

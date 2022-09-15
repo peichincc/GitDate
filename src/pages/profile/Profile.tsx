@@ -101,7 +101,9 @@ const FormControl = styled.input`
   border: solid 1px #979797;
 `;
 
-const TextInputCard = styled.div``;
+const TextInputCard = styled.div`
+  padding: 20px;
+`;
 const PhotoInputCard = styled.div`
   margin: 50px;
   display: flex;
@@ -233,6 +235,7 @@ const Profile = () => {
   const uploadFormGroups = [
     { label: "First Name", key: "firstname" },
     { label: "Last Name", key: "lastname" },
+    { label: "Occupation", key: "occupation" },
     { label: "Age", key: "age" },
     {
       label: "Gender",

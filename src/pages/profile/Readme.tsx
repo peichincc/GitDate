@@ -16,7 +16,7 @@ const Container = styled.div`
   margin-right: 50px;
   border: 1px solid #d0d7de;
   border-radius: 6px;
-  height: 50vh;
+  height: auto;
 `;
 const InsideContainder = styled.div`
   display: flex;
@@ -60,6 +60,8 @@ export const DataCard = styled.div`
   background-color: #edede9;
   padding: 5px;
   margin-right: 10px;
+  width: 120px;
+  text-align: center;
 `;
 
 const Readme = () => {
@@ -109,6 +111,9 @@ const Readme = () => {
                   <FormTextRead>
                     <DataCard> Name </DataCard>
                     {userData.firstname} {userData.lastname}
+                  </FormTextRead>
+                  <FormTextRead>
+                    <DataCard> Occupation </DataCard> {userData.occupation}
                   </FormTextRead>
                   <FormTextRead>
                     <DataCard>Age</DataCard> {userData.age}
