@@ -5,13 +5,11 @@ import back from "./back.jpg";
 
 const Wrapper = styled.div`
   display: block;
-  max-width: 1376px;
   margin: 0 auto;
 `;
 
 const Block = styled.div`
   display: block;
-  max-width: 1376px;
   margin: 0 auto;
 `;
 
@@ -25,9 +23,10 @@ const BlockInnerImg = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   color: #333;
-  @media (min-width: 770px) {
+  height: calc(100vh - 64px);
+  /* @media (max-width: 770px) {
     height: calc(100vh - 64px);
-  }
+  } */
 `;
 
 const BlockInner = styled.div`
@@ -44,7 +43,7 @@ const BlockContent = styled.div`
   width: 100%;
   background-color: rgba(255, 255, 255, 0.9);
   text-align: center;
-  @media screen and (min-width: 900px) {
+  @media screen and (min-width: 1280px) {
     max-width: 680px;
     padding: 32px;
   }

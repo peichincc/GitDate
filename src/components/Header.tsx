@@ -14,7 +14,6 @@ import {
 } from "firebase/auth";
 
 const Wrapper = styled.div`
-  max-width: 1376px;
   display: flex;
   margin: 0 auto;
   height: 62px;

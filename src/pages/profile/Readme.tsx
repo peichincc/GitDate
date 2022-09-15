@@ -25,6 +25,7 @@ const Wrapper = styled.div`
   margin: 0 auto;
 `;
 const Container = styled.div`
+  width: 100%;
   margin-top: 20px;
   margin-right: 50px;
   border: 1px solid #d0d7de;
@@ -104,8 +105,6 @@ const Readme = () => {
   const [attendedBranches, setAttendedBranches] = useState<DocumentData>();
 
   useEffect(() => {
-    // readData(id);
-    // console.log(userData);
     firebaseapi.readUserData(id).then((res) => {
       if (res) {
         setUserData(res);
@@ -160,7 +159,6 @@ const Readme = () => {
               }
             });
         }
-        // Promise.all(promises).then((res) => console.log(res));
         setAttendedBranches(newArr);
       }
     });

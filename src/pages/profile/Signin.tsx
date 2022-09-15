@@ -19,7 +19,6 @@ import { SubmitBtn } from "./Signup";
 
 const Wrapper = styled.div`
   display: block;
-  max-width: 1376px;
   margin: 0 auto;
 `;
 const BlockInnerImg = styled.div`
