@@ -32,6 +32,7 @@ const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
   margin: 0 auto;
+  width: 90%;
 `;
 const UpperContainer = styled.div`
   height: 48px;

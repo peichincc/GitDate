@@ -20,6 +20,7 @@ import HostedBranches from "../../components/user/HostedBranches";
 import AttendedBranches from "../../components/user/AttendedBranches";
 
 const Wrapper = styled.div`
+  width: 90%;
   display: block;
   max-width: 1376px;
   margin: 0 auto;
@@ -27,7 +28,6 @@ const Wrapper = styled.div`
 const Container = styled.div`
   width: 100%;
   margin-top: 20px;
-  margin-right: 50px;
   border: 1px solid #d0d7de;
   border-radius: 6px;
   height: auto;

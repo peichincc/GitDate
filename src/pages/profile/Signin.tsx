@@ -31,9 +31,7 @@ const BlockInnerImg = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   color: #333;
-  @media (min-width: 770px) {
-    height: calc(100vh - 64px);
-  }
+  height: calc(100vh - 64px);
 `;
 const BlockInner = styled.div`
   display: flex;
