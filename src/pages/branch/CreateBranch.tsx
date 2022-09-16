@@ -42,9 +42,29 @@ const MainLayout = styled.div`
   margin: 0 auto;
   padding: 20px;
 `;
+const TabWraper = styled.div`
+  width: 80%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -1px;
+`;
+const TabButton = styled.button`
+  border-radius: 6px 6px 0 0;
+  border-bottom: 0;
+  border: 1px solid transparent;
+  padding: 16px 16px;
+  font-size: 26px;
+  line-height: 23px;
+  background: #f6f8fa;
+  margin-right: 10px;
+  width: 150px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f8ad9d;
+  }
+`;
 const PostWraper = styled.div`
   display: flex;
-  margin-top: 20px;
 `;
 const AvatarBlock = styled.div`
   width: auto;
@@ -191,7 +211,11 @@ const CreateBranch = () => {
     <>
       <Wrapper>
         <MainLayout>
-          <h1>Create branch</h1>
+          <h1>To Create...</h1>
+          <TabWraper>
+            <TabButton>Issue</TabButton>
+            <TabButton>Branch</TabButton>
+          </TabWraper>
           <PostWraper>
             <AvatarBlock>
               <AvatarUser>
