@@ -109,7 +109,6 @@ const RemoveBtn = styled.button`
 const PreviewPhotoContainer = styled.div`
   padding-top: 20px;
   padding-bottom: 20px;
-  padding-right: 20px;
   display: flex;
   flex-direction: column;
 `;
@@ -245,7 +244,6 @@ const CreateIssue = () => {
                     onChange={handleUploadFile}
                     style={{ display: "none" }}
                   ></input>
-
                   {fileSrc && (
                     <>
                       <p>Preview photo:</p>
@@ -256,8 +254,8 @@ const CreateIssue = () => {
                       </UploadCardStyled>
                     </>
                   )}
+                  <Button onClick={handleClick}>git add</Button>
                 </PreviewPhotoContainer>
-                <Button onClick={handleClick}>git add</Button>
               </FormGroup>
               <FormGroup>
                 <FormLabel>Tags</FormLabel>

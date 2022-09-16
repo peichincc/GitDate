@@ -7,6 +7,7 @@ import usePlacesAutocomplete, {
 import useOnclickOutside from "react-cool-onclickoutside";
 
 import "./map.css";
+import { FormControl } from "../../utils/StyledComponent";
 
 const MapHome = ({ setLocation, setFormatAddress }: any) => {
   const { isLoaded } = useLoadScript({
@@ -100,7 +101,7 @@ const PlacesAutocomplete = ({
 
   return (
     <div ref={ref}>
-      <input
+      <FormControl
         value={value}
         onChange={handleInput}
         disabled={!ready}

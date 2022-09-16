@@ -19,7 +19,7 @@ export const Button = styled.button`
   box-shadow: rgb(27 31 36 / 4%) 0px 1px 0px,
     rgb(255 255 255 / 25%) 0px 1px 0px inset;
   &:hover {
-    background-color: rgb(233, 238, 243);
+    background-color: #f8ad9d;
   }
 `;
 export const MergeBtn = styled.button`
@@ -102,6 +102,7 @@ export const FormSelectOptions = styled.option`
 
 // Photo Preview
 export const UploadCardStyled = styled.label`
+  margin-bottom: 5px;
   background-color: #fff;
   padding: 10px;
   width: 100%;

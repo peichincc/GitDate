@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,22 @@ import {
 } from "firebase/firestore";
 import firebaseapi from "../../utils/firebaseapi";
 
+import TiptapEditor from "../../components/editor/Editor";
+import defaultAvatar from "../../utils/DefaultAvatar.png";
+import {
+  Button,
+  MergeBtn,
+  AvatarUser,
+  AvatarUserImg,
+  FormControl,
+  FormGroup,
+  FormLabel,
+  FormSelect,
+  FormSelectOptions,
+  UploadPreview,
+  UploadPreviewImg,
+  UploadCardStyled,
+} from "../../utils/StyledComponent";
 import MapHome from "../../components/map";
 
 const Wrapper = styled.div`
@@ -19,18 +35,84 @@ const Wrapper = styled.div`
   max-width: 1376px;
   margin: 0 auto;
 `;
+const MainLayout = styled.div`
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 20px;
+`;
+const PostWraper = styled.div`
+  display: flex;
+  margin-top: 20px;
+`;
+const AvatarBlock = styled.div`
+  width: auto;
+  margin-right: 25px;
+`;
+const PostBox = styled.div`
+  padding: 20px;
+  position: relative;
+  background: #f6f8fa;
+  border-radius: 0.4em;
+  width: 80%;
+  height: auto;
+  /* border: 1px solid #d0d7de; */
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 30px;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-right-color: #f6f8fa;
+    border-left: 0;
+    margin-top: -20px;
+    margin-left: -20px;
+    /* border: 1px solid black;
+    position: absolute;
+    top: 11px;
+    right: 100%;
+    left: -8px;
+    display: block;
+    width: 8px;
+    height: 16px;
+    pointer-events: none;
+    content: " ";
+    clip-path: polygon(0 50%, 100% 0, 100% 100%); */
+  }
+`;
+const PreviewPhotoContainer = styled.div`
+  padding-top: 20px;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+`;
+const SubmitWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const MapContainer = styled.div`
   width: 400px;
   height: 200px;
+  margin-bottom: 30px;
 `;
 
 const CreateBranch = () => {
+  const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
+  const hiddenFileInput = useRef<any>(null);
   const db = getFirestore();
   let navigate = useNavigate();
   const userData = useSelector((state) => state) as any;
   const [getUser, setGetUser] = useState<any>("");
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [fileSrc, setFileSrc] = useState<any>(null);
+  const handleClick = () => {
+    hiddenFileInput.current.click();
+  };
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -79,7 +161,7 @@ const CreateBranch = () => {
   const recipient = {
     type: type,
     title: title,
-    content: content,
+    content: editorHtmlContent,
     date: date,
     time: time,
     location: location,
@@ -108,41 +190,77 @@ const CreateBranch = () => {
   return (
     <>
       <Wrapper>
-        New branch here
-        <h1>To create a branch</h1>
-        <p>Type</p>
-        <select onChange={getType}>
-          <option value="0">Please Select your brnach type</option>
-          <option value="online">Online</option>
-          <option value="inperson">In Person</option>
-          <option value="mixed">Mixed</option>
-        </select>
-        <br />
-        <p>Title</p>
-        <input onChange={getTitle}></input>
-        <br />
-        <p>Activity Description</p>
-        <textarea onChange={getContent}></textarea>
-        <br />
-        <p>Time</p>
-        <input type="date" onChange={getDate} />
-        <input type="time" onChange={getTime} />
-        {/* <input type="datetime-local" onChange={getTime} /> */}
-        <br />
-        <p>Location</p>
-        <MapContainer>
-          <MapHome
-            setLocation={setLocation}
-            setFormatAddress={setFormatAddress}
-          />
-        </MapContainer>
-        <br />
-        <h2>Upload image</h2>
-        <input type="file" onChange={handleUploadFile}></input>
-        <p>Preview photo:</p>
-        {fileSrc && <img src={fileSrc} alt="main_image" />}
-        <br />
-        <button onClick={createBranch}>git branch</button>
+        <MainLayout>
+          <h1>Create branch</h1>
+          <PostWraper>
+            <AvatarBlock>
+              <AvatarUser>
+                <AvatarUserImg src={defaultAvatar} />
+              </AvatarUser>
+            </AvatarBlock>
+            <PostBox>
+              <FormGroup>
+                <FormLabel>Type</FormLabel>
+                <FormSelect onChange={getType}>
+                  <option value="0">Please Select your brnach type</option>
+                  <option value="online">Online</option>
+                  <option value="inperson">In Person</option>
+                  <option value="mixed">Mixed</option>
+                </FormSelect>
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Title</FormLabel>
+                <FormControl onChange={getTitle}></FormControl>
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Time</FormLabel>
+                <FormControl type="date" onChange={getDate} />
+                <FormControl type="time" onChange={getTime} />
+                {/* <input type="datetime-local" onChange={getTime} /> */}
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Location</FormLabel>
+                <MapContainer>
+                  <MapHome
+                    setLocation={setLocation}
+                    setFormatAddress={setFormatAddress}
+                  />
+                </MapContainer>
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Activity Description</FormLabel>
+                <TiptapEditor setEditorHtmlContent={setEditorHtmlContent} />
+                {/* <textarea onChange={getContent}></textarea> */}
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Image</FormLabel>
+                <PreviewPhotoContainer>
+                  <input
+                    type="file"
+                    ref={hiddenFileInput}
+                    onChange={handleUploadFile}
+                    style={{ display: "none" }}
+                  ></input>
+                  {fileSrc && (
+                    <>
+                      <p>Preview photo:</p>
+                      <UploadCardStyled>
+                        <UploadPreview>
+                          <UploadPreviewImg src={fileSrc} alt="main_image" />
+                        </UploadPreview>
+                      </UploadCardStyled>
+                    </>
+                  )}
+                  <Button onClick={handleClick}>git add</Button>
+                </PreviewPhotoContainer>
+              </FormGroup>
+              <SubmitWrapper>
+                <p></p>
+                <MergeBtn onClick={createBranch}>git branch</MergeBtn>
+              </SubmitWrapper>
+            </PostBox>
+          </PostWraper>
+        </MainLayout>
       </Wrapper>
     </>
   );
