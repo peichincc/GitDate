@@ -19,7 +19,8 @@ export const Button = styled.button`
   box-shadow: rgb(27 31 36 / 4%) 0px 1px 0px,
     rgb(255 255 255 / 25%) 0px 1px 0px inset;
   &:hover {
-    background-color: #f8ad9d;
+    color: white;
+    background-color: #ff69b4;
   }
 `;
 export const MergeBtn = styled.button`

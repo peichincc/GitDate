@@ -53,9 +53,9 @@ const TabChoseBtn = styled.button`
   border-bottom: 0;
   border: 1px solid transparent;
   padding: 16px 16px;
-  font-size: 26px;
+  font-size: 16px;
   line-height: 23px;
-  background: #f8ad9d;
+  background: #f6f8fa;
   margin-right: 10px;
   width: 150px;
   cursor: pointer;
@@ -65,14 +65,15 @@ const TabButton = styled.button`
   border-bottom: 0;
   border: 1px solid transparent;
   padding: 16px 16px;
-  font-size: 26px;
+  font-size: 16px;
   line-height: 23px;
-  background: #f6f8fa;
+  background: #e6e7e9;
   margin-right: 10px;
   width: 150px;
   cursor: pointer;
   &:hover {
-    background-color: #f8ad9d;
+    color: white;
+    background-color: #ff69b4;
   }
 `;
 const PostWraper = styled.div`
