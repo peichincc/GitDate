@@ -48,6 +48,18 @@ const TabWraper = styled.div`
   justify-content: flex-end;
   margin-bottom: -1px;
 `;
+const TabChoseBtn = styled.button`
+  border-radius: 6px 6px 0 0;
+  border-bottom: 0;
+  border: 1px solid transparent;
+  padding: 16px 16px;
+  font-size: 26px;
+  line-height: 23px;
+  background: #f8ad9d;
+  margin-right: 10px;
+  width: 150px;
+  cursor: pointer;
+`;
 const TabButton = styled.button`
   border-radius: 6px 6px 0 0;
   border-bottom: 0;
@@ -213,8 +225,14 @@ const CreateBranch = () => {
         <MainLayout>
           <h1>To Create...</h1>
           <TabWraper>
-            <TabButton>Issue</TabButton>
-            <TabButton>Branch</TabButton>
+            <TabButton
+              onClick={() => {
+                navigate("/createissue");
+              }}
+            >
+              Issue
+            </TabButton>
+            <TabChoseBtn>Branch</TabChoseBtn>
           </TabWraper>
           <PostWraper>
             <AvatarBlock>
