@@ -12,10 +12,53 @@ import {
 
 import firebaseapi from "../../utils/firebaseapi";
 
+import TestCreateIssue from "./TestTipTap";
+import TiptapEditor from "../../components/editor/Editor";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
   margin: 0 auto;
+`;
+
+const MainLayout = styled.div`
+  margin-top: 100px;
+  margin-left: 200px;
+`;
+const PostWraper = styled.div``;
+const AvatarBlock = styled.span``;
+const PostBox = styled.div`
+  position: relative;
+  background: #f6f8fa;
+  border-radius: 0.4em;
+  width: 100%;
+  height: auto;
+  /* border: 1px solid #d0d7de; */
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 30px;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-right-color: #f6f8fa;
+    border-left: 0;
+    margin-top: -20px;
+    margin-left: -20px;
+    /* border: 1px solid black;
+    position: absolute;
+    top: 11px;
+    right: 100%;
+    left: -8px;
+    display: block;
+    width: 8px;
+    height: 16px;
+    pointer-events: none;
+    content: " ";
+    clip-path: polygon(0 50%, 100% 0, 100% 100%); */
+  }
 `;
 
 interface Data {
@@ -24,33 +67,12 @@ interface Data {
 }
 
 const CreateIssue = () => {
+  const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
   const userData = useSelector((state) => state) as any;
   const db = getFirestore();
   let navigate = useNavigate();
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [fileSrc, setFileSrc] = useState<any>(null);
-  // const MyCheckBoxList: Data[] = [
-  //   {
-  //     order: 0,
-  //     name: "Angular",
-  //   },
-  //   {
-  //     order: 1,
-  //     name: "React",
-  //   },
-  //   {
-  //     order: 2,
-  //     name: "Java",
-  //   },
-  //   {
-  //     order: 4,
-  //     name: "Python",
-  //   },
-  //   {
-  //     order: 3,
-  //     name: "JavaScript",
-  //   },
-  // ];
   // Select Photo and preview
   const hiddenFileInput = useRef<any>(null);
   const handleClick = () => {
@@ -78,18 +100,6 @@ const CreateIssue = () => {
   const getContent = (e: any) => {
     setContent(e.target.value);
   };
-  // const [tags, setTags] = useState<any>([]);
-  // const getTags = (e: any) => {
-  //   if (e.target.checked) {
-  //     setTags([...tags, e.target.value]);
-  //   } else {
-  //     setTags(
-  //       tags.filter(function (val: any) {
-  //         return val !== e.target.value;
-  //       })
-  //     );
-  //   }
-  // };
   const tagRef = useRef<HTMLInputElement>(null);
   const [tags, setTags] = useState<string[]>([]);
   const addTag = () => {
@@ -116,7 +126,7 @@ const CreateIssue = () => {
   const recipient = {
     category: category,
     title: title,
-    content: content,
+    content: editorHtmlContent,
     tags: tags,
     status: "open",
     posted_by: getUser,
@@ -133,15 +143,18 @@ const CreateIssue = () => {
       });
   };
 
-  // const addTags = () => {
-  //   // let newArr;
-  //   // newArr = MyCheckBoxList.push({ order: 8, name: "default" });
-  //   // console.log(newArr);
-  // };
-
   return (
     <>
       <Wrapper>
+        <MainLayout>
+          <PostWraper>
+            <AvatarBlock></AvatarBlock>
+            <PostBox>
+              <h1>To create an issue</h1>
+            </PostBox>
+          </PostWraper>
+        </MainLayout>
+        <hr></hr>
         <h1>To create an issue</h1>
         <p>Category</p>
         <select onChange={getCategory}>
@@ -155,24 +168,10 @@ const CreateIssue = () => {
         <input onChange={getTitle}></input>
         <br />
         <p>Content</p>
-        <textarea onChange={getContent}></textarea>
+        {/* <textarea onChange={getContent}></textarea> */}
+        <TiptapEditor setEditorHtmlContent={setEditorHtmlContent} />
         <br />
         <p>Tags</p>
-        {/* <ul>
-           {MyCheckBoxList.map(({ name, order }, index) => {
-            return (
-              <li key={index}>
-                <input
-                  type="checkbox"
-                  id={`custom-checkbox-${index}`}
-                  value={name}
-                  onChange={getTags}
-                />
-                {name}
-              </li>
-            );
-          })} 
-        </ul> */}
         {tags &&
           tags.map((tag) => {
             return (
@@ -203,7 +202,6 @@ const CreateIssue = () => {
         ></input>
         <p>Preview photo:</p>
         {fileSrc && <img src={fileSrc} alt="main_image" />}
-        <h2>More images: pending</h2>
         <br />
         <button onClick={postIssue}>git commit</button>
       </Wrapper>
