@@ -19,6 +19,9 @@ const OuterEditor = styled.div`
   width: 700px;
   background: #f6f8fa;
   border-radius: 8px;
+  @media screen and (max-width: 1140px) {
+    width: 100%;
+  }
 `;
 
 const StyledEditorContent = styled(EditorContent)`
@@ -31,6 +34,9 @@ const StyledEditorContent = styled(EditorContent)`
     padding: 10px;
     overflow-y: auto;
     background-color: white;
+    @media screen and (max-width: 1140px) {
+      width: 100%;
+    }
   }
 `;
 
