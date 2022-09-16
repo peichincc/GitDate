@@ -12,10 +12,142 @@ import {
 
 import firebaseapi from "../../utils/firebaseapi";
 
+import TestCreateIssue from "./TestTipTap";
+import TiptapEditor from "../../components/editor/Editor";
+
+import defaultAvatar from "../../utils/DefaultAvatar.png";
+import {
+  Button,
+  MergeBtn,
+  AvatarUser,
+  AvatarUserImg,
+  FormControl,
+  FormGroup,
+  FormLabel,
+  FormSelect,
+  FormSelectOptions,
+  UploadPreview,
+  UploadPreviewImg,
+  UploadCardStyled,
+} from "../../utils/StyledComponent";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
   margin: 0 auto;
+`;
+
+const MainLayout = styled.div`
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 20px;
+`;
+const TabWraper = styled.div`
+  width: 80%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -1px;
+`;
+const TabChoseBtn = styled.button`
+  border-radius: 6px 6px 0 0;
+  border-bottom: 0;
+  border: 1px solid transparent;
+  padding: 16px 16px;
+  font-size: 16px;
+  line-height: 23px;
+  background: #f6f8fa;
+  margin-right: 10px;
+  width: 150px;
+  cursor: pointer;
+`;
+const TabButton = styled.button`
+  border-radius: 6px 6px 0 0;
+  border-bottom: 0;
+  border: 1px solid transparent;
+  padding: 16px 16px;
+  font-size: 16px;
+  line-height: 23px;
+  background: #e6e7e9;
+  margin-right: 10px;
+  width: 150px;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background-color: #ff69b4;
+  }
+`;
+const PostWraper = styled.div`
+  display: flex;
+`;
+const AvatarBlock = styled.div`
+  width: auto;
+  margin-right: 25px;
+`;
+const PostBox = styled.div`
+  padding: 20px;
+  position: relative;
+  background: #f6f8fa;
+  border-radius: 0.4em;
+  width: 80%;
+  height: auto;
+  /* border: 1px solid #d0d7de; */
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 30px;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-right-color: #f6f8fa;
+    border-left: 0;
+    margin-top: -20px;
+    margin-left: -20px;
+    /* border: 1px solid black;
+    position: absolute;
+    top: 11px;
+    right: 100%;
+    left: -8px;
+    display: block;
+    width: 8px;
+    height: 16px;
+    pointer-events: none;
+    content: " ";
+    clip-path: polygon(0 50%, 100% 0, 100% 100%); */
+  }
+`;
+
+const TagInputWrapper = styled.div``;
+const TagsWrapper = styled.div`
+  display: flex;
+  margin-bottom: 10px;
+`;
+const Tag = styled.div`
+  border-radius: 6px;
+  border: 1px solid rgba(27, 31, 36, 0.15);
+  padding: 5px 16px;
+`;
+const Tags = styled.div`
+  margin-right: 4px;
+  display: flex;
+`;
+const RemoveBtn = styled.button`
+  border: 0;
+  background: none;
+  cursor: pointer;
+`;
+const PreviewPhotoContainer = styled.div`
+  padding-top: 20px;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+`;
+const SubmitWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 interface Data {
@@ -24,33 +156,12 @@ interface Data {
 }
 
 const CreateIssue = () => {
+  const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
   const userData = useSelector((state) => state) as any;
   const db = getFirestore();
   let navigate = useNavigate();
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [fileSrc, setFileSrc] = useState<any>(null);
-  // const MyCheckBoxList: Data[] = [
-  //   {
-  //     order: 0,
-  //     name: "Angular",
-  //   },
-  //   {
-  //     order: 1,
-  //     name: "React",
-  //   },
-  //   {
-  //     order: 2,
-  //     name: "Java",
-  //   },
-  //   {
-  //     order: 4,
-  //     name: "Python",
-  //   },
-  //   {
-  //     order: 3,
-  //     name: "JavaScript",
-  //   },
-  // ];
   // Select Photo and preview
   const hiddenFileInput = useRef<any>(null);
   const handleClick = () => {
@@ -78,18 +189,6 @@ const CreateIssue = () => {
   const getContent = (e: any) => {
     setContent(e.target.value);
   };
-  // const [tags, setTags] = useState<any>([]);
-  // const getTags = (e: any) => {
-  //   if (e.target.checked) {
-  //     setTags([...tags, e.target.value]);
-  //   } else {
-  //     setTags(
-  //       tags.filter(function (val: any) {
-  //         return val !== e.target.value;
-  //       })
-  //     );
-  //   }
-  // };
   const tagRef = useRef<HTMLInputElement>(null);
   const [tags, setTags] = useState<string[]>([]);
   const addTag = () => {
@@ -116,7 +215,7 @@ const CreateIssue = () => {
   const recipient = {
     category: category,
     title: title,
-    content: content,
+    content: editorHtmlContent,
     tags: tags,
     status: "open",
     posted_by: getUser,
@@ -133,79 +232,108 @@ const CreateIssue = () => {
       });
   };
 
-  // const addTags = () => {
-  //   // let newArr;
-  //   // newArr = MyCheckBoxList.push({ order: 8, name: "default" });
-  //   // console.log(newArr);
-  // };
-
   return (
     <>
       <Wrapper>
-        <h1>To create an issue</h1>
-        <p>Category</p>
-        <select onChange={getCategory}>
-          <option value="0">Please Select your issue type</option>
-          <option value="date">Date</option>
-          <option value="hangout">Hang out</option>
-          <option value="networking">Networking</option>
-        </select>
-        <br />
-        <p>Title</p>
-        <input onChange={getTitle}></input>
-        <br />
-        <p>Content</p>
-        <textarea onChange={getContent}></textarea>
-        <br />
-        <p>Tags</p>
-        {/* <ul>
-           {MyCheckBoxList.map(({ name, order }, index) => {
-            return (
-              <li key={index}>
-                <input
-                  type="checkbox"
-                  id={`custom-checkbox-${index}`}
-                  value={name}
-                  onChange={getTags}
-                />
-                {name}
-              </li>
-            );
-          })} 
-        </ul> */}
-        {tags &&
-          tags.map((tag) => {
-            return (
-              <div key={tag} id={tag}>
-                <div>{tag}</div>
-                <button onClick={(e) => removeTag(e)}>x</button>
-              </div>
-            );
-          })}
-        <input
-          type="text"
-          ref={tagRef}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              addTag();
-            }
-          }}
-        ></input>
-        <br />
-        <br />
-        <h2>Upload Main image</h2>
-        <button onClick={handleClick}>git add</button>
-        <input
-          type="file"
-          ref={hiddenFileInput}
-          onChange={handleUploadFile}
-          style={{ display: "none" }}
-        ></input>
-        <p>Preview photo:</p>
-        {fileSrc && <img src={fileSrc} alt="main_image" />}
-        <h2>More images: pending</h2>
-        <br />
-        <button onClick={postIssue}>git commit</button>
+        <MainLayout>
+          <h1>To Create...</h1>
+          <TabWraper>
+            <TabChoseBtn>Issue</TabChoseBtn>
+            <TabButton
+              onClick={() => {
+                navigate("/createbranch");
+              }}
+            >
+              Branch
+            </TabButton>
+          </TabWraper>
+          <PostWraper>
+            <AvatarBlock>
+              <AvatarUser>
+                <AvatarUserImg src={defaultAvatar} />
+              </AvatarUser>
+            </AvatarBlock>
+            <PostBox>
+              <FormGroup>
+                <FormLabel>Category</FormLabel>
+                <FormSelect onChange={getCategory}>
+                  <FormSelectOptions value="0">
+                    Please Select your issue type
+                  </FormSelectOptions>
+                  <FormSelectOptions value="date">Date</FormSelectOptions>
+                  <FormSelectOptions value="hangout">
+                    Hang out
+                  </FormSelectOptions>
+                  <FormSelectOptions value="networking">
+                    Networking
+                  </FormSelectOptions>
+                </FormSelect>
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Title</FormLabel>
+                <FormControl onChange={getTitle}></FormControl>
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Content</FormLabel>
+                {/* <textarea onChange={getContent}></textarea> */}
+                <TiptapEditor setEditorHtmlContent={setEditorHtmlContent} />
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Image</FormLabel>
+                <PreviewPhotoContainer>
+                  <input
+                    type="file"
+                    ref={hiddenFileInput}
+                    onChange={handleUploadFile}
+                    style={{ display: "none" }}
+                  ></input>
+                  {fileSrc && (
+                    <>
+                      <p>Preview photo:</p>
+                      <UploadCardStyled>
+                        <UploadPreview>
+                          <UploadPreviewImg src={fileSrc} alt="main_image" />
+                        </UploadPreview>
+                      </UploadCardStyled>
+                    </>
+                  )}
+                  <Button onClick={handleClick}>git add</Button>
+                </PreviewPhotoContainer>
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Tags</FormLabel>
+                <TagInputWrapper>
+                  <TagsWrapper>
+                    {tags &&
+                      tags.map((tag) => {
+                        return (
+                          <Tags key={tag} id={tag}>
+                            <Tag> {tag}</Tag>
+                            <RemoveBtn onClick={(e) => removeTag(e)}>
+                              x
+                            </RemoveBtn>
+                          </Tags>
+                        );
+                      })}
+                  </TagsWrapper>
+                  <FormControl
+                    type="text"
+                    ref={tagRef}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        addTag();
+                      }
+                    }}
+                  ></FormControl>
+                </TagInputWrapper>
+              </FormGroup>
+              <SubmitWrapper>
+                <p></p>
+                <MergeBtn onClick={postIssue}>Commit new issue</MergeBtn>
+              </SubmitWrapper>
+            </PostBox>
+          </PostWraper>
+        </MainLayout>
       </Wrapper>
     </>
   );
