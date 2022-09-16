@@ -11,27 +11,26 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 50px;
 `;
 
 const OuterEditor = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 15px;
-  width: 600px;
-  background: #f4f6f7;
+  width: 700px;
+  background: #f6f8fa;
   border-radius: 8px;
 `;
 
 const StyledEditorContent = styled(EditorContent)`
   .ProseMirror {
-    /* border: solid 1px black; */
+    border: solid 1px #979797;
+    border-radius: 6px;
     height: 165px;
-    width: 560px;
+    width: 650px;
     max-height: 165px;
     padding: 10px;
     overflow-y: auto;
+    background-color: white;
   }
 `;
 

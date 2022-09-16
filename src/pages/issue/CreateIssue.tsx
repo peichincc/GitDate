@@ -15,6 +15,22 @@ import firebaseapi from "../../utils/firebaseapi";
 import TestCreateIssue from "./TestTipTap";
 import TiptapEditor from "../../components/editor/Editor";
 
+import defaultAvatar from "../../utils/DefaultAvatar.png";
+import {
+  Button,
+  MergeBtn,
+  AvatarUser,
+  AvatarUserImg,
+  FormControl,
+  FormGroup,
+  FormLabel,
+  FormSelect,
+  FormSelectOptions,
+  UploadPreview,
+  UploadPreviewImg,
+  UploadCardStyled,
+} from "../../utils/StyledComponent";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
@@ -23,15 +39,25 @@ const Wrapper = styled.div`
 
 const MainLayout = styled.div`
   margin-top: 100px;
-  margin-left: 200px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 20px;
 `;
-const PostWraper = styled.div``;
-const AvatarBlock = styled.span``;
+const PostWraper = styled.div`
+  display: flex;
+  margin-top: 20px;
+`;
+const AvatarBlock = styled.div`
+  width: auto;
+  margin-right: 25px;
+`;
 const PostBox = styled.div`
+  padding: 20px;
   position: relative;
   background: #f6f8fa;
   border-radius: 0.4em;
-  width: 100%;
+  width: 80%;
   height: auto;
   /* border: 1px solid #d0d7de; */
   position: relative;
@@ -59,6 +85,37 @@ const PostBox = styled.div`
     content: " ";
     clip-path: polygon(0 50%, 100% 0, 100% 100%); */
   }
+`;
+
+const TagInputWrapper = styled.div``;
+const TagsWrapper = styled.div`
+  display: flex;
+  margin-bottom: 10px;
+`;
+const Tag = styled.div`
+  border-radius: 6px;
+  border: 1px solid rgba(27, 31, 36, 0.15);
+  padding: 5px 16px;
+`;
+const Tags = styled.div`
+  margin-right: 4px;
+  display: flex;
+`;
+const RemoveBtn = styled.button`
+  border: 0;
+  background: none;
+  cursor: pointer;
+`;
+const PreviewPhotoContainer = styled.div`
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+`;
+const SubmitWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 interface Data {
@@ -147,63 +204,95 @@ const CreateIssue = () => {
     <>
       <Wrapper>
         <MainLayout>
+          <h1>New Issue</h1>
           <PostWraper>
-            <AvatarBlock></AvatarBlock>
+            <AvatarBlock>
+              <AvatarUser>
+                <AvatarUserImg src={defaultAvatar} />
+              </AvatarUser>
+            </AvatarBlock>
             <PostBox>
-              <h1>To create an issue</h1>
+              <FormGroup>
+                <FormLabel>Category</FormLabel>
+                <FormSelect onChange={getCategory}>
+                  <FormSelectOptions value="0">
+                    Please Select your issue type
+                  </FormSelectOptions>
+                  <FormSelectOptions value="date">Date</FormSelectOptions>
+                  <FormSelectOptions value="hangout">
+                    Hang out
+                  </FormSelectOptions>
+                  <FormSelectOptions value="networking">
+                    Networking
+                  </FormSelectOptions>
+                </FormSelect>
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Title</FormLabel>
+                <FormControl onChange={getTitle}></FormControl>
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Content</FormLabel>
+                {/* <textarea onChange={getContent}></textarea> */}
+                <TiptapEditor setEditorHtmlContent={setEditorHtmlContent} />
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Image</FormLabel>
+                <PreviewPhotoContainer>
+                  <input
+                    type="file"
+                    ref={hiddenFileInput}
+                    onChange={handleUploadFile}
+                    style={{ display: "none" }}
+                  ></input>
+
+                  {fileSrc && (
+                    <>
+                      <p>Preview photo:</p>
+                      <UploadCardStyled>
+                        <UploadPreview>
+                          <UploadPreviewImg src={fileSrc} alt="main_image" />
+                        </UploadPreview>
+                      </UploadCardStyled>
+                    </>
+                  )}
+                </PreviewPhotoContainer>
+                <Button onClick={handleClick}>git add</Button>
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Tags</FormLabel>
+                <TagInputWrapper>
+                  <TagsWrapper>
+                    {tags &&
+                      tags.map((tag) => {
+                        return (
+                          <Tags key={tag} id={tag}>
+                            <Tag> {tag}</Tag>
+                            <RemoveBtn onClick={(e) => removeTag(e)}>
+                              x
+                            </RemoveBtn>
+                          </Tags>
+                        );
+                      })}
+                  </TagsWrapper>
+                  <FormControl
+                    type="text"
+                    ref={tagRef}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        addTag();
+                      }
+                    }}
+                  ></FormControl>
+                </TagInputWrapper>
+              </FormGroup>
+              <SubmitWrapper>
+                <p></p>
+                <MergeBtn onClick={postIssue}>Commit new issue</MergeBtn>
+              </SubmitWrapper>
             </PostBox>
           </PostWraper>
         </MainLayout>
-        <hr></hr>
-        <h1>To create an issue</h1>
-        <p>Category</p>
-        <select onChange={getCategory}>
-          <option value="0">Please Select your issue type</option>
-          <option value="date">Date</option>
-          <option value="hangout">Hang out</option>
-          <option value="networking">Networking</option>
-        </select>
-        <br />
-        <p>Title</p>
-        <input onChange={getTitle}></input>
-        <br />
-        <p>Content</p>
-        {/* <textarea onChange={getContent}></textarea> */}
-        <TiptapEditor setEditorHtmlContent={setEditorHtmlContent} />
-        <br />
-        <p>Tags</p>
-        {tags &&
-          tags.map((tag) => {
-            return (
-              <div key={tag} id={tag}>
-                <div>{tag}</div>
-                <button onClick={(e) => removeTag(e)}>x</button>
-              </div>
-            );
-          })}
-        <input
-          type="text"
-          ref={tagRef}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              addTag();
-            }
-          }}
-        ></input>
-        <br />
-        <br />
-        <h2>Upload Main image</h2>
-        <button onClick={handleClick}>git add</button>
-        <input
-          type="file"
-          ref={hiddenFileInput}
-          onChange={handleUploadFile}
-          style={{ display: "none" }}
-        ></input>
-        <p>Preview photo:</p>
-        {fileSrc && <img src={fileSrc} alt="main_image" />}
-        <br />
-        <button onClick={postIssue}>git commit</button>
       </Wrapper>
     </>
   );

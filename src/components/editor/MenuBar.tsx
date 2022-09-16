@@ -1,24 +1,18 @@
 import styled from "styled-components";
 import { useCallback, useState } from "react";
-import BoldIcon from "./icons/bold.png";
-import BoldWhiteIcon from "./icons/bold.png";
-import ItalicIcon from "./icons/italic.png";
-import ItalicWhiteIcon from "./icons/italic.png";
-import UnderlineIcon from "./icons/underline.png";
-import UnderlineWhiteIcon from "./icons/underline.png";
-import RedoIcon from "./icons/redo.png";
-import UndoIcon from "./icons/undo.png";
 import React from "react";
+import { Button } from "../../utils/StyledComponent";
 
 const Container = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
   border-radius: 4px;
-  background-color: #fff;
   padding: 5px;
   margin-bottom: 10px;
+  border-radius: 6px;
 `;
+const ButtonGroup = styled.div``;
 const StyledButton = styled.button`
   height: 24px;
   width: 24px;
@@ -41,7 +35,6 @@ const Divider = styled.div`
   height: 24px;
   margin: 0 10px;
 `;
-const UndoRetoButtonsGroup = styled.div``;
 
 const MenuBar = ({ editor }: any) => {
   if (!editor) {
@@ -51,48 +44,27 @@ const MenuBar = ({ editor }: any) => {
   return (
     <>
       <Container>
-        <FormatButtonsGroup>
-          <StyledButton
-            onClick={() => editor.chain().focus().toggleBold().run()}
-            className={editor.isActive("bold") ? "is-active" : ""}
-          >
-            <img
-              src={editor.isActive("bold") ? BoldWhiteIcon : BoldIcon}
-              alt="a"
-            />
-          </StyledButton>
-          <StyledButton
-            onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={editor.isActive("italic") ? "is-active" : ""}
-          >
-            <img
-              src={editor.isActive("italic") ? ItalicWhiteIcon : ItalicIcon}
-              alt="a"
-            />
-          </StyledButton>
-          <StyledButton
+        <ButtonGroup>
+          <Button onClick={() => editor.chain().focus().toggleBold().run()}>
+            Bold
+          </Button>
+          <Button onClick={() => editor.chain().focus().toggleItalic().run()}>
+            Italic
+          </Button>
+          <Button
             onClick={() => editor.chain().focus().toggleUnderline().run()}
-            className={editor.isActive("underline") ? "is-active" : ""}
           >
-            <img
-              src={
-                editor.isActive("underline")
-                  ? UnderlineWhiteIcon
-                  : UnderlineIcon
-              }
-              alt="a"
-            />
-          </StyledButton>
-        </FormatButtonsGroup>
+            Underline
+          </Button>
+          <Button onClick={() => editor.chain().focus().toggleStrike().run()}>
+            Strike
+          </Button>
+        </ButtonGroup>
         <Divider />
-        <UndoRetoButtonsGroup>
-          <StyledButton onClick={() => editor.commands.undo()}>
-            <img src={UndoIcon} alt="a" />
-          </StyledButton>
-          <StyledButton onClick={() => editor.commands.redo()}>
-            <img src={RedoIcon} alt="a" />
-          </StyledButton>
-        </UndoRetoButtonsGroup>
+        <ButtonGroup>
+          <Button onClick={() => editor.commands.undo()}>Undo</Button>
+          <Button onClick={() => editor.commands.redo()}>Redo</Button>
+        </ButtonGroup>
       </Container>
     </>
   );
