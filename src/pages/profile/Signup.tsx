@@ -9,12 +9,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
-import img01 from "./slider/slider01.jpg";
-import img02 from "./slider/slider02.jpg";
-import img03 from "./slider/slider03.jpg";
-import img04 from "./slider/slider04.jpg";
-import img05 from "./slider/slider05.jpg";
-import img06 from "./slider/slider06.jpg";
+import back from "./SignUpBack.jpg";
 
 const Wrapper = styled.div`
   display: block;
@@ -93,6 +88,7 @@ const SignInBtn = styled.button`
 `;
 
 const BlockInnerImg = styled.div`
+  background-image: url(${back});
   width: 100%;
   display: flex;
   justify-content: center;
@@ -125,7 +121,6 @@ const BlockContent = styled.div`
 `;
 
 const Signup = () => {
-  const [photo, setPhoto] = useState(1);
   const db = getFirestore();
   const navigate = useNavigate();
   const [showPasswordInput, setShowPasswordInput] = useState(false);
@@ -136,42 +131,6 @@ const Signup = () => {
     email: "",
     password: "",
   });
-
-  const change = () => {
-    if (photo === 7) {
-      setPhoto(1);
-      return;
-    }
-    setPhoto((prev) => prev + 1);
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      change();
-    }, 10000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [photo]);
-
-  const returnPhotoURL = () => {
-    switch (photo) {
-      case 1:
-        return img01;
-      case 2:
-        return img02;
-      case 3:
-        return img03;
-      case 4:
-        return img04;
-      case 5:
-        return img05;
-      case 6:
-        return img06;
-      default:
-        return img01;
-    }
-  };
 
   const onSubmit = () => {
     setIsLoading(true);
@@ -215,11 +174,7 @@ const Signup = () => {
   return (
     <>
       <Wrapper>
-        <BlockInnerImg
-          style={{
-            backgroundImage: `url(${returnPhotoURL()})`,
-          }}
-        >
+        <BlockInnerImg>
           <BlockInner>
             <BlockContent>
               <TextReminder>
