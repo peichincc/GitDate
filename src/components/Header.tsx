@@ -15,6 +15,7 @@ import {
 
 import { ReactComponent as Doc } from "./doc.svg";
 import { ReactComponent as Repo } from "./repo.svg";
+import { ReactComponent as GitHub } from "./github.svg";
 import { ReactComponent as Member } from "./member.svg";
 import { ReactComponent as Logout } from "./logout.svg";
 
@@ -28,8 +29,16 @@ const Wrapper = styled.div`
 const LogoContainer = styled(Link)`
   width: 62px;
   height: 62px;
-  background-image: url(${logo});
-  background-size: contain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-image: url(${logo});
+  background-size: contain; */
+  &:hover {
+    path {
+      stroke: #ff69b4;
+    }
+  }
 `;
 
 const CategoryLinks = styled.div`
@@ -106,7 +115,9 @@ const Header = () => {
   return (
     <>
       <Wrapper>
-        <LogoContainer to="/" />
+        <LogoContainer to="/">
+          <GitHub stroke="#FFF" />
+        </LogoContainer>
         <CategoryLinks>
           <CategoryContainer>
             <LeftContainer>
@@ -118,7 +129,7 @@ const Header = () => {
                 Docs
                 {/* <Doc /> */}
               </Category>
-              <Category to="chatroom">
+              <Category to="repo">
                 Repo
                 {/* <Repo /> */}
               </Category>
