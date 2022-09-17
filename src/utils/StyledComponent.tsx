@@ -141,3 +141,64 @@ export const UploadPreviewImg = styled.img`
   max-width: 100%;
   max-height: 100%;
 `;
+
+export const BoxHeader = styled.div`
+  padding: 16px;
+  background-color: #f6f8fa;
+  border-color: #d0d7de;
+  border-style: solid;
+  border-width: 1px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  margin: -1px -1px 0;
+  display: flex;
+  align-items: center;
+`;
+export const Container = styled.div`
+  width: 100%;
+  margin-top: 20px;
+  margin-right: 50px;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  height: auto;
+`;
+export const ContentContainer = styled.div`
+  padding: 20px;
+`;
+export const BlogList = styled.div`
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #d0d7de;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  justify-content: space-between;
+`;
+export const GithubPostTitle = styled.div`
+  font-size: 16px;
+  font-weight: 600;
+  color: #24292f;
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+`;
+export const GithubSubTitle = styled.div`
+  font-size: 12px;
+  color: #24292f;
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+`;
+
+export const LabelsButton = styled.button`
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 22px;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  border-radius: 2em;
+  color: white;
+  background-color: #7057ff;
+  margin-right: 2px;
+  cursor: pointer;
+`;
