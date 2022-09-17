@@ -36,7 +36,7 @@ const MainContainer = styled.div``;
 const Filters = styled.div`
   width: 100%;
   margin-right: 10px;
-  height: 32px;
+  height: 35px;
   border-radius: 6px;
   background-color: #f6f8fa;
   border-color: #d0d7de;
