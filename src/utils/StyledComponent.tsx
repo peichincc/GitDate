@@ -1,6 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 
+export const ActionButton = styled.button`
+  font-size: 16px;
+  margin-top: 20px;
+  width: 200px;
+  border: 1px solid #627597;
+  border-radius: 6px;
+  background: none;
+  padding: 5px 12px;
+  cursor: pointer;
+  &:hover {
+    background-color: #edede9;
+  }
+`;
+
 export const Button = styled.button`
   margin-right: 4px;
   border-radius: 6px;
