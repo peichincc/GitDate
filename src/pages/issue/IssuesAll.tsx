@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   getFirestore,
   collection,
@@ -12,6 +13,8 @@ import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
 import IssuesList from "./IssuesList";
 
+import { MergeBtn, Button, LabelsButton } from "../../utils/StyledComponent";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
@@ -19,7 +22,65 @@ const Wrapper = styled.div`
   margin-bottom: 100px;
 `;
 
+const Container = styled.div`
+  max-width: 1280px;
+  margin: 0 auto;
+  margin-top: 40px;
+`;
+const FilterContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const MainContainer = styled.div``;
+
+const Filters = styled.div`
+  width: 100%;
+  margin-right: 10px;
+  height: 35px;
+  border-radius: 6px;
+  background-color: #f6f8fa;
+  border-color: #d0d7de;
+  border-style: solid;
+  border-width: 1px;
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 661px) {
+    height: auto;
+  }
+`;
+const FilterText = styled.div`
+  padding: 5px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #24292f;
+  border-right: 1px solid #d0d7de;
+`;
+const FilterButtons = styled.div`
+  margin-left: 5px;
+`;
+
+const CategoryButton = styled(LabelsButton)`
+  background-color: #d87613;
+`;
+
+// const LabelsButton = styled.button`
+//   padding: 0 10px;
+//   font-size: 12px;
+//   font-weight: 500;
+//   line-height: 22px;
+//   white-space: nowrap;
+//   border: 1px solid transparent;
+//   border-radius: 2em;
+//   color: white;
+//   background-color: ${(props) => (props. ? "white" : "#99262a")};
+//   /* background-color: #7057ff; */
+//   margin-right: 2px;
+//   cursor: pointer;
+// `;
+
 const IssueAll = () => {
+  let navigate = useNavigate();
   const db = getFirestore();
   const [docs, setDocs] = useState<DocumentData>();
   const [issuesStatus, setIssuesSatus] = useState("");
@@ -95,7 +156,7 @@ const IssueAll = () => {
   }, []);
 
   const allIssues = () => {
-    setIssuesSatus("ALL");
+    setIssuesSatus("All");
     setDocs(allIssue);
   };
   const searchOpenIssues = () => {
@@ -123,18 +184,42 @@ const IssueAll = () => {
   return (
     <>
       <Wrapper>
-        Filter by Status:
-        <button onClick={allIssues}>All</button>
-        <button onClick={searchOpenIssues}>Status Open</button>
-        <button onClick={searchClosedIssues}>Status Close</button>
-        <br />
-        Filter by Category:
-        <button onClick={dateIssues}>Date</button>
-        <button onClick={hangOutIssues}>Hang out</button>
-        <button onClick={networkingIssues}>Networking</button>
-        <br />
-        Filter by Tags: (pending)
-        {docs && <IssuesList issuesStatus={issuesStatus} docs={docs} />}
+        <Container>
+          <FilterContainer>
+            <Filters>
+              <FilterText>Filters</FilterText>
+              <FilterButtons>
+                <LabelsButton onClick={allIssues}>All</LabelsButton>
+                <LabelsButton onClick={searchOpenIssues}>
+                  Status Open
+                </LabelsButton>
+                <LabelsButton onClick={searchClosedIssues}>
+                  Status Close
+                </LabelsButton>
+              </FilterButtons>
+              <FilterButtons>
+                <CategoryButton onClick={dateIssues}>Date</CategoryButton>
+                <CategoryButton onClick={hangOutIssues}>
+                  Hang out
+                </CategoryButton>
+                <CategoryButton onClick={networkingIssues}>
+                  Networking
+                </CategoryButton>
+              </FilterButtons>
+            </Filters>
+            <MergeBtn
+              onClick={() => {
+                navigate("/createissue");
+              }}
+            >
+              New issue
+            </MergeBtn>
+          </FilterContainer>
+          <MainContainer>
+            {docs && <IssuesList issuesStatus={issuesStatus} docs={docs} />}
+          </MainContainer>
+        </Container>
+        {/* Filter by Tags: (pending) */}
       </Wrapper>
     </>
   );
