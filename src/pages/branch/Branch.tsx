@@ -23,6 +23,7 @@ import {
   PostSubTitle,
   LebalsText,
   PostImgContainer,
+  MergeBtn,
   PostContentText,
 } from "../../utils/StyledComponent";
 
@@ -54,7 +55,9 @@ const MainContainer = styled.div`
   border-top-width: 1px;
   background-color: #f6f8fa;
 `;
-const LeftContent = styled.div``;
+const LeftContent = styled.div`
+  width: 660px;
+`;
 const RightContent = styled.div`
   margin-top: 20px;
 `;
@@ -64,21 +67,32 @@ const MainContentContainer = styled.div`
   margin-right: auto;
   display: flex;
   flex-direction: row;
+  width: 100%;
 `;
 const BranchImgBox = styled(PostImgContainer)`
   margin-left: 0;
 `;
-const BranchImgBoxImg = styled.img``;
+const BranchImgBoxImg = styled.img`
+  width: 100%;
+  height: 100%;
+`;
 const BranchConent = styled(PostContentText)`
   margin-left: 0;
 `;
-const RightCardContainer = styled.div`
+const ParticipantsContainer = styled.div`
+  margin-top: 40px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+`;
+const CardContainer = styled.div`
   padding: 1.5rem;
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
   background-color: white;
   margin-bottom: 20px;
+  margin-right: 20px;
 `;
 
 const MapContainer = styled.div`
@@ -86,13 +100,7 @@ const MapContainer = styled.div`
   height: 200px;
 `;
 
-const ParticipantsContainer = styled.div`
-  border: 1px solid black;
-  width: 400px;
-  height: 200px;
-`;
-
-const CheckOutBtn = styled.button`
+const CheckOutBtn = styled(MergeBtn)`
   margin: 20px;
   color: white;
   background-color: black;
@@ -103,6 +111,16 @@ const CheckOutBtn = styled.button`
   cursor: pointer;
   border: 1px solid;
   border-radius: 6px;
+`;
+
+const ParticipantsBtn = styled.button`
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 `;
 
 const Branch = () => {
@@ -237,41 +255,48 @@ const Branch = () => {
                     />
                   </BranchImgBox>
                   <BranchConent>{branchData.content}</BranchConent>
+                  <CardContainer>
+                    <PostContentText>
+                      Click to attend this activity!
+                    </PostContentText>
+                    <CheckOutBtn onClick={attendActivity}>
+                      git checkout
+                    </CheckOutBtn>
+                  </CardContainer>
                 </LeftContent>
                 <RightContent>
-                  <RightCardContainer>
+                  <CardContainer>
                     <p>Type:</p>
                     {branchData.type}
-                  </RightCardContainer>
-                  <RightCardContainer>
+                  </CardContainer>
+                  <CardContainer>
                     <p>Branch status:</p>
                     {branchData.status}
-                  </RightCardContainer>
-                  <RightCardContainer>
+                  </CardContainer>
+                  <CardContainer>
                     <p>Date:</p>
                     {branchData.date} - {branchData.time}
-                  </RightCardContainer>
-                  <RightCardContainer>
+                  </CardContainer>
+                  <CardContainer>
                     <p>Location: </p>
                     {branchData.address}
                     <MapContainer>
                       <ShowMap center={center} />
                     </MapContainer>
-                  </RightCardContainer>
+                  </CardContainer>
+                  <ParticipantsContainer>
+                    <ParticipantsBtn onClick={handleChange}>
+                      See the participants!
+                    </ParticipantsBtn>
+                    {openParticipants && participantsList && (
+                      <Participants participantsList={participantsList} />
+                    )}
+                  </ParticipantsContainer>
                 </RightContent>
               </MainContentContainer>
             </MainContainer>
-
-            <button onClick={handleChange}>Open the participants area</button>
-            <ParticipantsContainer>
-              {openParticipants && participantsList && (
-                <Participants participantsList={participantsList} />
-              )}
-            </ParticipantsContainer>
           </>
         )}
-        <br />
-        <CheckOutBtn onClick={attendActivity}>git checkout</CheckOutBtn>
         <h2>Area for author</h2>
         <button
           onClick={() => {
