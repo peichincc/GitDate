@@ -205,3 +205,45 @@ export const LabelsButton = styled.button`
   margin-right: 2px;
   cursor: pointer;
 `;
+
+export const AvatarBlock = styled.div`
+  width: auto;
+  margin-right: 25px;
+`;
+export const PostWraper = styled.div`
+  display: flex;
+`;
+export const PostBox = styled.div`
+  padding: 20px;
+  position: relative;
+  background: #f6f8fa;
+  border-radius: 0.4em;
+  width: 80%;
+  height: auto;
+  /* border: 1px solid #d0d7de; */
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 30px;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-right-color: #f6f8fa;
+    border-left: 0;
+    margin-top: -20px;
+    margin-left: -20px;
+    /* border: 1px solid black;
+    position: absolute;
+    top: 11px;
+    right: 100%;
+    left: -8px;
+    display: block;
+    width: 8px;
+    height: 16px;
+    pointer-events: none;
+    content: " ";
+    clip-path: polygon(0 50%, 100% 0, 100% 100%); */
+  }
+`;

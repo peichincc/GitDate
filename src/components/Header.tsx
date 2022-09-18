@@ -24,6 +24,8 @@ const Wrapper = styled.div`
   margin: 0 auto;
   height: 62px;
   background-color: #24292f;
+  padding-left: 16px;
+  align-items: center;
 `;
 
 const LogoContainer = styled(Link)`
@@ -40,6 +42,21 @@ const LogoContainer = styled(Link)`
     }
   }
 `;
+const SearchForm = styled.div`
+  width: 100%;
+  margin-left: 10px;
+  max-width: 272px;
+  min-height: 28px;
+  margin-top: 6px;
+`;
+const SearchInput = styled.input`
+  width: 100%;
+  background-color: #24292f;
+  border: 1px solid #57606a;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 20px;
+`;
 
 const CategoryLinks = styled.div`
   display: flex;
@@ -50,6 +67,11 @@ const CategoryLinks = styled.div`
   margin-top: 7px;
 `;
 const Category = styled(Link)`
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 600;
   color: white;
   margin-right: 30px;
   cursor: pointer;
@@ -118,6 +140,9 @@ const Header = () => {
         <LogoContainer to="/">
           <GitHub stroke="#FFF" />
         </LogoContainer>
+        <SearchForm>
+          <SearchInput placeholder="Search..." />
+        </SearchForm>
         <CategoryLinks>
           <CategoryContainer>
             <LeftContainer>

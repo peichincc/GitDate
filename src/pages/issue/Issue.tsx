@@ -15,12 +15,63 @@ import { useSelector, useDispatch } from "react-redux";
 
 import firebaseapi from "../../utils/firebaseapi";
 
+import defaultAvatar from "../../utils/DefaultAvatar.png";
+import {
+  PostWraper,
+  PostBox,
+  Button,
+  MergeBtn,
+  AvatarBlock,
+  AvatarUser,
+  AvatarUserImg,
+  FormControl,
+  FormGroup,
+  FormLabel,
+  FormSelect,
+  FormSelectOptions,
+  UploadPreview,
+  UploadPreviewImg,
+  UploadCardStyled,
+} from "../../utils/StyledComponent";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
   margin: 0 auto;
   margin-bottom: 100px;
 `;
+const Container = styled.div`
+  max-width: 1216px;
+  width: 100%;
+  margin-top: 20px;
+`;
+const TopContainer = styled.div`
+  border-bottom: 1px solid #d0d7de;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+`;
+const MainContainer = styled.div`
+  display: flex;
+  width: 100%;
+`;
+const LeftContainer = styled.div`
+  width: 80%;
+`;
+const RightContainer = styled.div`
+  width: 20%;
+`;
+
+const AuthorContainer = styled.div``;
+const ContentContainer = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+`;
+const PRContainer = styled.div`
+  margin-top: 20px;
+`;
+const PRBox = styled.div``;
+
 const PRbtn = styled.button`
   margin: 20px;
   color: white;
@@ -157,41 +208,77 @@ const Issue = () => {
   return (
     <>
       <Wrapper>
-        <p>this page is issue page</p>
-        <p>issue id: {id}</p>
         {issueData && (
           <div>
-            <br />
-            <img src={issueData.main_image} alt="main_photo" />
-            <p>Category:</p>
-            {issueData.category}
-            <h2>Title:</h2>
-            {issueData.title}
-            <p>Content:</p>
-            {issueData.content}
-            <p>Issue status:</p>
-            {issueData.status}
-            <p>Posted by:</p>
-            Author name: {getAuthor}
-            <button
-              onClick={() => {
-                navigate("/readme/" + issueData.posted_by);
-              }}
-            >
-              Readme
-            </button>
-            <p>Posted at:</p>
-            {newT}
-            <p>Tags:</p>
-            {issueData.tags.map((tag: any) => (
-              <>
-                <p>{tag}</p>
-              </>
-            ))}
+            <Container>
+              <TopContainer>
+                <p>
+                  Category:
+                  {issueData.category}
+                </p>
+                <h1>{issueData.title}</h1>
+                <p>
+                  Issue status:
+                  {issueData.status}
+                </p>
+              </TopContainer>
+              <MainContainer>
+                <LeftContainer>
+                  <PostWraper>
+                    <AvatarBlock>
+                      <AvatarUser>
+                        <AvatarUserImg src={defaultAvatar} />
+                      </AvatarUser>
+                    </AvatarBlock>
+                    <PostBox>
+                      <AuthorContainer>
+                        <p>
+                          Author name: {getAuthor}
+                          <button
+                            onClick={() => {
+                              navigate("/readme/" + issueData.posted_by);
+                            }}
+                          >
+                            Readme
+                          </button>
+                        </p>
+                        <p>
+                          Posted at:
+                          {newT}
+                        </p>
+                      </AuthorContainer>
+                      <ContentContainer>
+                        <img src={issueData.main_image} alt="main_photo" />
+                        {issueData.content}
+                      </ContentContainer>
+                    </PostBox>
+                  </PostWraper>
+                  <PRContainer>
+                    <PostWraper>
+                      <AvatarBlock>
+                        <AvatarUser>
+                          <AvatarUserImg src={defaultAvatar} />
+                        </AvatarUser>
+                      </AvatarBlock>
+                      <PRBox>
+                        <PRbtn onClick={sendRequest}>Create Pull Request</PRbtn>
+                      </PRBox>
+                    </PostWraper>
+                  </PRContainer>
+                </LeftContainer>
+                <RightContainer>
+                  <p>Tags:</p>
+                  {issueData.tags.map((tag: any) => (
+                    <>
+                      <p>{tag}</p>
+                    </>
+                  ))}
+                </RightContainer>
+              </MainContainer>
+            </Container>
           </div>
         )}
         <br />
-        <PRbtn onClick={sendRequest}>Create Pull Request</PRbtn>
         <h2>Area for author</h2>
         <button onClick={changeIssueStatus}>Close this issue</button>
         <br />
