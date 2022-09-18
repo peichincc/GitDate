@@ -172,6 +172,9 @@ export const BlogList = styled.div`
   padding-top: 10px;
   padding-bottom: 10px;
   justify-content: space-between;
+  &:hover {
+    background-color: #f6f8fa;
+  }
 `;
 export const GithubPostTitle = styled.div`
   font-size: 16px;

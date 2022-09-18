@@ -23,9 +23,27 @@ const Wrapper = styled.div`
   margin: 0 auto;
   margin-bottom: 100px;
 `;
+const Container = styled.div`
+  max-width: 1280px;
+  margin: 0 auto;
+  margin-top: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  @media screen and (max-width: 1280px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+`;
 const CalendarContainer = styled.div`
   width: 30%;
   margin-right: 20px;
+`;
+const CalendarContainerIn = styled.div`
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 20px;
 `;
 const BranchesContainer = styled.div`
   margin-top: 20px;
@@ -166,42 +184,43 @@ const BranchAll = () => {
   return (
     <>
       <Wrapper>
-        <CalendarContainer>
-          Calendar here
-          <h1 className="text-center">React Calendar</h1>
-          <div className="calendar-container">
-            <Calendar
-              onChange={setDate}
-              value={date}
-              defaultValue={date}
-              onClickDay={dateClick}
-            />
-          </div>
-          <p className="text-center">
-            <span className="bold">Selected Date:</span> {date.toDateString()}
-          </p>
-        </CalendarContainer>
-        <BranchesContainer>
-          <FilterContainer>
-            <Filters>
-              <FilterText>Filters</FilterText>
-              <FilterButtons>
-                <TypeBtn onClick={allBranches}>All</TypeBtn>
-                <TypeBtn onClick={inpersonBranches}>In Person</TypeBtn>
-                <TypeBtn onClick={onlineBranches}>Online</TypeBtn>
-                <TypeBtn onClick={mixedBranches}>Mixed</TypeBtn>
-              </FilterButtons>
-            </Filters>
-            <MergeBtn
-              onClick={() => {
-                navigate("/createbranch");
-              }}
-            >
-              New branch
-            </MergeBtn>
-          </FilterContainer>
-          {docs && <BranchesList docs={docs} branchType={branchType} />}
-        </BranchesContainer>
+        <Container>
+          <CalendarContainer>
+            <h1>Select date to see branches</h1>
+            <CalendarContainerIn>
+              <Calendar
+                onChange={setDate}
+                value={date}
+                defaultValue={date}
+                onClickDay={dateClick}
+              />
+            </CalendarContainerIn>
+            {/* <p className="text-center">
+              <span className="bold">Selected Date:</span> {date.toDateString()}
+            </p> */}
+          </CalendarContainer>
+          <BranchesContainer>
+            <FilterContainer>
+              <Filters>
+                <FilterText>Filters</FilterText>
+                <FilterButtons>
+                  <TypeBtn onClick={allBranches}>All</TypeBtn>
+                  <TypeBtn onClick={inpersonBranches}>In Person</TypeBtn>
+                  <TypeBtn onClick={onlineBranches}>Online</TypeBtn>
+                  <TypeBtn onClick={mixedBranches}>Mixed</TypeBtn>
+                </FilterButtons>
+              </Filters>
+              <MergeBtn
+                onClick={() => {
+                  navigate("/createbranch");
+                }}
+              >
+                New branch
+              </MergeBtn>
+            </FilterContainer>
+            {docs && <BranchesList docs={docs} branchType={branchType} />}
+          </BranchesContainer>
+        </Container>
       </Wrapper>
     </>
   );

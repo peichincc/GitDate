@@ -21,7 +21,7 @@ const BranchesHeader = styled(BoxHeader)`
   font-weight: 600;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 `;
 const BranchDate = styled.div`
   font-size: 0.875rem;
@@ -30,15 +30,26 @@ const BranchDate = styled.div`
   padding-top: 0.25rem;
   color: #877457;
 `;
+const ImageBox = styled.div`
+  width: 168px;
+  height: 100px;
+  background: transparent;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-right: 12px;
+`;
+const ImageBoxImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
 const GithubTitleContainer = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  padding: 8px;
 `;
 const LeftContainer = styled.div`
   display: flex;
-  align-items: center;
 `;
 const RightContainer = styled.div``;
 
@@ -47,19 +58,26 @@ const BranchesList = ({ branchType, docs }: any) => {
   return (
     <>
       <Container>
-        <BranchesHeader>{branchType} Branches</BranchesHeader>
+        <BranchesHeader>
+          <img
+            src={branch}
+            style={{ width: "20px", height: "20px" }}
+            alt="branch_icon"
+          />
+          {branchType} Branches
+        </BranchesHeader>
         <ContentContainer>
           {docs.map((blog: any) => (
             <>
               <BlogList>
                 <LeftContainer>
-                  <img
-                    src={branch}
-                    style={{ width: "20px", height: "20px" }}
-                    alt="branch_icon"
-                  />
+                  <ImageBox>
+                    <ImageBoxImage src={blog.main_image} alt="issue_photo" />
+                  </ImageBox>
                   <GithubTitleContainer>
-                    <BranchDate>{blog.date}</BranchDate>
+                    <BranchDate>
+                      {blog.date} · {blog.time}
+                    </BranchDate>
                     <GithubPostTitle>{blog.title}</GithubPostTitle>
                   </GithubTitleContainer>
                 </LeftContainer>
