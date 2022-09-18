@@ -88,6 +88,8 @@ const IssueAll = () => {
   const [openIssue, setOpenIssue] = useState<DocumentData>();
   const [closedIssue, setClosedIssue] = useState<DocumentData>();
   const [dateIssue, setDateIssue] = useState<DocumentData>();
+  const [hangOutIssue, setHangOutIssue] = useState<DocumentData>();
+  const [networkingIssue, setNetworkingIssue] = useState<DocumentData>();
 
   useEffect(() => {
     const issuesRef = collection(db, "Issues");
@@ -139,7 +141,7 @@ const IssueAll = () => {
         querySnapshotHangOut.forEach((doc) => {
           tempHangOut.push(doc.data());
         });
-        setDateIssue(tempHangOut);
+        setHangOutIssue(tempHangOut);
         // get issues by category: Networking
         let tempNetworking = [] as any;
         const qNetworking = query(
@@ -150,7 +152,7 @@ const IssueAll = () => {
         querySnapshotNetworking.forEach((doc) => {
           tempNetworking.push(doc.data());
         });
-        setDateIssue(tempNetworking);
+        setNetworkingIssue(tempNetworking);
       }
     });
   }, []);
@@ -174,11 +176,11 @@ const IssueAll = () => {
   };
   const hangOutIssues = () => {
     setIssuesSatus("Hang Out");
-    setDocs(dateIssue);
+    setDocs(hangOutIssue);
   };
   const networkingIssues = () => {
     setIssuesSatus("Networking");
-    setDocs(dateIssue);
+    setDocs(networkingIssue);
   };
 
   return (
