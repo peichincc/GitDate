@@ -299,3 +299,9 @@ export const AuthorBtn = styled.button`
     text-decoration: underline;
   }
 `;
+
+export const BranchTitle = styled.div`
+  line-height: 1.375;
+  font-weight: 700;
+  font-size: 1.875rem;
+`;

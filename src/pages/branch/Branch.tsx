@@ -17,11 +17,68 @@ import {
 import { ShowMap } from "../../components/map/ShowMap";
 import Participants from "./Participants";
 
+import {
+  AuthorBtn,
+  PostTitle,
+  PostSubTitle,
+  LebalsText,
+  PostImgContainer,
+  PostContentText,
+} from "../../utils/StyledComponent";
+
 const Wrapper = styled.div`
   display: block;
-  max-width: 1376px;
+  /* max-width: 1376px; */
   margin: 0 auto;
   margin-bottom: 100px;
+`;
+const TopContainer = styled.div`
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  width: 100%;
+  border-bottom-width: 1px;
+  border-color: #d0d7de;
+`;
+const TopContentContainer = styled.div`
+  max-width: 1120px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+const MainContainer = styled.div`
+  width: 100%;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  padding-bottom: 1.5rem;
+  border-top-width: 1px;
+  background-color: #f6f8fa;
+`;
+const LeftContent = styled.div``;
+const RightContent = styled.div`
+  margin-top: 20px;
+`;
+const MainContentContainer = styled.div`
+  max-width: 1120px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: row;
+`;
+const BranchImgBox = styled(PostImgContainer)`
+  margin-left: 0;
+`;
+const BranchImgBoxImg = styled.img``;
+const BranchConent = styled(PostContentText)`
+  margin-left: 0;
+`;
+const RightCardContainer = styled.div`
+  padding: 1.5rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  margin-bottom: 20px;
 `;
 
 const MapContainer = styled.div`
@@ -148,40 +205,63 @@ const Branch = () => {
   return (
     <>
       <Wrapper>
-        Display branch here <p>branch id: {id}</p>
         {branchData && (
           <>
-            <div>
-              <br />
-              <img src={branchData.main_image} alt="main_photo" />
-              <p>Type:</p>
-              {branchData.type}
-              <h2>Title:</h2>
-              {branchData.title}
-              <p>Content:</p>
-              {branchData.content}
-              <p>Branch status:</p>
-              {branchData.status}
-              <p>Date:</p>
-              {branchData.date} - {branchData.time}
-              <p>Location: </p>
-              {branchData.address}
-              <MapContainer>
-                <ShowMap center={center} />
-              </MapContainer>
-              <p>Posted by:</p>
-              Author name: {getAuthor}
-              <button
-                onClick={() => {
-                  navigate("/readme/" + branchData.hosted_by);
-                }}
-              >
-                Readme
-              </button>
-              <p>Posted at:</p>
-              {newT}
-            </div>
-            <br />
+            <TopContainer>
+              <TopContentContainer>
+                <PostSubTitle>
+                  {branchData.date} - {branchData.time}
+                </PostSubTitle>
+                <PostTitle>{branchData.title}</PostTitle>
+                <LebalsText>
+                  Posted by
+                  <AuthorBtn
+                    onClick={() => {
+                      navigate("/readme/" + branchData.hosted_by);
+                    }}
+                  >
+                    {getAuthor}{" "}
+                  </AuthorBtn>
+                  at{"  "}
+                  {newT}
+                </LebalsText>
+              </TopContentContainer>
+            </TopContainer>
+            <MainContainer>
+              <MainContentContainer>
+                <LeftContent>
+                  <BranchImgBox>
+                    <BranchImgBoxImg
+                      src={branchData.main_image}
+                      alt="main_photo"
+                    />
+                  </BranchImgBox>
+                  <BranchConent>{branchData.content}</BranchConent>
+                </LeftContent>
+                <RightContent>
+                  <RightCardContainer>
+                    <p>Type:</p>
+                    {branchData.type}
+                  </RightCardContainer>
+                  <RightCardContainer>
+                    <p>Branch status:</p>
+                    {branchData.status}
+                  </RightCardContainer>
+                  <RightCardContainer>
+                    <p>Date:</p>
+                    {branchData.date} - {branchData.time}
+                  </RightCardContainer>
+                  <RightCardContainer>
+                    <p>Location: </p>
+                    {branchData.address}
+                    <MapContainer>
+                      <ShowMap center={center} />
+                    </MapContainer>
+                  </RightCardContainer>
+                </RightContent>
+              </MainContentContainer>
+            </MainContainer>
+
             <button onClick={handleChange}>Open the participants area</button>
             <ParticipantsContainer>
               {openParticipants && participantsList && (
