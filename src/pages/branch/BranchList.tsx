@@ -1,22 +1,100 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
-const BranchesList = ({ docs }: any) => {
+import {
+  BoxHeader,
+  Container,
+  ContentContainer,
+  BlogList,
+  GithubPostTitle,
+  GithubSubTitle,
+  Button,
+} from "../../utils/StyledComponent";
+
+import branch from "./branch.png";
+
+const BranchesHeader = styled(BoxHeader)`
+  font-size: 14px;
+  line-height: 1.5;
+  color: #24292f;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
+const BranchDate = styled.div`
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding-bottom: 0.25rem;
+  padding-top: 0.25rem;
+  color: #877457;
+`;
+const ImageBox = styled.div`
+  width: 168px;
+  height: 100px;
+  background: transparent;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-right: 12px;
+`;
+const ImageBoxImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+const GithubTitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+`;
+const LeftContainer = styled.div`
+  display: flex;
+`;
+const RightContainer = styled.div``;
+
+const BranchesList = ({ branchType, docs }: any) => {
   let navigate = useNavigate();
   return (
     <>
-      {docs.map((blog: any) => (
-        <>
-          <h2>Branch title: {blog.title}</h2>
-          <button
-            onClick={() => {
-              navigate("/branch/" + blog.branch_id);
-            }}
-          >
-            Click to Branch
-          </button>
-        </>
-      ))}
+      <Container>
+        <BranchesHeader>
+          <img
+            src={branch}
+            style={{ width: "20px", height: "20px" }}
+            alt="branch_icon"
+          />
+          {branchType} Branches
+        </BranchesHeader>
+        <ContentContainer>
+          {docs.map((blog: any) => (
+            <>
+              <BlogList>
+                <LeftContainer>
+                  <ImageBox>
+                    <ImageBoxImage src={blog.main_image} alt="issue_photo" />
+                  </ImageBox>
+                  <GithubTitleContainer>
+                    <BranchDate>
+                      {blog.date} · {blog.time}
+                    </BranchDate>
+                    <GithubPostTitle>{blog.title}</GithubPostTitle>
+                  </GithubTitleContainer>
+                </LeftContainer>
+                <RightContainer>
+                  <Button
+                    onClick={() => {
+                      navigate("/branch/" + blog.branch_id);
+                    }}
+                  >
+                    Click to Branch
+                  </Button>
+                </RightContainer>
+              </BlogList>
+            </>
+          ))}
+        </ContentContainer>
+      </Container>
     </>
   );
 };
