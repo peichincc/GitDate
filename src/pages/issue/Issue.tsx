@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import {
   doc,
   getFirestore,
@@ -10,13 +13,19 @@ import {
   DocumentData,
 } from "firebase/firestore";
 import styled from "styled-components";
-
 import { useSelector, useDispatch } from "react-redux";
-
 import firebaseapi from "../../utils/firebaseapi";
 
+import MergePic from "./MergePic.png";
+import mergeIcon from "./merge.png";
+import { ReactComponent as MergeSvg } from "./merge.svg";
 import defaultAvatar from "../../utils/DefaultAvatar.png";
 import {
+  LebalsText,
+  PostImgContainer,
+  PostTitle,
+  PostSubTitle,
+  PostContentText,
   PostWraper,
   PostBox,
   Button,
@@ -32,6 +41,10 @@ import {
   UploadPreview,
   UploadPreviewImg,
   UploadCardStyled,
+  LabelsButton,
+  LebalContentText,
+  LebalsContainer,
+  AuthorBtn,
 } from "../../utils/StyledComponent";
 
 const Wrapper = styled.div`
@@ -59,6 +72,7 @@ const LeftContainer = styled.div`
 `;
 const RightContainer = styled.div`
   width: 20%;
+  padding-left: 20px;
 `;
 
 const AuthorContainer = styled.div``;
@@ -70,8 +84,39 @@ const ContentContainer = styled.div`
 const PRContainer = styled.div`
   margin-top: 20px;
 `;
+const PRPostBox = styled.div`
+  padding: 20px;
+  position: relative;
+  background: #f8f8f9;
+  border-radius: 0.4em;
+  width: 80%;
+  height: auto;
+  /* border: 1px solid #d0d7de; */
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 30px;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-right-color: #f8f8f9;
+    border-left: 0;
+    margin-top: -20px;
+    margin-left: -20px;
+  }
+`;
 const PRBox = styled.div``;
-
+const MergeIcon = styled.div`
+  width: 40px;
+  height: 40px;
+`;
+const MergeIconImg = styled.img`
+  background-image: url(${MergePic});
+  width: 100%;
+  height: 100%;
+`;
 const PRbtn = styled.button`
   margin: 20px;
   color: white;
@@ -81,7 +126,7 @@ const PRbtn = styled.button`
   font-weight: 500;
   line-height: 20px;
   cursor: pointer;
-  border: 1px solid;
+  border: 1px solid transparent;
   border-radius: 6px;
 `;
 
@@ -212,15 +257,11 @@ const Issue = () => {
           <div>
             <Container>
               <TopContainer>
-                <p>
-                  Category:
-                  {issueData.category}
-                </p>
-                <h1>{issueData.title}</h1>
-                <p>
+                <PostTitle>{issueData.title}</PostTitle>
+                <PostSubTitle>
                   Issue status:
                   {issueData.status}
-                </p>
+                </PostSubTitle>
               </TopContainer>
               <MainContainer>
                 <LeftContainer>
@@ -232,24 +273,23 @@ const Issue = () => {
                     </AvatarBlock>
                     <PostBox>
                       <AuthorContainer>
-                        <p>
-                          Author name: {getAuthor}
-                          <button
+                        <PostSubTitle>
+                          <AuthorBtn
                             onClick={() => {
                               navigate("/readme/" + issueData.posted_by);
                             }}
                           >
-                            Readme
-                          </button>
-                        </p>
-                        <p>
-                          Posted at:
+                            {getAuthor}
+                          </AuthorBtn>
+                          posted this issue at:
                           {newT}
-                        </p>
+                        </PostSubTitle>
                       </AuthorContainer>
                       <ContentContainer>
-                        <img src={issueData.main_image} alt="main_photo" />
-                        {issueData.content}
+                        <PostImgContainer>
+                          <img src={issueData.main_image} alt="main_photo" />
+                        </PostImgContainer>
+                        <PostContentText>{issueData.content}</PostContentText>
                       </ContentContainer>
                     </PostBox>
                   </PostWraper>
@@ -258,21 +298,40 @@ const Issue = () => {
                       <AvatarBlock>
                         <AvatarUser>
                           <AvatarUserImg src={defaultAvatar} />
+                          {/* <FontAwesomeIcon icon="code-merge" /> */}
+                          {/* <MergeIconImg /> */}
+                          {/* <img src={MergePic} /> */}
+                          {/* <MergeSvg stroke="#FFFFFF" /> */}
+                          {/* <MergeIconImg src={mergeIcon} /> */}
                         </AvatarUser>
                       </AvatarBlock>
-                      <PRBox>
-                        <PRbtn onClick={sendRequest}>Create Pull Request</PRbtn>
-                      </PRBox>
+                      <PRPostBox>
+                        <PRBox>
+                          <PostContentText>
+                            Start chatting by making this pull request to{" "}
+                            {getAuthor}!
+                          </PostContentText>
+                          <PRbtn onClick={sendRequest}>
+                            Create Pull Request
+                          </PRbtn>
+                        </PRBox>
+                      </PRPostBox>
                     </PostWraper>
                   </PRContainer>
                 </LeftContainer>
                 <RightContainer>
-                  <p>Tags:</p>
-                  {issueData.tags.map((tag: any) => (
-                    <>
-                      <p>{tag}</p>
-                    </>
-                  ))}
+                  <LebalsContainer>
+                    <LebalsText>Category</LebalsText>
+                    <LebalContentText>{issueData.category}</LebalContentText>
+                  </LebalsContainer>
+                  <LebalsContainer>
+                    <LebalsText>Tags</LebalsText>
+                    {issueData.tags.map((tag: any) => (
+                      <>
+                        <LabelsButton>{tag}</LabelsButton>
+                      </>
+                    ))}
+                  </LebalsContainer>
                 </RightContainer>
               </MainContainer>
             </Container>

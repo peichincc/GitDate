@@ -218,7 +218,7 @@ export const PostBox = styled.div`
   position: relative;
   background: #f6f8fa;
   border-radius: 0.4em;
-  width: 80%;
+  width: 100%;
   height: auto;
   /* border: 1px solid #d0d7de; */
   position: relative;
@@ -245,5 +245,57 @@ export const PostBox = styled.div`
     pointer-events: none;
     content: " ";
     clip-path: polygon(0 50%, 100% 0, 100% 100%); */
+  }
+`;
+
+export const PostTitle = styled.div`
+  font-weight: 400;
+  line-height: 1.25;
+  font-size: 32px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+`;
+export const PostSubTitle = styled.div`
+  color: #57606a;
+  font-size: 14px;
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+`;
+export const PostContentText = styled.div`
+  margin: 20px;
+  font-size: 14px;
+  color: #24292f;
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+`;
+export const PostImgContainer = styled.div`
+  margin: 20px;
+`;
+export const LebalsText = styled.div`
+  font-size: 12px;
+  color: #57606a;
+  font-weight: 600;
+  padding: 4px 0;
+  margin-bottom: 4px;
+`;
+export const LebalContentText = styled.div`
+  font-size: 12px;
+  line-height: 1.5;
+`;
+export const LebalsContainer = styled.div`
+  border-bottom: 1px solid #d0d7de;
+
+  padding: 10px;
+`;
+export const AuthorBtn = styled.button`
+  font-weight: 600;
+  color: #57606a;
+  border: none;
+  background: none;
+  cursor: pointer;
+  :hover {
+    text-decoration: underline;
   }
 `;
