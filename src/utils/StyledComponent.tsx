@@ -162,15 +162,15 @@ export const Container = styled.div`
   border-radius: 6px;
   height: auto;
 `;
-export const ContentContainer = styled.div`
-  padding: 20px;
-`;
+export const ContentContainer = styled.div``;
 export const BlogList = styled.div`
   display: flex;
   align-items: center;
   border-bottom: 1px solid #d0d7de;
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
   justify-content: space-between;
   &:hover {
     background-color: #f6f8fa;

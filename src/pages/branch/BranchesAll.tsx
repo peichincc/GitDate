@@ -41,6 +41,7 @@ const CalendarContainer = styled.div`
   }
   /* ~~~ button styles ~~~ */
   button {
+    cursor: pointer;
     margin: 3px;
     background: none;
     /* background-color: #6f876f; */

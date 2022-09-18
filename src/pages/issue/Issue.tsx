@@ -35,6 +35,7 @@ import {
   LebalContentText,
   LebalsContainer,
   AuthorBtn,
+  MergeBtn,
 } from "../../utils/StyledComponent";
 
 const Wrapper = styled.div`
@@ -107,17 +108,9 @@ const MergeIconImg = styled.img`
   width: 100%;
   height: 100%;
 `;
-const PRbtn = styled.button`
-  margin: 20px;
-  color: white;
-  background-color: #2da44e;
-  padding: 5px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  border-radius: 6px;
+const PRbtn = styled(MergeBtn)`
+  width: 180px;
+  margin-left: 20px;
 `;
 
 const Issue = () => {
@@ -271,7 +264,7 @@ const Issue = () => {
                           >
                             {getAuthor}
                           </AuthorBtn>
-                          posted this issue at:
+                          posted this issue at:{"  "}
                           {newT}
                         </PostSubTitle>
                       </AuthorContainer>

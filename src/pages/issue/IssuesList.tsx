@@ -89,6 +89,7 @@ const ImageBoxImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  cursor: pointer;
 `;
 const ContentBox = styled.div`
   margin-top: 10px;
@@ -172,6 +173,9 @@ const IssuesList = ({ issuesStatus, docs }: any) => {
                         <ImageBoxImage
                           src={blog.main_image}
                           alt="issue_photo"
+                          onClick={() => {
+                            navigate("/issue/" + blog.issue_id);
+                          }}
                         />
                       </ImageBox>
                       <ContentBox>
