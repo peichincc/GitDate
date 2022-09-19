@@ -228,7 +228,7 @@ const CreateIssue = () => {
     await firebaseapi
       .postIssue(imageUpload, newIssueRef, recipient)
       .then(() => {
-        navigate("/");
+        navigate("/issues");
       });
   };
 

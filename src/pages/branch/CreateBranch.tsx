@@ -212,7 +212,7 @@ const CreateBranch = () => {
     await firebaseapi
       .createBranch(imageUpload, newBranchRef, recipient)
       .then(() => {
-        navigate("/");
+        navigate("/branches");
         updateDoc(userRef, {
           activity_hosted: arrayUnion(newBranchRef.id),
         });

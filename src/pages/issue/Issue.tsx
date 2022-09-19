@@ -33,9 +33,14 @@ import {
   LebalsContainer,
   AuthorBtn,
   MergeBtn,
+  PostImgBoxImg,
+  StatusOpen,
 } from "../../utils/StyledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCodeMerge } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCodeMerge,
+  faCodePullRequest,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Wrapper = styled.div`
   display: block;
@@ -46,16 +51,18 @@ const Wrapper = styled.div`
 const Container = styled.div`
   max-width: 1216px;
   width: 100%;
-  margin-top: 20px;
+  margin: 0 auto;
+  padding-top: 24px;
 `;
 const TopContainer = styled.div`
   border-bottom: 1px solid #d0d7de;
-  padding-bottom: 8px;
+  padding-bottom: 20px;
   margin-bottom: 16px;
 `;
 const MainContainer = styled.div`
   display: flex;
   width: 100%;
+  padding-top: 8px;
 `;
 const LeftContainer = styled.div`
   width: 80%;
@@ -64,7 +71,11 @@ const RightContainer = styled.div`
   width: 20%;
   padding-left: 20px;
 `;
-
+const IssueSubTitle = styled.div`
+  padding-top: 5px;
+  display: flex;
+  align-items: center;
+`;
 const AuthorContainer = styled.div``;
 const ContentContainer = styled.div`
   margin-top: 20px;
@@ -244,10 +255,25 @@ const Issue = () => {
             <Container>
               <TopContainer>
                 <PostTitle>{issueData.title}</PostTitle>
-                <PostSubTitle>
-                  Issue status:
-                  {issueData.status}
-                </PostSubTitle>
+                <IssueSubTitle>
+                  <StatusOpen>
+                    <FontAwesomeIcon icon={faCodePullRequest} />
+                    {issueData.status}
+                  </StatusOpen>
+                  <AuthorContainer>
+                    <PostSubTitle>
+                      <AuthorBtn
+                        onClick={() => {
+                          navigate("/readme/" + issueData.posted_by);
+                        }}
+                      >
+                        {getAuthor}
+                      </AuthorBtn>
+                      posted this issue at:{"  "}
+                      {newT}
+                    </PostSubTitle>
+                  </AuthorContainer>
+                </IssueSubTitle>
               </TopContainer>
               <MainContainer>
                 <LeftContainer>
@@ -258,24 +284,20 @@ const Issue = () => {
                       </AvatarUser>
                     </AvatarBlock>
                     <PostBox>
-                      <AuthorContainer>
-                        <PostSubTitle>
-                          <AuthorBtn
-                            onClick={() => {
-                              navigate("/readme/" + issueData.posted_by);
-                            }}
-                          >
-                            {getAuthor}
-                          </AuthorBtn>
-                          posted this issue at:{"  "}
-                          {newT}
-                        </PostSubTitle>
-                      </AuthorContainer>
                       <ContentContainer>
                         <PostImgContainer>
-                          <img src={issueData.main_image} alt="main_photo" />
+                          <PostImgBoxImg
+                            src={issueData.main_image}
+                            alt="main_photo"
+                          />
                         </PostImgContainer>
-                        <PostContentText>{issueData.content}</PostContentText>
+                        <PostContentText>
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: issueData.content,
+                            }}
+                          ></div>
+                        </PostContentText>
                       </ContentContainer>
                     </PostBox>
                   </PostWraper>

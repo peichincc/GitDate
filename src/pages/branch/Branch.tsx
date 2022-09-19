@@ -81,9 +81,11 @@ const BranchSubTitle = styled.div`
   font-weight: 600;
   font-size: 1.25rem;
   line-height: 1.75rem;
+  padding-bottom: 4px;
 `;
 const BranchConent = styled(PostContentText)`
   margin-left: 0;
+  margin-top: 0;
 `;
 const ParticipantsContainer = styled.div`
   margin-top: 40px;
@@ -234,7 +236,7 @@ const Branch = () => {
             <TopContainer>
               <TopContentContainer>
                 <PostSubTitle>
-                  {branchData.date} - {branchData.time}
+                  {branchData.date} · {branchData.time}
                 </PostSubTitle>
                 <PostTitle>{branchData.title}</PostTitle>
                 <LebalsText>
@@ -277,19 +279,19 @@ const Branch = () => {
                 </LeftContent>
                 <RightContent>
                   <CardContainer>
-                    <p>Type:</p>
+                    <BranchSubTitle>Type:</BranchSubTitle>
                     {branchData.type}
                   </CardContainer>
                   <CardContainer>
-                    <p>Branch status:</p>
+                    <BranchSubTitle>Branch status:</BranchSubTitle>
                     {branchData.status}
                   </CardContainer>
                   <CardContainer>
-                    <p>Date:</p>
-                    {branchData.date} - {branchData.time}
+                    <BranchSubTitle>Date:</BranchSubTitle>
+                    {branchData.date} · {branchData.time}
                   </CardContainer>
                   <CardContainer>
-                    <p>Location: </p>
+                    <BranchSubTitle>Location: </BranchSubTitle>
                     {branchData.address}
                     <MapContainer>
                       <ShowMap center={center} />

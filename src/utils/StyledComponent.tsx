@@ -273,6 +273,10 @@ export const PostContentText = styled.div`
 export const PostImgContainer = styled.div`
   margin: 20px;
 `;
+export const PostImgBoxImg = styled.img`
+  width: 100%;
+  height: 100%;
+`;
 export const LebalsText = styled.div`
   font-size: 12px;
   color: #57606a;
@@ -286,7 +290,6 @@ export const LebalContentText = styled.div`
 `;
 export const LebalsContainer = styled.div`
   border-bottom: 1px solid #d0d7de;
-
   padding: 10px;
 `;
 export const AuthorBtn = styled.button`
@@ -300,8 +303,14 @@ export const AuthorBtn = styled.button`
   }
 `;
 
-export const BranchTitle = styled.div`
-  line-height: 1.375;
-  font-weight: 700;
-  font-size: 1.875rem;
+export const StatusOpen = styled.div`
+  width: 80px;
+  color: white;
+  background-color: #2da44e;
+  border-radius: 2em;
+  padding: 5px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  text-align: center;
 `;
