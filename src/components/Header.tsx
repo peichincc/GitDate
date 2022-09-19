@@ -26,6 +26,7 @@ const Wrapper = styled.div`
   background-color: #24292f;
   padding-left: 16px;
   align-items: center;
+  width: 100%;
 `;
 
 const LogoContainer = styled(Link)`
