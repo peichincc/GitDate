@@ -6,6 +6,8 @@ import firebaseapi from "../../utils/firebaseapi";
 
 import "./terminal.css";
 
+import Chatroom from "./Chatroom";
+
 // Terminal Container
 const TerminalContainer = styled.div`
   max-width: 1280px;
@@ -106,6 +108,8 @@ const Repo = () => {
   const [getUserName, setGetUserName] = useState("");
   const [getUserPhoto, setGetUserPhoto] = useState("");
   const [friendList, setFriendList] = useState<any>();
+  const [openChatroom, setOpenChatroom] = useState(false);
+  const [chatroomId, setChatroomId] = useState("");
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -145,9 +149,13 @@ const Repo = () => {
                 friendList.map((friend: any) => {
                   return (
                     <MsgList
-                    // onClick={() => {
-                    //   navigate("/chatroom/" + friend["chat_id"]);
-                    // }}
+                      onClick={() => {
+                        setOpenChatroom(true);
+                        setChatroomId(friend["chat_id"]);
+                      }}
+                      // onClick={() => {
+                      //   navigate("/chatroom/" + friend["chat_id"]);
+                      // }}
                     >
                       <NameCardPhoto src={friend["user_photo"]} />
                       <NameCardName>{friend["user_name"]}</NameCardName>
@@ -156,25 +164,29 @@ const Repo = () => {
                 })}
             </Sidebar>
             <Chat>
-              <LineContainer>
-                <p className="line1">
-                  &#91;&nbsp;&ldquo;I'm a web developer.&rdquo;,
-                  <span className="cursor1">_</span>
-                </p>
-                <p className="line2">
-                  &nbsp;&nbsp;&ldquo;I'm a web designer.&rdquo;,
-                  <span className="cursor2">_</span>
-                </p>
-                <p className="line3">
-                  &nbsp;&nbsp;&ldquo;Let's work together!&rdquo;&nbsp;&#93;
-                  <span className="cursor3">_</span>
-                </p>
-                <p className="line4">
-                  <br />
-                  Start chatting...
-                  <span className="cursor4">_</span>
-                </p>
-              </LineContainer>
+              {chatroomId && openChatroom ? (
+                <Chatroom chatroomId={chatroomId} />
+              ) : (
+                <LineContainer>
+                  <p className="line1">
+                    &#91;&nbsp;&ldquo;I'm a web developer.&rdquo;,
+                    <span className="cursor1">_</span>
+                  </p>
+                  <p className="line2">
+                    &nbsp;&nbsp;&ldquo;I'm a web designer.&rdquo;,
+                    <span className="cursor2">_</span>
+                  </p>
+                  <p className="line3">
+                    &nbsp;&nbsp;&ldquo;Let's work together!&rdquo;&nbsp;&#93;
+                    <span className="cursor3">_</span>
+                  </p>
+                  <p className="line4">
+                    <br />
+                    Start chatting...
+                    <span className="cursor4">_</span>
+                  </p>
+                </LineContainer>
+              )}
             </Chat>
           </FakeScreen>
         </TerminalContainer>

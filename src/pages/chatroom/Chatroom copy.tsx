@@ -21,7 +21,6 @@ const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
   margin: 0 auto;
-  color: white;
   margin-bottom: 100px;
 `;
 
@@ -35,10 +34,10 @@ const ChatContainer = styled.div`
   overflow: hidden;
 `;
 
-const Chatroom = ({ chatroomId }: any) => {
+const Chatroomx = () => {
   const userData = useSelector((state) => state) as any;
   const db = getFirestore();
-  // const { id } = useParams<any>();
+  const { id } = useParams<any>();
   const [messages, setMessages] = useState<any>([]);
 
   //
@@ -67,14 +66,14 @@ const Chatroom = ({ chatroomId }: any) => {
   };
 
   useEffect(() => {
-    console.log(chatroomId);
-    firebaseapi.readChatData(chatroomId).then((res) => {
+    console.log(id);
+    firebaseapi.readChatData(id).then((res) => {
       if (res) {
         console.log(res);
-        getMessages(chatroomId);
+        getMessages(id);
       }
     });
-  }, [chatroomId]);
+  }, []);
 
   // test send msg function
   const [value, setValue] = useState<any>("");
@@ -97,7 +96,7 @@ const Chatroom = ({ chatroomId }: any) => {
   };
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    sendMessage(chatroomId, user, value);
+    sendMessage(id, user, value);
     setValue("");
   };
 
@@ -147,4 +146,4 @@ function Message({ message, isOwnMessage }: any) {
   );
 }
 
-export default Chatroom;
+export default Chatroomx;
