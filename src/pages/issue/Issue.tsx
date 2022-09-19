@@ -144,6 +144,7 @@ const Issue = () => {
   const [newT, setNewT] = useState("");
   const [getUser, setGetUser] = useState("");
   const [getUserName, setGetUserName] = useState("");
+  const [getUserPhoto, setGetUserPhoto] = useState("");
   const [getAuthor, setGetAuthor] = useState("");
   const [getAuthorID, setGetAuthorID] = useState("");
 
@@ -205,11 +206,13 @@ const Issue = () => {
   useEffect(() => {
     const userId = userData.user.user_id;
     const userName = userData.user.user_name;
+    const userPhoto = userData.user.user_photo;
     console.log(userId);
     console.log(userName);
     if (userId && userName) {
       setGetUser(userId);
       setGetUserName(userName);
+      setGetUserPhoto(userPhoto);
     }
     firebaseapi.readIssueData(id).then((res) => {
       if (res) {
@@ -232,7 +235,11 @@ const Issue = () => {
     // console.log(`User:${getAuthorID}`);
     const userRef = doc(db, "Users", getAuthorID);
     await updateDoc(userRef, {
-      friend_request: arrayUnion({ user_id: getUser, user_name: getUserName }),
+      friend_request: arrayUnion({
+        user_id: getUser,
+        user_name: getUserName,
+        user_photo: getUserPhoto,
+      }),
     });
     alert("Sent pull request successful!");
     console.log(`Invitation Sent to ${getAuthor}`);

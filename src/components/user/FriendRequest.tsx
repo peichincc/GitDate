@@ -120,15 +120,18 @@ const FriendRequest = ({ getInvitationList }: Props) => {
   const db = getFirestore();
   const [getUser, setGetUser] = useState("");
   const [getUserName, setGetUserName] = useState("");
+  const [getUserPhoto, setGetUserPhoto] = useState("");
 
   useEffect(() => {
     const userId = userData.user.user_id;
     const userName = userData.user.user_name;
+    const userPhoto = userData.user.user_photo;
     console.log(userId);
     console.log(userName);
     if (userId && userName) {
       setGetUser(userId);
       setGetUserName(userName);
+      setGetUserPhoto(userPhoto);
     }
   }, []);
 
@@ -173,6 +176,7 @@ const FriendRequest = ({ getInvitationList }: Props) => {
       friend_list: arrayUnion({
         user_id: getUser,
         user_name: getUserName,
+        user_photo: getUserPhoto,
         chat_id: newChatRef.id,
       }),
     });
