@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
@@ -75,6 +75,12 @@ const BranchImgBox = styled(PostImgContainer)`
 const BranchImgBoxImg = styled.img`
   width: 100%;
   height: 100%;
+`;
+const BranchSubTitle = styled.div`
+  text-align: left;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 `;
 const BranchConent = styled(PostContentText)`
   margin-left: 0;
@@ -254,7 +260,12 @@ const Branch = () => {
                       alt="main_photo"
                     />
                   </BranchImgBox>
-                  <BranchConent>{branchData.content}</BranchConent>
+                  <BranchSubTitle>Details</BranchSubTitle>
+                  <BranchConent>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: branchData.content }}
+                    ></div>
+                  </BranchConent>
                   <CardContainer>
                     <PostContentText>
                       Click to attend this activity!
@@ -286,7 +297,7 @@ const Branch = () => {
                   </CardContainer>
                   <ParticipantsContainer>
                     <ParticipantsBtn onClick={handleChange}>
-                      See the participants!
+                      Click to see the participants!
                     </ParticipantsBtn>
                     {openParticipants && participantsList && (
                       <Participants participantsList={participantsList} />

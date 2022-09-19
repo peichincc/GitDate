@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import {
   doc,
   getFirestore,
@@ -37,6 +34,8 @@ import {
   AuthorBtn,
   MergeBtn,
 } from "../../utils/StyledComponent";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCodeMerge } from "@fortawesome/free-solid-svg-icons";
 
 const Wrapper = styled.div`
   display: block;
@@ -100,13 +99,17 @@ const PRPostBox = styled.div`
 `;
 const PRBox = styled.div``;
 const MergeIcon = styled.div`
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 40px;
   height: 40px;
-`;
-const MergeIconImg = styled.img`
-  background-image: url(${MergePic});
-  width: 100%;
-  height: 100%;
+  border-radius: 6px;
+  color: white;
+  background-color: #2da44e;
+  border: 1px solid transparent;
+  font-size: 24px;
 `;
 const PRbtn = styled(MergeBtn)`
   width: 180px;
@@ -279,14 +282,15 @@ const Issue = () => {
                   <PRContainer>
                     <PostWraper>
                       <AvatarBlock>
-                        <AvatarUser>
-                          <AvatarUserImg src={defaultAvatar} />
+                        <MergeIcon>
+                          <FontAwesomeIcon icon={faCodeMerge} />
+                          {/* <AvatarUserImg src={defaultAvatar} /> */}
                           {/* <FontAwesomeIcon icon="code-merge" /> */}
                           {/* <MergeIconImg /> */}
                           {/* <img src={MergePic} /> */}
                           {/* <MergeSvg stroke="#FFFFFF" /> */}
                           {/* <MergeIconImg src={mergeIcon} /> */}
-                        </AvatarUser>
+                        </MergeIcon>
                       </AvatarBlock>
                       <PRPostBox>
                         <PRBox>
