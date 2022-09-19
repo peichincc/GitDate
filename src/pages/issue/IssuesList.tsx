@@ -44,6 +44,13 @@ const CategoryContainer = styled.div`
   padding-bottom: 6px;
   padding-left: 8px;
 `;
+const CategoryContainerGallery = styled(CategoryContainer)`
+  text-align: center;
+  padding-left: 0;
+`;
+const GithubPostTitleGallery = styled(GithubPostTitle)`
+  text-align: center;
+`;
 const GithubTitleContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -69,7 +76,7 @@ const Card = styled.div`
   width: 220px;
   height: 250px;
   background: #fff;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15);
 `;
 const ImageBox = styled.div`
@@ -179,8 +186,12 @@ const IssuesList = ({ issuesStatus, docs }: any) => {
                         />
                       </ImageBox>
                       <ContentBox>
-                        <CategoryContainer>{blog.category}</CategoryContainer>
-                        <GithubPostTitle>{blog.title}</GithubPostTitle>
+                        <CategoryContainerGallery>
+                          {blog.category}
+                        </CategoryContainerGallery>
+                        <GithubPostTitleGallery>
+                          {blog.title}
+                        </GithubPostTitleGallery>
                         <GithubSubTitle>Posted time: {postTime}</GithubSubTitle>
                       </ContentBox>
                     </Card>

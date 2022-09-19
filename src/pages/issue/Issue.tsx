@@ -13,9 +13,6 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import firebaseapi from "../../utils/firebaseapi";
 
-import MergePic from "./MergePic.png";
-import mergeIcon from "./merge.png";
-import { ReactComponent as MergeSvg } from "./merge.svg";
 import defaultAvatar from "../../utils/DefaultAvatar.png";
 import {
   LebalsText,
@@ -306,12 +303,6 @@ const Issue = () => {
                       <AvatarBlock>
                         <MergeIcon>
                           <FontAwesomeIcon icon={faCodeMerge} />
-                          {/* <AvatarUserImg src={defaultAvatar} /> */}
-                          {/* <FontAwesomeIcon icon="code-merge" /> */}
-                          {/* <MergeIconImg /> */}
-                          {/* <img src={MergePic} /> */}
-                          {/* <MergeSvg stroke="#FFFFFF" /> */}
-                          {/* <MergeIconImg src={mergeIcon} /> */}
                         </MergeIcon>
                       </AvatarBlock>
                       <PRPostBox>
