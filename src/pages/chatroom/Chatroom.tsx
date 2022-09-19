@@ -17,22 +17,44 @@ import {
   orderBy,
 } from "firebase/firestore";
 
-const Wrapper = styled.div`
-  display: block;
-  max-width: 1376px;
-  margin: 0 auto;
-  color: white;
-  margin-bottom: 100px;
-`;
-
 const ChatContainer = styled.div`
   display: flex;
-  width: 800px;
-  border: 1px solid black;
+  width: 100%;
+  height: 80vh;
   flex-direction: column;
   padding: 16px;
   flex-grow: 1;
   overflow: hidden;
+  color: white;
+`;
+
+const MsgContainer = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+`;
+const MsgInput = styled.input`
+  width: 100%;
+  display: inline;
+  font-size: 20px;
+  padding: 10px 10px;
+  border-radius: 30px;
+  outline: none;
+  border: none;
+  background: #bbb;
+  color: black;
+`;
+const MsgBtn = styled.button`
+  margin-left: 10px;
+  margin-right: 10px;
+  border: none;
+  background: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  &:hover {
+    color: #ff69b4;
+  }
 `;
 
 const Chatroom = ({ chatroomId }: any) => {
@@ -103,36 +125,35 @@ const Chatroom = ({ chatroomId }: any) => {
 
   return (
     <>
-      <Wrapper>
-        chatroom here
-        <ChatContainer>
-          <div className="message-list-container" ref={containerRef}>
-            <ul className="message-list">
-              {messages.map((x: any) => (
-                <Message
-                  key={x.id}
-                  message={x}
-                  isOwnMessage={x.sender_id === user.user_id}
-                />
-              ))}
-            </ul>
-          </div>
-          <form onSubmit={handleSubmit} className="message-input-container">
-            <input
+      <ChatContainer>
+        <div className="message-list-container" ref={containerRef}>
+          <ul className="message-list">
+            {messages.map((x: any) => (
+              <Message
+                key={x.id}
+                message={x}
+                isOwnMessage={x.sender_id === user.user_id}
+              />
+            ))}
+          </ul>
+        </div>
+        <form onSubmit={handleSubmit} className="message-input-container">
+          <MsgContainer>
+            <MsgInput
               type="text"
-              placeholder="Enter a message"
+              placeholder="Enter your message"
               value={value}
               onChange={handleChange}
               className="message-input"
               required
               minLength={1}
             />
-            <button type="submit" disabled={value < 1} className="send-message">
+            <MsgBtn type="submit" disabled={value < 1} className="send-message">
               Send
-            </button>
-          </form>
-        </ChatContainer>
-      </Wrapper>
+            </MsgBtn>
+          </MsgContainer>
+        </form>
+      </ChatContainer>
     </>
   );
 };

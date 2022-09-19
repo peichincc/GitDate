@@ -70,7 +70,9 @@ const Sidebar = styled.div`
   height: 100%;
   width: 15%;
 `;
-const Chat = styled.div``;
+const Chat = styled.div`
+  width: 100%;
+`;
 
 const NameCard = styled.div`
   height: 100px;

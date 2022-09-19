@@ -12,15 +12,18 @@
 }
 
 .message {
+  color: black;
   padding: 8px 16px;
   margin-bottom: 8px;
-  background: var(--color-gray);
-  border-radius: var(--border-radius);
+  background: #d9e0e8;
+  border-radius: 5px;
   text-align: left;
 }
 
 .own-message {
-  background: var(--color-blue);
+  color: white;
+  background: #0088ff;
+  border-radius: 5px;
   align-self: flex-end;
   text-align: right;
 }
