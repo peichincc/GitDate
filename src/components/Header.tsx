@@ -44,19 +44,32 @@ const LogoContainer = styled(Link)`
   }
 `;
 const SearchForm = styled.div`
+  display: flex;
+  align-items: center;
   width: 100%;
   margin-left: 10px;
   max-width: 272px;
   min-height: 28px;
   margin-top: 6px;
-`;
-const SearchInput = styled.input`
-  width: 100%;
   background-color: #24292f;
   border: 1px solid #57606a;
   border-radius: 6px;
+`;
+const SearchInput = styled.input`
+  width: 100%;
   font-size: 14px;
   line-height: 20px;
+  background: none;
+  border: none;
+`;
+const SearchBtn = styled.button`
+  margin-right: 4px;
+  width: 22px;
+  height: 20px;
+  color: #57606a;
+  cursor: pointer;
+  border: 1px solid #57606a;
+  background-color: #24292f;
 `;
 
 const CategoryLinks = styled.div`
@@ -148,7 +161,8 @@ const Header = () => {
           <GitHub stroke="#FFF" />
         </LogoContainer>
         <SearchForm>
-          <SearchInput placeholder="Search..." />
+          <SearchInput placeholder="Search user..." />
+          <SearchBtn>/</SearchBtn>
         </SearchForm>
         <CategoryLinks>
           <CategoryContainer>

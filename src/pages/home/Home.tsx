@@ -17,6 +17,7 @@ import { ActionButton } from "../../utils/StyledComponent";
 const Wrapper = styled.div`
   display: block;
   margin: 0 auto;
+  padding-bottom: 56px;
 `;
 
 const Block = styled.div`
@@ -62,6 +63,14 @@ const BlockAction = styled.div`
   display: flex;
   justify-content: space-evenly;
 `;
+const SignUpBtn = styled(ActionButton)`
+  background-color: #24292f;
+  color: white;
+  &:hover {
+    border: 1px solid rgba(27, 31, 36, 0.15);
+    background-color: #ff69b4;
+  }
+`;
 
 const BlockFeature = styled.div`
   height: 100vh;
@@ -92,7 +101,7 @@ const FeaturesPhotoImg = styled.img`
   height: 100%;
 `;
 const FeaturesItemTitle = styled.div`
-  top: 10%;
+  top: 20%;
   position: absolute;
   background-color: rgba(255, 255, 255, 0.9);
   padding: 8px 16px;
@@ -105,6 +114,15 @@ const FeaturesItemTitleDate = styled(FeaturesItemTitle)`
 `;
 const FeaturesItemTitleNetworking = styled(FeaturesItemTitle)`
   top: 30%;
+`;
+
+const FooterCopyright = styled.div`
+  color: #bdbdbd;
+  display: block;
+  text-align: center;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 1;
 `;
 
 const Home = () => {
@@ -160,13 +178,13 @@ const Home = () => {
                 <BlockTitle>Make the first commit.</BlockTitle>
                 <BlockText>Start meeting new people!</BlockText>
                 <BlockAction>
-                  <ActionButton
+                  <SignUpBtn
                     onClick={() => {
                       navigate("/signup");
                     }}
                   >
                     Join
-                  </ActionButton>
+                  </SignUpBtn>
                   <ActionButton
                     onClick={() => {
                       navigate("/signin");
@@ -208,6 +226,7 @@ const Home = () => {
             </Features>
           </BlockFeature>
         </Block>
+        <FooterCopyright>© 2022 GitDate | All Rights Reserved</FooterCopyright>
       </Wrapper>
     </>
   );
