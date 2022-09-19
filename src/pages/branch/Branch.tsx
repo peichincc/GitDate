@@ -68,6 +68,9 @@ const MainContentContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  @media screen and (max-width: 992px) {
+    flex-direction: column;
+  }
 `;
 const BranchImgBox = styled(PostImgContainer)`
   margin-left: 0;
@@ -201,9 +204,11 @@ const Branch = () => {
             .then((res) => {
               console.log(res);
               if (res) {
-                console.log(res["firstname"]);
-                console.log(res["main_photo"]);
+                console.log(res["user_id"]);
+                // console.log(res["firstname"]);
+                // console.log(res["main_photo"]);
                 const tempObj = {
+                  id: res["user_id"],
                   name: res["firstname"],
                   photo: res["main_photo"],
                 };

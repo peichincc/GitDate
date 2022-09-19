@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
+const ParticipantsContainer = styled.div`
+  display: flex;
+`;
 const ParticipantContainer = styled.div`
+  margin-left: 10px;
   margin-top: 10px;
   max-width: 150px;
   min-width: 140px;
@@ -22,19 +27,34 @@ const PhotoBox = styled.img`
   height: 72px;
   border-radius: 9999px;
   object-fit: cover;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+    transition-duration: 0.3s;
+    transition-duration: 0.5s;
+  }
 `;
 
 const Participants = ({ participantsList }: any) => {
+  let navigate = useNavigate();
   return (
     <>
-      {participantsList.map((list: any) => (
-        <>
-          <ParticipantContainer>
-            <PhotoBox src={list.photo} alt="Participants_photo" />
-            {list.name}
-          </ParticipantContainer>
-        </>
-      ))}
+      <ParticipantsContainer>
+        {participantsList.map((list: any) => (
+          <>
+            <ParticipantContainer>
+              <PhotoBox
+                src={list.photo}
+                alt="Participants_photo"
+                onClick={() => {
+                  navigate("/readme/" + list.id);
+                }}
+              />
+              {list.name}
+            </ParticipantContainer>
+          </>
+        ))}
+      </ParticipantsContainer>
     </>
   );
 };
