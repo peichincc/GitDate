@@ -234,6 +234,7 @@ const Issue = () => {
     await updateDoc(userRef, {
       friend_request: arrayUnion({ user_id: getUser, user_name: getUserName }),
     });
+    alert("Sent pull request successful!");
     console.log(`Invitation Sent to ${getAuthor}`);
     // const userRef2 = doc(db, "Users", getUser);
     // await updateDoc(userRef2, {
