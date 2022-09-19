@@ -3,6 +3,7 @@ type Action = { type: "setUserData"; setUserData: string; payload: any };
 const initialState = {
   user_id: "",
   user_name: "",
+  user_photo: "",
 };
 
 const userReducer = (state = initialState, action: Action) => {
@@ -11,6 +12,7 @@ const userReducer = (state = initialState, action: Action) => {
       const userState = {
         user_id: action.payload.user_id,
         user_name: action.payload.user_name,
+        user_photo: action.payload.user_photo,
       };
       return userState;
     }

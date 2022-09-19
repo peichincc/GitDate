@@ -106,7 +106,13 @@ const Header = () => {
           if (result) {
             console.log(result);
             console.log(result["firstname"]);
-            dispatch(setUserData(result["user_id"], result["firstname"]));
+            dispatch(
+              setUserData(
+                result["user_id"],
+                result["firstname"],
+                result["main_photo"]
+              )
+            );
             console.log(userData);
           }
         });

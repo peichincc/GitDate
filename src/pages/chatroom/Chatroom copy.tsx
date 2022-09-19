@@ -1,9 +1,12 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+
 import firebaseapi from "../../utils/firebaseapi";
 import "./chatroom.css";
+
 import { useSelector, useDispatch } from "react-redux";
+
 import {
   addDoc,
   collection,
@@ -13,68 +16,29 @@ import {
   onSnapshot,
   orderBy,
 } from "firebase/firestore";
-import Picker from "emoji-picker-react";
+
+const Wrapper = styled.div`
+  display: block;
+  max-width: 1376px;
+  margin: 0 auto;
+  margin-bottom: 100px;
+`;
 
 const ChatContainer = styled.div`
   display: flex;
-  width: 100%;
-  height: 70vh;
+  width: 800px;
+  border: 1px solid black;
   flex-direction: column;
   padding: 16px;
   flex-grow: 1;
   overflow: hidden;
-  color: white;
 `;
 
-const MsgContainer = styled.div`
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-`;
-const MsgInput = styled.input`
-  width: 100%;
-  display: inline;
-  font-size: 20px;
-  padding: 10px 10px;
-  border-radius: 30px;
-  outline: none;
-  border: none;
-  background: #bbb;
-  color: black;
-`;
-const MsgBtn = styled.button`
-  margin-left: 10px;
-  margin-right: 10px;
-  border: none;
-  background: none;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-  &:hover {
-    color: #ff69b4;
-  }
-`;
-
-const EmojiIcon = styled.div`
-  margin-top: 6px;
-  position: relative;
-  width: 35px;
-  height: 35px;
-  cursor: pointer;
-  font-size: 20px;
-`;
-const EmojiBx = styled.div`
-  position: absolute;
-  left: 0;
-  bottom: 0;
-`;
-
-const Chatroom = ({ chatroomId }: any) => {
+const Chatroomx = () => {
   const userData = useSelector((state) => state) as any;
   const db = getFirestore();
-  // const { id } = useParams<any>();
+  const { id } = useParams<any>();
   const [messages, setMessages] = useState<any>([]);
-  const [chosenEmoji, setChosenEmoji] = useState<any>();
 
   //
   const containerRef = useRef<any>(null);
@@ -102,14 +66,14 @@ const Chatroom = ({ chatroomId }: any) => {
   };
 
   useEffect(() => {
-    console.log(chatroomId);
-    firebaseapi.readChatData(chatroomId).then((res) => {
+    console.log(id);
+    firebaseapi.readChatData(id).then((res) => {
       if (res) {
         console.log(res);
-        getMessages(chatroomId);
+        getMessages(id);
       }
     });
-  }, [chatroomId]);
+  }, []);
 
   // test send msg function
   const [value, setValue] = useState<any>("");
@@ -132,55 +96,42 @@ const Chatroom = ({ chatroomId }: any) => {
   };
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    sendMessage(chatroomId, user, value);
+    sendMessage(id, user, value);
     setValue("");
-  };
-
-  const onEmojiClick = (e: any, emojiObject: any) => {
-    setValue((pre: any) => pre + emojiObject.emoji);
-    setChosenEmoji(false);
-  };
-  const showEmoji = () => {
-    setChosenEmoji((pre: any) => !pre);
   };
 
   return (
     <>
-      <ChatContainer>
-        <div className="message-list-container" ref={containerRef}>
-          <ul className="message-list">
-            {messages.map((x: any) => (
-              <Message
-                key={x.id}
-                message={x}
-                isOwnMessage={x.sender_id === user.user_id}
-              />
-            ))}
-          </ul>
-        </div>
-        <form onSubmit={handleSubmit} className="message-input-container">
-          <MsgContainer>
-            <EmojiIcon onClick={showEmoji}>😃</EmojiIcon>
-            {chosenEmoji && (
-              <EmojiBx>
-                <Picker onEmojiClick={onEmojiClick} />
-              </EmojiBx>
-            )}
-            <MsgInput
+      <Wrapper>
+        chatroom here
+        <ChatContainer>
+          <div className="message-list-container" ref={containerRef}>
+            <ul className="message-list">
+              {messages.map((x: any) => (
+                <Message
+                  key={x.id}
+                  message={x}
+                  isOwnMessage={x.sender_id === user.user_id}
+                />
+              ))}
+            </ul>
+          </div>
+          <form onSubmit={handleSubmit} className="message-input-container">
+            <input
               type="text"
-              placeholder="Enter your message"
+              placeholder="Enter a message"
               value={value}
               onChange={handleChange}
               className="message-input"
               required
               minLength={1}
             />
-            <MsgBtn type="submit" disabled={value < 1} className="send-message">
+            <button type="submit" disabled={value < 1} className="send-message">
               Send
-            </MsgBtn>
-          </MsgContainer>
-        </form>
-      </ChatContainer>
+            </button>
+          </form>
+        </ChatContainer>
+      </Wrapper>
     </>
   );
 };
@@ -195,4 +146,4 @@ function Message({ message, isOwnMessage }: any) {
   );
 }
 
-export default Chatroom;
+export default Chatroomx;
