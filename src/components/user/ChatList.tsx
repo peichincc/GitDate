@@ -107,7 +107,7 @@ const ChatList = () => {
                   </NameContainer>
                   <RepoBtn
                     onClick={() => {
-                      navigate("/chatroom/" + friend["chat_id"]);
+                      navigate("/repo");
                     }}
                   >
                     To Chatroom

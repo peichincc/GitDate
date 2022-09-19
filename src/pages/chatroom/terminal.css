@@ -48,10 +48,10 @@
   border-bottom-right-radius: 5px;
 }
 
-p {
+.paragraph {
   /* position: relative;
-  left: 50%; */
-  /* margin-left: -8.5em; */
+  left: 50%;
+  margin-left: -8.5em; */
   text-align: left;
   font-size: 1.25em;
   font-family: monospace;

@@ -8,6 +8,9 @@ import "./terminal.css";
 
 import Chatroom from "./Chatroom";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+
 // Terminal Container
 const TerminalContainer = styled.div`
   max-width: 1280px;
@@ -75,12 +78,13 @@ const Chat = styled.div`
 `;
 
 const NameCard = styled.div`
-  height: 100px;
-  padding: 20px;
-  background-color: #bbb;
+  height: 75px;
+  padding: 10px;
+  /* background: hsla(0, 0%, 100%, 0.3); */
   display: flex;
   align-items: center;
   border-top: 1px solid;
+  /* border-right: 1px solid black; */
 `;
 const NameCardPhoto = styled.img`
   width: auto;
@@ -102,6 +106,24 @@ const MsgList = styled(NameCard)`
     background-color: #bbb;
   }
 `;
+const ChatNameCard = styled(NameCard)`
+  background: none;
+  justify-content: center;
+`;
+const ChatNameCardName = styled(NameCardName)`
+  cursor: pointer;
+  &:hover {
+    color: #ff69b4;
+  }
+`;
+// const EllipsisContainer = styled.div`
+//   color: white;
+//   padding-right: 20px;
+//   cursor: pointer;
+//   &:hover {
+//     color: #ff69b4;
+//   }
+// `;
 
 const Repo = () => {
   let navigate = useNavigate();
@@ -112,6 +134,8 @@ const Repo = () => {
   const [friendList, setFriendList] = useState<any>();
   const [openChatroom, setOpenChatroom] = useState(false);
   const [chatroomId, setChatroomId] = useState("");
+  const [chaterName, setChaterName] = useState("");
+  const [chaterID, setChaterID] = useState("");
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -154,6 +178,8 @@ const Repo = () => {
                       onClick={() => {
                         setOpenChatroom(true);
                         setChatroomId(friend["chat_id"]);
+                        setChaterName(friend["user_name"]);
+                        setChaterID(friend["user_id"]);
                       }}
                       // onClick={() => {
                       //   navigate("/chatroom/" + friend["chat_id"]);
@@ -167,22 +193,37 @@ const Repo = () => {
             </Sidebar>
             <Chat>
               {chatroomId && openChatroom ? (
-                <Chatroom chatroomId={chatroomId} />
+                <>
+                  <ChatNameCard>
+                    <ChatNameCardName
+                      onClick={() => {
+                        navigate("/readme/" + chaterID);
+                      }}
+                    >
+                      {chaterName}
+                    </ChatNameCardName>
+                    {/* <EllipsisContainer>
+                      <FontAwesomeIcon icon={faEllipsisVertical} />
+                    </EllipsisContainer> */}
+                  </ChatNameCard>
+
+                  <Chatroom chatroomId={chatroomId} />
+                </>
               ) : (
                 <LineContainer>
-                  <p className="line1">
+                  <p className="paragraph line1">
                     &#91;&nbsp;&ldquo;I'm a web developer.&rdquo;,
                     <span className="cursor1">_</span>
                   </p>
-                  <p className="line2">
+                  <p className="paragraph line2">
                     &nbsp;&nbsp;&ldquo;I'm a web designer.&rdquo;,
                     <span className="cursor2">_</span>
                   </p>
-                  <p className="line3">
+                  <p className="paragraph line3">
                     &nbsp;&nbsp;&ldquo;Let's work together!&rdquo;&nbsp;&#93;
                     <span className="cursor3">_</span>
                   </p>
-                  <p className="line4">
+                  <p className="paragraph line4">
                     <br />
                     Start chatting...
                     <span className="cursor4">_</span>

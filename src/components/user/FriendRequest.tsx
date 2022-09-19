@@ -160,7 +160,7 @@ const FriendRequest = ({ getInvitationList }: Props) => {
     await addDoc(collection(db, "Chatrooms", newChatRef.id, "messages"), {
       sender_id: getUser,
       sender_name: getUserName,
-      text: "test",
+      // text: "test",
       timestamp: serverTimestamp(),
     });
     // 把名單, repo ID都丟進Friend_list (自己的)

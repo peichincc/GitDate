@@ -1,12 +1,9 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-
 import firebaseapi from "../../utils/firebaseapi";
 import "./chatroom.css";
-
 import { useSelector, useDispatch } from "react-redux";
-
 import {
   addDoc,
   collection,
@@ -16,11 +13,12 @@ import {
   onSnapshot,
   orderBy,
 } from "firebase/firestore";
+import Picker from "emoji-picker-react";
 
 const ChatContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 80vh;
+  height: 70vh;
   flex-direction: column;
   padding: 16px;
   flex-grow: 1;
@@ -57,11 +55,26 @@ const MsgBtn = styled.button`
   }
 `;
 
+const EmojiIcon = styled.div`
+  margin-top: 6px;
+  position: relative;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  font-size: 20px;
+`;
+const EmojiBx = styled.div`
+  position: absolute;
+  left: 0;
+  bottom: 0;
+`;
+
 const Chatroom = ({ chatroomId }: any) => {
   const userData = useSelector((state) => state) as any;
   const db = getFirestore();
   // const { id } = useParams<any>();
   const [messages, setMessages] = useState<any>([]);
+  const [chosenEmoji, setChosenEmoji] = useState<any>();
 
   //
   const containerRef = useRef<any>(null);
@@ -123,6 +136,14 @@ const Chatroom = ({ chatroomId }: any) => {
     setValue("");
   };
 
+  const onEmojiClick = (e: any, emojiObject: any) => {
+    setValue((pre: any) => pre + emojiObject.emoji);
+    setChosenEmoji(false);
+  };
+  const showEmoji = () => {
+    setChosenEmoji((pre: any) => !pre);
+  };
+
   return (
     <>
       <ChatContainer>
@@ -139,6 +160,12 @@ const Chatroom = ({ chatroomId }: any) => {
         </div>
         <form onSubmit={handleSubmit} className="message-input-container">
           <MsgContainer>
+            <EmojiIcon onClick={showEmoji}>😃</EmojiIcon>
+            {chosenEmoji && (
+              <EmojiBx>
+                <Picker onEmojiClick={onEmojiClick} />
+              </EmojiBx>
+            )}
             <MsgInput
               type="text"
               placeholder="Enter your message"

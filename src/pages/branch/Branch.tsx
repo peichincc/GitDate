@@ -13,10 +13,8 @@ import {
   DocumentData,
   onSnapshot,
 } from "firebase/firestore";
-
 import { ShowMap } from "../../components/map/ShowMap";
 import Participants from "./Participants";
-
 import {
   AuthorBtn,
   PostTitle,
@@ -26,6 +24,8 @@ import {
   MergeBtn,
   PostContentText,
 } from "../../utils/StyledComponent";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const Wrapper = styled.div`
   display: block;
@@ -276,7 +276,8 @@ const Branch = () => {
                   </BranchConent>
                   <CardContainer>
                     <PostContentText>
-                      Click to attend this activity!
+                      Click to attend this activity{" "}
+                      <FontAwesomeIcon icon={faCheck} />
                     </PostContentText>
                     <CheckOutBtn onClick={attendActivity}>
                       git checkout

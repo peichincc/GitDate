@@ -76,7 +76,8 @@ const Card = styled.div`
   width: 220px;
   height: 250px;
   background: #fff;
-  /* border-radius: 20px; */
+  border-radius: 4px;
+  border: 1px solid #d0d7de;
   box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15);
 `;
 const ImageBox = styled.div`

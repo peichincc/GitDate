@@ -37,6 +37,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCodeMerge,
   faCodePullRequest,
+  faMugSaucer,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Wrapper = styled.div`
@@ -317,7 +318,8 @@ const Issue = () => {
                         <PRBox>
                           <PostContentText>
                             Start chatting by making this pull request to{" "}
-                            {getAuthor}!
+                            {getAuthor}
+                            <FontAwesomeIcon icon={faMugSaucer} />
                           </PostContentText>
                           <PRbtn onClick={sendRequest}>
                             Create Pull Request
