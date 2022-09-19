@@ -213,12 +213,20 @@ const firebaseapi = {
   },
   // 讀全部Branches
   async readAllBranches(branchesRef: any) {
-    const querySnapshot = await getDocs(branchesRef);
+    const querySnapshot = await getDocs(
+      query(branchesRef, orderBy("date", "desc"))
+    );
     let temp = [] as any;
     querySnapshot.forEach((doc) => {
       temp.push(doc.data());
     });
     return temp;
+    // const querySnapshot = await getDocs(branchesRef);
+    // let temp = [] as any;
+    // querySnapshot.forEach((doc) => {
+    //   temp.push(doc.data());
+    // });
+    // return temp;
   },
   // 讀取單一Branch資料
   async readBranchData(id: string | undefined) {

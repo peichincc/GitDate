@@ -162,15 +162,15 @@ export const Container = styled.div`
   border-radius: 6px;
   height: auto;
 `;
-export const ContentContainer = styled.div`
-  padding: 20px;
-`;
+export const ContentContainer = styled.div``;
 export const BlogList = styled.div`
   display: flex;
   align-items: center;
   border-bottom: 1px solid #d0d7de;
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
   justify-content: space-between;
   &:hover {
     background-color: #f6f8fa;
@@ -204,4 +204,113 @@ export const LabelsButton = styled.button`
   background-color: #7057ff;
   margin-right: 2px;
   cursor: pointer;
+`;
+
+export const AvatarBlock = styled.div`
+  width: auto;
+  margin-right: 25px;
+`;
+export const PostWraper = styled.div`
+  display: flex;
+`;
+export const PostBox = styled.div`
+  padding: 20px;
+  position: relative;
+  background: #f6f8fa;
+  border-radius: 0.4em;
+  width: 100%;
+  height: auto;
+  /* border: 1px solid #d0d7de; */
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 30px;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-right-color: #f6f8fa;
+    border-left: 0;
+    margin-top: -20px;
+    margin-left: -20px;
+    /* border: 1px solid black;
+    position: absolute;
+    top: 11px;
+    right: 100%;
+    left: -8px;
+    display: block;
+    width: 8px;
+    height: 16px;
+    pointer-events: none;
+    content: " ";
+    clip-path: polygon(0 50%, 100% 0, 100% 100%); */
+  }
+`;
+
+export const PostTitle = styled.div`
+  font-weight: 400;
+  line-height: 1.25;
+  font-size: 32px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+`;
+export const PostSubTitle = styled.div`
+  color: #57606a;
+  font-size: 14px;
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+`;
+export const PostContentText = styled.div`
+  margin: 20px;
+  font-size: 14px;
+  color: #24292f;
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+`;
+export const PostImgContainer = styled.div`
+  margin: 20px;
+`;
+export const PostImgBoxImg = styled.img`
+  width: 100%;
+  height: 100%;
+`;
+export const LebalsText = styled.div`
+  font-size: 12px;
+  color: #57606a;
+  font-weight: 600;
+  padding: 4px 0;
+  margin-bottom: 4px;
+`;
+export const LebalContentText = styled.div`
+  font-size: 12px;
+  line-height: 1.5;
+`;
+export const LebalsContainer = styled.div`
+  border-bottom: 1px solid #d0d7de;
+  padding: 10px;
+`;
+export const AuthorBtn = styled.button`
+  font-weight: 600;
+  color: #57606a;
+  border: none;
+  background: none;
+  cursor: pointer;
+  :hover {
+    text-decoration: underline;
+  }
+`;
+
+export const StatusOpen = styled.div`
+  width: 80px;
+  color: white;
+  background-color: #2da44e;
+  border-radius: 2em;
+  padding: 5px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  text-align: center;
 `;

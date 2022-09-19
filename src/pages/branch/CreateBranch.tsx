@@ -52,7 +52,7 @@ const TabChoseBtn = styled.button`
   border-radius: 6px 6px 0 0;
   border-bottom: 0;
   border: 1px solid transparent;
-  padding: 16px 16px;
+  padding: 10px 10px;
   font-size: 16px;
   line-height: 23px;
   background: #f6f8fa;
@@ -64,7 +64,7 @@ const TabButton = styled.button`
   border-radius: 6px 6px 0 0;
   border-bottom: 0;
   border: 1px solid transparent;
-  padding: 16px 16px;
+  padding: 10px 10px;
   font-size: 16px;
   line-height: 23px;
   background: #e6e7e9;
@@ -212,7 +212,7 @@ const CreateBranch = () => {
     await firebaseapi
       .createBranch(imageUpload, newBranchRef, recipient)
       .then(() => {
-        navigate("/");
+        navigate("/branches");
         updateDoc(userRef, {
           activity_hosted: arrayUnion(newBranchRef.id),
         });

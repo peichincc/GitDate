@@ -10,10 +10,34 @@ import {
   DocumentData,
 } from "firebase/firestore";
 import styled from "styled-components";
-
 import { useSelector, useDispatch } from "react-redux";
-
 import firebaseapi from "../../utils/firebaseapi";
+
+import defaultAvatar from "../../utils/DefaultAvatar.png";
+import {
+  LebalsText,
+  PostImgContainer,
+  PostTitle,
+  PostSubTitle,
+  PostContentText,
+  PostWraper,
+  PostBox,
+  AvatarBlock,
+  AvatarUser,
+  AvatarUserImg,
+  LabelsButton,
+  LebalContentText,
+  LebalsContainer,
+  AuthorBtn,
+  MergeBtn,
+  PostImgBoxImg,
+  StatusOpen,
+} from "../../utils/StyledComponent";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCodeMerge,
+  faCodePullRequest,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Wrapper = styled.div`
   display: block;
@@ -21,17 +45,83 @@ const Wrapper = styled.div`
   margin: 0 auto;
   margin-bottom: 100px;
 `;
-const PRbtn = styled.button`
-  margin: 20px;
+const Container = styled.div`
+  max-width: 1216px;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 24px;
+`;
+const TopContainer = styled.div`
+  border-bottom: 1px solid #d0d7de;
+  padding-bottom: 20px;
+  margin-bottom: 16px;
+`;
+const MainContainer = styled.div`
+  display: flex;
+  width: 100%;
+  padding-top: 8px;
+`;
+const LeftContainer = styled.div`
+  width: 80%;
+`;
+const RightContainer = styled.div`
+  width: 20%;
+  padding-left: 20px;
+`;
+const IssueSubTitle = styled.div`
+  padding-top: 5px;
+  display: flex;
+  align-items: center;
+`;
+const AuthorContainer = styled.div``;
+const ContentContainer = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+`;
+const PRContainer = styled.div`
+  margin-top: 20px;
+`;
+const PRPostBox = styled.div`
+  padding: 20px;
+  position: relative;
+  background: #f8f8f9;
+  border-radius: 0.4em;
+  width: 80%;
+  height: auto;
+  /* border: 1px solid #d0d7de; */
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 30px;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-right-color: #f8f8f9;
+    border-left: 0;
+    margin-top: -20px;
+    margin-left: -20px;
+  }
+`;
+const PRBox = styled.div``;
+const MergeIcon = styled.div`
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
   color: white;
   background-color: #2da44e;
-  padding: 5px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  cursor: pointer;
-  border: 1px solid;
-  border-radius: 6px;
+  border: 1px solid transparent;
+  font-size: 24px;
+`;
+const PRbtn = styled(MergeBtn)`
+  width: 180px;
+  margin-left: 20px;
 `;
 
 const Issue = () => {
@@ -144,6 +234,7 @@ const Issue = () => {
     await updateDoc(userRef, {
       friend_request: arrayUnion({ user_id: getUser, user_name: getUserName }),
     });
+    alert("Sent pull request successful!");
     console.log(`Invitation Sent to ${getAuthor}`);
     // const userRef2 = doc(db, "Users", getUser);
     // await updateDoc(userRef2, {
@@ -157,41 +248,97 @@ const Issue = () => {
   return (
     <>
       <Wrapper>
-        <p>this page is issue page</p>
-        <p>issue id: {id}</p>
         {issueData && (
           <div>
-            <br />
-            <img src={issueData.main_image} alt="main_photo" />
-            <p>Category:</p>
-            {issueData.category}
-            <h2>Title:</h2>
-            {issueData.title}
-            <p>Content:</p>
-            {issueData.content}
-            <p>Issue status:</p>
-            {issueData.status}
-            <p>Posted by:</p>
-            Author name: {getAuthor}
-            <button
-              onClick={() => {
-                navigate("/readme/" + issueData.posted_by);
-              }}
-            >
-              Readme
-            </button>
-            <p>Posted at:</p>
-            {newT}
-            <p>Tags:</p>
-            {issueData.tags.map((tag: any) => (
-              <>
-                <p>{tag}</p>
-              </>
-            ))}
+            <Container>
+              <TopContainer>
+                <PostTitle>{issueData.title}</PostTitle>
+                <IssueSubTitle>
+                  <StatusOpen>
+                    <FontAwesomeIcon icon={faCodePullRequest} />
+                    {issueData.status}
+                  </StatusOpen>
+                  <AuthorContainer>
+                    <PostSubTitle>
+                      <AuthorBtn
+                        onClick={() => {
+                          navigate("/readme/" + issueData.posted_by);
+                        }}
+                      >
+                        {getAuthor}
+                      </AuthorBtn>
+                      posted this issue at:{"  "}
+                      {newT}
+                    </PostSubTitle>
+                  </AuthorContainer>
+                </IssueSubTitle>
+              </TopContainer>
+              <MainContainer>
+                <LeftContainer>
+                  <PostWraper>
+                    <AvatarBlock>
+                      <AvatarUser>
+                        <AvatarUserImg src={defaultAvatar} />
+                      </AvatarUser>
+                    </AvatarBlock>
+                    <PostBox>
+                      <ContentContainer>
+                        <PostImgContainer>
+                          <PostImgBoxImg
+                            src={issueData.main_image}
+                            alt="main_photo"
+                          />
+                        </PostImgContainer>
+                        <PostContentText>
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: issueData.content,
+                            }}
+                          ></div>
+                        </PostContentText>
+                      </ContentContainer>
+                    </PostBox>
+                  </PostWraper>
+                  <PRContainer>
+                    <PostWraper>
+                      <AvatarBlock>
+                        <MergeIcon>
+                          <FontAwesomeIcon icon={faCodeMerge} />
+                        </MergeIcon>
+                      </AvatarBlock>
+                      <PRPostBox>
+                        <PRBox>
+                          <PostContentText>
+                            Start chatting by making this pull request to{" "}
+                            {getAuthor}!
+                          </PostContentText>
+                          <PRbtn onClick={sendRequest}>
+                            Create Pull Request
+                          </PRbtn>
+                        </PRBox>
+                      </PRPostBox>
+                    </PostWraper>
+                  </PRContainer>
+                </LeftContainer>
+                <RightContainer>
+                  <LebalsContainer>
+                    <LebalsText>Category</LebalsText>
+                    <LebalContentText>{issueData.category}</LebalContentText>
+                  </LebalsContainer>
+                  <LebalsContainer>
+                    <LebalsText>Tags</LebalsText>
+                    {issueData.tags.map((tag: any) => (
+                      <>
+                        <LabelsButton>{tag}</LabelsButton>
+                      </>
+                    ))}
+                  </LebalsContainer>
+                </RightContainer>
+              </MainContainer>
+            </Container>
           </div>
         )}
         <br />
-        <PRbtn onClick={sendRequest}>Create Pull Request</PRbtn>
         <h2>Area for author</h2>
         <button onClick={changeIssueStatus}>Close this issue</button>
         <br />

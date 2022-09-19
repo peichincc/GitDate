@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,11 +17,93 @@ import {
 import { ShowMap } from "../../components/map/ShowMap";
 import Participants from "./Participants";
 
+import {
+  AuthorBtn,
+  PostTitle,
+  PostSubTitle,
+  LebalsText,
+  PostImgContainer,
+  MergeBtn,
+  PostContentText,
+} from "../../utils/StyledComponent";
+
 const Wrapper = styled.div`
   display: block;
-  max-width: 1376px;
+  /* max-width: 1376px; */
   margin: 0 auto;
   margin-bottom: 100px;
+`;
+const TopContainer = styled.div`
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  width: 100%;
+  border-bottom-width: 1px;
+  border-color: #d0d7de;
+`;
+const TopContentContainer = styled.div`
+  max-width: 1120px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+const MainContainer = styled.div`
+  width: 100%;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  padding-bottom: 1.5rem;
+  border-top-width: 1px;
+  background-color: #f6f8fa;
+`;
+const LeftContent = styled.div`
+  width: 660px;
+`;
+const RightContent = styled.div`
+  margin-top: 20px;
+`;
+const MainContentContainer = styled.div`
+  max-width: 1120px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  @media screen and (max-width: 992px) {
+    flex-direction: column;
+  }
+`;
+const BranchImgBox = styled(PostImgContainer)`
+  margin-left: 0;
+`;
+const BranchImgBoxImg = styled.img`
+  width: 100%;
+  height: 100%;
+`;
+const BranchSubTitle = styled.div`
+  text-align: left;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  padding-bottom: 4px;
+`;
+const BranchConent = styled(PostContentText)`
+  margin-left: 0;
+  margin-top: 0;
+`;
+const ParticipantsContainer = styled.div`
+  margin-top: 40px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+`;
+const CardContainer = styled.div`
+  padding: 1.5rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  margin-bottom: 20px;
+  margin-right: 20px;
 `;
 
 const MapContainer = styled.div`
@@ -29,13 +111,7 @@ const MapContainer = styled.div`
   height: 200px;
 `;
 
-const ParticipantsContainer = styled.div`
-  border: 1px solid black;
-  width: 400px;
-  height: 200px;
-`;
-
-const CheckOutBtn = styled.button`
+const CheckOutBtn = styled(MergeBtn)`
   margin: 20px;
   color: white;
   background-color: black;
@@ -46,6 +122,16 @@ const CheckOutBtn = styled.button`
   cursor: pointer;
   border: 1px solid;
   border-radius: 6px;
+`;
+
+const ParticipantsBtn = styled.button`
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 `;
 
 const Branch = () => {
@@ -103,6 +189,7 @@ const Branch = () => {
       // participants: arrayUnion({ user_id: getUser, user_name: getUserName }),
     });
     await getParticipants();
+    alert("Attended successful!");
   };
 
   const getParticipants = async () => {
@@ -118,9 +205,11 @@ const Branch = () => {
             .then((res) => {
               console.log(res);
               if (res) {
-                console.log(res["firstname"]);
-                console.log(res["main_photo"]);
+                console.log(res["user_id"]);
+                // console.log(res["firstname"]);
+                // console.log(res["main_photo"]);
                 const tempObj = {
+                  id: res["user_id"],
                   name: res["firstname"],
                   photo: res["main_photo"],
                 };
@@ -148,50 +237,85 @@ const Branch = () => {
   return (
     <>
       <Wrapper>
-        Display branch here <p>branch id: {id}</p>
         {branchData && (
           <>
-            <div>
-              <br />
-              <img src={branchData.main_image} alt="main_photo" />
-              <p>Type:</p>
-              {branchData.type}
-              <h2>Title:</h2>
-              {branchData.title}
-              <p>Content:</p>
-              {branchData.content}
-              <p>Branch status:</p>
-              {branchData.status}
-              <p>Date:</p>
-              {branchData.date} - {branchData.time}
-              <p>Location: </p>
-              {branchData.address}
-              <MapContainer>
-                <ShowMap center={center} />
-              </MapContainer>
-              <p>Posted by:</p>
-              Author name: {getAuthor}
-              <button
-                onClick={() => {
-                  navigate("/readme/" + branchData.hosted_by);
-                }}
-              >
-                Readme
-              </button>
-              <p>Posted at:</p>
-              {newT}
-            </div>
-            <br />
-            <button onClick={handleChange}>Open the participants area</button>
-            <ParticipantsContainer>
-              {openParticipants && participantsList && (
-                <Participants participantsList={participantsList} />
-              )}
-            </ParticipantsContainer>
+            <TopContainer>
+              <TopContentContainer>
+                <PostSubTitle>
+                  {branchData.date} · {branchData.time}
+                </PostSubTitle>
+                <PostTitle>{branchData.title}</PostTitle>
+                <LebalsText>
+                  Posted by
+                  <AuthorBtn
+                    onClick={() => {
+                      navigate("/readme/" + branchData.hosted_by);
+                    }}
+                  >
+                    {getAuthor}{" "}
+                  </AuthorBtn>
+                  at{"  "}
+                  {newT}
+                </LebalsText>
+              </TopContentContainer>
+            </TopContainer>
+            <MainContainer>
+              <MainContentContainer>
+                <LeftContent>
+                  <BranchImgBox>
+                    <BranchImgBoxImg
+                      src={branchData.main_image}
+                      alt="main_photo"
+                    />
+                  </BranchImgBox>
+                  <BranchSubTitle>Details</BranchSubTitle>
+                  <BranchConent>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: branchData.content }}
+                    ></div>
+                  </BranchConent>
+                  <CardContainer>
+                    <PostContentText>
+                      Click to attend this activity!
+                    </PostContentText>
+                    <CheckOutBtn onClick={attendActivity}>
+                      git checkout
+                    </CheckOutBtn>
+                  </CardContainer>
+                </LeftContent>
+                <RightContent>
+                  <CardContainer>
+                    <BranchSubTitle>Type:</BranchSubTitle>
+                    {branchData.type}
+                  </CardContainer>
+                  <CardContainer>
+                    <BranchSubTitle>Branch status:</BranchSubTitle>
+                    {branchData.status}
+                  </CardContainer>
+                  <CardContainer>
+                    <BranchSubTitle>Date:</BranchSubTitle>
+                    {branchData.date} · {branchData.time}
+                  </CardContainer>
+                  <CardContainer>
+                    <BranchSubTitle>Location: </BranchSubTitle>
+                    {branchData.address}
+                    <MapContainer>
+                      <ShowMap center={center} />
+                    </MapContainer>
+                  </CardContainer>
+                  <ParticipantsContainer>
+                    <ParticipantsBtn onClick={handleChange}>
+                      Click to see the participants!
+                    </ParticipantsBtn>
+                    {openParticipants && participantsList && (
+                      <Participants participantsList={participantsList} />
+                    )}
+                  </ParticipantsContainer>
+                </RightContent>
+              </MainContentContainer>
+            </MainContainer>
           </>
         )}
-        <br />
-        <CheckOutBtn onClick={attendActivity}>git checkout</CheckOutBtn>
         <h2>Area for author</h2>
         <button
           onClick={() => {
