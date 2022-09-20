@@ -96,7 +96,7 @@ const CalendarContainer = styled.div`
     opacity: 0.7;
   }
   .react-calendar__month-view__days__day--weekend {
-    color: #dfdfdf;
+    color: #929396;
   }
   /* ~~~ other view styles ~~~ */
   .react-calendar__year-view__months,
