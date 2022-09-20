@@ -17,6 +17,9 @@ import firebaseapi from "../../utils/firebaseapi";
 
 import { MergeBtn, Button, LabelsButton } from "../../utils/StyledComponent";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+
 const Background = styled.div`
   overflow: hidden;
   z-index: 0;
@@ -50,7 +53,6 @@ const CalendarContainer = styled.div`
     display: flex;
     .react-calendar__navigation__label {
       font-weight: bold;
-      color: black;
     }
     .react-calendar__navigation__arrow {
       flex-grow: 0.333;
@@ -71,7 +73,7 @@ const CalendarContainer = styled.div`
     color: black;
     padding: 5px 0;
     &:hover {
-      background-color: #ff69b4;
+      background-color: #e6e7e9;
     }
     &:active {
       background-color: #f6f8fa;
@@ -179,6 +181,31 @@ const TypeBtn = styled(LabelsButton)`
   background-color: #453d38;
 `;
 
+const ReminderBox = styled.div`
+  color: #24292f;
+  width: 100%;
+  height: auto;
+  background-color: #fff8c5;
+  border: 1px solid rgba(212, 167, 44, 0.4);
+  padding: 20px 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+`;
+const ReminderBoxText = styled.div`
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+`;
+const ReminderBoxTextSmall = styled.div`
+  font-size: 12px;
+`;
+const AttentionIcon = styled.div`
+  color: #9a6700;
+  margin-right: 4px;
+`;
+
 const BranchAll = () => {
   const [date, setDate] = useState(new Date());
   let navigate = useNavigate();
@@ -202,7 +229,7 @@ const BranchAll = () => {
         let temp = [] as any;
         const q = query(
           collection(db, "Branches"),
-          where("type", "==", "inperson")
+          where("type", "==", "Inperson")
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -213,7 +240,7 @@ const BranchAll = () => {
         let tempOnline = [] as any;
         const qOnline = query(
           collection(db, "Branches"),
-          where("type", "==", "online")
+          where("type", "==", "Online")
         );
         const querySnapshotOnline = await getDocs(qOnline);
         querySnapshotOnline.forEach((doc) => {
@@ -224,7 +251,7 @@ const BranchAll = () => {
         let tempMixed = [] as any;
         const qMixed = query(
           collection(db, "Branches"),
-          where("type", "==", "mixed")
+          where("type", "==", "Mixed")
         );
         const querySnapshotMixed = await getDocs(qMixed);
         querySnapshotMixed.forEach((doc) => {
@@ -298,6 +325,17 @@ const BranchAll = () => {
             </p> */}
           </CalendarContainer>
           <BranchesContainer>
+            <ReminderBox>
+              <ReminderBoxText>
+                <AttentionIcon>
+                  <FontAwesomeIcon icon={faTriangleExclamation} />
+                </AttentionIcon>
+                Branches are activities around the world.
+              </ReminderBoxText>
+              <ReminderBoxTextSmall>
+                You can select the activity type and date to check details!
+              </ReminderBoxTextSmall>
+            </ReminderBox>
             <FilterContainer>
               <Filters>
                 <FilterText>Filters</FilterText>

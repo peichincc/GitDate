@@ -88,7 +88,7 @@ const PRPostBox = styled.div`
   position: relative;
   background: #f8f8f9;
   border-radius: 0.4em;
-  width: 80%;
+  width: 100%;
   height: auto;
   /* border: 1px solid #d0d7de; */
   position: relative;
@@ -123,6 +123,9 @@ const MergeIcon = styled.div`
 const PRbtn = styled(MergeBtn)`
   width: 180px;
   margin-left: 20px;
+`;
+const StatusWord = styled.div`
+  margin-left: 5px;
 `;
 
 const Issue = () => {
@@ -187,7 +190,7 @@ const Issue = () => {
     const issueRef = collection(db, "Issues");
     const updateRef = doc(issueRef, `${id}`);
     updateDoc(updateRef, {
-      status: "closed",
+      status: "Closed",
     });
     alert("Successfully closed this issue!");
   };
@@ -264,7 +267,7 @@ const Issue = () => {
                 <IssueSubTitle>
                   <StatusOpen>
                     <FontAwesomeIcon icon={faCodePullRequest} />
-                    {issueData.status}
+                    <StatusWord>{issueData.status}</StatusWord>
                   </StatusOpen>
                   <AuthorContainer>
                     <PostSubTitle>
@@ -347,7 +350,7 @@ const Issue = () => {
             </Container>
           </div>
         )}
-        <br />
+        {/* <br />
         <h2>Area for author</h2>
         <button onClick={changeIssueStatus}>Close this issue</button>
         <br />
@@ -357,7 +360,7 @@ const Issue = () => {
           }}
         >
           Delete this issue
-        </button>
+        </button> */}
       </Wrapper>
     </>
   );

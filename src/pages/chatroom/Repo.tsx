@@ -78,17 +78,22 @@ const Chat = styled.div`
 `;
 
 const NameCard = styled.div`
-  height: 75px;
-  padding: 10px;
-  /* background: hsla(0, 0%, 100%, 0.3); */
   display: flex;
   align-items: center;
-  border-top: 1px solid;
+  padding: 10px;
+  /* height: 75px;
+  padding: 10px; */
+  /* background: hsla(0, 0%, 100%, 0.3); */
+  /* display: flex;
+  align-items: center;
+  border-top: 1px solid; */
   /* border-right: 1px solid black; */
 `;
+const NameCardPhotoContainer = styled.div``;
 const NameCardPhoto = styled.img`
-  width: auto;
+  width: 60px;
   height: 60px;
+  object-fit: cover;
   border-radius: 50%;
   background-color: white;
 `;
@@ -168,7 +173,9 @@ const Repo = () => {
           <FakeScreen>
             <Sidebar>
               <NameCard>
-                <NameCardPhoto src={getUserPhoto} />
+                <NameCardPhotoContainer>
+                  <NameCardPhoto src={getUserPhoto} />
+                </NameCardPhotoContainer>
                 <NameCardName>{getUserName}</NameCardName>
               </NameCard>
               {friendList &&

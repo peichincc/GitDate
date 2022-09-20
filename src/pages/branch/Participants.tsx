@@ -34,6 +34,9 @@ const PhotoBox = styled.img`
     transition-duration: 0.5s;
   }
 `;
+const NameTag = styled.div`
+  margin-top: 15px;
+`;
 
 const Participants = ({ participantsList }: any) => {
   let navigate = useNavigate();
@@ -50,7 +53,7 @@ const Participants = ({ participantsList }: any) => {
                   navigate("/readme/" + list.id);
                 }}
               />
-              {list.name}
+              <NameTag> {list.name}</NameTag>
             </ParticipantContainer>
           </>
         ))}

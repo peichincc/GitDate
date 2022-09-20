@@ -15,6 +15,9 @@ import IssuesList from "./IssuesList";
 
 import { MergeBtn, Button, LabelsButton } from "../../utils/StyledComponent";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
@@ -79,6 +82,31 @@ const CategoryButton = styled(LabelsButton)`
 //   cursor: pointer;
 // `;
 
+const ReminderBox = styled.div`
+  color: #24292f;
+  width: 100%;
+  height: auto;
+  background-color: #fff8c5;
+  border: 1px solid rgba(212, 167, 44, 0.4);
+  padding: 20px 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+`;
+const ReminderBoxText = styled.div`
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+`;
+const ReminderBoxTextSmall = styled.div`
+  font-size: 12px;
+`;
+const AttentionIcon = styled.div`
+  color: #9a6700;
+  margin-right: 4px;
+`;
+
 const IssueAll = () => {
   let navigate = useNavigate();
   const db = getFirestore();
@@ -102,7 +130,7 @@ const IssueAll = () => {
         let temp = [] as any;
         const q = query(
           collection(db, "Issues"),
-          where("status", "==", "open")
+          where("status", "==", "Open")
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -113,7 +141,7 @@ const IssueAll = () => {
         let temp2 = [] as any;
         const q2 = query(
           collection(db, "Issues"),
-          where("status", "==", "closed")
+          where("status", "==", "Closed")
         );
         const querySnapshot2 = await getDocs(q2);
         querySnapshot2.forEach((doc) => {
@@ -124,7 +152,7 @@ const IssueAll = () => {
         let tempDate = [] as any;
         const qDate = query(
           collection(db, "Issues"),
-          where("category", "==", "date")
+          where("category", "==", "Date")
         );
         const querySnapshotDate = await getDocs(qDate);
         querySnapshotDate.forEach((doc) => {
@@ -135,7 +163,7 @@ const IssueAll = () => {
         let tempHangOut = [] as any;
         const qHangOut = query(
           collection(db, "Issues"),
-          where("category", "==", "hangout")
+          where("category", "==", "Hangout")
         );
         const querySnapshotHangOut = await getDocs(qHangOut);
         querySnapshotHangOut.forEach((doc) => {
@@ -146,7 +174,7 @@ const IssueAll = () => {
         let tempNetworking = [] as any;
         const qNetworking = query(
           collection(db, "Issues"),
-          where("category", "==", "networking")
+          where("category", "==", "Networking")
         );
         const querySnapshotNetworking = await getDocs(qNetworking);
         querySnapshotNetworking.forEach((doc) => {
@@ -187,6 +215,18 @@ const IssueAll = () => {
     <>
       <Wrapper>
         <Container>
+          <ReminderBox>
+            <ReminderBoxText>
+              <AttentionIcon>
+                <FontAwesomeIcon icon={faTriangleExclamation} />
+              </AttentionIcon>
+              Issues are the posts created by our GitDaters.
+            </ReminderBoxText>
+            <ReminderBoxTextSmall>
+              Feel free to browse and find the GitDaters your would like to chat
+              with.
+            </ReminderBoxTextSmall>
+          </ReminderBox>
           <FilterContainer>
             <Filters>
               <FilterText>Filters</FilterText>

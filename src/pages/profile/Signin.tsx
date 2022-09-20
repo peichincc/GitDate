@@ -92,7 +92,7 @@ const SignUpBtn = styled.button`
 
 const Signin = () => {
   const dispatch = useDispatch();
-  const userData = useSelector((state) => state) as any;
+  const userInfo = useSelector((state) => state) as any;
   const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [alreadyLogged, setAlreadyLogged] = useState(false);
@@ -103,6 +103,7 @@ const Signin = () => {
   });
 
   useEffect(() => {
+    console.log(userInfo.isLogged);
     onAuthStateChanged(auth, (user) => {
       if (user) {
         var uid = user.uid;
@@ -117,7 +118,7 @@ const Signin = () => {
                 result["main_photo"]
               )
             );
-            console.log(userData);
+            console.log(userInfo);
           }
         });
         setAlreadyLogged(true);
@@ -166,7 +167,7 @@ const Signin = () => {
                 <Title>Sign In to GitDate</Title>
                 {alreadyLogged ? (
                   <>
-                    <h2>Welcome! {userData.user.user_name}</h2>
+                    <h2>Welcome! {userInfo.user.user_name}</h2>
                     <SubmitBtn onClick={signout}>Sign out</SubmitBtn>
                   </>
                 ) : (
@@ -203,7 +204,15 @@ const Signin = () => {
                     </FormGroup>
                     <SubmitBtn onClick={onSubmit}>Sign In</SubmitBtn>
                     <TextReminder>
-                      New to GitDate? <SignUpBtn>Create an account.</SignUpBtn>
+                      New to GitDate?{" "}
+                      <SignUpBtn onClick={() => navigate("/signup")}>
+                        Create an account.
+                      </SignUpBtn>
+                    </TextReminder>
+                    <TextReminder>
+                      Test account: <br />
+                      test@test.com <br />
+                      password: 123456
                     </TextReminder>
                   </>
                 )}

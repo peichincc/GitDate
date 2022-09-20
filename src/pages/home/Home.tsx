@@ -68,7 +68,7 @@ const SignUpBtn = styled(ActionButton)`
   color: white;
   &:hover {
     border: 1px solid rgba(27, 31, 36, 0.15);
-    background-color: #ff69b4;
+    background-color: #e6e7e9;
   }
 `;
 

@@ -50,6 +50,10 @@ const CategoryContainerGallery = styled(CategoryContainer)`
 `;
 const GithubPostTitleGallery = styled(GithubPostTitle)`
   text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 50px;
+  width: 220px;
 `;
 const GithubTitleContainer = styled.div`
   display: flex;
@@ -74,11 +78,11 @@ const Card = styled.div`
   justify-content: center;
   align-items: center;
   width: 220px;
-  height: 250px;
+  height: 280px;
   background: #fff;
   border-radius: 4px;
   border: 1px solid #d0d7de;
-  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15);
+  /* box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15); */
 `;
 const ImageBox = styled.div`
   width: 150px;
@@ -94,16 +98,23 @@ const ImageBox = styled.div`
   }
 `;
 const ImageBoxImage = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   cursor: pointer;
+  border-radius: 20px;
+  &:hover {
+    transform: scale(1.1);
+    transition-duration: 0.3s;
+    transition-duration: 0.5s;
+  }
 `;
 const ContentBox = styled.div`
   margin-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 150px;
 `;
 
 const IssuesList = ({ issuesStatus, docs }: any) => {
@@ -177,15 +188,15 @@ const IssuesList = ({ issuesStatus, docs }: any) => {
                 <>
                   <CardContainer>
                     <Card>
-                      <ImageBox>
-                        <ImageBoxImage
-                          src={blog.main_image}
-                          alt="issue_photo"
-                          onClick={() => {
-                            navigate("/issue/" + blog.issue_id);
-                          }}
-                        />
-                      </ImageBox>
+                      {/* <ImageBox> */}
+                      <ImageBoxImage
+                        src={blog.main_image}
+                        alt="issue_photo"
+                        onClick={() => {
+                          navigate("/issue/" + blog.issue_id);
+                        }}
+                      />
+                      {/* </ImageBox> */}
                       <ContentBox>
                         <CategoryContainerGallery>
                           {blog.category}

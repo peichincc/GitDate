@@ -75,7 +75,7 @@ const TabButton = styled.button`
   cursor: pointer;
   &:hover {
     color: white;
-    background-color: #ff69b4;
+    background-color: #e6e7e9;
   }
 `;
 const PostWraper = styled.div`
@@ -217,7 +217,7 @@ const CreateIssue = () => {
     title: title,
     content: editorHtmlContent,
     tags: tags,
-    status: "open",
+    status: "Open",
     posted_by: getUser,
     posted_at: serverTimestamp(),
   };
@@ -260,11 +260,11 @@ const CreateIssue = () => {
                   <FormSelectOptions value="0">
                     Please Select your issue type
                   </FormSelectOptions>
-                  <FormSelectOptions value="date">Date</FormSelectOptions>
-                  <FormSelectOptions value="hangout">
+                  <FormSelectOptions value="Date">Date</FormSelectOptions>
+                  <FormSelectOptions value="Hang Out">
                     Hang out
                   </FormSelectOptions>
-                  <FormSelectOptions value="networking">
+                  <FormSelectOptions value="Networking">
                     Networking
                   </FormSelectOptions>
                 </FormSelect>

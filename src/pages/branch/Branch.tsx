@@ -76,8 +76,8 @@ const BranchImgBox = styled(PostImgContainer)`
   margin-left: 0;
 `;
 const BranchImgBoxImg = styled.img`
-  width: 100%;
-  height: 100%;
+  max-width: 500px;
+  max-height: 400px;
 `;
 const BranchSubTitle = styled.div`
   text-align: left;
@@ -317,14 +317,14 @@ const Branch = () => {
             </MainContainer>
           </>
         )}
-        <h2>Area for author</h2>
+        {/* <h2>Area for author</h2>
         <button
           onClick={() => {
             deleteBranch(id);
           }}
         >
           Delete this branch
-        </button>
+        </button> */}
       </Wrapper>
     </>
   );

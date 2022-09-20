@@ -39,7 +39,7 @@ const LogoContainer = styled(Link)`
   background-size: contain; */
   &:hover {
     path {
-      stroke: #ff69b4;
+      stroke: #9a9b9d;
     }
   }
 `;
@@ -83,14 +83,14 @@ const CategoryLinks = styled.div`
 const Category = styled(Link)`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
   font-weight: 600;
   color: white;
   margin-right: 30px;
   cursor: pointer;
   :hover {
-    color: #ff69b4;
+    color: #9a9b9d;
   }
 `;
 
@@ -98,6 +98,7 @@ const CategoryContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  align-items: center;
 `;
 const LeftContainer = styled.div``;
 const RightContainer = styled.div`
@@ -109,7 +110,7 @@ const RightContainer = styled.div`
 const Header = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const userData = useSelector((state) => state) as any;
+  const userInfo = useSelector((state) => state) as any;
   const [alreadyLogged, setAlreadyLogged] = useState(false);
 
   useEffect(() => {
@@ -127,7 +128,7 @@ const Header = () => {
                 result["main_photo"]
               )
             );
-            console.log(userData);
+            console.log(userInfo);
           }
         });
         setAlreadyLogged(true);
@@ -136,7 +137,7 @@ const Header = () => {
   }, []);
 
   const memberHandler = () => {
-    if (userData.user.user_id) {
+    if (userInfo.user.user_id) {
       navigate("/member");
     } else {
       navigate("/signin");
@@ -147,18 +148,23 @@ const Header = () => {
     signOut(auth)
       .then(() => {
         console.log("sign out!");
+        alert("Signed out successfully");
+        dispatch(signin());
+        dispatch(setUserData("", "", ""));
+        setAlreadyLogged(false);
       })
       .catch((error) => {
         console.log(error);
       });
     navigate("/");
+    console.log(userInfo);
   };
 
   return (
     <>
       <Wrapper>
         <LogoContainer to="/">
-          <GitHub stroke="#FFF" />
+          <GitHub id="step1" stroke="#FFF" />
         </LogoContainer>
         <SearchForm>
           <SearchInput placeholder="Search user..." />
@@ -175,16 +181,13 @@ const Header = () => {
                 Docs
                 {/* <Doc /> */}
               </Category>
-              <Category to="repo">
-                Repo
-                {/* <Repo /> */}
-              </Category>
+              <Category to="repo">Repo</Category>
               <Category as="div" onClick={memberHandler}>
                 <Member />
               </Category>
-              <Category as="div" onClick={signout}>
+              {/* <Category as="div" onClick={signout}>
                 <Logout />
-              </Category>
+              </Category> */}
             </RightContainer>
           </CategoryContainer>
         </CategoryLinks>

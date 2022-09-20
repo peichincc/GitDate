@@ -14,15 +14,19 @@ import {
 } from "firebase/firestore";
 
 import { BoxHeader } from "./Profile";
+import { NavWord } from "../../utils/StyledComponent";
 
 import PostedIssues from "../../components/user/PostedIssues";
 import HostedBranches from "../../components/user/HostedBranches";
 import AttendedBranches from "../../components/user/AttendedBranches";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faListUl } from "@fortawesome/free-solid-svg-icons";
+
 const Wrapper = styled.div`
   width: 90%;
   display: block;
-  max-width: 1376px;
+  max-width: 1216px;
   margin: 0 auto;
 `;
 const Container = styled.div`
@@ -45,15 +49,17 @@ const LeftContainer = styled.div`
   align-items: center;
 `;
 export const PhotoContainer = styled.div`
+  display: flex;
+  justify-content: center;
   padding: 10px;
-  width: 100%;
-  max-width: 200px;
+  width: 200px;
   height: 200px;
 `;
 export const PhotoContainerImg = styled.img`
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
+  object-fit: cover;
 `;
 const RightContainer = styled.div`
   margin-left: 20px;
@@ -170,7 +176,9 @@ const Readme = () => {
         {userData && (
           <>
             <Container>
-              <BoxHeader>≡ README.md</BoxHeader>
+              <BoxHeader>
+                <FontAwesomeIcon icon={faListUl} /> <NavWord>README.md</NavWord>
+              </BoxHeader>
               <InsideContainder>
                 <LeftContainer>
                   <PhotoContainer>
