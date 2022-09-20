@@ -17,11 +17,31 @@ import firebaseapi from "../../utils/firebaseapi";
 
 import { MergeBtn, Button, LabelsButton } from "../../utils/StyledComponent";
 
+const Background = styled.div`
+  overflow: hidden;
+  z-index: 0;
+  position: relative;
+`;
+const ImgContainer = styled.img`
+  overflow: hidden;
+  z-index: 0;
+  position: absolute;
+  left: 2%;
+  top: 15%;
+`;
+const ImgContainer2 = styled(ImgContainer)`
+  bottom: 0;
+  right: 0;
+  z-index: 0;
+  position: absolute;
+  overflow: hidden;
+`;
+
 const CalendarContainer = styled.div`
   /* ~~~ container styles ~~~ */
   max-width: 600px;
   margin: auto;
-  margin-top: 20px;
+  margin-top: 0px;
   /* background-color: #d4f7d4; */
   padding: 10px;
   border-radius: 3px;
@@ -30,6 +50,7 @@ const CalendarContainer = styled.div`
     display: flex;
     .react-calendar__navigation__label {
       font-weight: bold;
+      color: black;
     }
     .react-calendar__navigation__arrow {
       flex-grow: 0.333;
@@ -60,7 +81,6 @@ const CalendarContainer = styled.div`
   .react-calendar__month-view__days {
     display: grid !important;
     grid-template-columns: 14.2% 14.2% 14.2% 14.2% 14.2% 14.2% 14.2%;
-
     .react-calendar__tile {
       max-width: initial !important;
     }
@@ -259,6 +279,10 @@ const BranchAll = () => {
     <>
       <Wrapper>
         <Container>
+          {/* <Background> */}
+          {/* <ImgContainer src="https://secure.meetupstatic.com/next/images/blobs/red-blob.svg" />
+          <ImgContainer src="https://secure.meetupstatic.com/next/images/blobs/yellow-blob.svg" />
+          <ImgContainer2 src="https://secure.meetupstatic.com/next/images/blobs/green-blob.svg" /> */}
           <CalendarContainer>
             <h1>Select date to see branches</h1>
             <CalendarContainerIn>
@@ -294,6 +318,7 @@ const BranchAll = () => {
             </FilterContainer>
             {docs && <BranchesList docs={docs} branchType={branchType} />}
           </BranchesContainer>
+          {/* </Background> */}
         </Container>
       </Wrapper>
     </>
