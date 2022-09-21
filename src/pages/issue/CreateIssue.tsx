@@ -241,6 +241,9 @@ const CreateIssue = () => {
     if (!title) {
       return;
     }
+    if (!fileSrc) {
+      return;
+    }
     const newIssueRef = doc(collection(db, "Issues"));
     await firebaseapi
       .postIssue(imageUpload, newIssueRef, recipient)
@@ -248,6 +251,16 @@ const CreateIssue = () => {
         navigate("/");
       });
   };
+
+  let countries = [
+    "USA",
+    "Britain",
+    "Germany",
+    "India",
+    "UAE",
+    "Australia",
+    "Switzerland",
+  ];
 
   return (
     <>
