@@ -211,8 +211,9 @@ const Signin = () => {
                     </TextReminder>
                     <TextReminder>
                       Test account: <br />
-                      test@test.com <br />
-                      password: 123456
+                      test@test.com / password: 123456
+                      <br />
+                      test2@test.com / password: 123456
                     </TextReminder>
                   </>
                 )}

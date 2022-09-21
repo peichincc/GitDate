@@ -21,6 +21,8 @@ import { Button, NavWord } from "../../utils/StyledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
 
+import Avatar from "../../utils/DefaultAvatar.png";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
@@ -55,12 +57,10 @@ const PreviewContainer = styled.div`
   }
 `;
 const RightContainer = styled.div`
-  margin-right: 20px;
   flex-grow: 1.5;
-  border: 1px solid #d0d7de;
-  border-radius: 6px;
+  /* border: 1px solid #d0d7de;
+  border-radius: 6px; */
   width: 750px;
-  padding: 20px;
   height: auto;
   @media screen and (max-width: 770px) {
     margin-top: 20px;
@@ -97,20 +97,22 @@ const FormCheckInput = styled.input`
   height: 16px;
 `;
 const FormCheckLabel = styled.label`
-  margin-left: 5px;
-  line-height: 26px;
+  font-size: 14px;
+  margin-left: 2px;
+  line-height: 15px;
 `;
 const FormText = styled.textarea`
   width: 80%;
   height: 100px;
-  border-radius: 8px;
+  border-radius: 6px;
+  border: 1px solid #d0d7de;
   resize: none;
 `;
 const FormControl = styled.input`
   width: 250px;
   height: 30px;
-  border-radius: 8px;
-  border: solid 1px #979797;
+  border-radius: 6px;
+  border: solid 1px #d0d7de;
 `;
 
 const TextInputCard = styled.div`
@@ -140,18 +142,25 @@ const UploadCardStyled = styled.label`
   cursor: pointer;
 `;
 const UploadCardButton = styled.span`
-  background-color: #fff;
-  border: solid 2px #e6e6e6;
-  padding: 10px 10px;
-  border-radius: 30px;
-  font-size: 17px;
-  line-height: 1.24;
-  margin-bottom: 10px;
+  margin-right: 4px;
+  border-radius: 6px;
+  border: 1px solid rgba(27, 31, 36, 0.15);
+  font-family: inherit;
+  font-weight: 600;
+  line-height: 20px;
+  white-space: nowrap;
+  vertical-align: middle;
   cursor: pointer;
+  text-align: center;
+  padding: 5px 16px;
+  font-size: 14px;
+  color: rgb(36, 41, 47);
+  background-color: rgb(246, 248, 250);
+  box-shadow: rgb(27 31 36 / 4%) 0px 1px 0px,
+    rgb(255 255 255 / 25%) 0px 1px 0px inset;
   &:hover {
-    background-color: gray;
-    color: #fff;
-    transition: 1s;
+    color: white;
+    background-color: #e6e7e9;
   }
 `;
 const UploadCardInput = styled.input.attrs({
@@ -196,6 +205,22 @@ const PreviewReadmeContainer = styled.div`
 `;
 const PreviewReadmeContainerLeft = styled.div``;
 const PreviewReadmeContainerRight = styled.div``;
+const PreviewReadmeContainerEmpty = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  align-items: center;
+`;
+const FormTextReadEmpty = styled.div`
+  line-height: 19px;
+  font-size: 16px;
+  color: #3f3a3a;
+`;
+const PhotoContainerEmpty = styled.div`
+  padding: 10px;
+  width: 200px;
+  height: 200px;
+`;
 
 export const BoxHeader = styled.div`
   padding: 16px;
@@ -208,6 +233,17 @@ export const BoxHeader = styled.div`
   margin: -1px -1px 0;
   display: flex;
   align-items: center;
+`;
+const ContinueBtn = styled(Button)`
+  color: white;
+  background-color: #979797;
+`;
+const SubmitBtnWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+const SubmitBtn = styled(Button)`
+  margin-right: 12px;
 `;
 
 const Profile = () => {
@@ -252,6 +288,7 @@ const Profile = () => {
     { label: "Last Name", key: "lastname" },
     { label: "Occupation", key: "occupation" },
     { label: "Age", key: "age" },
+    { label: "Githublink", key: "githublink" },
     {
       label: "Gender",
       key: "gender",
@@ -276,7 +313,6 @@ const Profile = () => {
         { label: "Prefer not to say", value: "Prefer not to say" },
       ],
     },
-    { label: "Githublink", key: "githublink" },
     {
       label: "Wish relationship",
       key: "wish_relationship",
@@ -312,6 +348,7 @@ const Profile = () => {
       return (options as unknown as any[]).map((option) => (
         <FormCheck key={option.value}>
           <FormCheckInput
+            required
             type="radio"
             checked={recipient[key as keyof typeof recipient] === option.value}
             onChange={(e) => {
@@ -334,6 +371,7 @@ const Profile = () => {
     } else {
       return (
         <FormControl
+          required
           value={recipient[key as keyof typeof recipient]}
           onChange={(e) =>
             setRecipient({ ...recipient, [key]: e.target.value })
@@ -400,7 +438,7 @@ const Profile = () => {
                 <FontAwesomeIcon icon={faListUl} />
                 <NavWord> Your README.md</NavWord>
               </BoxHeader>
-              {showPreviewReadme && (
+              {showPreviewReadme ? (
                 <>
                   {userData && (
                     <>
@@ -455,63 +493,85 @@ const Profile = () => {
                     </>
                   )}
                 </>
+              ) : (
+                <PreviewReadmeContainerEmpty>
+                  <FormTextReadEmpty>
+                    Your README will diplay here!
+                  </FormTextReadEmpty>
+                  <PhotoContainerEmpty>
+                    <PhotoContainerImg src={Avatar} />
+                  </PhotoContainerEmpty>
+                </PreviewReadmeContainerEmpty>
               )}
             </PreviewContainer>
           </LeftContainer>
           <RightContainer>
-            {hideTitle && (
-              <BoxHeader>
-                <h1>To write your README.md</h1>
-              </BoxHeader>
-            )}
-            {hidePhotoInput && (
-              <PhotoInputCard>
-                <UploadCardStyled>
-                  {fileSrc ? (
-                    <>
-                      <UploadPreview>
-                        <UploadPreviewImg src={fileSrc} />
-                      </UploadPreview>
-                    </>
-                  ) : (
-                    <UploadCardButton>
-                      Select your profile photo
-                    </UploadCardButton>
+            <PreviewContainer>
+              {hideTitle && (
+                <BoxHeader>
+                  <h1>To write your README.md</h1>
+                </BoxHeader>
+              )}
+              {hidePhotoInput && (
+                <PhotoInputCard>
+                  <UploadCardStyled>
+                    {fileSrc ? (
+                      <>
+                        <UploadPreview>
+                          <UploadPreviewImg src={fileSrc} />
+                        </UploadPreview>
+                      </>
+                    ) : (
+                      <UploadCardButton>
+                        Select your profile photo
+                      </UploadCardButton>
+                    )}
+                    <UploadCardInput onChange={handleUploadPhoto} />
+                  </UploadCardStyled>
+                  <Button onClick={uploadImage}>Upload photo</Button>
+                  <br />
+                  {showContinueBtn && (
+                    <ContinueBtn
+                      onClick={() => {
+                        setShowTextInput(true);
+                        setHidePhotoInput(false);
+                      }}
+                    >
+                      Continue
+                    </ContinueBtn>
                   )}
-                  <UploadCardInput onChange={handleUploadPhoto} />
-                </UploadCardStyled>
-                <Button onClick={uploadImage}>Upload photo</Button>
-                <br />
-                {showContinueBtn && (
-                  <Button
-                    onClick={() => {
-                      setShowTextInput(true);
-                      setHidePhotoInput(false);
-                    }}
-                  >
-                    Continue
-                  </Button>
-                )}
-              </PhotoInputCard>
-            )}
-            {showTextInput && (
-              <>
-                <TextInputCard>
-                  {uploadFormGroups.map(({ label, key, textarea, options }) => (
-                    <FormGroup key={key}>
-                      <FormLabel>{label}</FormLabel>
-                      {uploadFormInputCheck(label, key, textarea, options)}
-                    </FormGroup>
-                  ))}
-                </TextInputCard>
-                <Button onClick={updateDB}>Update Profile</Button>
-              </>
-            )}
-            {showWelcomeMsg && (
-              <WelcomeMsg>
-                <h1>Let's explore GitDate!</h1>
-              </WelcomeMsg>
-            )}
+                </PhotoInputCard>
+              )}
+              {showTextInput && (
+                <>
+                  <form>
+                    <TextInputCard>
+                      {uploadFormGroups.map(
+                        ({ label, key, textarea, options }) => (
+                          <FormGroup key={key}>
+                            <FormLabel>{label}</FormLabel>
+                            {uploadFormInputCheck(
+                              label,
+                              key,
+                              textarea,
+                              options
+                            )}
+                          </FormGroup>
+                        )
+                      )}
+                      <SubmitBtnWrapper>
+                        <SubmitBtn onClick={updateDB}>Update Profile</SubmitBtn>
+                      </SubmitBtnWrapper>
+                    </TextInputCard>
+                  </form>
+                </>
+              )}
+              {showWelcomeMsg && (
+                <WelcomeMsg>
+                  <h1>Let's explore GitDate!</h1>
+                </WelcomeMsg>
+              )}
+            </PreviewContainer>
           </RightContainer>
         </Container>
       </Wrapper>
