@@ -8,6 +8,9 @@ import {
 } from "@react-google-maps/api";
 
 // import "./map.css";
+import Avatar from "../../utils/DefaultAvatar.png";
+import { ReactComponent as GitHub } from "./copilot.svg";
+import mapStyle from "./mapStyle";
 
 const markers = [
   {
@@ -73,12 +76,18 @@ const MainMap = ({ markersFromDB }: any) => {
         onLoad={handleOnLoad}
         mapContainerClassName="map-container"
         onClick={() => setActiveMarker(null)}
+        options={{ styles: mapStyle }}
       >
         {markersFromDB.map(({ id, name, position }: any) => (
           <Marker
             key={id}
             position={position}
             onClick={() => handleActiveMarker(id)}
+            icon={{
+              url: Avatar,
+              // strokeColor: "#FF3EA5",
+              scaledSize: new window.google.maps.Size(25, 25),
+            }}
           >
             {activeMarker === id ? (
               <InfoWindow onCloseClick={() => setActiveMarker(null)}>

@@ -130,6 +130,7 @@ const FooterCopyright = styled.div`
 `;
 const MapContainer = styled.div`
   margin-top: 32px;
+  margin-bottom: 32px;
 `;
 
 const Home = () => {
@@ -214,7 +215,11 @@ const Home = () => {
         <Block>
           <BlockFeature>
             <Features>
-              <h2>GitDate is not just for dating</h2>
+              <h2>
+                GitDate is not just for dating
+                <br />
+                You can explore all kinds of relationships
+              </h2>
               <FeaturesList>
                 <FeaturesItem>
                   <FeaturesItemTitleDate>Dating</FeaturesItemTitleDate>
