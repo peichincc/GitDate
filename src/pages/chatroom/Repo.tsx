@@ -192,7 +192,9 @@ const Repo = () => {
                       //   navigate("/chatroom/" + friend["chat_id"]);
                       // }}
                     >
-                      <NameCardPhoto src={friend["user_photo"]} />
+                      <NameCardPhotoContainer>
+                        <NameCardPhoto src={friend["user_photo"]} />
+                      </NameCardPhotoContainer>
                       <NameCardName>{friend["user_name"]}</NameCardName>
                     </MsgList>
                   );
@@ -213,7 +215,6 @@ const Repo = () => {
                       <FontAwesomeIcon icon={faEllipsisVertical} />
                     </EllipsisContainer> */}
                   </ChatNameCard>
-
                   <Chatroom chatroomId={chatroomId} />
                 </>
               ) : (
