@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserData, signin } from "../../src/actions/index";
 import firebaseapi from "../../src/utils/firebaseapi";
+import { DocumentData } from "firebase/firestore";
 import { auth } from "../../src/utils/firebase";
 import {
   onAuthStateChanged,
@@ -26,6 +27,7 @@ const Wrapper = styled.div`
   background-color: #24292f;
   padding-left: 16px;
   align-items: center;
+  width: 100%;
 `;
 
 const LogoContainer = styled(Link)`
@@ -38,24 +40,52 @@ const LogoContainer = styled(Link)`
   background-size: contain; */
   &:hover {
     path {
-      stroke: #ff69b4;
+      stroke: #9a9b9d;
     }
   }
 `;
 const SearchForm = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   margin-left: 10px;
   max-width: 272px;
-  min-height: 28px;
+  /* min-height: 28px; */
   margin-top: 6px;
-`;
-const SearchInput = styled.input`
-  width: 100%;
   background-color: #24292f;
   border: 1px solid #57606a;
   border-radius: 6px;
+`;
+const SearchInput = styled.input`
+  width: 100%;
   font-size: 14px;
   line-height: 20px;
+  background: none;
+  border: none;
+  &:focus {
+    background-color: white;
+  }
+`;
+const SearchBtn = styled.button`
+  margin-right: 4px;
+  width: 22px;
+  height: 20px;
+  color: #57606a;
+  cursor: pointer;
+  border: 1px solid #57606a;
+  background-color: #24292f;
+`;
+const SearchWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-top: 2px;
+`;
+const ResultBox = styled.div`
+  width: 100%;
+  background-color: white;
+  height: 20px;
+  color: black;
 `;
 
 const CategoryLinks = styled.div`
@@ -69,14 +99,14 @@ const CategoryLinks = styled.div`
 const Category = styled(Link)`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
   font-weight: 600;
   color: white;
   margin-right: 30px;
   cursor: pointer;
   :hover {
-    color: #ff69b4;
+    color: #9a9b9d;
   }
 `;
 
@@ -84,6 +114,7 @@ const CategoryContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  align-items: center;
 `;
 const LeftContainer = styled.div``;
 const RightContainer = styled.div`
@@ -95,8 +126,10 @@ const RightContainer = styled.div`
 const Header = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const userData = useSelector((state) => state) as any;
+  const userInfo = useSelector((state) => state) as any;
   const [alreadyLogged, setAlreadyLogged] = useState(false);
+
+  const [searchResults, setSearchRsults] = useState<DocumentData>();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -113,7 +146,7 @@ const Header = () => {
                 result["main_photo"]
               )
             );
-            console.log(userData);
+            console.log(userInfo);
           }
         });
         setAlreadyLogged(true);
@@ -122,7 +155,7 @@ const Header = () => {
   }, []);
 
   const memberHandler = () => {
-    if (userData.user.user_id) {
+    if (userInfo.user.user_id) {
       navigate("/member");
     } else {
       navigate("/signin");
@@ -133,22 +166,65 @@ const Header = () => {
     signOut(auth)
       .then(() => {
         console.log("sign out!");
+        alert("Signed out successfully");
+        dispatch(signin());
+        dispatch(setUserData("", "", ""));
+        setAlreadyLogged(false);
       })
       .catch((error) => {
         console.log(error);
       });
     navigate("/");
+    console.log(userInfo);
+  };
+
+  const [searchName, setSearchName] = useState("");
+  const [expanded, setExpanded] = useState(false);
+  function expand() {
+    setExpanded(true);
+  }
+
+  function close() {
+    setExpanded(false);
+  }
+  const getSearchName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchName(e.target.value);
+  };
+  const getSearchResults = () => {
+    firebaseapi.searchUserByName(searchName).then((res) => {
+      console.log(res);
+      if (res) {
+        // console.log(res["firstname"]);
+        setSearchRsults(res);
+      }
+      expand();
+    });
   };
 
   return (
     <>
       <Wrapper>
         <LogoContainer to="/">
-          <GitHub stroke="#FFF" />
+          <GitHub id="step1" stroke="#FFF" />
         </LogoContainer>
-        <SearchForm>
-          <SearchInput placeholder="Search..." />
-        </SearchForm>
+        {/* <SearchForm>
+          <SearchWrapper>
+            <SearchInput
+              placeholder="Enter name to search user..."
+              onChange={getSearchName}
+            />
+            <SearchBtn onClick={getSearchResults}>/</SearchBtn>
+          </SearchWrapper>
+          {expanded && (
+            <ResultBox>
+              {searchResults?.map((user: any) => {
+                <>
+                  <h1>{user.firstname}</h1>
+                </>;
+              })}
+            </ResultBox>
+          )}
+        </SearchForm> */}
         <CategoryLinks>
           <CategoryContainer>
             <LeftContainer>
@@ -160,16 +236,13 @@ const Header = () => {
                 Docs
                 {/* <Doc /> */}
               </Category>
-              <Category to="repo">
-                Repo
-                {/* <Repo /> */}
-              </Category>
+              <Category to="repo">Repo</Category>
               <Category as="div" onClick={memberHandler}>
                 <Member />
               </Category>
-              <Category as="div" onClick={signout}>
+              {/* <Category as="div" onClick={signout}>
                 <Logout />
-              </Category>
+              </Category> */}
             </RightContainer>
           </CategoryContainer>
         </CategoryLinks>

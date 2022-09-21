@@ -34,7 +34,7 @@ export const Button = styled.button`
     rgb(255 255 255 / 25%) 0px 1px 0px inset;
   &:hover {
     color: white;
-    background-color: #ff69b4;
+    background-color: #e6e7e9;
   }
 `;
 export const MergeBtn = styled.button`
@@ -274,8 +274,9 @@ export const PostImgContainer = styled.div`
   margin: 20px;
 `;
 export const PostImgBoxImg = styled.img`
-  width: 100%;
-  height: 100%;
+  max-width: 500px;
+  max-height: 400px;
+  object-fit: cover;
 `;
 export const LebalsText = styled.div`
   font-size: 12px;
@@ -304,6 +305,8 @@ export const AuthorBtn = styled.button`
 `;
 
 export const StatusOpen = styled.div`
+  display: flex;
+  align-items: center;
   width: 80px;
   color: white;
   background-color: #2da44e;
@@ -313,4 +316,8 @@ export const StatusOpen = styled.div`
   font-weight: 500;
   line-height: 20px;
   text-align: center;
+`;
+
+export const NavWord = styled.div`
+  padding-left: 5px;
 `;

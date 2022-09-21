@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
@@ -8,12 +8,21 @@ import img03 from "./slider/slider03.jpg";
 import img04 from "./slider/slider04.jpg";
 import img05 from "./slider/slider05.jpg";
 import img06 from "./slider/slider06.jpg";
+import hangout from "./feature/hangout.jpg";
+import dating from "./feature/dating.jpg";
+import networking from "./feature/networking.jpg";
 
 import { ActionButton } from "../../utils/StyledComponent";
+import { ShowMainMap } from "../../components/map/MainMap";
+
+import firebaseapi from "../../utils/firebaseapi";
+
+import { Carousel } from "./Carousel";
 
 const Wrapper = styled.div`
   display: block;
   margin: 0 auto;
+  padding-bottom: 56px;
 `;
 
 const Block = styled.div`
@@ -34,8 +43,38 @@ const BlockInnerImg = styled.div`
   /* @media (max-width: 770px) {
     height: calc(100vh - 64px);
   } */
+  opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 4s;
+  @keyframes fadeInOpacity {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 `;
-
+const BlockCarousel = styled.div`
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 64px);
+  /* opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 4s;
+  @keyframes fadeInOpacity {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  } */
+`;
 const BlockInner = styled.div`
   display: flex;
   align-items: center;
@@ -44,7 +83,6 @@ const BlockInner = styled.div`
   max-width: 100%;
   padding: 16px;
 `;
-
 const BlockContent = styled.div`
   display: block;
   width: 100%;
@@ -55,15 +93,89 @@ const BlockContent = styled.div`
     padding: 32px;
   }
 `;
-
 const BlockTitle = styled.h1``;
 const BlockText = styled.div``;
 const BlockAction = styled.div`
   display: flex;
   justify-content: space-evenly;
 `;
+const SignUpBtn = styled(ActionButton)`
+  background-color: #24292f;
+  color: white;
+  &:hover {
+    border: 1px solid rgba(27, 31, 36, 0.15);
+    background-color: #e6e7e9;
+  }
+`;
+
+const BlockFeature = styled.div`
+  height: 100vh;
+  margin-top: 48px;
+`;
+const Features = styled.div`
+  text-align: center;
+`;
+const FeaturesList = styled.div`
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+`;
+const FeaturesItem = styled.div`
+  /* flex: 1 1 auto;
+  display: flex; */
+  position: relative;
+  width: 30%;
+  margin: 20px;
+  margin-bottom: 0px;
+`;
+const FeaturesPhoto = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+const FeaturesPhotoImg = styled.img`
+  width: 100%;
+  height: 100%;
+`;
+const FeaturesItemTitle = styled.div`
+  top: 20%;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.4;
+`;
+const FeaturesItemTitleDate = styled(FeaturesItemTitle)`
+  top: 80%;
+`;
+const FeaturesItemTitleNetworking = styled(FeaturesItemTitle)`
+  top: 30%;
+`;
+
+const FooterCopyright = styled.div`
+  margin-top: 20px;
+  color: #bdbdbd;
+  display: block;
+  text-align: center;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 1;
+`;
+const MapContainer = styled.div`
+  margin-top: 32px;
+  margin-bottom: 32px;
+`;
+
+const images = [img01, img02, img03, img04, img05, img06];
 
 const Home = () => {
+  // // New Carousel
+  // const slidePresentationTime = 3000; // after how many ms slide will change - now 3s / 3000ms
+  // const [currentSlide, setCurrentSlide] = useState(0);
+  // let sliderInterval = useRef() as any; // interval ref
+  // //
+
+  const [markersFromDB, setMarkersFromDB] = useState([]);
   const navigate = useNavigate();
   const [photo, setPhoto] = useState(1);
   const change = () => {
@@ -74,14 +186,31 @@ const Home = () => {
     setPhoto((prev) => prev + 1);
   };
 
+  // useEffect(() => {
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   sliderInterval = setInterval(() => {
+  //     setCurrentSlide((currentSlide + 1) % images.length); // change current slide to next after 3s
+  //   }, slidePresentationTime);
+  //   return () => {
+  //     clearInterval(sliderInterval);
+  //   };
+  // });
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      change();
-    }, 5000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [photo]);
+    firebaseapi.readBranchLocations().then((res) => {
+      console.log(res);
+      if (res) {
+        setMarkersFromDB(res["markers"]);
+      }
+    });
+    //   const interval = setInterval(() => {
+    //     change();
+    //   }, 5000);
+    //   return () => {
+    //     clearInterval(interval);
+    //   };
+    // }, [photo]
+  }, []);
 
   const returnPhotoURL = () => {
     switch (photo) {
@@ -106,23 +235,25 @@ const Home = () => {
     <>
       <Wrapper>
         <Block>
-          <BlockInnerImg
+          <BlockCarousel>
+            <Carousel />
+            {/* <BlockInnerImg
             style={{
               backgroundImage: `url(${returnPhotoURL()})`,
             }}
-          >
+          > */}
             <BlockInner>
               <BlockContent>
                 <BlockTitle>Make the first commit.</BlockTitle>
                 <BlockText>Start meeting new people!</BlockText>
                 <BlockAction>
-                  <ActionButton
+                  <SignUpBtn
                     onClick={() => {
                       navigate("/signup");
                     }}
                   >
                     Join
-                  </ActionButton>
+                  </SignUpBtn>
                   <ActionButton
                     onClick={() => {
                       navigate("/signin");
@@ -133,8 +264,55 @@ const Home = () => {
                 </BlockAction>
               </BlockContent>
             </BlockInner>
-          </BlockInnerImg>
+          </BlockCarousel>
+          {/* </BlockInnerImg> */}
         </Block>
+        <Block>
+          <BlockFeature>
+            <Features>
+              <h2>
+                GitDate is not just for dating
+                <br />
+                You can explore all kinds of relationships here
+              </h2>
+              <FeaturesList>
+                <FeaturesItem>
+                  <FeaturesItemTitleDate>Dating</FeaturesItemTitleDate>
+                  <FeaturesPhoto>
+                    <FeaturesPhotoImg src={dating} />
+                  </FeaturesPhoto>
+                </FeaturesItem>
+                <FeaturesItem>
+                  <FeaturesItemTitle>Hang Out</FeaturesItemTitle>
+                  <FeaturesPhoto>
+                    <FeaturesPhotoImg src={hangout} />
+                  </FeaturesPhoto>
+                </FeaturesItem>
+                <FeaturesItem>
+                  <FeaturesItemTitleNetworking>
+                    Networking
+                  </FeaturesItemTitleNetworking>
+                  <FeaturesPhoto>
+                    <FeaturesPhotoImg src={networking} />
+                  </FeaturesPhoto>
+                </FeaturesItem>
+              </FeaturesList>
+            </Features>
+          </BlockFeature>
+        </Block>
+        <Block>
+          <Features>
+            <h2>
+              What's more...
+              <br />
+              To meet our GitDaters around the world
+            </h2>
+            <MapContainer>
+              <ShowMainMap markersFromDB={markersFromDB} />
+            </MapContainer>
+          </Features>
+        </Block>
+        <FooterCopyright>© 2022 GitDate | All Rights Reserved</FooterCopyright>
       </Wrapper>
     </>
   );

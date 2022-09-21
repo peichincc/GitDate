@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 
 import Header from "./components/Header";
+import { Tour } from "./components/Tour";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -26,6 +27,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
+      {/* <Tour /> */}
       <Header />
       <Outlet />
     </>

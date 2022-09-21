@@ -51,7 +51,7 @@ const MsgBtn = styled.button`
   font-size: 20px;
   cursor: pointer;
   &:hover {
-    color: #ff69b4;
+    color: #e6e7e9;
   }
 `;
 

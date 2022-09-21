@@ -73,7 +73,7 @@ const TabButton = styled.button`
   cursor: pointer;
   &:hover {
     color: white;
-    background-color: #ff69b4;
+    background-color: #e6e7e9;
   }
 `;
 const PostWraper = styled.div`
@@ -199,7 +199,7 @@ const CreateBranch = () => {
     time: time,
     location: location,
     address: formatAddress,
-    status: "upcoming",
+    status: "Upcoming",
     hosted_by: getUser,
     posted_at: serverTimestamp(),
   };
@@ -216,6 +216,15 @@ const CreateBranch = () => {
         updateDoc(userRef, {
           activity_hosted: arrayUnion(newBranchRef.id),
         });
+        // firebaseapi.addBranchLocations(newBranchRef.id, title, location);
+        const LocationsRef = collection(db, "Location");
+        const docRef = doc(LocationsRef, "c4ttDiHr8UCyB0OMOtwA");
+        const locationInfo = {
+          id: newBranchRef.id,
+          name: title,
+          position: location,
+        };
+        updateDoc(docRef, { markers: arrayUnion(locationInfo) });
         console.log(`${getUser} hosted this activity!`);
       });
   };
@@ -246,9 +255,9 @@ const CreateBranch = () => {
                 <FormLabel>Type</FormLabel>
                 <FormSelect onChange={getType}>
                   <option value="0">Please Select your brnach type</option>
-                  <option value="online">Online</option>
-                  <option value="inperson">In Person</option>
-                  <option value="mixed">Mixed</option>
+                  <option value="Online">Online</option>
+                  <option value="Inperson">In Person</option>
+                  <option value="Mixed">Mixed</option>
                 </FormSelect>
               </FormGroup>
               <FormGroup>

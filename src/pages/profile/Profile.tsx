@@ -16,6 +16,11 @@ import {
   FormTextRead,
 } from "./Readme";
 
+import { Button, NavWord } from "../../utils/StyledComponent";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faListUl } from "@fortawesome/free-solid-svg-icons";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
@@ -119,6 +124,7 @@ const PhotoInputCard = styled.div`
   align-items: center;
 `;
 const UploadCardStyled = styled.label`
+  margin-bottom: 20px;
   background-color: #fff;
   padding: 10px;
   width: 100%;
@@ -213,6 +219,7 @@ const Profile = () => {
   const storage = getStorage();
   const [userData, setUserData] = useState<any>(null);
   const [showPreviewReadme, setShowPreviewReadme] = useState(false);
+  const [showContinueBtn, setShowContinueBtn] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -274,9 +281,9 @@ const Profile = () => {
       label: "Wish relationship",
       key: "wish_relationship",
       options: [
-        { label: "Date", value: "date" },
-        { label: "BFF", value: "bff" },
-        { label: "Co-worker", value: "coworker" },
+        { label: "Date", value: "Date" },
+        { label: "BFF", value: "BFF" },
+        { label: "Co-worker", value: "Co-worker" },
       ],
     },
     { label: "Details", key: "details", textarea: true },
@@ -360,6 +367,7 @@ const Profile = () => {
     });
     const downloadUrl = await getDownloadURL(imageRef);
     setImageURL(downloadUrl);
+    setShowContinueBtn(true);
   };
   // 更新資料庫
   const updateDB = async () => {
@@ -388,7 +396,10 @@ const Profile = () => {
               We are glad that you are here
             </h1>
             <PreviewContainer>
-              <BoxHeader>≡ Your README.md</BoxHeader>
+              <BoxHeader>
+                <FontAwesomeIcon icon={faListUl} />
+                <NavWord> Your README.md</NavWord>
+              </BoxHeader>
               {showPreviewReadme && (
                 <>
                   {userData && (
@@ -469,16 +480,18 @@ const Profile = () => {
                   )}
                   <UploadCardInput onChange={handleUploadPhoto} />
                 </UploadCardStyled>
-                <Btn onClick={uploadImage}>Upload photo</Btn>
+                <Button onClick={uploadImage}>Upload photo</Button>
                 <br />
-                <Btn
-                  onClick={() => {
-                    setShowTextInput(true);
-                    setHidePhotoInput(false);
-                  }}
-                >
-                  Continue
-                </Btn>
+                {showContinueBtn && (
+                  <Button
+                    onClick={() => {
+                      setShowTextInput(true);
+                      setHidePhotoInput(false);
+                    }}
+                  >
+                    Continue
+                  </Button>
+                )}
               </PhotoInputCard>
             )}
             {showTextInput && (
@@ -491,7 +504,7 @@ const Profile = () => {
                     </FormGroup>
                   ))}
                 </TextInputCard>
-                <Btn onClick={updateDB}>Update Profile</Btn>
+                <Button onClick={updateDB}>Update Profile</Button>
               </>
             )}
             {showWelcomeMsg && (
