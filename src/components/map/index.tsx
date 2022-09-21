@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import usePlacesAutocomplete, {
   getGeocode,
@@ -20,8 +20,16 @@ const MapHome = ({ setLocation, setFormatAddress }: any) => {
 };
 
 const Map = ({ setLocation, setFormatAddress }: any) => {
-  const center = useMemo(() => ({ lat: 25.0384803, lng: 121.5301824 }), []);
+  const [center, setCenter] = useState<any>({
+    lat: 25.0384803,
+    lng: 121.5301824,
+  });
+  // const center = useMemo(() => ({ lat: 25.0384803, lng: 121.5301824 }), []);
   const [selected, setSelected] = useState(null);
+
+  useEffect(() => {
+    setCenter(selected);
+  }, [selected]);
 
   return (
     <>

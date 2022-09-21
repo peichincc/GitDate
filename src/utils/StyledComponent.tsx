@@ -331,3 +331,8 @@ export const ClickBtn = styled.button`
     background-color: #24292f;
   }
 `;
+
+export const TagButton = styled(LabelsButton)`
+  cursor: default;
+  background-color: #453d38;
+`;

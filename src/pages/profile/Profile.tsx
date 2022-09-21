@@ -46,7 +46,6 @@ const LeftContainer = styled.div`
   }
 `;
 const PreviewContainer = styled.div`
-  margin-top: 20px;
   margin-right: 50px;
   border: 1px solid #d0d7de;
   border-radius: 6px;
@@ -246,6 +245,27 @@ const SubmitBtn = styled(Button)`
   margin-right: 12px;
 `;
 
+const ReminderBox = styled.div`
+  margin-right: 50px;
+  color: #24292f;
+  height: auto;
+  background-color: #ddf4ff;
+  border: 1px solid #54aeff66;
+  padding: 20px 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+`;
+const ReminderBoxText = styled.div`
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+`;
+const ReminderBoxTextSmall = styled.div`
+  font-size: 12px;
+`;
+
 const Profile = () => {
   let navigate = useNavigate();
   const [getUser, setGetUser] = useState("");
@@ -428,11 +448,18 @@ const Profile = () => {
       <Wrapper>
         <Container>
           <LeftContainer>
-            <h1>
+            <ReminderBox>
+              <ReminderBoxText>Introduce yourself 👋 </ReminderBoxText>
+              <ReminderBoxTextSmall>
+                The easiest way to introduce yourself on GitDate is by creating
+                a README in a repository about you! You can start here:
+              </ReminderBoxTextSmall>
+            </ReminderBox>
+            {/* <h1>
               Welcome to GitDate
               <br />
               We are glad that you are here
-            </h1>
+            </h1> */}
             <PreviewContainer>
               <BoxHeader>
                 <FontAwesomeIcon icon={faListUl} />
@@ -496,7 +523,7 @@ const Profile = () => {
               ) : (
                 <PreviewReadmeContainerEmpty>
                   <FormTextReadEmpty>
-                    Your README will diplay here!
+                    Your README will display here!
                   </FormTextReadEmpty>
                   <PhotoContainerEmpty>
                     <PhotoContainerImg src={Avatar} />
@@ -509,7 +536,7 @@ const Profile = () => {
             <PreviewContainer>
               {hideTitle && (
                 <BoxHeader>
-                  <h1>To write your README.md</h1>
+                  <h1>To write README.md</h1>
                 </BoxHeader>
               )}
               {hidePhotoInput && (

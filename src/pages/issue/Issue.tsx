@@ -32,6 +32,7 @@ import {
   MergeBtn,
   PostImgBoxImg,
   StatusOpen,
+  TagButton,
 } from "../../utils/StyledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -341,7 +342,7 @@ const Issue = () => {
                     <LebalsText>Tags</LebalsText>
                     {issueData.tags.map((tag: any) => (
                       <>
-                        <LabelsButton>{tag}</LabelsButton>
+                        <TagButton>{tag}</TagButton>
                       </>
                     ))}
                   </LebalsContainer>

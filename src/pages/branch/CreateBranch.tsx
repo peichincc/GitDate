@@ -32,7 +32,7 @@ import MapHome from "../../components/map";
 
 const Wrapper = styled.div`
   display: block;
-  max-width: 1376px;
+  max-width: 980px;
   margin: 0 auto;
 `;
 const MainLayout = styled.div`
@@ -43,7 +43,7 @@ const MainLayout = styled.div`
   padding: 20px;
 `;
 const TabWraper = styled.div`
-  width: 80%;
+  width: 100%;
   display: flex;
   justify-content: flex-end;
   margin-bottom: -1px;
@@ -88,7 +88,7 @@ const PostBox = styled.div`
   position: relative;
   background: #f6f8fa;
   border-radius: 0.4em;
-  width: 80%;
+  width: 100%;
   height: auto;
   /* border: 1px solid #d0d7de; */
   position: relative;
@@ -132,6 +132,15 @@ const MapContainer = styled.div`
   width: 400px;
   height: 200px;
   margin-bottom: 30px;
+  margin-top: 50px;
+`;
+
+const GitAddBtn = styled(Button)`
+  width: 100px;
+`;
+
+const DateFormControl = styled(FormControl)`
+  width: 150px;
 `;
 
 const CreateBranch = () => {
@@ -266,8 +275,8 @@ const CreateBranch = () => {
               </FormGroup>
               <FormGroup>
                 <FormLabel>Time</FormLabel>
-                <FormControl type="date" onChange={getDate} />
-                <FormControl type="time" onChange={getTime} />
+                <DateFormControl type="date" onChange={getDate} />
+                <DateFormControl type="time" onChange={getTime} />
                 {/* <input type="datetime-local" onChange={getTime} /> */}
               </FormGroup>
               <FormGroup>
@@ -303,7 +312,7 @@ const CreateBranch = () => {
                       </UploadCardStyled>
                     </>
                   )}
-                  <Button onClick={handleClick}>git add</Button>
+                  <GitAddBtn onClick={handleClick}>git add</GitAddBtn>
                 </PreviewPhotoContainer>
               </FormGroup>
               <SubmitWrapper>

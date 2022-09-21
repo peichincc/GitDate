@@ -98,7 +98,7 @@ const MainMap = ({ markersFromDB }: any) => {
                       navigate("/branch/" + id);
                     }}
                   >
-                    Click to see this branch
+                    Click to branch
                   </Button>
                 </GithubPostTitle>
               </InfoWindow>

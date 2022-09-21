@@ -29,11 +29,12 @@ import {
   UploadPreview,
   UploadPreviewImg,
   UploadCardStyled,
+  TagButton,
 } from "../../utils/StyledComponent";
 
 const Wrapper = styled.div`
   display: block;
-  max-width: 1376px;
+  max-width: 980px;
   margin: 0 auto;
 `;
 
@@ -45,7 +46,7 @@ const MainLayout = styled.div`
   padding: 20px;
 `;
 const TabWraper = styled.div`
-  width: 80%;
+  width: 100%;
   display: flex;
   justify-content: flex-end;
   margin-bottom: -1px;
@@ -90,7 +91,7 @@ const PostBox = styled.div`
   position: relative;
   background: #f6f8fa;
   border-radius: 0.4em;
-  width: 80%;
+  width: 100%;
   height: auto;
   /* border: 1px solid #d0d7de; */
   position: relative;
@@ -134,7 +135,7 @@ const Tags = styled.div`
   margin-right: 4px;
   display: flex;
 `;
-const RemoveBtn = styled.button`
+const TagBtn = styled.button`
   border: 0;
   background: none;
   cursor: pointer;
@@ -148,6 +149,15 @@ const PreviewPhotoContainer = styled.div`
 const SubmitWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const TagFormControl = styled(FormControl)`
+  width: 100px;
+  margin-right: 5px;
+`;
+
+const GitAddBtn = styled(Button)`
+  width: 100px;
 `;
 
 interface Data {
@@ -196,6 +206,7 @@ const CreateIssue = () => {
     let currentTags = [...tags];
     currentTags.push(tagRef.current.value);
     setTags(currentTags);
+    tagRef.current.value = "";
   };
   const removeTag = (e: React.MouseEvent<HTMLElement>) => {
     if (!tagRef.current) return;
@@ -297,7 +308,7 @@ const CreateIssue = () => {
                       </UploadCardStyled>
                     </>
                   )}
-                  <Button onClick={handleClick}>git add</Button>
+                  <GitAddBtn onClick={handleClick}>git add</GitAddBtn>
                 </PreviewPhotoContainer>
               </FormGroup>
               <FormGroup>
@@ -308,15 +319,13 @@ const CreateIssue = () => {
                       tags.map((tag) => {
                         return (
                           <Tags key={tag} id={tag}>
-                            <Tag> {tag}</Tag>
-                            <RemoveBtn onClick={(e) => removeTag(e)}>
-                              x
-                            </RemoveBtn>
+                            <TagButton> {tag}</TagButton>
+                            <TagBtn onClick={(e) => removeTag(e)}>x</TagBtn>
                           </Tags>
                         );
                       })}
                   </TagsWrapper>
-                  <FormControl
+                  <TagFormControl
                     type="text"
                     ref={tagRef}
                     onKeyPress={(e) => {
@@ -324,7 +333,8 @@ const CreateIssue = () => {
                         addTag();
                       }
                     }}
-                  ></FormControl>
+                  ></TagFormControl>
+                  <TagBtn onClick={addTag}>+</TagBtn>
                 </TagInputWrapper>
               </FormGroup>
               <SubmitWrapper>
