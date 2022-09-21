@@ -165,6 +165,9 @@ const MapContainer = styled.div`
   margin-top: 32px;
   margin-bottom: 32px;
 `;
+const MapBlock = styled.div`
+  margin-top: 50px;
+`;
 
 const images = [img01, img02, img03, img04, img05, img06];
 
@@ -300,7 +303,7 @@ const Home = () => {
             </Features>
           </BlockFeature>
         </Block>
-        <Block>
+        <MapBlock>
           <Features>
             <h2>
               What's more...
@@ -311,7 +314,7 @@ const Home = () => {
               <ShowMainMap markersFromDB={markersFromDB} />
             </MapContainer>
           </Features>
-        </Block>
+        </MapBlock>
         <FooterCopyright>© 2022 GitDate | All Rights Reserved</FooterCopyright>
       </Wrapper>
     </>

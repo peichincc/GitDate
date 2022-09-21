@@ -289,10 +289,10 @@ const Branch = () => {
                     <BranchSubTitle>Type:</BranchSubTitle>
                     {branchData.type}
                   </CardContainer>
-                  <CardContainer>
+                  {/* <CardContainer>
                     <BranchSubTitle>Branch status:</BranchSubTitle>
                     {branchData.status}
-                  </CardContainer>
+                  </CardContainer> */}
                   <CardContainer>
                     <BranchSubTitle>Date:</BranchSubTitle>
                     {branchData.date} · {branchData.time}

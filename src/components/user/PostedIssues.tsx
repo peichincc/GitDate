@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { BoxHeader } from "../../pages/profile/Profile";
+import { ClickBtn } from "../../utils/StyledComponent";
 
 const Container = styled.div`
   width: 100%;
@@ -34,11 +35,6 @@ const BlogStatus = styled.div`
   margin-right: 20px;
   width: 60px;
   text-align: center;
-`;
-const ClickBtn = styled.button`
-  border: 1px solid transparent;
-  border-radius: 2em;
-  cursor: pointer;
 `;
 
 const PostedIssues = ({ postedIssues }: any) => {

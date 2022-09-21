@@ -321,3 +321,13 @@ export const StatusOpen = styled.div`
 export const NavWord = styled.div`
   padding-left: 5px;
 `;
+
+export const ClickBtn = styled.button`
+  border: 1px solid transparent;
+  border-radius: 2em;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background-color: #24292f;
+  }
+`;

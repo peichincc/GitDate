@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { BoxHeader } from "../../pages/profile/Profile";
+import { ClickBtn } from "../../utils/StyledComponent";
 
 const Container = styled.div`
   width: 100%;
@@ -24,12 +25,6 @@ const BlogList = styled.div`
 `;
 const BlogTitle = styled.div`
   display: flex;
-`;
-
-const ClickBtn = styled.button`
-  border: 1px solid transparent;
-  border-radius: 2em;
-  cursor: pointer;
 `;
 
 const HostedBranches = ({ hostedBranches }: any) => {

@@ -57,25 +57,25 @@ const MainContainer = styled.div`
 const LayoutContainer = styled.div`
   padding-right: 32px;
   padding-left: 32px;
-  display: grid;
+  display: flex;
   width: 100%;
 `;
 const SidebarLayout = styled.div`
   display: flex;
   flex-direction: column;
-  grid-column: 1;
   align-items: center;
+  flex-grow: 1;
 `;
 const MainLayout = styled.div`
-  grid-column: 3 / span 10;
   max-width: 900px;
+  flex-grow: 5;
 `;
 const NavWord = styled.div`
   padding-left: 5px;
 `;
 const NavContainer = styled.div`
   margin-top: 48px;
-  padding-left: 296px;
+  padding-left: 400px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -89,9 +89,11 @@ const NavTab = styled.button`
   font-size: 16px;
   cursor: pointer;
   &:hover {
-    background-color: #d0d7de;
+    background-color: rgb(246, 248, 250);
     border-radius: 6px;
-    padding: 5px;
+    /* padding: 5px; */
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
 `;
 
@@ -167,16 +169,24 @@ const FormTextRead = styled.div`
   margin-bottom: 10px;
 `;
 const DataCard = styled.div`
+  font-weight: 600;
+  font-size: 14px;
   border-radius: 8px;
-  background-color: #edede9;
+  /* background-color: rgb(246, 248, 250); */
   padding: 5px;
   margin-right: 10px;
-  width: 120px;
-  text-align: center;
+  margin-left: 5px;
+  width: 130px;
+  text-align: left;
 `;
 
 const TextArea = styled.div`
   max-width: 400px;
+`;
+
+const MemberBtn = styled(Button)`
+  width: 120px;
+  margin-bottom: 20px;
 `;
 
 const Member = () => {
@@ -355,9 +365,12 @@ const Member = () => {
                   <UserName>
                     {userData.firstname} {userData.lastname}
                   </UserName>
-                  <Button onClick={() => navigate("/profile")}>
+                  <MemberBtn onClick={() => navigate("/profile")}>
                     Edit Profile
-                  </Button>
+                  </MemberBtn>
+                  <MemberBtn onClick={() => navigate("/readme/" + getUser)}>
+                    README.md
+                  </MemberBtn>
                 </>
               )}
             </SidebarLayout>
