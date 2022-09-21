@@ -19,12 +19,14 @@ import {
 import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "./firebase";
+import { NavigationType } from "react-router-dom";
 
 // const db = getFirestore();
 // const storage = getStorage();
 const usersRef = collection(db, "Users");
 const issuesRef = collection(db, "Issues");
 const branchesRef = collection(db, "Branches");
+const LocationsRef = collection(db, "Location");
 const chatsRef = collection(db, "Chatrooms");
 const newBranchRef = doc(collection(db, "Branches"));
 const newIssueRef = doc(collection(db, "Issues"));
@@ -250,6 +252,31 @@ const firebaseapi = {
       });
   },
   // 參加活動 git checkout -> 使用者資料更新acitivity_attend(寫入branch id)
+  // 讀取活動Branch Location and show on Main Page
+  async readBranchLocations() {
+    const docRef = doc(LocationsRef, "c4ttDiHr8UCyB0OMOtwA");
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log("No such document!");
+      return null;
+    }
+  },
+  // Add branch locations to DB
+  // async addBranchLocations(
+  //   branch_id: any,
+  //   branch_title: any,
+  //   location: any
+  // ) {
+  //   const docRef = doc(LocationsRef, "c4ttDiHr8UCyB0OMOtwA");
+  //   updateDoc(docRef, {
+  //     arrayUnion({
+  //     id: branch_id,
+  //     name: branch_title,
+  //     position: location,})
+  //   });
+  // },
 };
 
 export default firebaseapi;

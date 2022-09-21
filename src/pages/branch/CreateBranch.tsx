@@ -216,6 +216,15 @@ const CreateBranch = () => {
         updateDoc(userRef, {
           activity_hosted: arrayUnion(newBranchRef.id),
         });
+        // firebaseapi.addBranchLocations(newBranchRef.id, title, location);
+        const LocationsRef = collection(db, "Location");
+        const docRef = doc(LocationsRef, "c4ttDiHr8UCyB0OMOtwA");
+        const locationInfo = {
+          id: newBranchRef.id,
+          name: title,
+          position: location,
+        };
+        updateDoc(docRef, { markers: arrayUnion(locationInfo) });
         console.log(`${getUser} hosted this activity!`);
       });
   };

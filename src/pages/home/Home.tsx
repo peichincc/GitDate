@@ -13,6 +13,9 @@ import dating from "./feature/dating.jpg";
 import networking from "./feature/networking.jpg";
 
 import { ActionButton } from "../../utils/StyledComponent";
+import { ShowMainMap } from "../../components/map/MainMap";
+
+import firebaseapi from "../../utils/firebaseapi";
 
 const Wrapper = styled.div`
   display: block;
@@ -117,6 +120,7 @@ const FeaturesItemTitleNetworking = styled(FeaturesItemTitle)`
 `;
 
 const FooterCopyright = styled.div`
+  margin-top: 20px;
   color: #bdbdbd;
   display: block;
   text-align: center;
@@ -124,8 +128,12 @@ const FooterCopyright = styled.div`
   font-size: 12px;
   line-height: 1;
 `;
+const MapContainer = styled.div`
+  margin-top: 32px;
+`;
 
 const Home = () => {
+  const [markersFromDB, setMarkersFromDB] = useState([]);
   const navigate = useNavigate();
   const [photo, setPhoto] = useState(1);
   const change = () => {
@@ -137,6 +145,12 @@ const Home = () => {
   };
 
   useEffect(() => {
+    firebaseapi.readBranchLocations().then((res) => {
+      console.log(res);
+      if (res) {
+        setMarkersFromDB(res["markers"]);
+      }
+    });
     const interval = setInterval(() => {
       change();
     }, 5000);
@@ -225,6 +239,18 @@ const Home = () => {
               </FeaturesList>
             </Features>
           </BlockFeature>
+        </Block>
+        <Block>
+          <Features>
+            <h2>
+              What's more...
+              <br />
+              To meet our GitDaters around the world
+            </h2>
+            <MapContainer>
+              <ShowMainMap markersFromDB={markersFromDB} />
+            </MapContainer>
+          </Features>
         </Block>
         <FooterCopyright>© 2022 GitDate | All Rights Reserved</FooterCopyright>
       </Wrapper>
