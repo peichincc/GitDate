@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
@@ -16,6 +16,8 @@ import { ActionButton } from "../../utils/StyledComponent";
 import { ShowMainMap } from "../../components/map/MainMap";
 
 import firebaseapi from "../../utils/firebaseapi";
+
+import { Carousel } from "./Carousel";
 
 const Wrapper = styled.div`
   display: block;
@@ -40,6 +42,37 @@ const BlockInnerImg = styled.div`
   height: calc(100vh - 64px);
   /* @media (max-width: 770px) {
     height: calc(100vh - 64px);
+  } */
+  opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 4s;
+  @keyframes fadeInOpacity {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+`;
+const BlockCarousel = styled.div`
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 64px);
+  /* opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 4s;
+  @keyframes fadeInOpacity {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   } */
 `;
 const BlockInner = styled.div`
@@ -133,7 +166,15 @@ const MapContainer = styled.div`
   margin-bottom: 32px;
 `;
 
+const images = [img01, img02, img03, img04, img05, img06];
+
 const Home = () => {
+  // // New Carousel
+  // const slidePresentationTime = 3000; // after how many ms slide will change - now 3s / 3000ms
+  // const [currentSlide, setCurrentSlide] = useState(0);
+  // let sliderInterval = useRef() as any; // interval ref
+  // //
+
   const [markersFromDB, setMarkersFromDB] = useState([]);
   const navigate = useNavigate();
   const [photo, setPhoto] = useState(1);
@@ -145,6 +186,16 @@ const Home = () => {
     setPhoto((prev) => prev + 1);
   };
 
+  // useEffect(() => {
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   sliderInterval = setInterval(() => {
+  //     setCurrentSlide((currentSlide + 1) % images.length); // change current slide to next after 3s
+  //   }, slidePresentationTime);
+  //   return () => {
+  //     clearInterval(sliderInterval);
+  //   };
+  // });
+
   useEffect(() => {
     firebaseapi.readBranchLocations().then((res) => {
       console.log(res);
@@ -152,13 +203,14 @@ const Home = () => {
         setMarkersFromDB(res["markers"]);
       }
     });
-    const interval = setInterval(() => {
-      change();
-    }, 5000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [photo]);
+    //   const interval = setInterval(() => {
+    //     change();
+    //   }, 5000);
+    //   return () => {
+    //     clearInterval(interval);
+    //   };
+    // }, [photo]
+  }, []);
 
   const returnPhotoURL = () => {
     switch (photo) {
@@ -183,11 +235,13 @@ const Home = () => {
     <>
       <Wrapper>
         <Block>
-          <BlockInnerImg
+          <BlockCarousel>
+            <Carousel />
+            {/* <BlockInnerImg
             style={{
               backgroundImage: `url(${returnPhotoURL()})`,
             }}
-          >
+          > */}
             <BlockInner>
               <BlockContent>
                 <BlockTitle>Make the first commit.</BlockTitle>
@@ -210,7 +264,8 @@ const Home = () => {
                 </BlockAction>
               </BlockContent>
             </BlockInner>
-          </BlockInnerImg>
+          </BlockCarousel>
+          {/* </BlockInnerImg> */}
         </Block>
         <Block>
           <BlockFeature>
