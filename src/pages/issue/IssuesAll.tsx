@@ -163,7 +163,7 @@ const IssueAll = () => {
         let tempHangOut = [] as any;
         const qHangOut = query(
           collection(db, "Issues"),
-          where("category", "==", "Hangout")
+          where("category", "==", "Hang Out")
         );
         const querySnapshotHangOut = await getDocs(qHangOut);
         querySnapshotHangOut.forEach((doc) => {
