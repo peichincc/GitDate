@@ -216,6 +216,21 @@ const CreateBranch = () => {
   // upload photo w/ doc id, get photo URL, then setDoc
   // then update user db while hosting an activity
   const createBranch = async () => {
+    if (!type) {
+      return;
+    }
+    if (!title) {
+      return;
+    }
+    if (!date) {
+      return;
+    }
+    if (!time) {
+      return;
+    }
+    if (!location) {
+      return;
+    }
     const newBranchRef = doc(collection(db, "Branches"));
     const userRef = doc(db, "Users", getUser);
     await firebaseapi

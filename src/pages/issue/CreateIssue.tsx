@@ -235,6 +235,12 @@ const CreateIssue = () => {
 
   // upload photo w/ doc id, get photo URL, then setDoc
   const postIssue = async () => {
+    if (!category) {
+      return;
+    }
+    if (!title) {
+      return;
+    }
     const newIssueRef = doc(collection(db, "Issues"));
     await firebaseapi
       .postIssue(imageUpload, newIssueRef, recipient)
@@ -265,82 +271,84 @@ const CreateIssue = () => {
               </AvatarUser>
             </AvatarBlock>
             <PostBox>
-              <FormGroup>
-                <FormLabel>Category</FormLabel>
-                <FormSelect onChange={getCategory}>
-                  <FormSelectOptions value="0">
-                    Please Select your issue type
-                  </FormSelectOptions>
-                  <FormSelectOptions value="Date">Date</FormSelectOptions>
-                  <FormSelectOptions value="Hang Out">
-                    Hang out
-                  </FormSelectOptions>
-                  <FormSelectOptions value="Networking">
-                    Networking
-                  </FormSelectOptions>
-                </FormSelect>
-              </FormGroup>
-              <FormGroup>
-                <FormLabel>Title</FormLabel>
-                <FormControl onChange={getTitle}></FormControl>
-              </FormGroup>
-              <FormGroup>
-                <FormLabel>Content</FormLabel>
-                {/* <textarea onChange={getContent}></textarea> */}
-                <TiptapEditor setEditorHtmlContent={setEditorHtmlContent} />
-              </FormGroup>
-              <FormGroup>
-                <FormLabel>Image</FormLabel>
-                <PreviewPhotoContainer>
-                  <input
-                    type="file"
-                    ref={hiddenFileInput}
-                    onChange={handleUploadFile}
-                    style={{ display: "none" }}
-                  ></input>
-                  {fileSrc && (
-                    <>
-                      <p>Preview photo:</p>
-                      <UploadCardStyled>
-                        <UploadPreview>
-                          <UploadPreviewImg src={fileSrc} alt="main_image" />
-                        </UploadPreview>
-                      </UploadCardStyled>
-                    </>
-                  )}
-                  <GitAddBtn onClick={handleClick}>git add</GitAddBtn>
-                </PreviewPhotoContainer>
-              </FormGroup>
-              <FormGroup>
-                <FormLabel>Tags</FormLabel>
-                <TagInputWrapper>
-                  <TagsWrapper>
-                    {tags &&
-                      tags.map((tag) => {
-                        return (
-                          <Tags key={tag} id={tag}>
-                            <TagButton> {tag}</TagButton>
-                            <TagBtn onClick={(e) => removeTag(e)}>x</TagBtn>
-                          </Tags>
-                        );
-                      })}
-                  </TagsWrapper>
-                  <TagFormControl
-                    type="text"
-                    ref={tagRef}
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        addTag();
-                      }
-                    }}
-                  ></TagFormControl>
-                  <TagBtn onClick={addTag}>+</TagBtn>
-                </TagInputWrapper>
-              </FormGroup>
-              <SubmitWrapper>
-                <p></p>
-                <MergeBtn onClick={postIssue}>Commit new issue</MergeBtn>
-              </SubmitWrapper>
+              <form>
+                <FormGroup>
+                  <FormLabel>Category</FormLabel>
+                  <FormSelect onChange={getCategory}>
+                    <FormSelectOptions value="0">
+                      Please Select your issue type
+                    </FormSelectOptions>
+                    <FormSelectOptions value="Date">Date</FormSelectOptions>
+                    <FormSelectOptions value="Hang Out">
+                      Hang out
+                    </FormSelectOptions>
+                    <FormSelectOptions value="Networking">
+                      Networking
+                    </FormSelectOptions>
+                  </FormSelect>
+                </FormGroup>
+                <FormGroup>
+                  <FormLabel>Title</FormLabel>
+                  <FormControl onChange={getTitle} required></FormControl>
+                </FormGroup>
+                <FormGroup>
+                  <FormLabel>Content</FormLabel>
+                  {/* <textarea onChange={getContent}></textarea> */}
+                  <TiptapEditor setEditorHtmlContent={setEditorHtmlContent} />
+                </FormGroup>
+                <FormGroup>
+                  <FormLabel>Image</FormLabel>
+                  <PreviewPhotoContainer>
+                    <input
+                      type="file"
+                      ref={hiddenFileInput}
+                      onChange={handleUploadFile}
+                      style={{ display: "none" }}
+                    ></input>
+                    {fileSrc && (
+                      <>
+                        <p>Preview photo:</p>
+                        <UploadCardStyled>
+                          <UploadPreview>
+                            <UploadPreviewImg src={fileSrc} alt="main_image" />
+                          </UploadPreview>
+                        </UploadCardStyled>
+                      </>
+                    )}
+                    <GitAddBtn onClick={handleClick}>git add</GitAddBtn>
+                  </PreviewPhotoContainer>
+                </FormGroup>
+                <FormGroup>
+                  <FormLabel>Tags</FormLabel>
+                  <TagInputWrapper>
+                    <TagsWrapper>
+                      {tags &&
+                        tags.map((tag) => {
+                          return (
+                            <Tags key={tag} id={tag}>
+                              <TagButton> {tag}</TagButton>
+                              <TagBtn onClick={(e) => removeTag(e)}>x</TagBtn>
+                            </Tags>
+                          );
+                        })}
+                    </TagsWrapper>
+                    <TagFormControl
+                      type="text"
+                      ref={tagRef}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          addTag();
+                        }
+                      }}
+                    ></TagFormControl>
+                    <TagBtn onClick={addTag}>+</TagBtn>
+                  </TagInputWrapper>
+                </FormGroup>
+                <SubmitWrapper>
+                  <p></p>
+                  <MergeBtn onClick={postIssue}>Commit new issue</MergeBtn>
+                </SubmitWrapper>
+              </form>
             </PostBox>
           </PostWraper>
         </MainLayout>
