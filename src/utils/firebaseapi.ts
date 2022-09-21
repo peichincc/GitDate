@@ -277,6 +277,27 @@ const firebaseapi = {
   //     position: location,})
   //   });
   // },
+  //
+  // Search User by name in DB
+  async searchUserByName(userName: string) {
+    let temp = [] as any;
+    const q = query(
+      collection(db, "Users"),
+      where("firstname", "==", userName)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      temp.push(doc.data());
+    });
+    return temp;
+    // const q = query(usersRef, where("firstname", "==", userName));
+    // const querySnapshot = await getDocs(q);
+    // let temp;
+    // querySnapshot.forEach((doc) => {
+    //   temp = doc.data();
+    // });
+    // return temp;
+  },
 };
 
 export default firebaseapi;

@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserData, signin } from "../../src/actions/index";
 import firebaseapi from "../../src/utils/firebaseapi";
+import { DocumentData } from "firebase/firestore";
 import { auth } from "../../src/utils/firebase";
 import {
   onAuthStateChanged,
@@ -45,11 +46,11 @@ const LogoContainer = styled(Link)`
 `;
 const SearchForm = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
   width: 100%;
   margin-left: 10px;
   max-width: 272px;
-  min-height: 28px;
+  /* min-height: 28px; */
   margin-top: 6px;
   background-color: #24292f;
   border: 1px solid #57606a;
@@ -61,6 +62,9 @@ const SearchInput = styled.input`
   line-height: 20px;
   background: none;
   border: none;
+  &:focus {
+    background-color: white;
+  }
 `;
 const SearchBtn = styled.button`
   margin-right: 4px;
@@ -70,6 +74,18 @@ const SearchBtn = styled.button`
   cursor: pointer;
   border: 1px solid #57606a;
   background-color: #24292f;
+`;
+const SearchWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-top: 2px;
+`;
+const ResultBox = styled.div`
+  width: 100%;
+  background-color: white;
+  height: 20px;
+  color: black;
 `;
 
 const CategoryLinks = styled.div`
@@ -112,6 +128,8 @@ const Header = () => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state) as any;
   const [alreadyLogged, setAlreadyLogged] = useState(false);
+
+  const [searchResults, setSearchRsults] = useState<DocumentData>();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -160,16 +178,53 @@ const Header = () => {
     console.log(userInfo);
   };
 
+  const [searchName, setSearchName] = useState("");
+  const [expanded, setExpanded] = useState(false);
+  function expand() {
+    setExpanded(true);
+  }
+
+  function close() {
+    setExpanded(false);
+  }
+  const getSearchName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchName(e.target.value);
+  };
+  const getSearchResults = () => {
+    firebaseapi.searchUserByName(searchName).then((res) => {
+      console.log(res);
+      if (res) {
+        // console.log(res["firstname"]);
+        setSearchRsults(res);
+      }
+      expand();
+    });
+  };
+
   return (
     <>
       <Wrapper>
         <LogoContainer to="/">
           <GitHub id="step1" stroke="#FFF" />
         </LogoContainer>
-        <SearchForm>
-          <SearchInput placeholder="Search user..." />
-          <SearchBtn>/</SearchBtn>
-        </SearchForm>
+        {/* <SearchForm>
+          <SearchWrapper>
+            <SearchInput
+              placeholder="Enter name to search user..."
+              onChange={getSearchName}
+            />
+            <SearchBtn onClick={getSearchResults}>/</SearchBtn>
+          </SearchWrapper>
+          {expanded && (
+            <ResultBox>
+              {searchResults?.map((user: any) => {
+                <>
+                  <h1>{user.firstname}</h1>
+                </>;
+              })}
+            </ResultBox>
+          )}
+        </SearchForm> */}
         <CategoryLinks>
           <CategoryContainer>
             <LeftContainer>
