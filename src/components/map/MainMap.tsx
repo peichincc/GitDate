@@ -7,10 +7,10 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 
-// import "./map.css";
-import Avatar from "../../utils/DefaultAvatar.png";
-import { ReactComponent as GitHub } from "./copilot.svg";
+import GitHub from "./github.png";
 import mapStyle from "./mapStyle";
+
+import { GithubPostTitle, Button } from "../../utils/StyledComponent";
 
 const markers = [
   {
@@ -84,24 +84,23 @@ const MainMap = ({ markersFromDB }: any) => {
             position={position}
             onClick={() => handleActiveMarker(id)}
             icon={{
-              url: Avatar,
-              // strokeColor: "#FF3EA5",
-              scaledSize: new window.google.maps.Size(25, 25),
+              url: GitHub,
+              scaledSize: new window.google.maps.Size(35, 35),
             }}
           >
             {activeMarker === id ? (
               <InfoWindow onCloseClick={() => setActiveMarker(null)}>
-                <div>
+                <GithubPostTitle>
                   {name}
                   <br />
-                  <button
+                  <Button
                     onClick={() => {
                       navigate("/branch/" + id);
                     }}
                   >
                     Click to see this branch
-                  </button>
-                </div>
+                  </Button>
+                </GithubPostTitle>
               </InfoWindow>
             ) : null}
           </Marker>
