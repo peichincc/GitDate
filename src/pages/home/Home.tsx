@@ -152,15 +152,6 @@ const FeaturesItemTitleNetworking = styled(FeaturesItemTitle)`
   top: 30%;
 `;
 
-const FooterCopyright = styled.div`
-  margin-top: 20px;
-  color: #bdbdbd;
-  display: block;
-  text-align: center;
-  font-weight: 300;
-  font-size: 12px;
-  line-height: 1;
-`;
 const MapContainer = styled.div`
   margin-top: 32px;
   margin-bottom: 32px;
@@ -315,7 +306,6 @@ const Home = () => {
             </MapContainer>
           </Features>
         </MapBlock>
-        <FooterCopyright>© 2022 GitDate | All Rights Reserved</FooterCopyright>
       </Wrapper>
     </>
   );
