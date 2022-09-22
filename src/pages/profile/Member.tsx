@@ -214,6 +214,10 @@ const Member = () => {
   useEffect(() => {
     const userId = userInfo.user.user_id;
     console.log(userId);
+    if (!userId) {
+      navigate("/");
+      return;
+    }
     setGetUser(userId);
     getFriend(userId);
     searchIssues(userId);
