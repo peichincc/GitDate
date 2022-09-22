@@ -52,6 +52,10 @@ export class Tours extends Component {
           content: "Here to create new issues!",
         },
         {
+          target: "#issueAuthor",
+          content: "You could see this issue's author README",
+        },
+        {
           target: "#PRbtn",
           content:
             "You could send this pull request to the author to ask for chatting",
@@ -64,6 +68,10 @@ export class Tours extends Component {
           target: "#branchCalendar",
           content:
             "You can click the date to see whether there is any activity",
+        },
+        {
+          target: "#branchAuthor",
+          content: "You could see this branch's host README",
         },
         {
           target: "#checkoutBtn",

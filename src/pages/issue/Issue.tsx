@@ -278,6 +278,7 @@ const Issue = () => {
                   <AuthorContainer>
                     <PostSubTitle>
                       <AuthorBtn
+                        id="issueAuthor"
                         onClick={() => {
                           navigate("/readme/" + issueData.posted_by);
                         }}

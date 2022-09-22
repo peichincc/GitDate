@@ -253,6 +253,7 @@ const Branch = () => {
                 <LebalsText>
                   Posted by
                   <AuthorBtn
+                    id="branchAuthor"
                     onClick={() => {
                       navigate("/readme/" + branchData.hosted_by);
                     }}
