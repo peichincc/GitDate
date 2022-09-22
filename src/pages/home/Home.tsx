@@ -277,6 +277,11 @@ const Home = () => {
         <Block>
           <BlockFeature>
             <Features>
+              <h2>
+                GitDate is not just for dating
+                <br />
+                You can explore all kinds of relationships here
+              </h2>
               <FeaturesList>
                 <FeaturesItem>
                   <FeaturesItemTitleDate>Dating</FeaturesItemTitleDate>

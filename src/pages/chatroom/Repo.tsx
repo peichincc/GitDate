@@ -165,13 +165,13 @@ const Repo = () => {
     <>
       <Container>
         <TerminalContainer>
-          <FakeMenu>
+          <FakeMenu id="repoSidebar">
             <FakeButtonsClose />
             <FakeButtonsMinimize />
             <FakeButtonsZoom />
           </FakeMenu>
           <FakeScreen>
-            <Sidebar id="repoSidebar">
+            <Sidebar>
               <NameCard>
                 <NameCardPhotoContainer>
                   <NameCardPhoto src={getUserPhoto} />

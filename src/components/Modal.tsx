@@ -104,7 +104,7 @@ export default function ModalUnstyledDemo() {
   return (
     <div>
       <button type="button" onClick={handleOpen}>
-        Open modal
+        BtnText
       </button>
       <Modal
         aria-labelledby="unstyled-modal-title"
