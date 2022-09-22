@@ -160,9 +160,21 @@ const GitAddBtn = styled(Button)`
   width: 100px;
 `;
 
+const FormCheckInput = styled.input`
+  margin-left: 5px;
+  margin-right: 2px;
+  width: 15px;
+  height: 16px;
+`;
+const FormCheck = styled.div`
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+`;
+
 interface Data {
   name: string;
-  order: number;
+  value: string;
 }
 
 const CreateIssue = () => {
@@ -186,6 +198,21 @@ const CreateIssue = () => {
     reader?.readAsDataURL(e?.target?.files[0]);
     setImageUpload(e.target.files[0]);
   };
+
+  const CategoryList: Data[] = [
+    {
+      value: "Date",
+      name: "Date",
+    },
+    {
+      value: "Hang Out",
+      name: "Hang Out",
+    },
+    {
+      value: "Networking",
+      name: "Networking",
+    },
+  ];
 
   const [category, setCategory] = useState("");
   const getCategory = (e: any) => {
@@ -252,16 +279,6 @@ const CreateIssue = () => {
       });
   };
 
-  let countries = [
-    "USA",
-    "Britain",
-    "Germany",
-    "India",
-    "UAE",
-    "Australia",
-    "Switzerland",
-  ];
-
   return (
     <>
       <Wrapper>
@@ -287,6 +304,23 @@ const CreateIssue = () => {
               <form>
                 <FormGroup>
                   <FormLabel>Category</FormLabel>
+                  {CategoryList.map(({ name, value }, index) => {
+                    return (
+                      <FormCheck key={index}>
+                        <FormCheckInput
+                          type="radio"
+                          id={`custom-checkbox-${index}`}
+                          value={name}
+                          onChange={getCategory}
+                          required
+                        />
+                        {name}
+                      </FormCheck>
+                    );
+                  })}
+                </FormGroup>
+                {/* <FormGroup>
+                  <FormLabel>Category</FormLabel>
                   <FormSelect onChange={getCategory}>
                     <FormSelectOptions value="0">
                       Please Select your issue type
@@ -299,7 +333,7 @@ const CreateIssue = () => {
                       Networking
                     </FormSelectOptions>
                   </FormSelect>
-                </FormGroup>
+                </FormGroup> */}
                 <FormGroup>
                   <FormLabel>Title</FormLabel>
                   <FormControl onChange={getTitle} required></FormControl>

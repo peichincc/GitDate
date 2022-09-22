@@ -143,6 +143,23 @@ const DateFormControl = styled(FormControl)`
   width: 150px;
 `;
 
+const FormCheckInput = styled.input`
+  margin-left: 5px;
+  margin-right: 2px;
+  width: 15px;
+  height: 16px;
+`;
+const FormCheck = styled.div`
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+`;
+
+interface Data {
+  name: string;
+  value: string;
+}
+
 const CreateBranch = () => {
   const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
   const hiddenFileInput = useRef<any>(null);
@@ -155,6 +172,21 @@ const CreateBranch = () => {
   const handleClick = () => {
     hiddenFileInput.current.click();
   };
+
+  const TypeList: Data[] = [
+    {
+      value: "Online",
+      name: "Online",
+    },
+    {
+      value: "Inperson",
+      name: "Inperson",
+    },
+    {
+      value: "Mixed",
+      name: "Mixed",
+    },
+  ];
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -276,6 +308,23 @@ const CreateBranch = () => {
             </AvatarBlock>
             <PostBox>
               <FormGroup>
+                <FormLabel>Category</FormLabel>
+                {TypeList.map(({ name, value }, index) => {
+                  return (
+                    <FormCheck key={index}>
+                      <FormCheckInput
+                        type="radio"
+                        id={`custom-checkbox-${index}`}
+                        value={name}
+                        onChange={getType}
+                        required
+                      />
+                      {name}
+                    </FormCheck>
+                  );
+                })}
+              </FormGroup>
+              {/* <FormGroup>
                 <FormLabel>Type</FormLabel>
                 <FormSelect onChange={getType}>
                   <option value="0">Please Select your brnach type</option>
@@ -283,7 +332,7 @@ const CreateBranch = () => {
                   <option value="Inperson">In Person</option>
                   <option value="Mixed">Mixed</option>
                 </FormSelect>
-              </FormGroup>
+              </FormGroup> */}
               <FormGroup>
                 <FormLabel>Title</FormLabel>
                 <FormControl onChange={getTitle}></FormControl>

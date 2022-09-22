@@ -188,6 +188,12 @@ const MemberBtn = styled(Button)`
   width: 120px;
   margin-bottom: 20px;
 `;
+const ReadmeBtn = styled(MemberBtn)`
+  width: 120px;
+  margin-bottom: 20px;
+  color: white;
+  background-color: #24292f;
+`;
 
 const Member = () => {
   let navigate = useNavigate();
@@ -368,9 +374,9 @@ const Member = () => {
                   <MemberBtn onClick={() => navigate("/profile")}>
                     Edit Profile
                   </MemberBtn>
-                  <MemberBtn onClick={() => navigate("/readme/" + getUser)}>
+                  <ReadmeBtn onClick={() => navigate("/readme/" + getUser)}>
                     README.md
-                  </MemberBtn>
+                  </ReadmeBtn>
                 </>
               )}
             </SidebarLayout>
