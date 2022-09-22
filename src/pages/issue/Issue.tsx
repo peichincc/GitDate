@@ -237,6 +237,11 @@ const Issue = () => {
   }, []);
 
   const sendRequest = async () => {
+    if (!getUser) {
+      alert("Please sign in!");
+      navigate("/signin");
+      return;
+    }
     // console.log(`User:${getAuthorID}`);
     const userRef = doc(db, "Users", getAuthorID);
     await updateDoc(userRef, {

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   getFirestore,
@@ -108,6 +109,8 @@ const AttentionIcon = styled.div`
 `;
 
 const IssueAll = () => {
+  const userData = useSelector((state) => state) as any;
+  const [getUser, setGetUser] = useState<any>("");
   let navigate = useNavigate();
   const db = getFirestore();
   const [docs, setDocs] = useState<DocumentData>();
@@ -120,6 +123,11 @@ const IssueAll = () => {
   const [networkingIssue, setNetworkingIssue] = useState<DocumentData>();
 
   useEffect(() => {
+    // Check log in
+    const userId = userData.user.user_id;
+    if (userId) {
+      setGetUser(userId);
+    }
     const issuesRef = collection(db, "Issues");
     firebaseapi.readAllIssues(issuesRef).then(async (res) => {
       if (res) {
@@ -211,6 +219,15 @@ const IssueAll = () => {
     setDocs(networkingIssue);
   };
 
+  const CreateHandler = () => {
+    if (!getUser) {
+      alert("Please sign in!");
+      navigate("/signin");
+      return;
+    }
+    navigate("/createissue");
+  };
+
   return (
     <>
       <Wrapper>
@@ -249,13 +266,7 @@ const IssueAll = () => {
                 </CategoryButton>
               </FilterButtons>
             </Filters>
-            <MergeBtn
-              onClick={() => {
-                navigate("/createissue");
-              }}
-            >
-              New issue
-            </MergeBtn>
+            <MergeBtn onClick={CreateHandler}>New issue</MergeBtn>
           </FilterContainer>
           <MainContainer>
             {docs && <IssuesList issuesStatus={issuesStatus} docs={docs} />}

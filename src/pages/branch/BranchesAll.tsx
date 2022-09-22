@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   getFirestore,
@@ -207,6 +208,8 @@ const AttentionIcon = styled.div`
 `;
 
 const BranchAll = () => {
+  const userData = useSelector((state) => state) as any;
+  const [getUser, setGetUser] = useState<any>("");
   const [date, setDate] = useState(new Date());
   let navigate = useNavigate();
   const db = getFirestore();
@@ -219,6 +222,12 @@ const BranchAll = () => {
   const [mixedBranch, setMixedBranch] = useState<DocumentData>();
 
   useEffect(() => {
+    // Check log in
+    const userId = userData.user.user_id;
+    if (userId) {
+      setGetUser(userId);
+    }
+    console.log(userId);
     const branchesRef = collection(db, "Branches");
     firebaseapi.readAllBranches(branchesRef).then(async (res) => {
       if (res) {
@@ -302,6 +311,15 @@ const BranchAll = () => {
     setDocs(temp);
   };
 
+  const CreateHandler = () => {
+    if (!getUser) {
+      alert("Please sign in!");
+      navigate("/signin");
+      return;
+    }
+    navigate("/createbranch");
+  };
+
   return (
     <>
       <Wrapper>
@@ -346,13 +364,7 @@ const BranchAll = () => {
                   <TypeBtn onClick={mixedBranches}>Mixed</TypeBtn>
                 </FilterButtons>
               </Filters>
-              <MergeBtn
-                onClick={() => {
-                  navigate("/createbranch");
-                }}
-              >
-                New branch
-              </MergeBtn>
+              <MergeBtn onClick={CreateHandler}>New branch</MergeBtn>
             </FilterContainer>
             {docs && <BranchesList docs={docs} branchType={branchType} />}
           </BranchesContainer>

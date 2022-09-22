@@ -178,6 +178,11 @@ const Branch = () => {
   }, [openParticipants, participantsList]);
 
   const attendActivity = async () => {
+    if (!getUser) {
+      alert("Please sign in!");
+      navigate("/signin");
+      return;
+    }
     const userRef = doc(collection(db, "Users"), getUser);
     const branchRef = doc(collection(db, "Branches"), id);
     await updateDoc(userRef, {
