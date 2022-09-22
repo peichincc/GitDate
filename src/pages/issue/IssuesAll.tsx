@@ -246,7 +246,7 @@ const IssueAll = () => {
           </ReminderBox>
           <FilterContainer>
             <Filters>
-              <FilterText>Filters</FilterText>
+              <FilterText id="issuesFilter">Filters</FilterText>
               <FilterButtons>
                 <LabelsButton onClick={allIssues}>All</LabelsButton>
                 <LabelsButton onClick={searchOpenIssues}>
@@ -266,7 +266,9 @@ const IssueAll = () => {
                 </CategoryButton>
               </FilterButtons>
             </Filters>
-            <MergeBtn onClick={CreateHandler}>New issue</MergeBtn>
+            <MergeBtn onClick={CreateHandler} id="createIssue">
+              New issue
+            </MergeBtn>
           </FilterContainer>
           <MainContainer>
             {docs && <IssuesList issuesStatus={issuesStatus} docs={docs} />}

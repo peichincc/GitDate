@@ -330,7 +330,7 @@ const Issue = () => {
                             {getAuthor}
                             <FontAwesomeIcon icon={faMugSaucer} />
                           </PostContentText>
-                          <PRbtn onClick={sendRequest}>
+                          <PRbtn id="PRbtn" onClick={sendRequest}>
                             Create Pull Request
                           </PRbtn>
                         </PRBox>

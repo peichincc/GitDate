@@ -238,15 +238,15 @@ const Home = () => {
     <>
       <Wrapper>
         <Block>
-          <BlockCarousel>
+          <BlockCarousel id="mainDoc">
             <Carousel />
             {/* <BlockInnerImg
             style={{
               backgroundImage: `url(${returnPhotoURL()})`,
             }}
           > */}
-            <BlockInner id="step1">
-              <BlockContent>
+            <BlockInner>
+              <BlockContent id="signup">
                 <BlockTitle>Make the first commit.</BlockTitle>
                 <BlockText>Start meeting new people!</BlockText>
                 <BlockAction>

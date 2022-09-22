@@ -171,7 +171,7 @@ const Repo = () => {
             <FakeButtonsZoom />
           </FakeMenu>
           <FakeScreen>
-            <Sidebar>
+            <Sidebar id="repoSidebar">
               <NameCard>
                 <NameCardPhotoContainer>
                   <NameCardPhoto src={getUserPhoto} />

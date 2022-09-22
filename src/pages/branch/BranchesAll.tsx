@@ -330,7 +330,7 @@ const BranchAll = () => {
           <ImgContainer2 src="https://secure.meetupstatic.com/next/images/blobs/green-blob.svg" /> */}
           <CalendarContainer>
             <h1>Select date to see branches</h1>
-            <CalendarContainerIn>
+            <CalendarContainerIn id="branchCalendar">
               <Calendar
                 onChange={setDate}
                 value={date}
@@ -356,7 +356,7 @@ const BranchAll = () => {
             </ReminderBox>
             <FilterContainer>
               <Filters>
-                <FilterText>Filters</FilterText>
+                <FilterText id="branchesFilter">Filters</FilterText>
                 <FilterButtons>
                   <TypeBtn onClick={allBranches}>All</TypeBtn>
                   <TypeBtn onClick={inpersonBranches}>In Person</TypeBtn>

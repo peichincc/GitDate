@@ -20,7 +20,7 @@ import { ReactComponent as GitHub } from "./github.svg";
 import { ReactComponent as Member } from "./member.svg";
 import { ReactComponent as Logout } from "./logout.svg";
 
-import { Tour } from "./Tour";
+import { Tours } from "./Tours";
 
 const Wrapper = styled.div`
   display: flex;
@@ -242,7 +242,8 @@ const Header = () => {
                 Docs
               </Category> */}
               <Category as="div" id="docs">
-                Docs
+                {/* Docs */}
+                <Tours />
               </Category>
               <Category to="repo" id="repo">
                 Repo

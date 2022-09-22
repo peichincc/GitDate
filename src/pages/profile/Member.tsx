@@ -301,6 +301,7 @@ const Member = () => {
         <UpperContainer>
           <NavContainer>
             <NavTab
+              id="overview"
               onClick={() => {
                 setMemberOverview(true);
                 setOpenFriend(false);
@@ -312,6 +313,7 @@ const Member = () => {
               <FontAwesomeIcon icon={faBook} /> <NavWord>Overview</NavWord>
             </NavTab>
             <NavTab
+              id="pullrequests"
               onClick={() => {
                 setOpenFriend(true);
                 setMemberOverview(false);
@@ -324,6 +326,7 @@ const Member = () => {
               <NavWord>Pull requests</NavWord>
             </NavTab>
             <NavTab
+              id="repositories"
               onClick={() => {
                 setOpenRepo(true);
                 setOpenIssue(false);
@@ -333,9 +336,10 @@ const Member = () => {
               }}
             >
               <FontAwesomeIcon icon={faBookBookmark} />
-              <NavWord> Repositories</NavWord>
+              <NavWord>Repositories</NavWord>
             </NavTab>
             <NavTab
+              id="issuesMember"
               onClick={() => {
                 setOpenIssue(true);
                 setOpenBranches(false);
@@ -348,6 +352,7 @@ const Member = () => {
               <NavWord> Issues</NavWord>
             </NavTab>
             <NavTab
+              id="branchesMember"
               onClick={() => {
                 setOpenBranches(true);
                 setOpenIssue(false);
@@ -375,10 +380,16 @@ const Member = () => {
                   <UserName>
                     {userData.firstname} {userData.lastname}
                   </UserName>
-                  <MemberBtn onClick={() => navigate("/profile")}>
+                  <MemberBtn
+                    id="editProfile"
+                    onClick={() => navigate("/profile")}
+                  >
                     Edit Profile
                   </MemberBtn>
-                  <ReadmeBtn onClick={() => navigate("/readme/" + getUser)}>
+                  <ReadmeBtn
+                    id="seeReadme"
+                    onClick={() => navigate("/readme/" + getUser)}
+                  >
                     README.md
                   </ReadmeBtn>
                 </>

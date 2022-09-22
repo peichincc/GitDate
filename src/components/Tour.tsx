@@ -8,6 +8,7 @@ const TourBtn = styled.button`
   background: none;
   cursor: pointer;
   :hover {
+    color: #ff69b4;
     text-decoration: underline;
   }
 `;
@@ -25,10 +26,10 @@ export class Tour extends Component {
       run: false,
       steps: [
         {
-          target: "#step1",
+          target: "body",
           content: (
             <div>
-              <h2>Welcome to GitDate</h2>
+              <h3>Welcome to GitDate</h3>
               <h3>We are glad that you are here!</h3>
             </div>
           ),
@@ -36,11 +37,13 @@ export class Tour extends Component {
         },
         {
           target: "#issues",
-          content: "Issues for you to post anything you want to share!",
+          content:
+            "Issues for you to post anything you want to share and connect with people!",
         },
         {
           target: "#branches",
-          content: "Branches for you to host and attend activities!",
+          content:
+            "Branches for you to host and attend all kinds of activities!",
         },
         {
           target: "#repo",
@@ -48,7 +51,12 @@ export class Tour extends Component {
         },
         {
           target: "#docs",
-          content: "If you have questions, you can always find answers here!",
+          content:
+            "If you have any questions, you can always find answers here!",
+        },
+        {
+          target: "#signup",
+          content: "Now, let's start your adventure in GitDate!",
         },
       ],
     };
@@ -96,6 +104,11 @@ export class Tour extends Component {
           styles={{
             options: {
               zIndex: 10000,
+              arrowColor: "#edede9",
+              backgroundColor: "#edede9",
+              // overlayColor: "rgba(79, 26, 0, 0.4)",
+              primaryColor: "#ff69b4",
+              textColor: "#3f3a3a",
             },
           }}
         />

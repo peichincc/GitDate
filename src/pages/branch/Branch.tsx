@@ -284,7 +284,7 @@ const Branch = () => {
                       Click to attend this activity{" "}
                       <FontAwesomeIcon icon={faCheck} />
                     </PostContentText>
-                    <CheckOutBtn onClick={attendActivity}>
+                    <CheckOutBtn id="checkoutBtn" onClick={attendActivity}>
                       git checkout
                     </CheckOutBtn>
                   </CardContainer>
@@ -310,7 +310,10 @@ const Branch = () => {
                     </MapContainer>
                   </CardContainer>
                   <ParticipantsContainer>
-                    <ParticipantsBtn onClick={handleChange}>
+                    <ParticipantsBtn
+                      onClick={handleChange}
+                      id="branchParticipants"
+                    >
                       Click to see the participants!
                     </ParticipantsBtn>
                     {openParticipants && participantsList && (

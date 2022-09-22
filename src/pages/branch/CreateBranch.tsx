@@ -387,7 +387,9 @@ const CreateBranch = () => {
               </FormGroup>
               <SubmitWrapper>
                 <p></p>
-                <MergeBtn onClick={createBranch}>git branch</MergeBtn>
+                <MergeBtn id="branchesBtn" onClick={createBranch}>
+                  git branch
+                </MergeBtn>
               </SubmitWrapper>
             </PostBox>
           </PostWraper>

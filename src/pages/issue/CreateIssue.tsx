@@ -398,7 +398,9 @@ const CreateIssue = () => {
                 </FormGroup>
                 <SubmitWrapper>
                   <p></p>
-                  <MergeBtn onClick={postIssue}>Commit new issue</MergeBtn>
+                  <MergeBtn onClick={postIssue} id="issuesBtn">
+                    Commit new issue
+                  </MergeBtn>
                 </SubmitWrapper>
               </form>
             </PostBox>
