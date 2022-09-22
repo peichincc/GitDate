@@ -41,6 +41,8 @@ import {
   faMugSaucer,
 } from "@fortawesome/free-solid-svg-icons";
 
+import ModalUnstyledDemo from "../../components/Modal";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
@@ -265,6 +267,7 @@ const Issue = () => {
   return (
     <>
       <Wrapper>
+        {/* <ModalUnstyledDemo /> */}
         {issueData && (
           <div>
             <Container>

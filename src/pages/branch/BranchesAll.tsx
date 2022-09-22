@@ -364,7 +364,9 @@ const BranchAll = () => {
                   <TypeBtn onClick={mixedBranches}>Mixed</TypeBtn>
                 </FilterButtons>
               </Filters>
-              <MergeBtn onClick={CreateHandler}>New branch</MergeBtn>
+              <MergeBtn onClick={CreateHandler} id="createBranch">
+                New branch
+              </MergeBtn>
             </FilterContainer>
             {docs && <BranchesList docs={docs} branchType={branchType} />}
           </BranchesContainer>

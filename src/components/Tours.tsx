@@ -70,6 +70,18 @@ export class Tours extends Component {
             "You can click the date to see whether there is any activity",
         },
         {
+          target: "#createBranch",
+          content: "Wanna start something? Just do it!",
+        },
+        {
+          target: "#mapInput",
+          content: "You could pin your activity location on the map!",
+        },
+        {
+          target: "#branchesBtn",
+          content: "Here to create new branches!",
+        },
+        {
           target: "#branchAuthor",
           content: "You could see this branch's host README",
         },
@@ -87,7 +99,8 @@ export class Tours extends Component {
         },
         {
           target: "#seeReadme",
-          content: "Here is your public Readme page!",
+          content:
+            "Here is your public Readme page, you can share this to your friends 🙌️ ",
         },
         {
           target: "#overview",

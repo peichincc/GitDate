@@ -306,25 +306,24 @@ const CreateIssue = () => {
               </AvatarUser>
             </AvatarBlock>
             <PostBox>
-              <form>
-                <FormGroup>
-                  <FormLabel>Category</FormLabel>
-                  {CategoryList.map(({ name, value }, index) => {
-                    return (
-                      <FormCheck key={index}>
-                        <FormCheckInput
-                          type="radio"
-                          id={`custom-checkbox-${index}`}
-                          value={name}
-                          onChange={getCategory}
-                          required
-                        />
-                        {name}
-                      </FormCheck>
-                    );
-                  })}
-                </FormGroup>
-                {/* <FormGroup>
+              <FormGroup>
+                <FormLabel>Category</FormLabel>
+                {CategoryList.map(({ name, value }, index) => {
+                  return (
+                    <FormCheck key={index}>
+                      <FormCheckInput
+                        type="radio"
+                        id={`custom-checkbox-${index}`}
+                        value={name}
+                        onChange={getCategory}
+                        required
+                      />
+                      {name}
+                    </FormCheck>
+                  );
+                })}
+              </FormGroup>
+              {/* <FormGroup>
                   <FormLabel>Category</FormLabel>
                   <FormSelect onChange={getCategory}>
                     <FormSelectOptions value="0">
@@ -339,70 +338,69 @@ const CreateIssue = () => {
                     </FormSelectOptions>
                   </FormSelect>
                 </FormGroup> */}
-                <FormGroup>
-                  <FormLabel>Title</FormLabel>
-                  <FormControl onChange={getTitle} required></FormControl>
-                </FormGroup>
-                <FormGroup>
-                  <FormLabel>Content</FormLabel>
-                  {/* <textarea onChange={getContent}></textarea> */}
-                  <TiptapEditor setEditorHtmlContent={setEditorHtmlContent} />
-                </FormGroup>
-                <FormGroup>
-                  <FormLabel>Image</FormLabel>
-                  <PreviewPhotoContainer>
-                    <input
-                      type="file"
-                      ref={hiddenFileInput}
-                      onChange={handleUploadFile}
-                      style={{ display: "none" }}
-                    ></input>
-                    {fileSrc && (
-                      <>
-                        <p>Preview photo:</p>
-                        <UploadCardStyled>
-                          <UploadPreview>
-                            <UploadPreviewImg src={fileSrc} alt="main_image" />
-                          </UploadPreview>
-                        </UploadCardStyled>
-                      </>
-                    )}
-                    <GitAddBtn onClick={handleClick}>git add</GitAddBtn>
-                  </PreviewPhotoContainer>
-                </FormGroup>
-                <FormGroup>
-                  <FormLabel>Tags</FormLabel>
-                  <TagInputWrapper>
-                    <TagsWrapper>
-                      {tags &&
-                        tags.map((tag) => {
-                          return (
-                            <Tags key={tag} id={tag}>
-                              <TagButton> {tag}</TagButton>
-                              <TagBtn onClick={(e) => removeTag(e)}>x</TagBtn>
-                            </Tags>
-                          );
-                        })}
-                    </TagsWrapper>
-                    <TagFormControl
-                      type="text"
-                      ref={tagRef}
-                      onKeyPress={(e) => {
-                        if (e.key === "Enter") {
-                          addTag();
-                        }
-                      }}
-                    ></TagFormControl>
-                    <TagBtn onClick={addTag}>+</TagBtn>
-                  </TagInputWrapper>
-                </FormGroup>
-                <SubmitWrapper>
-                  <p></p>
-                  <MergeBtn onClick={postIssue} id="issuesBtn">
-                    Commit new issue
-                  </MergeBtn>
-                </SubmitWrapper>
-              </form>
+              <FormGroup>
+                <FormLabel>Title</FormLabel>
+                <FormControl onChange={getTitle}></FormControl>
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Content</FormLabel>
+                {/* <textarea onChange={getContent}></textarea> */}
+                <TiptapEditor setEditorHtmlContent={setEditorHtmlContent} />
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Image</FormLabel>
+                <PreviewPhotoContainer>
+                  <input
+                    type="file"
+                    ref={hiddenFileInput}
+                    onChange={handleUploadFile}
+                    style={{ display: "none" }}
+                  ></input>
+                  {fileSrc && (
+                    <>
+                      <p>Preview photo:</p>
+                      <UploadCardStyled>
+                        <UploadPreview>
+                          <UploadPreviewImg src={fileSrc} alt="main_image" />
+                        </UploadPreview>
+                      </UploadCardStyled>
+                    </>
+                  )}
+                  <GitAddBtn onClick={handleClick}>git add</GitAddBtn>
+                </PreviewPhotoContainer>
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Tags</FormLabel>
+                <TagInputWrapper>
+                  <TagsWrapper>
+                    {tags &&
+                      tags.map((tag) => {
+                        return (
+                          <Tags key={tag} id={tag}>
+                            <TagButton> {tag}</TagButton>
+                            <TagBtn onClick={(e) => removeTag(e)}>x</TagBtn>
+                          </Tags>
+                        );
+                      })}
+                  </TagsWrapper>
+                  <TagFormControl
+                    type="text"
+                    ref={tagRef}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        addTag();
+                      }
+                    }}
+                  ></TagFormControl>
+                  <TagBtn onClick={addTag}>+</TagBtn>
+                </TagInputWrapper>
+              </FormGroup>
+              <SubmitWrapper>
+                <p></p>
+                <MergeBtn onClick={postIssue} id="issuesBtn">
+                  Commit new issue
+                </MergeBtn>
+              </SubmitWrapper>
             </PostBox>
           </PostWraper>
         </MainLayout>

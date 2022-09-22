@@ -351,7 +351,7 @@ const CreateBranch = () => {
               </FormGroup>
               <FormGroup>
                 <FormLabel>Location</FormLabel>
-                <MapContainer>
+                <MapContainer id="mapInput">
                   <MapHome
                     setLocation={setLocation}
                     setFormatAddress={setFormatAddress}
