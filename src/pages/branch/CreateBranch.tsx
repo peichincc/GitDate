@@ -36,17 +36,21 @@ const Wrapper = styled.div`
   margin: 0 auto;
 `;
 const MainLayout = styled.div`
-  margin-top: 100px;
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   padding: 20px;
 `;
 const TabWraper = styled.div`
+  margin-left: 70px;
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: -1px;
+`;
+const TabsContainer = styled.div`
+  margin-right: 70px;
 `;
 const TabChoseBtn = styled.button`
   border-radius: 6px 6px 0 0;
@@ -144,8 +148,8 @@ const DateFormControl = styled(FormControl)`
 `;
 
 const FormCheckInput = styled.input`
-  margin-left: 5px;
-  margin-right: 2px;
+  /* margin-left: 5px; */
+  margin-right: 10px;
   width: 15px;
   height: 16px;
 `;
@@ -289,16 +293,18 @@ const CreateBranch = () => {
     <>
       <Wrapper>
         <MainLayout>
-          <h1>To Create...</h1>
           <TabWraper>
-            <TabButton
-              onClick={() => {
-                navigate("/createissue");
-              }}
-            >
-              Issue
-            </TabButton>
-            <TabChoseBtn>Branch</TabChoseBtn>
+            <h1>To Create...</h1>
+            <TabsContainer>
+              <TabButton
+                onClick={() => {
+                  navigate("/createissue");
+                }}
+              >
+                Issue
+              </TabButton>
+              <TabChoseBtn>Branch</TabChoseBtn>
+            </TabsContainer>
           </TabWraper>
           <PostWraper>
             <AvatarBlock>
