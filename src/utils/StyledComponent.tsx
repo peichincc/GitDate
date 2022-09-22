@@ -335,4 +335,6 @@ export const ClickBtn = styled.button`
 export const TagButton = styled(LabelsButton)`
   cursor: default;
   background-color: #453d38;
+  width: fit-content;
+  margin: 3px;
 `;

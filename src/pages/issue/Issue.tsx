@@ -131,6 +131,12 @@ const StatusWord = styled.div`
   margin-left: 5px;
 `;
 
+const TagsWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
 const Issue = () => {
   const userData = useSelector((state) => state) as any;
   let navigate = useNavigate();
@@ -349,11 +355,13 @@ const Issue = () => {
                   </LebalsContainer>
                   <LebalsContainer>
                     <LebalsText>Tags</LebalsText>
-                    {issueData.tags.map((tag: any) => (
-                      <>
-                        <TagButton>{tag}</TagButton>
-                      </>
-                    ))}
+                    <TagsWrapper>
+                      {issueData.tags.map((tag: any) => (
+                        <>
+                          <TagButton>{tag}</TagButton>
+                        </>
+                      ))}
+                    </TagsWrapper>
                   </LebalsContainer>
                 </RightContainer>
               </MainContainer>
