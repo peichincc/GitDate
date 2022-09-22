@@ -11,6 +11,7 @@ import img06 from "./slider/slider06.jpg";
 import hangout from "./feature/hangout.jpg";
 import dating from "./feature/dating.jpg";
 import networking from "./feature/networking.jpg";
+import { Tour } from "../../components/Tour";
 
 import { ActionButton } from "../../utils/StyledComponent";
 import { ShowMainMap } from "../../components/map/MainMap";
@@ -90,7 +91,10 @@ const BlockContent = styled.div`
   text-align: center;
   @media screen and (min-width: 1280px) {
     max-width: 680px;
-    padding: 32px;
+    padding-bottom: 15px;
+    padding-top: 32px;
+    padding-right: 32px;
+    padding-left: 32px;
   }
 `;
 const BlockTitle = styled.h1``;
@@ -158,6 +162,11 @@ const MapContainer = styled.div`
 `;
 const MapBlock = styled.div`
   margin-top: 50px;
+`;
+
+const TourReminder = styled.div`
+  margin-top: 20px;
+  text-align: right;
 `;
 
 const images = [img01, img02, img03, img04, img05, img06];
@@ -236,7 +245,7 @@ const Home = () => {
               backgroundImage: `url(${returnPhotoURL()})`,
             }}
           > */}
-            <BlockInner>
+            <BlockInner id="step1">
               <BlockContent>
                 <BlockTitle>Make the first commit.</BlockTitle>
                 <BlockText>Start meeting new people!</BlockText>
@@ -256,6 +265,10 @@ const Home = () => {
                     Sign In
                   </ActionButton>
                 </BlockAction>
+                <TourReminder>
+                  <Tour />
+                </TourReminder>
+                {/* <Tour /> */}
               </BlockContent>
             </BlockInner>
           </BlockCarousel>
@@ -264,11 +277,6 @@ const Home = () => {
         <Block>
           <BlockFeature>
             <Features>
-              <h2>
-                GitDate is not just for dating
-                <br />
-                You can explore all kinds of relationships here
-              </h2>
               <FeaturesList>
                 <FeaturesItem>
                   <FeaturesItemTitleDate>Dating</FeaturesItemTitleDate>
