@@ -28,6 +28,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 import Alert from "../../components/modal/Alert";
+import Confirm from "../../components/modal/Confirm";
 
 const Wrapper = styled.div`
   display: block;
@@ -138,6 +139,8 @@ const ParticipantsBtn = styled.button`
 
 const Branch = () => {
   const [ButtonPop, setButtonPop] = useState(false);
+  const [confirmPop, setConfirmPop] = useState(false);
+  const [confirmMsg, setConfirmMsg] = useState("");
   const db = getFirestore();
   let navigate = useNavigate();
   const userData = useSelector((state) => state) as any;
@@ -180,13 +183,25 @@ const Branch = () => {
     });
   }, [openParticipants, participantsList]);
 
-  const attendActivity = async () => {
+  const attendActivity = () => {
     if (!getUser) {
       setButtonPop(true);
       // alert("Please sign in!");
       // navigate("/signin");
       return;
     }
+    setConfirmMsg("Do you want to attend this activity?");
+    setConfirmPop(true);
+  };
+
+  const clickToConfirm = (isConfirm: boolean) => {
+    if (isConfirm) {
+      confirmAttendActivity();
+    }
+    setConfirmPop(false);
+  };
+
+  const confirmAttendActivity = async () => {
     const userRef = doc(collection(db, "Users"), getUser);
     const branchRef = doc(collection(db, "Branches"), id);
     await updateDoc(userRef, {
@@ -198,7 +213,7 @@ const Branch = () => {
       // participants: arrayUnion({ user_id: getUser, user_name: getUserName }),
     });
     await getParticipants();
-    alert("Attended successful!");
+    // alert("Attended successful!");}
   };
 
   const getParticipants = async () => {
@@ -250,6 +265,13 @@ const Branch = () => {
           trigger={ButtonPop}
           setButtonPop={setButtonPop}
           alertMsg={"Please sign in!"}
+        />
+        <Confirm
+          trigger={confirmPop}
+          setConfirmPop={setConfirmPop}
+          clickToConfirm={clickToConfirm}
+          // attendActivity={attendActivity}
+          confirmMsg={confirmMsg}
         />
         {branchData && (
           <>

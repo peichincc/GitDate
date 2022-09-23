@@ -56,6 +56,24 @@ export const MergeBtn = styled.button`
     background-color: #216e39;
   }
 `;
+export const CloseBtn = styled.button`
+  padding: 5px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+  border: 1px solid rgba(27, 31, 36, 0.15);
+  background-color: #d62828;
+  color: white;
+  border-radius: 6px;
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  :hover {
+    background-color: #e63946;
+  }
+`;
 
 export const PhotoContainer = styled.div`
   padding: 10px;
