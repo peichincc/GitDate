@@ -27,6 +27,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
+import Alert from "../../components/modal/Alert";
+
 const Wrapper = styled.div`
   display: block;
   /* max-width: 1376px; */
@@ -135,6 +137,7 @@ const ParticipantsBtn = styled.button`
 `;
 
 const Branch = () => {
+  const [ButtonPop, setButtonPop] = useState(false);
   const db = getFirestore();
   let navigate = useNavigate();
   const userData = useSelector((state) => state) as any;
@@ -179,8 +182,9 @@ const Branch = () => {
 
   const attendActivity = async () => {
     if (!getUser) {
-      alert("Please sign in!");
-      navigate("/signin");
+      setButtonPop(true);
+      // alert("Please sign in!");
+      // navigate("/signin");
       return;
     }
     const userRef = doc(collection(db, "Users"), getUser);
@@ -242,6 +246,11 @@ const Branch = () => {
   return (
     <>
       <Wrapper>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={"Please sign in!"}
+        />
         {branchData && (
           <>
             <TopContainer>

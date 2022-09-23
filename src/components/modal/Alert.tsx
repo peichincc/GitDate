@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 import {
   ModalHeader,
@@ -55,6 +56,7 @@ const ModalExplaination = styled(ModalContent)`
 `;
 
 const Alert = (props: any) => {
+  let navigate = useNavigate();
   const { trigger, setButtonPop, alertMsg } = props;
   return trigger ? (
     <>
@@ -67,7 +69,14 @@ const Alert = (props: any) => {
             <ModalContentsWrapper>
               <ModalExplaination>{alertMsg}</ModalExplaination>
               <CloseBtnWrapper>
-                <Button onClick={() => setButtonPop(false)}>Close</Button>
+                <Button
+                  onClick={() => {
+                    setButtonPop(false);
+                    navigate("/signin");
+                  }}
+                >
+                  Close
+                </Button>
               </CloseBtnWrapper>
             </ModalContentsWrapper>
           </ModalContents>

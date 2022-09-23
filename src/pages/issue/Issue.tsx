@@ -41,7 +41,7 @@ import {
   faMugSaucer,
 } from "@fortawesome/free-solid-svg-icons";
 
-import ModalUnstyledDemo from "../../components/Modal";
+import Alert from "../../components/modal/Alert";
 
 const Wrapper = styled.div`
   display: block;
@@ -138,6 +138,7 @@ const TagsWrapper = styled.div`
 `;
 
 const Issue = () => {
+  const [ButtonPop, setButtonPop] = useState(false);
   const userData = useSelector((state) => state) as any;
   let navigate = useNavigate();
   const db = getFirestore();
@@ -246,8 +247,9 @@ const Issue = () => {
 
   const sendRequest = async () => {
     if (!getUser) {
-      alert("Please sign in!");
-      navigate("/signin");
+      setButtonPop(true);
+      // alert("Please sign in!");
+      // navigate("/signin");
       return;
     }
     // console.log(`User:${getAuthorID}`);
@@ -273,6 +275,11 @@ const Issue = () => {
   return (
     <>
       <Wrapper>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={"Please sign in!"}
+        />
         {issueData && (
           <div>
             <Container>
