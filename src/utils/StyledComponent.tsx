@@ -338,3 +338,42 @@ export const TagButton = styled(LabelsButton)`
   width: fit-content;
   margin: 3px;
 `;
+
+// Modal styling
+export const ModalHeader = styled.div`
+  background-color: #f6f8fa;
+  width: auto;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+export const ModalContentsWrapper = styled.div`
+  padding: 20px;
+`;
+export const ModalSubtitle = styled.div`
+  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 600;
+  width: 175px;
+`;
+export const ModalContent = styled.div`
+  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 16px;
+  line-height: 30px;
+`;
+export const ModalWordWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 5px;
+`;
+export const CloseBtnWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
