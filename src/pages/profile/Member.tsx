@@ -32,6 +32,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Button } from "../../utils/StyledComponent";
+import Loading from "../../components/Loading";
 
 const IconContainer = styled.div`
   width: 16px;
@@ -196,6 +197,7 @@ const ReadmeBtn = styled(MemberBtn)`
 `;
 
 const Member = () => {
+  const [isLoading, setIsLoading] = useState(true);
   let navigate = useNavigate();
   const db = getFirestore();
   const userInfo = useSelector((state) => state) as any;
@@ -226,6 +228,7 @@ const Member = () => {
     firebaseapi.readUserData(userId).then((res) => {
       if (res) {
         setUserData(res);
+        setIsLoading(false);
       }
     });
   }, []);
@@ -369,6 +372,7 @@ const Member = () => {
         <MainContainer>
           <LayoutContainer>
             <SidebarLayout>
+              {isLoading && <Loading />}
               {userData && (
                 <>
                   <PhotoContainer>

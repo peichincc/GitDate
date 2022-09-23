@@ -22,6 +22,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 import Alert from "../../components/modal/Alert";
+import Loading from "../../components/Loading";
 
 const Background = styled.div`
   overflow: hidden;
@@ -210,6 +211,7 @@ const AttentionIcon = styled.div`
 `;
 
 const BranchAll = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
   const userData = useSelector((state) => state) as any;
   const [getUser, setGetUser] = useState<any>("");
@@ -236,6 +238,7 @@ const BranchAll = () => {
       if (res) {
         setDocs(res);
         setAllbranch(res);
+        setIsLoading(false);
         setBranchType("All");
         // get inperson
         let temp = [] as any;
@@ -380,6 +383,7 @@ const BranchAll = () => {
                 New branch
               </MergeBtn>
             </FilterContainer>
+            {isLoading && <Loading />}
             {docs && <BranchesList docs={docs} branchType={branchType} />}
           </BranchesContainer>
           {/* </Background> */}

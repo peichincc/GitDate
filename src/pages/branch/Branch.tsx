@@ -29,6 +29,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 import Alert from "../../components/modal/Alert";
 import Confirm from "../../components/modal/Confirm";
+import Loading from "../../components/Loading";
 
 const Wrapper = styled.div`
   display: block;
@@ -138,6 +139,7 @@ const ParticipantsBtn = styled.button`
 `;
 
 const Branch = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
   const [confirmPop, setConfirmPop] = useState(false);
   const [confirmMsg, setConfirmMsg] = useState("");
@@ -179,6 +181,7 @@ const Branch = () => {
           console.log(res["firstname"]);
           setGetAuthor(res["firstname"]);
           setGetAuthorID(res["user_id"]);
+          setIsLoading(false);
         }
       });
     });
@@ -276,6 +279,7 @@ const Branch = () => {
           clickToConfirm={clickToConfirm}
           confirmMsg={confirmMsg}
         />
+        {isLoading && <Loading />}
         {branchData && (
           <>
             <TopContainer>

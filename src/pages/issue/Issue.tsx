@@ -43,6 +43,7 @@ import {
 
 import Alert from "../../components/modal/Alert";
 import Confirm from "../../components/modal/Confirm";
+import Loading from "../../components/Loading";
 
 const Wrapper = styled.div`
   display: block;
@@ -139,6 +140,7 @@ const TagsWrapper = styled.div`
 `;
 
 const Issue = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
   const [confirmPop, setConfirmPop] = useState(false);
   const [confirmMsg, setConfirmMsg] = useState("");
@@ -244,6 +246,7 @@ const Issue = () => {
           console.log(res["firstname"]);
           setGetAuthor(res["firstname"]);
           setGetAuthorID(res["user_id"]);
+          setIsLoading(false);
         }
       });
     });
@@ -305,6 +308,7 @@ const Issue = () => {
           // attendActivity={attendActivity}
           confirmMsg={confirmMsg}
         />
+        {isLoading && <Loading />}
         {issueData && (
           <div>
             <Container>

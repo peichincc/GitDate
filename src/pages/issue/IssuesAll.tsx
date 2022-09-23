@@ -20,6 +20,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 import Alert from "../../components/modal/Alert";
+import Loading from "../../components/Loading";
 
 const Wrapper = styled.div`
   display: block;
@@ -111,6 +112,7 @@ const AttentionIcon = styled.div`
 `;
 
 const IssueAll = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
   const userData = useSelector((state) => state) as any;
   const [getUser, setGetUser] = useState<any>("");
@@ -136,6 +138,7 @@ const IssueAll = () => {
       if (res) {
         setDocs(res);
         setAllIssue(res);
+        setIsLoading(false);
         setIssuesSatus("All");
         // get open issues
         let temp = [] as any;
@@ -283,6 +286,7 @@ const IssueAll = () => {
             </MergeBtn>
           </FilterContainer>
           <MainContainer>
+            {isLoading && <Loading />}
             {docs && <IssuesList issuesStatus={issuesStatus} docs={docs} />}
           </MainContainer>
         </Container>
