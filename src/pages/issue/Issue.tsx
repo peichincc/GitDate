@@ -42,6 +42,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import Alert from "../../components/modal/Alert";
+import Confirm from "../../components/modal/Confirm";
 
 const Wrapper = styled.div`
   display: block;
@@ -139,6 +140,9 @@ const TagsWrapper = styled.div`
 
 const Issue = () => {
   const [ButtonPop, setButtonPop] = useState(false);
+  const [confirmPop, setConfirmPop] = useState(false);
+  const [confirmMsg, setConfirmMsg] = useState("");
+  const [alertMsg, setAlertMsg] = useState("");
   const userData = useSelector((state) => state) as any;
   let navigate = useNavigate();
   const db = getFirestore();
@@ -247,12 +251,25 @@ const Issue = () => {
 
   const sendRequest = async () => {
     if (!getUser) {
+      setAlertMsg("Please sign in!");
       setButtonPop(true);
       // alert("Please sign in!");
       // navigate("/signin");
       return;
     }
     // console.log(`User:${getAuthorID}`);
+    setConfirmMsg("Do you want to send this pull request?");
+    setConfirmPop(true);
+  };
+
+  const clickToConfirm = (isConfirm: boolean) => {
+    if (isConfirm) {
+      confirmSendRequest();
+    }
+    setConfirmPop(false);
+  };
+
+  const confirmSendRequest = async () => {
     const userRef = doc(db, "Users", getAuthorID);
     await updateDoc(userRef, {
       friend_request: arrayUnion({
@@ -261,7 +278,8 @@ const Issue = () => {
         user_photo: getUserPhoto,
       }),
     });
-    alert("Sent pull request successful!");
+    setButtonPop(true);
+    setAlertMsg("Sent pull request successful!");
     console.log(`Invitation Sent to ${getAuthor}`);
     // const userRef2 = doc(db, "Users", getUser);
     // await updateDoc(userRef2, {
@@ -269,7 +287,7 @@ const Issue = () => {
     //     user_id: getAuthorID,
     //     user_name: getAuthor,
     //   }),
-    // });
+    // });}
   };
 
   return (
@@ -278,7 +296,14 @@ const Issue = () => {
         <Alert
           trigger={ButtonPop}
           setButtonPop={setButtonPop}
-          alertMsg={"Please sign in!"}
+          alertMsg={alertMsg}
+        />
+        <Confirm
+          trigger={confirmPop}
+          setConfirmPop={setConfirmPop}
+          clickToConfirm={clickToConfirm}
+          // attendActivity={attendActivity}
+          confirmMsg={confirmMsg}
         />
         {issueData && (
           <div>

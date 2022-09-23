@@ -141,6 +141,7 @@ const Branch = () => {
   const [ButtonPop, setButtonPop] = useState(false);
   const [confirmPop, setConfirmPop] = useState(false);
   const [confirmMsg, setConfirmMsg] = useState("");
+  const [alertMsg, setAlertMsg] = useState("");
   const db = getFirestore();
   let navigate = useNavigate();
   const userData = useSelector((state) => state) as any;
@@ -186,6 +187,7 @@ const Branch = () => {
   const attendActivity = () => {
     if (!getUser) {
       setButtonPop(true);
+      setAlertMsg("Please sign in!");
       // alert("Please sign in!");
       // navigate("/signin");
       return;
@@ -213,6 +215,8 @@ const Branch = () => {
       // participants: arrayUnion({ user_id: getUser, user_name: getUserName }),
     });
     await getParticipants();
+    setButtonPop(true);
+    setAlertMsg("Attended successful!");
     // alert("Attended successful!");}
   };
 
@@ -264,7 +268,7 @@ const Branch = () => {
         <Alert
           trigger={ButtonPop}
           setButtonPop={setButtonPop}
-          alertMsg={"Please sign in!"}
+          alertMsg={alertMsg}
         />
         <Confirm
           trigger={confirmPop}
