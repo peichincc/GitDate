@@ -27,6 +27,10 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
+import Alert from "../../components/modal/Alert";
+import Confirm from "../../components/modal/Confirm";
+import Loading from "../../components/Loading";
+
 const Wrapper = styled.div`
   display: block;
   /* max-width: 1376px; */
@@ -135,6 +139,11 @@ const ParticipantsBtn = styled.button`
 `;
 
 const Branch = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [ButtonPop, setButtonPop] = useState(false);
+  const [confirmPop, setConfirmPop] = useState(false);
+  const [confirmMsg, setConfirmMsg] = useState("");
+  const [alertMsg, setAlertMsg] = useState("");
   const db = getFirestore();
   let navigate = useNavigate();
   const userData = useSelector((state) => state) as any;
@@ -172,12 +181,32 @@ const Branch = () => {
           console.log(res["firstname"]);
           setGetAuthor(res["firstname"]);
           setGetAuthorID(res["user_id"]);
+          setIsLoading(false);
         }
       });
     });
   }, [openParticipants, participantsList]);
 
-  const attendActivity = async () => {
+  const attendActivity = () => {
+    if (!getUser) {
+      setButtonPop(true);
+      setAlertMsg("Please sign in!");
+      // alert("Please sign in!");
+      // navigate("/signin");
+      return;
+    }
+    setConfirmMsg("Do you want to attend this activity?");
+    setConfirmPop(true);
+  };
+
+  const clickToConfirm = (isConfirm: boolean) => {
+    if (isConfirm) {
+      confirmAttendActivity();
+    }
+    setConfirmPop(false);
+  };
+
+  const confirmAttendActivity = async () => {
     const userRef = doc(collection(db, "Users"), getUser);
     const branchRef = doc(collection(db, "Branches"), id);
     await updateDoc(userRef, {
@@ -189,7 +218,9 @@ const Branch = () => {
       // participants: arrayUnion({ user_id: getUser, user_name: getUserName }),
     });
     await getParticipants();
-    alert("Attended successful!");
+    setButtonPop(true);
+    setAlertMsg("Attended successful!");
+    // alert("Attended successful!");}
   };
 
   const getParticipants = async () => {
@@ -237,6 +268,18 @@ const Branch = () => {
   return (
     <>
       <Wrapper>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={alertMsg}
+        />
+        <Confirm
+          trigger={confirmPop}
+          setConfirmPop={setConfirmPop}
+          clickToConfirm={clickToConfirm}
+          confirmMsg={confirmMsg}
+        />
+        {isLoading && <Loading />}
         {branchData && (
           <>
             <TopContainer>
@@ -248,6 +291,7 @@ const Branch = () => {
                 <LebalsText>
                   Posted by
                   <AuthorBtn
+                    id="branchAuthor"
                     onClick={() => {
                       navigate("/readme/" + branchData.hosted_by);
                     }}
@@ -279,7 +323,7 @@ const Branch = () => {
                       Click to attend this activity{" "}
                       <FontAwesomeIcon icon={faCheck} />
                     </PostContentText>
-                    <CheckOutBtn onClick={attendActivity}>
+                    <CheckOutBtn id="checkoutBtn" onClick={attendActivity}>
                       git checkout
                     </CheckOutBtn>
                   </CardContainer>
@@ -289,10 +333,10 @@ const Branch = () => {
                     <BranchSubTitle>Type:</BranchSubTitle>
                     {branchData.type}
                   </CardContainer>
-                  <CardContainer>
+                  {/* <CardContainer>
                     <BranchSubTitle>Branch status:</BranchSubTitle>
                     {branchData.status}
-                  </CardContainer>
+                  </CardContainer> */}
                   <CardContainer>
                     <BranchSubTitle>Date:</BranchSubTitle>
                     {branchData.date} · {branchData.time}
@@ -305,7 +349,10 @@ const Branch = () => {
                     </MapContainer>
                   </CardContainer>
                   <ParticipantsContainer>
-                    <ParticipantsBtn onClick={handleChange}>
+                    <ParticipantsBtn
+                      onClick={handleChange}
+                      id="branchParticipants"
+                    >
                       Click to see the participants!
                     </ParticipantsBtn>
                     {openParticipants && participantsList && (

@@ -11,6 +11,7 @@ import img06 from "./slider/slider06.jpg";
 import hangout from "./feature/hangout.jpg";
 import dating from "./feature/dating.jpg";
 import networking from "./feature/networking.jpg";
+import { Tour } from "../../components/Tour";
 
 import { ActionButton } from "../../utils/StyledComponent";
 import { ShowMainMap } from "../../components/map/MainMap";
@@ -90,7 +91,10 @@ const BlockContent = styled.div`
   text-align: center;
   @media screen and (min-width: 1280px) {
     max-width: 680px;
-    padding: 32px;
+    padding-bottom: 15px;
+    padding-top: 55px;
+    padding-right: 32px;
+    padding-left: 32px;
   }
 `;
 const BlockTitle = styled.h1``;
@@ -152,18 +156,17 @@ const FeaturesItemTitleNetworking = styled(FeaturesItemTitle)`
   top: 30%;
 `;
 
-const FooterCopyright = styled.div`
-  margin-top: 20px;
-  color: #bdbdbd;
-  display: block;
-  text-align: center;
-  font-weight: 300;
-  font-size: 12px;
-  line-height: 1;
-`;
 const MapContainer = styled.div`
   margin-top: 32px;
   margin-bottom: 32px;
+`;
+const MapBlock = styled.div`
+  margin-top: 50px;
+`;
+
+const TourReminder = styled.div`
+  margin-top: 20px;
+  text-align: right;
 `;
 
 const images = [img01, img02, img03, img04, img05, img06];
@@ -235,7 +238,7 @@ const Home = () => {
     <>
       <Wrapper>
         <Block>
-          <BlockCarousel>
+          <BlockCarousel id="mainDoc">
             <Carousel />
             {/* <BlockInnerImg
             style={{
@@ -243,7 +246,7 @@ const Home = () => {
             }}
           > */}
             <BlockInner>
-              <BlockContent>
+              <BlockContent id="signup">
                 <BlockTitle>Make the first commit.</BlockTitle>
                 <BlockText>Start meeting new people!</BlockText>
                 <BlockAction>
@@ -262,6 +265,10 @@ const Home = () => {
                     Sign In
                   </ActionButton>
                 </BlockAction>
+                <TourReminder>
+                  <Tour />
+                </TourReminder>
+                {/* <Tour /> */}
               </BlockContent>
             </BlockInner>
           </BlockCarousel>
@@ -300,7 +307,7 @@ const Home = () => {
             </Features>
           </BlockFeature>
         </Block>
-        <Block>
+        <MapBlock>
           <Features>
             <h2>
               What's more...
@@ -311,8 +318,7 @@ const Home = () => {
               <ShowMainMap markersFromDB={markersFromDB} />
             </MapContainer>
           </Features>
-        </Block>
-        <FooterCopyright>© 2022 GitDate | All Rights Reserved</FooterCopyright>
+        </MapBlock>
       </Wrapper>
     </>
   );

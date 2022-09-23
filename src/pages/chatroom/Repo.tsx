@@ -8,8 +8,7 @@ import "./terminal.css";
 
 import Chatroom from "./Chatroom";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import Loading from "../../components/Loading";
 
 // Terminal Container
 const TerminalContainer = styled.div`
@@ -131,6 +130,7 @@ const ChatNameCardName = styled(NameCardName)`
 // `;
 
 const Repo = () => {
+  const [isLoading, setIsLoading] = useState(true);
   let navigate = useNavigate();
   const userData = useSelector((state) => state) as any;
   const [getUser, setGetUser] = useState("");
@@ -156,6 +156,7 @@ const Repo = () => {
         if (result) {
           console.log(result["friend_list"]);
           setFriendList(result["friend_list"]);
+          setIsLoading(false);
         }
       });
     }
@@ -165,7 +166,7 @@ const Repo = () => {
     <>
       <Container>
         <TerminalContainer>
-          <FakeMenu>
+          <FakeMenu id="repoSidebar">
             <FakeButtonsClose />
             <FakeButtonsMinimize />
             <FakeButtonsZoom />
@@ -178,6 +179,7 @@ const Repo = () => {
                 </NameCardPhotoContainer>
                 <NameCardName>{getUserName}</NameCardName>
               </NameCard>
+              {isLoading && <Loading />}
               {friendList &&
                 friendList.map((friend: any) => {
                   return (

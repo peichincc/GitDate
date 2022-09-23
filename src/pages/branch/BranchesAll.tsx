@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   getFirestore,
@@ -19,6 +20,9 @@ import { MergeBtn, Button, LabelsButton } from "../../utils/StyledComponent";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+
+import Alert from "../../components/modal/Alert";
+import Loading from "../../components/Loading";
 
 const Background = styled.div`
   overflow: hidden;
@@ -207,6 +211,10 @@ const AttentionIcon = styled.div`
 `;
 
 const BranchAll = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [ButtonPop, setButtonPop] = useState(false);
+  const userData = useSelector((state) => state) as any;
+  const [getUser, setGetUser] = useState<any>("");
   const [date, setDate] = useState(new Date());
   let navigate = useNavigate();
   const db = getFirestore();
@@ -219,11 +227,18 @@ const BranchAll = () => {
   const [mixedBranch, setMixedBranch] = useState<DocumentData>();
 
   useEffect(() => {
+    // Check log in
+    const userId = userData.user.user_id;
+    if (userId) {
+      setGetUser(userId);
+    }
+    console.log(userId);
     const branchesRef = collection(db, "Branches");
     firebaseapi.readAllBranches(branchesRef).then(async (res) => {
       if (res) {
         setDocs(res);
         setAllbranch(res);
+        setIsLoading(false);
         setBranchType("All");
         // get inperson
         let temp = [] as any;
@@ -302,9 +317,27 @@ const BranchAll = () => {
     setDocs(temp);
   };
 
+  const CreateHandler = () => {
+    if (!getUser) {
+      setButtonPop(true);
+      setTimeout(() => {
+        navigate("/signin");
+      }, 3000);
+      // alert("Please sign in!");
+      // navigate("/signin");
+      return;
+    }
+    navigate("/createbranch");
+  };
+
   return (
     <>
       <Wrapper>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={"Please sign in!"}
+        />
         <Container>
           {/* <Background> */}
           {/* <ImgContainer src="https://secure.meetupstatic.com/next/images/blobs/red-blob.svg" />
@@ -312,7 +345,7 @@ const BranchAll = () => {
           <ImgContainer2 src="https://secure.meetupstatic.com/next/images/blobs/green-blob.svg" /> */}
           <CalendarContainer>
             <h1>Select date to see branches</h1>
-            <CalendarContainerIn>
+            <CalendarContainerIn id="branchCalendar">
               <Calendar
                 onChange={setDate}
                 value={date}
@@ -338,7 +371,7 @@ const BranchAll = () => {
             </ReminderBox>
             <FilterContainer>
               <Filters>
-                <FilterText>Filters</FilterText>
+                <FilterText id="branchesFilter">Filters</FilterText>
                 <FilterButtons>
                   <TypeBtn onClick={allBranches}>All</TypeBtn>
                   <TypeBtn onClick={inpersonBranches}>In Person</TypeBtn>
@@ -346,14 +379,11 @@ const BranchAll = () => {
                   <TypeBtn onClick={mixedBranches}>Mixed</TypeBtn>
                 </FilterButtons>
               </Filters>
-              <MergeBtn
-                onClick={() => {
-                  navigate("/createbranch");
-                }}
-              >
+              <MergeBtn onClick={CreateHandler} id="createBranch">
                 New branch
               </MergeBtn>
             </FilterContainer>
+            {isLoading && <Loading />}
             {docs && <BranchesList docs={docs} branchType={branchType} />}
           </BranchesContainer>
           {/* </Background> */}

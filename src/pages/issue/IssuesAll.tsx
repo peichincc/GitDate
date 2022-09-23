@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   getFirestore,
@@ -17,6 +18,9 @@ import { MergeBtn, Button, LabelsButton } from "../../utils/StyledComponent";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+
+import Alert from "../../components/modal/Alert";
+import Loading from "../../components/Loading";
 
 const Wrapper = styled.div`
   display: block;
@@ -108,6 +112,10 @@ const AttentionIcon = styled.div`
 `;
 
 const IssueAll = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [ButtonPop, setButtonPop] = useState(false);
+  const userData = useSelector((state) => state) as any;
+  const [getUser, setGetUser] = useState<any>("");
   let navigate = useNavigate();
   const db = getFirestore();
   const [docs, setDocs] = useState<DocumentData>();
@@ -120,11 +128,17 @@ const IssueAll = () => {
   const [networkingIssue, setNetworkingIssue] = useState<DocumentData>();
 
   useEffect(() => {
+    // Check log in
+    const userId = userData.user.user_id;
+    if (userId) {
+      setGetUser(userId);
+    }
     const issuesRef = collection(db, "Issues");
     firebaseapi.readAllIssues(issuesRef).then(async (res) => {
       if (res) {
         setDocs(res);
         setAllIssue(res);
+        setIsLoading(false);
         setIssuesSatus("All");
         // get open issues
         let temp = [] as any;
@@ -211,9 +225,27 @@ const IssueAll = () => {
     setDocs(networkingIssue);
   };
 
+  const CreateHandler = () => {
+    if (!getUser) {
+      setButtonPop(true);
+      setTimeout(() => {
+        navigate("/signin");
+      }, 3000);
+      // alert("Please sign in!");
+      // navigate("/signin");
+      return;
+    }
+    navigate("/createissue");
+  };
+
   return (
     <>
       <Wrapper>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={"Please sign in!"}
+        />
         <Container>
           <ReminderBox>
             <ReminderBoxText>
@@ -229,7 +261,7 @@ const IssueAll = () => {
           </ReminderBox>
           <FilterContainer>
             <Filters>
-              <FilterText>Filters</FilterText>
+              <FilterText id="issuesFilter">Filters</FilterText>
               <FilterButtons>
                 <LabelsButton onClick={allIssues}>All</LabelsButton>
                 <LabelsButton onClick={searchOpenIssues}>
@@ -249,15 +281,12 @@ const IssueAll = () => {
                 </CategoryButton>
               </FilterButtons>
             </Filters>
-            <MergeBtn
-              onClick={() => {
-                navigate("/createissue");
-              }}
-            >
+            <MergeBtn onClick={CreateHandler} id="createIssue">
               New issue
             </MergeBtn>
           </FilterContainer>
           <MainContainer>
+            {isLoading && <Loading />}
             {docs && <IssuesList issuesStatus={issuesStatus} docs={docs} />}
           </MainContainer>
         </Container>

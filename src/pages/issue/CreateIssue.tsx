@@ -12,7 +12,6 @@ import {
 
 import firebaseapi from "../../utils/firebaseapi";
 
-import TestCreateIssue from "./TestTipTap";
 import TiptapEditor from "../../components/editor/Editor";
 
 import defaultAvatar from "../../utils/DefaultAvatar.png";
@@ -29,26 +28,33 @@ import {
   UploadPreview,
   UploadPreviewImg,
   UploadCardStyled,
+  TagButton,
 } from "../../utils/StyledComponent";
+
+import Alert from "../../components/modal/Alert";
 
 const Wrapper = styled.div`
   display: block;
-  max-width: 1376px;
+  max-width: 980px;
   margin: 0 auto;
 `;
 
 const MainLayout = styled.div`
-  margin-top: 100px;
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   padding: 20px;
 `;
 const TabWraper = styled.div`
-  width: 80%;
+  margin-left: 70px;
+  width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: -1px;
+`;
+const TabsContainer = styled.div`
+  margin-right: 70px;
 `;
 const TabChoseBtn = styled.button`
   border-radius: 6px 6px 0 0;
@@ -90,7 +96,7 @@ const PostBox = styled.div`
   position: relative;
   background: #f6f8fa;
   border-radius: 0.4em;
-  width: 80%;
+  width: 100%;
   height: auto;
   /* border: 1px solid #d0d7de; */
   position: relative;
@@ -134,7 +140,7 @@ const Tags = styled.div`
   margin-right: 4px;
   display: flex;
 `;
-const RemoveBtn = styled.button`
+const TagBtn = styled.button`
   border: 0;
   background: none;
   cursor: pointer;
@@ -150,12 +156,34 @@ const SubmitWrapper = styled.div`
   justify-content: space-between;
 `;
 
+const TagFormControl = styled(FormControl)`
+  width: 100px;
+  margin-right: 5px;
+`;
+
+const GitAddBtn = styled(Button)`
+  width: 100px;
+`;
+
+const FormCheckInput = styled.input`
+  /* margin-left: 5px; */
+  margin-right: 10px;
+  width: 15px;
+  height: 16px;
+`;
+const FormCheck = styled.div`
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+`;
+
 interface Data {
   name: string;
-  order: number;
+  value: string;
 }
 
 const CreateIssue = () => {
+  const [ButtonPop, setButtonPop] = useState(false);
   const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
   const userData = useSelector((state) => state) as any;
   const db = getFirestore();
@@ -177,6 +205,21 @@ const CreateIssue = () => {
     setImageUpload(e.target.files[0]);
   };
 
+  const CategoryList: Data[] = [
+    {
+      value: "Date",
+      name: "Date",
+    },
+    {
+      value: "Hang Out",
+      name: "Hang Out",
+    },
+    {
+      value: "Networking",
+      name: "Networking",
+    },
+  ];
+
   const [category, setCategory] = useState("");
   const getCategory = (e: any) => {
     setCategory(e.target.value);
@@ -196,6 +239,7 @@ const CreateIssue = () => {
     let currentTags = [...tags];
     currentTags.push(tagRef.current.value);
     setTags(currentTags);
+    tagRef.current.value = "";
   };
   const removeTag = (e: React.MouseEvent<HTMLElement>) => {
     if (!tagRef.current) return;
@@ -222,30 +266,59 @@ const CreateIssue = () => {
     posted_at: serverTimestamp(),
   };
 
+  const [alertMsg, setAlertMsg] = useState("");
+
   // upload photo w/ doc id, get photo URL, then setDoc
   const postIssue = async () => {
+    if (!category) {
+      setAlertMsg("Please select the issue category");
+      setButtonPop(true);
+      return;
+    }
+    if (!title) {
+      setAlertMsg("Please fill the title");
+      setButtonPop(true);
+      return;
+    }
+    if (!fileSrc) {
+      setAlertMsg("Please select photo");
+      setButtonPop(true);
+      return;
+    }
     const newIssueRef = doc(collection(db, "Issues"));
     await firebaseapi
       .postIssue(imageUpload, newIssueRef, recipient)
       .then(() => {
-        navigate("/");
+        setAlertMsg("Commited successfully!");
+        setButtonPop(true);
+        setTimeout(() => {
+          navigate("/issues");
+        }, 1000);
+        // navigate("/");
       });
   };
 
   return (
     <>
       <Wrapper>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={alertMsg}
+        />
         <MainLayout>
-          <h1>To Create...</h1>
           <TabWraper>
-            <TabChoseBtn>Issue</TabChoseBtn>
-            <TabButton
-              onClick={() => {
-                navigate("/createbranch");
-              }}
-            >
-              Branch
-            </TabButton>
+            <h1>To Create...</h1>
+            <TabsContainer>
+              <TabChoseBtn>Issue</TabChoseBtn>
+              <TabButton
+                onClick={() => {
+                  navigate("/createbranch");
+                }}
+              >
+                Branch
+              </TabButton>
+            </TabsContainer>
           </TabWraper>
           <PostWraper>
             <AvatarBlock>
@@ -256,19 +329,36 @@ const CreateIssue = () => {
             <PostBox>
               <FormGroup>
                 <FormLabel>Category</FormLabel>
-                <FormSelect onChange={getCategory}>
-                  <FormSelectOptions value="0">
-                    Please Select your issue type
-                  </FormSelectOptions>
-                  <FormSelectOptions value="Date">Date</FormSelectOptions>
-                  <FormSelectOptions value="Hang Out">
-                    Hang out
-                  </FormSelectOptions>
-                  <FormSelectOptions value="Networking">
-                    Networking
-                  </FormSelectOptions>
-                </FormSelect>
+                {CategoryList.map(({ name, value }, index) => {
+                  return (
+                    <FormCheck key={index}>
+                      <FormCheckInput
+                        type="radio"
+                        id={`custom-checkbox-${index}`}
+                        value={name}
+                        onChange={getCategory}
+                        required
+                      />
+                      {name}
+                    </FormCheck>
+                  );
+                })}
               </FormGroup>
+              {/* <FormGroup>
+                  <FormLabel>Category</FormLabel>
+                  <FormSelect onChange={getCategory}>
+                    <FormSelectOptions value="0">
+                      Please Select your issue type
+                    </FormSelectOptions>
+                    <FormSelectOptions value="Date">Date</FormSelectOptions>
+                    <FormSelectOptions value="Hang Out">
+                      Hang out
+                    </FormSelectOptions>
+                    <FormSelectOptions value="Networking">
+                      Networking
+                    </FormSelectOptions>
+                  </FormSelect>
+                </FormGroup> */}
               <FormGroup>
                 <FormLabel>Title</FormLabel>
                 <FormControl onChange={getTitle}></FormControl>
@@ -297,7 +387,7 @@ const CreateIssue = () => {
                       </UploadCardStyled>
                     </>
                   )}
-                  <Button onClick={handleClick}>git add</Button>
+                  <GitAddBtn onClick={handleClick}>git add</GitAddBtn>
                 </PreviewPhotoContainer>
               </FormGroup>
               <FormGroup>
@@ -308,15 +398,13 @@ const CreateIssue = () => {
                       tags.map((tag) => {
                         return (
                           <Tags key={tag} id={tag}>
-                            <Tag> {tag}</Tag>
-                            <RemoveBtn onClick={(e) => removeTag(e)}>
-                              x
-                            </RemoveBtn>
+                            <TagButton> {tag}</TagButton>
+                            <TagBtn onClick={(e) => removeTag(e)}>x</TagBtn>
                           </Tags>
                         );
                       })}
                   </TagsWrapper>
-                  <FormControl
+                  <TagFormControl
                     type="text"
                     ref={tagRef}
                     onKeyPress={(e) => {
@@ -324,12 +412,15 @@ const CreateIssue = () => {
                         addTag();
                       }
                     }}
-                  ></FormControl>
+                  ></TagFormControl>
+                  <TagBtn onClick={addTag}>+</TagBtn>
                 </TagInputWrapper>
               </FormGroup>
               <SubmitWrapper>
                 <p></p>
-                <MergeBtn onClick={postIssue}>Commit new issue</MergeBtn>
+                <MergeBtn onClick={postIssue} id="issuesBtn">
+                  Commit new issue
+                </MergeBtn>
               </SubmitWrapper>
             </PostBox>
           </PostWraper>

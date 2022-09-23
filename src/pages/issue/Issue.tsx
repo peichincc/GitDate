@@ -32,6 +32,7 @@ import {
   MergeBtn,
   PostImgBoxImg,
   StatusOpen,
+  TagButton,
 } from "../../utils/StyledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -39,6 +40,10 @@ import {
   faCodePullRequest,
   faMugSaucer,
 } from "@fortawesome/free-solid-svg-icons";
+
+import Alert from "../../components/modal/Alert";
+import Confirm from "../../components/modal/Confirm";
+import Loading from "../../components/Loading";
 
 const Wrapper = styled.div`
   display: block;
@@ -128,7 +133,18 @@ const StatusWord = styled.div`
   margin-left: 5px;
 `;
 
+const TagsWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
 const Issue = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [ButtonPop, setButtonPop] = useState(false);
+  const [confirmPop, setConfirmPop] = useState(false);
+  const [confirmMsg, setConfirmMsg] = useState("");
+  const [alertMsg, setAlertMsg] = useState("");
   const userData = useSelector((state) => state) as any;
   let navigate = useNavigate();
   const db = getFirestore();
@@ -230,13 +246,33 @@ const Issue = () => {
           console.log(res["firstname"]);
           setGetAuthor(res["firstname"]);
           setGetAuthorID(res["user_id"]);
+          setIsLoading(false);
         }
       });
     });
   }, []);
 
   const sendRequest = async () => {
+    if (!getUser) {
+      setAlertMsg("Please sign in!");
+      setButtonPop(true);
+      // alert("Please sign in!");
+      // navigate("/signin");
+      return;
+    }
     // console.log(`User:${getAuthorID}`);
+    setConfirmMsg("Do you want to send this pull request?");
+    setConfirmPop(true);
+  };
+
+  const clickToConfirm = (isConfirm: boolean) => {
+    if (isConfirm) {
+      confirmSendRequest();
+    }
+    setConfirmPop(false);
+  };
+
+  const confirmSendRequest = async () => {
     const userRef = doc(db, "Users", getAuthorID);
     await updateDoc(userRef, {
       friend_request: arrayUnion({
@@ -245,7 +281,8 @@ const Issue = () => {
         user_photo: getUserPhoto,
       }),
     });
-    alert("Sent pull request successful!");
+    setButtonPop(true);
+    setAlertMsg("Sent pull request successful!");
     console.log(`Invitation Sent to ${getAuthor}`);
     // const userRef2 = doc(db, "Users", getUser);
     // await updateDoc(userRef2, {
@@ -253,12 +290,25 @@ const Issue = () => {
     //     user_id: getAuthorID,
     //     user_name: getAuthor,
     //   }),
-    // });
+    // });}
   };
 
   return (
     <>
       <Wrapper>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={alertMsg}
+        />
+        <Confirm
+          trigger={confirmPop}
+          setConfirmPop={setConfirmPop}
+          clickToConfirm={clickToConfirm}
+          // attendActivity={attendActivity}
+          confirmMsg={confirmMsg}
+        />
+        {isLoading && <Loading />}
         {issueData && (
           <div>
             <Container>
@@ -272,6 +322,7 @@ const Issue = () => {
                   <AuthorContainer>
                     <PostSubTitle>
                       <AuthorBtn
+                        id="issueAuthor"
                         onClick={() => {
                           navigate("/readme/" + issueData.posted_by);
                         }}
@@ -324,7 +375,7 @@ const Issue = () => {
                             {getAuthor}
                             <FontAwesomeIcon icon={faMugSaucer} />
                           </PostContentText>
-                          <PRbtn onClick={sendRequest}>
+                          <PRbtn id="PRbtn" onClick={sendRequest}>
                             Create Pull Request
                           </PRbtn>
                         </PRBox>
@@ -339,11 +390,13 @@ const Issue = () => {
                   </LebalsContainer>
                   <LebalsContainer>
                     <LebalsText>Tags</LebalsText>
-                    {issueData.tags.map((tag: any) => (
-                      <>
-                        <LabelsButton>{tag}</LabelsButton>
-                      </>
-                    ))}
+                    <TagsWrapper>
+                      {issueData.tags.map((tag: any) => (
+                        <>
+                          <TagButton>{tag}</TagButton>
+                        </>
+                      ))}
+                    </TagsWrapper>
                   </LebalsContainer>
                 </RightContainer>
               </MainContainer>

@@ -56,6 +56,24 @@ export const MergeBtn = styled.button`
     background-color: #216e39;
   }
 `;
+export const CloseBtn = styled.button`
+  padding: 5px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+  border: 1px solid rgba(27, 31, 36, 0.15);
+  background-color: #d62828;
+  color: white;
+  border-radius: 6px;
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  :hover {
+    background-color: #e63946;
+  }
+`;
 
 export const PhotoContainer = styled.div`
   padding: 10px;
@@ -320,4 +338,60 @@ export const StatusOpen = styled.div`
 
 export const NavWord = styled.div`
   padding-left: 5px;
+`;
+
+export const ClickBtn = styled.button`
+  border: 1px solid transparent;
+  border-radius: 2em;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background-color: #24292f;
+  }
+`;
+
+export const TagButton = styled(LabelsButton)`
+  cursor: default;
+  background-color: #453d38;
+  width: fit-content;
+  margin: 3px;
+`;
+
+// Modal styling
+export const ModalHeader = styled.div`
+  background-color: #f6f8fa;
+  width: auto;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+export const ModalContentsWrapper = styled.div`
+  padding: 20px;
+`;
+export const ModalSubtitle = styled.div`
+  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 18px;
+  line-height: 30px;
+  font-weight: 600;
+  width: 175px;
+`;
+export const ModalContent = styled.div`
+  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 16px;
+  line-height: 30px;
+`;
+export const ModalWordWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 5px;
+`;
+export const CloseBtnWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 `;

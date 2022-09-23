@@ -3,6 +3,15 @@ import { useCallback, useState } from "react";
 import React from "react";
 import { Button } from "../../utils/StyledComponent";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBold,
+  faItalic,
+  faList,
+  faRotateRight,
+  faRotateLeft,
+} from "@fortawesome/free-solid-svg-icons";
+
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -46,24 +55,56 @@ const MenuBar = ({ editor }: any) => {
       <Container>
         <ButtonGroup>
           <Button onClick={() => editor.chain().focus().toggleBold().run()}>
-            Bold
+            <FontAwesomeIcon icon={faBold} />
           </Button>
           <Button onClick={() => editor.chain().focus().toggleItalic().run()}>
-            Italic
+            <FontAwesomeIcon icon={faItalic} />
           </Button>
           <Button
-            onClick={() => editor.chain().focus().toggleUnderline().run()}
+            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            className={editor.isActive("orderedList") ? "is-active" : ""}
           >
-            Underline
+            <FontAwesomeIcon icon={faList} />
           </Button>
-          <Button onClick={() => editor.chain().focus().toggleStrike().run()}>
-            Strike
+          <Button
+            onClick={() =>
+              editor.chain().focus().toggleHeading({ level: 1 }).run()
+            }
+            className={
+              editor.isActive("heading", { level: 1 }) ? "is-active" : ""
+            }
+          >
+            h1
+          </Button>
+          <Button
+            onClick={() =>
+              editor.chain().focus().toggleHeading({ level: 2 }).run()
+            }
+            className={
+              editor.isActive("heading", { level: 2 }) ? "is-active" : ""
+            }
+          >
+            h2
+          </Button>
+          <Button
+            onClick={() =>
+              editor.chain().focus().toggleHeading({ level: 3 }).run()
+            }
+            className={
+              editor.isActive("heading", { level: 3 }) ? "is-active" : ""
+            }
+          >
+            h3
           </Button>
         </ButtonGroup>
         <Divider />
         <ButtonGroup>
-          <Button onClick={() => editor.commands.undo()}>Undo</Button>
-          <Button onClick={() => editor.commands.redo()}>Redo</Button>
+          <Button onClick={() => editor.commands.undo()}>
+            <FontAwesomeIcon icon={faRotateLeft} />
+          </Button>
+          <Button onClick={() => editor.commands.redo()}>
+            <FontAwesomeIcon icon={faRotateRight} />
+          </Button>
         </ButtonGroup>
       </Container>
     </>

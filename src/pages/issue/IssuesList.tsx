@@ -127,7 +127,10 @@ const IssuesList = ({ issuesStatus, docs }: any) => {
         <IssuesHeader>
           <HeaderLeftContainer>{issuesStatus} issues</HeaderLeftContainer>
           <HeaderRightContainer>
-            <ToggleOnBtn onClick={() => setSwitchMode((pre) => !pre)}>
+            <ToggleOnBtn
+              id="issuesToggle"
+              onClick={() => setSwitchMode((pre) => !pre)}
+            >
               {switchMode ? (
                 <img src={ToggleOn} alt="ToggleBtn" />
               ) : (
@@ -162,6 +165,7 @@ const IssuesList = ({ issuesStatus, docs }: any) => {
                     </LeftContainer>
                     <RightContainer>
                       <Button
+                        id="issueClick"
                         onClick={() => {
                           navigate("/issue/" + blog.issue_id);
                         }}

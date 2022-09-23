@@ -30,23 +30,29 @@ import {
 } from "../../utils/StyledComponent";
 import MapHome from "../../components/map";
 
+import Alert from "../../components/modal/Alert";
+
 const Wrapper = styled.div`
   display: block;
-  max-width: 1376px;
+  max-width: 980px;
   margin: 0 auto;
 `;
 const MainLayout = styled.div`
-  margin-top: 100px;
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   padding: 20px;
 `;
 const TabWraper = styled.div`
-  width: 80%;
+  margin-left: 70px;
+  width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: -1px;
+`;
+const TabsContainer = styled.div`
+  margin-right: 70px;
 `;
 const TabChoseBtn = styled.button`
   border-radius: 6px 6px 0 0;
@@ -88,7 +94,7 @@ const PostBox = styled.div`
   position: relative;
   background: #f6f8fa;
   border-radius: 0.4em;
-  width: 80%;
+  width: 100%;
   height: auto;
   /* border: 1px solid #d0d7de; */
   position: relative;
@@ -132,9 +138,36 @@ const MapContainer = styled.div`
   width: 400px;
   height: 200px;
   margin-bottom: 30px;
+  margin-top: 50px;
 `;
 
+const GitAddBtn = styled(Button)`
+  width: 100px;
+`;
+
+const DateFormControl = styled(FormControl)`
+  width: 150px;
+`;
+
+const FormCheckInput = styled.input`
+  /* margin-left: 5px; */
+  margin-right: 10px;
+  width: 15px;
+  height: 16px;
+`;
+const FormCheck = styled.div`
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+`;
+
+interface Data {
+  name: string;
+  value: string;
+}
+
 const CreateBranch = () => {
+  const [ButtonPop, setButtonPop] = useState(false);
   const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
   const hiddenFileInput = useRef<any>(null);
   const db = getFirestore();
@@ -146,6 +179,21 @@ const CreateBranch = () => {
   const handleClick = () => {
     hiddenFileInput.current.click();
   };
+
+  const TypeList: Data[] = [
+    {
+      value: "Online",
+      name: "Online",
+    },
+    {
+      value: "Inperson",
+      name: "Inperson",
+    },
+    {
+      value: "Mixed",
+      name: "Mixed",
+    },
+  ];
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -204,15 +252,46 @@ const CreateBranch = () => {
     posted_at: serverTimestamp(),
   };
 
+  const [alertMsg, setAlertMsg] = useState("");
+
   // upload photo w/ doc id, get photo URL, then setDoc
   // then update user db while hosting an activity
   const createBranch = async () => {
+    if (!type) {
+      setAlertMsg("Please select the branch type");
+      setButtonPop(true);
+      return;
+    }
+    if (!title) {
+      setAlertMsg("Please fill the title");
+      setButtonPop(true);
+      return;
+    }
+    if (!date) {
+      setAlertMsg("Please select the date");
+      setButtonPop(true);
+      return;
+    }
+    if (!time) {
+      setAlertMsg("Please select the time");
+      setButtonPop(true);
+      return;
+    }
+    if (!location) {
+      setAlertMsg("Please select the location");
+      setButtonPop(true);
+      return;
+    }
+    if (!fileSrc) {
+      setAlertMsg("Please select photo");
+      setButtonPop(true);
+      return;
+    }
     const newBranchRef = doc(collection(db, "Branches"));
     const userRef = doc(db, "Users", getUser);
     await firebaseapi
       .createBranch(imageUpload, newBranchRef, recipient)
       .then(() => {
-        navigate("/branches");
         updateDoc(userRef, {
           activity_hosted: arrayUnion(newBranchRef.id),
         });
@@ -226,23 +305,35 @@ const CreateBranch = () => {
         };
         updateDoc(docRef, { markers: arrayUnion(locationInfo) });
         console.log(`${getUser} hosted this activity!`);
+        setAlertMsg("You hosted an activity successfully!");
+        setButtonPop(true);
+        setTimeout(() => {
+          navigate("/branches");
+        }, 1000);
       });
   };
 
   return (
     <>
       <Wrapper>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={alertMsg}
+        />
         <MainLayout>
-          <h1>To Create...</h1>
           <TabWraper>
-            <TabButton
-              onClick={() => {
-                navigate("/createissue");
-              }}
-            >
-              Issue
-            </TabButton>
-            <TabChoseBtn>Branch</TabChoseBtn>
+            <h1>To Create...</h1>
+            <TabsContainer>
+              <TabButton
+                onClick={() => {
+                  navigate("/createissue");
+                }}
+              >
+                Issue
+              </TabButton>
+              <TabChoseBtn>Branch</TabChoseBtn>
+            </TabsContainer>
           </TabWraper>
           <PostWraper>
             <AvatarBlock>
@@ -252,6 +343,23 @@ const CreateBranch = () => {
             </AvatarBlock>
             <PostBox>
               <FormGroup>
+                <FormLabel>Category</FormLabel>
+                {TypeList.map(({ name, value }, index) => {
+                  return (
+                    <FormCheck key={index}>
+                      <FormCheckInput
+                        type="radio"
+                        id={`custom-checkbox-${index}`}
+                        value={name}
+                        onChange={getType}
+                        required
+                      />
+                      {name}
+                    </FormCheck>
+                  );
+                })}
+              </FormGroup>
+              {/* <FormGroup>
                 <FormLabel>Type</FormLabel>
                 <FormSelect onChange={getType}>
                   <option value="0">Please Select your brnach type</option>
@@ -259,20 +367,20 @@ const CreateBranch = () => {
                   <option value="Inperson">In Person</option>
                   <option value="Mixed">Mixed</option>
                 </FormSelect>
-              </FormGroup>
+              </FormGroup> */}
               <FormGroup>
                 <FormLabel>Title</FormLabel>
                 <FormControl onChange={getTitle}></FormControl>
               </FormGroup>
               <FormGroup>
                 <FormLabel>Time</FormLabel>
-                <FormControl type="date" onChange={getDate} />
-                <FormControl type="time" onChange={getTime} />
+                <DateFormControl type="date" onChange={getDate} />
+                <DateFormControl type="time" onChange={getTime} />
                 {/* <input type="datetime-local" onChange={getTime} /> */}
               </FormGroup>
               <FormGroup>
                 <FormLabel>Location</FormLabel>
-                <MapContainer>
+                <MapContainer id="mapInput">
                   <MapHome
                     setLocation={setLocation}
                     setFormatAddress={setFormatAddress}
@@ -303,12 +411,14 @@ const CreateBranch = () => {
                       </UploadCardStyled>
                     </>
                   )}
-                  <Button onClick={handleClick}>git add</Button>
+                  <GitAddBtn onClick={handleClick}>git add</GitAddBtn>
                 </PreviewPhotoContainer>
               </FormGroup>
               <SubmitWrapper>
                 <p></p>
-                <MergeBtn onClick={createBranch}>git branch</MergeBtn>
+                <MergeBtn id="branchesBtn" onClick={createBranch}>
+                  git branch
+                </MergeBtn>
               </SubmitWrapper>
             </PostBox>
           </PostWraper>

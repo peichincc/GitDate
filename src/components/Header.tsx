@@ -20,6 +20,8 @@ import { ReactComponent as GitHub } from "./github.svg";
 import { ReactComponent as Member } from "./member.svg";
 import { ReactComponent as Logout } from "./logout.svg";
 
+import { Tours } from "./Tours";
+
 const Wrapper = styled.div`
   display: flex;
   margin: 0 auto;
@@ -205,7 +207,7 @@ const Header = () => {
     <>
       <Wrapper>
         <LogoContainer to="/">
-          <GitHub id="step1" stroke="#FFF" />
+          <GitHub stroke="#FFF" />
         </LogoContainer>
         {/* <SearchForm>
           <SearchWrapper>
@@ -228,15 +230,24 @@ const Header = () => {
         <CategoryLinks>
           <CategoryContainer>
             <LeftContainer>
-              <Category to="issues">Issues</Category>
-              <Category to="branches">Branch</Category>
+              <Category to="issues" id="issues">
+                Issues
+              </Category>
+              <Category to="branches" id="branches">
+                Branches
+              </Category>
             </LeftContainer>
             <RightContainer>
-              <Category to="tutorial">
+              {/* <Category to="tutorial">
                 Docs
-                {/* <Doc /> */}
+              </Category> */}
+              <Category as="div" id="docs">
+                {/* Docs */}
+                <Tours />
               </Category>
-              <Category to="repo">Repo</Category>
+              <Category to="repo" id="repo">
+                Repo
+              </Category>
               <Category as="div" onClick={memberHandler}>
                 <Member />
               </Category>

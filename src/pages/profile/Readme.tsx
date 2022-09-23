@@ -23,6 +23,8 @@ import AttendedBranches from "../../components/user/AttendedBranches";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
 
+import Loading from "../../components/Loading";
+
 const Wrapper = styled.div`
   width: 90%;
   display: block;
@@ -91,6 +93,7 @@ export const DataCard = styled.div`
 `;
 
 const Readme = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const db = getFirestore();
   const { id } = useParams<any>();
   type ListData = {
@@ -118,6 +121,7 @@ const Readme = () => {
         searchIssues(res.user_id);
         searchHostedBranches(res.user_id);
         searchAttenedBranches(res.user_id);
+        setIsLoading(false);
       }
     });
   }, []);
@@ -173,6 +177,7 @@ const Readme = () => {
   return (
     <>
       <Wrapper>
+        {isLoading && <Loading />}
         {userData && (
           <>
             <Container>

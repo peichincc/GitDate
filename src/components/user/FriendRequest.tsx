@@ -19,6 +19,8 @@ import pr from "./pr_icon.png";
 import merge from "./merge.png";
 import close from "./close.png";
 
+import Alert from "../../components/modal/Alert";
+
 const PR = styled.div`
   width: 16px;
   height: 16px;
@@ -115,6 +117,9 @@ interface Props {
 }
 
 const FriendRequest = ({ getInvitationList }: Props) => {
+  const [ButtonPop, setButtonPop] = useState(false);
+  const [confirmMsg, setConfirmMsg] = useState("");
+  const [alertMsg, setAlertMsg] = useState("");
   let navigate = useNavigate();
   const userData = useSelector((state) => state) as any;
   const db = getFirestore();
@@ -181,6 +186,8 @@ const FriendRequest = ({ getInvitationList }: Props) => {
       }),
     });
     console.log("更新了自己的DB: friend_list");
+    setButtonPop(true);
+    setAlertMsg("You've open a repo!");
   };
 
   const close = async (e: any) => {
@@ -195,11 +202,18 @@ const FriendRequest = ({ getInvitationList }: Props) => {
       friend_request: getInvitationList,
     });
     console.log("更新了自己的DB: friend_request: getInvitationList");
+    setButtonPop(true);
+    setAlertMsg("You've closed a pull request");
   };
 
   return (
     <>
       <Container>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={alertMsg}
+        />
         <BoxHeader>Pull requests</BoxHeader>
         <ContentContainer>
           {getInvitationList &&
@@ -220,7 +234,7 @@ const FriendRequest = ({ getInvitationList }: Props) => {
                     </ClickBtn>
                   </NameContainer>
                   <BtnContainer>
-                    <MergeBtn value={index} onClick={merge}>
+                    <MergeBtn id="mergeBtn" value={index} onClick={merge}>
                       Merge
                     </MergeBtn>
                     <CloseBtn value={index} onClick={close}>

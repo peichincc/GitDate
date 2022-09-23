@@ -32,6 +32,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Button } from "../../utils/StyledComponent";
+import Loading from "../../components/Loading";
 
 const IconContainer = styled.div`
   width: 16px;
@@ -57,25 +58,25 @@ const MainContainer = styled.div`
 const LayoutContainer = styled.div`
   padding-right: 32px;
   padding-left: 32px;
-  display: grid;
+  display: flex;
   width: 100%;
 `;
 const SidebarLayout = styled.div`
   display: flex;
   flex-direction: column;
-  grid-column: 1;
   align-items: center;
+  flex-grow: 1;
 `;
 const MainLayout = styled.div`
-  grid-column: 3 / span 10;
   max-width: 900px;
+  flex-grow: 5;
 `;
 const NavWord = styled.div`
   padding-left: 5px;
 `;
 const NavContainer = styled.div`
   margin-top: 48px;
-  padding-left: 296px;
+  padding-left: 400px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -89,9 +90,11 @@ const NavTab = styled.button`
   font-size: 16px;
   cursor: pointer;
   &:hover {
-    background-color: #d0d7de;
+    background-color: rgb(246, 248, 250);
     border-radius: 6px;
-    padding: 5px;
+    /* padding: 5px; */
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
 `;
 
@@ -167,19 +170,34 @@ const FormTextRead = styled.div`
   margin-bottom: 10px;
 `;
 const DataCard = styled.div`
+  font-weight: 600;
+  font-size: 14px;
   border-radius: 8px;
-  background-color: #edede9;
+  /* background-color: rgb(246, 248, 250); */
   padding: 5px;
   margin-right: 10px;
-  width: 120px;
-  text-align: center;
+  margin-left: 5px;
+  width: 130px;
+  text-align: left;
 `;
 
 const TextArea = styled.div`
   max-width: 400px;
 `;
 
+const MemberBtn = styled(Button)`
+  width: 120px;
+  margin-bottom: 20px;
+`;
+const ReadmeBtn = styled(MemberBtn)`
+  width: 120px;
+  margin-bottom: 20px;
+  color: white;
+  background-color: #24292f;
+`;
+
 const Member = () => {
+  const [isLoading, setIsLoading] = useState(true);
   let navigate = useNavigate();
   const db = getFirestore();
   const userInfo = useSelector((state) => state) as any;
@@ -198,6 +216,10 @@ const Member = () => {
   useEffect(() => {
     const userId = userInfo.user.user_id;
     console.log(userId);
+    if (!userId) {
+      navigate("/");
+      return;
+    }
     setGetUser(userId);
     getFriend(userId);
     searchIssues(userId);
@@ -206,6 +228,7 @@ const Member = () => {
     firebaseapi.readUserData(userId).then((res) => {
       if (res) {
         setUserData(res);
+        setIsLoading(false);
       }
     });
   }, []);
@@ -281,6 +304,7 @@ const Member = () => {
         <UpperContainer>
           <NavContainer>
             <NavTab
+              id="overview"
               onClick={() => {
                 setMemberOverview(true);
                 setOpenFriend(false);
@@ -292,6 +316,7 @@ const Member = () => {
               <FontAwesomeIcon icon={faBook} /> <NavWord>Overview</NavWord>
             </NavTab>
             <NavTab
+              id="pullrequests"
               onClick={() => {
                 setOpenFriend(true);
                 setMemberOverview(false);
@@ -304,6 +329,7 @@ const Member = () => {
               <NavWord>Pull requests</NavWord>
             </NavTab>
             <NavTab
+              id="repositories"
               onClick={() => {
                 setOpenRepo(true);
                 setOpenIssue(false);
@@ -313,9 +339,10 @@ const Member = () => {
               }}
             >
               <FontAwesomeIcon icon={faBookBookmark} />
-              <NavWord> Repositories</NavWord>
+              <NavWord>Repositories</NavWord>
             </NavTab>
             <NavTab
+              id="issuesMember"
               onClick={() => {
                 setOpenIssue(true);
                 setOpenBranches(false);
@@ -328,6 +355,7 @@ const Member = () => {
               <NavWord> Issues</NavWord>
             </NavTab>
             <NavTab
+              id="branchesMember"
               onClick={() => {
                 setOpenBranches(true);
                 setOpenIssue(false);
@@ -344,6 +372,7 @@ const Member = () => {
         <MainContainer>
           <LayoutContainer>
             <SidebarLayout>
+              {isLoading && <Loading />}
               {userData && (
                 <>
                   <PhotoContainer>
@@ -355,9 +384,18 @@ const Member = () => {
                   <UserName>
                     {userData.firstname} {userData.lastname}
                   </UserName>
-                  <Button onClick={() => navigate("/profile")}>
+                  <MemberBtn
+                    id="editProfile"
+                    onClick={() => navigate("/profile")}
+                  >
                     Edit Profile
-                  </Button>
+                  </MemberBtn>
+                  <ReadmeBtn
+                    id="seeReadme"
+                    onClick={() => navigate("/readme/" + getUser)}
+                  >
+                    README.md
+                  </ReadmeBtn>
                 </>
               )}
             </SidebarLayout>
