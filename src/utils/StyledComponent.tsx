@@ -355,7 +355,7 @@ export const ModalSubtitle = styled.div`
   color: #333;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 20px;
+  font-size: 18px;
   line-height: 30px;
   font-weight: 600;
   width: 175px;

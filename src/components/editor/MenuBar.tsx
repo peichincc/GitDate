@@ -96,16 +96,6 @@ const MenuBar = ({ editor }: any) => {
           >
             h3
           </Button>
-          <Button
-            onClick={() =>
-              editor.chain().focus().toggleHeading({ level: 4 }).run()
-            }
-            className={
-              editor.isActive("heading", { level: 4 }) ? "is-active" : ""
-            }
-          >
-            h4
-          </Button>
         </ButtonGroup>
         <Divider />
         <ButtonGroup>

@@ -234,7 +234,7 @@ const Header = () => {
                 Issues
               </Category>
               <Category to="branches" id="branches">
-                Branch
+                Branches
               </Category>
             </LeftContainer>
             <RightContainer>

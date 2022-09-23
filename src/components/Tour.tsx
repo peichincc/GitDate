@@ -55,6 +55,11 @@ export class Tour extends Component {
             "If you have any questions, you can always find answers here!",
         },
         {
+          target: "#corner",
+          content:
+            "You could also find our git cheat sheet here anytime you need!",
+        },
+        {
           target: "#signup",
           content: "Now, let's start your adventure in GitDate!",
         },
