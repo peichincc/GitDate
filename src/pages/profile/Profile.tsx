@@ -23,6 +23,8 @@ import { faListUl } from "@fortawesome/free-solid-svg-icons";
 
 import Avatar from "../../utils/DefaultAvatar.png";
 
+import Alert from "../../components/modal/Alert";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
@@ -267,6 +269,7 @@ const ReminderBoxTextSmall = styled.div`
 `;
 
 const Profile = () => {
+  const [ButtonPop, setButtonPop] = useState(false);
   let navigate = useNavigate();
   const [getUser, setGetUser] = useState("");
   const [imageUpload, setImageUpload] = useState(null);
@@ -427,11 +430,15 @@ const Profile = () => {
     setImageURL(downloadUrl);
     setShowContinueBtn(true);
   };
+
+  const [alertMsg, setAlertMsg] = useState("");
   // 更新資料庫
   const updateDB = async () => {
     const userRef = doc(collection(db, "Users"), `${getUser}`);
     await updateDoc(userRef, { ...recipient, main_photo: imageURL });
-    alert("updated README!");
+    // alert("updated README!");
+    setAlertMsg("README updated");
+    setButtonPop(true);
     setShowPreviewReadme(true);
     await firebaseapi.readUserData(getUser).then((res) => {
       if (res) {
@@ -446,6 +453,11 @@ const Profile = () => {
   return (
     <>
       <Wrapper>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={alertMsg}
+        />
         <Container>
           <LeftContainer>
             <ReminderBox>
