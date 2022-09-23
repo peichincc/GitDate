@@ -274,7 +274,6 @@ const Branch = () => {
           trigger={confirmPop}
           setConfirmPop={setConfirmPop}
           clickToConfirm={clickToConfirm}
-          // attendActivity={attendActivity}
           confirmMsg={confirmMsg}
         />
         {branchData && (
