@@ -31,6 +31,8 @@ import {
   TagButton,
 } from "../../utils/StyledComponent";
 
+import Alert from "../../components/modal/Alert";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 980px;
@@ -181,6 +183,7 @@ interface Data {
 }
 
 const CreateIssue = () => {
+  const [ButtonPop, setButtonPop] = useState(false);
   const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
   const userData = useSelector((state) => state) as any;
   const db = getFirestore();
@@ -263,28 +266,46 @@ const CreateIssue = () => {
     posted_at: serverTimestamp(),
   };
 
+  const [alertMsg, setAlertMsg] = useState("");
+
   // upload photo w/ doc id, get photo URL, then setDoc
   const postIssue = async () => {
     if (!category) {
+      setAlertMsg("Please select the issue category");
+      setButtonPop(true);
       return;
     }
     if (!title) {
+      setAlertMsg("Please fill the title");
+      setButtonPop(true);
       return;
     }
     if (!fileSrc) {
+      setAlertMsg("Please select photo");
+      setButtonPop(true);
       return;
     }
     const newIssueRef = doc(collection(db, "Issues"));
     await firebaseapi
       .postIssue(imageUpload, newIssueRef, recipient)
       .then(() => {
-        navigate("/");
+        setAlertMsg("Commited successfully!");
+        setButtonPop(true);
+        setTimeout(() => {
+          navigate("/issues");
+        }, 1000);
+        // navigate("/");
       });
   };
 
   return (
     <>
       <Wrapper>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={alertMsg}
+        />
         <MainLayout>
           <TabWraper>
             <h1>To Create...</h1>

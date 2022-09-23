@@ -30,6 +30,8 @@ import {
 } from "../../utils/StyledComponent";
 import MapHome from "../../components/map";
 
+import Alert from "../../components/modal/Alert";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 980px;
@@ -165,6 +167,7 @@ interface Data {
 }
 
 const CreateBranch = () => {
+  const [ButtonPop, setButtonPop] = useState(false);
   const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
   const hiddenFileInput = useRef<any>(null);
   const db = getFirestore();
@@ -249,22 +252,39 @@ const CreateBranch = () => {
     posted_at: serverTimestamp(),
   };
 
+  const [alertMsg, setAlertMsg] = useState("");
+
   // upload photo w/ doc id, get photo URL, then setDoc
   // then update user db while hosting an activity
   const createBranch = async () => {
     if (!type) {
+      setAlertMsg("Please select the branch type");
+      setButtonPop(true);
       return;
     }
     if (!title) {
+      setAlertMsg("Please fill the title");
+      setButtonPop(true);
       return;
     }
     if (!date) {
+      setAlertMsg("Please select the date");
+      setButtonPop(true);
       return;
     }
     if (!time) {
+      setAlertMsg("Please select the time");
+      setButtonPop(true);
       return;
     }
     if (!location) {
+      setAlertMsg("Please select the location");
+      setButtonPop(true);
+      return;
+    }
+    if (!fileSrc) {
+      setAlertMsg("Please select photo");
+      setButtonPop(true);
       return;
     }
     const newBranchRef = doc(collection(db, "Branches"));
@@ -272,7 +292,6 @@ const CreateBranch = () => {
     await firebaseapi
       .createBranch(imageUpload, newBranchRef, recipient)
       .then(() => {
-        navigate("/branches");
         updateDoc(userRef, {
           activity_hosted: arrayUnion(newBranchRef.id),
         });
@@ -286,12 +305,22 @@ const CreateBranch = () => {
         };
         updateDoc(docRef, { markers: arrayUnion(locationInfo) });
         console.log(`${getUser} hosted this activity!`);
+        setAlertMsg("You hosted an activity successfully!");
+        setButtonPop(true);
+        setTimeout(() => {
+          navigate("/branches");
+        }, 1000);
       });
   };
 
   return (
     <>
       <Wrapper>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={alertMsg}
+        />
         <MainLayout>
           <TabWraper>
             <h1>To Create...</h1>

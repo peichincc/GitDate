@@ -72,7 +72,6 @@ const Alert = (props: any) => {
                 <Button
                   onClick={() => {
                     setButtonPop(false);
-                    navigate("/signin");
                   }}
                 >
                   Close

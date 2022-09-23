@@ -317,6 +317,9 @@ const BranchAll = () => {
   const CreateHandler = () => {
     if (!getUser) {
       setButtonPop(true);
+      setTimeout(() => {
+        navigate("/signin");
+      }, 3000);
       // alert("Please sign in!");
       // navigate("/signin");
       return;
