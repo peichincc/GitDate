@@ -5,10 +5,11 @@ import { useSelector, useDispatch } from "react-redux";
 import firebaseapi from "../../utils/firebaseapi";
 
 import "./terminal.css";
-import defaultAvatar from "../../utils/DefaultAvatar.png";
+
 import Chatroom from "./Chatroom";
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
+import defaultAvatar from "../../utils/DefaultAvatar.png";
 
 // Terminal Container
 const TerminalContainer = styled.div`
@@ -150,7 +151,7 @@ const Repo = () => {
     const userPhoto = userData.user.user_photo;
     console.log(userId);
     console.log(userName);
-    if (!getUser) {
+    if (!userId) {
       setAlertMsg("Please sign in!");
       setButtonPop(true);
       setTimeout(() => {
