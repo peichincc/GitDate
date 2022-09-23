@@ -4,6 +4,7 @@ import { createGlobalStyle } from "styled-components";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Slider from "./components/Slider";
 import { Tour } from "./components/Tour";
 
 const GlobalStyle = createGlobalStyle`
@@ -31,6 +32,7 @@ function App() {
       {/* <Tour /> */}
       <Header />
       <Outlet />
+      <Slider />
       <Footer />
     </>
   );
