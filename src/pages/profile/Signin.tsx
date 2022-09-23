@@ -17,6 +17,8 @@ import { Title } from "./Signup";
 import { FormInputContainer } from "./Signup";
 import { SubmitBtn } from "./Signup";
 
+import Alert from "../../components/modal/Alert";
+
 const Wrapper = styled.div`
   display: block;
   margin: 0 auto;
@@ -91,6 +93,7 @@ const SignUpBtn = styled.button`
 `;
 
 const Signin = () => {
+  const [ButtonPop, setButtonPop] = useState(false);
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state) as any;
   const [errorMsg, setErrorMsg] = useState("");
@@ -149,17 +152,26 @@ const Signin = () => {
   const signout = () => {
     signOut(auth)
       .then(() => {
+        setButtonPop(true);
         console.log("sign out!");
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
       })
       .catch((error) => {
         console.log(error);
       });
-    navigate("/");
+    // navigate("/");
   };
 
   return (
     <>
       <Wrapper>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={"Sign out successfully"}
+        />
         <BlockInnerImg>
           <BlockInner>
             <BlockContent>
