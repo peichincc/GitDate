@@ -19,6 +19,8 @@ import { MergeBtn, Button, LabelsButton } from "../../utils/StyledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
+import Alert from "../../components/modal/Alert";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
@@ -109,6 +111,7 @@ const AttentionIcon = styled.div`
 `;
 
 const IssueAll = () => {
+  const [ButtonPop, setButtonPop] = useState(false);
   const userData = useSelector((state) => state) as any;
   const [getUser, setGetUser] = useState<any>("");
   let navigate = useNavigate();
@@ -221,7 +224,8 @@ const IssueAll = () => {
 
   const CreateHandler = () => {
     if (!getUser) {
-      alert("Please sign in!");
+      setButtonPop(true);
+      // alert("Please sign in!");
       navigate("/signin");
       return;
     }
@@ -231,6 +235,11 @@ const IssueAll = () => {
   return (
     <>
       <Wrapper>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={"Please sign in!"}
+        />
         <Container>
           <ReminderBox>
             <ReminderBoxText>

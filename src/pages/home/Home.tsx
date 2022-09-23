@@ -92,7 +92,7 @@ const BlockContent = styled.div`
   @media screen and (min-width: 1280px) {
     max-width: 680px;
     padding-bottom: 15px;
-    padding-top: 32px;
+    padding-top: 55px;
     padding-right: 32px;
     padding-left: 32px;
   }

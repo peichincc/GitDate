@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import CheatSheet from "./modal/Cheatsheet";
-
 import { ReactComponent as Logo } from "./githubConer.svg";
 import "./corner.css";
 

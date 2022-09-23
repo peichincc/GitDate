@@ -21,6 +21,8 @@ import { MergeBtn, Button, LabelsButton } from "../../utils/StyledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
+import Alert from "../../components/modal/Alert";
+
 const Background = styled.div`
   overflow: hidden;
   z-index: 0;
@@ -208,6 +210,7 @@ const AttentionIcon = styled.div`
 `;
 
 const BranchAll = () => {
+  const [ButtonPop, setButtonPop] = useState(false);
   const userData = useSelector((state) => state) as any;
   const [getUser, setGetUser] = useState<any>("");
   const [date, setDate] = useState(new Date());
@@ -313,7 +316,8 @@ const BranchAll = () => {
 
   const CreateHandler = () => {
     if (!getUser) {
-      alert("Please sign in!");
+      setButtonPop(true);
+      // alert("Please sign in!");
       navigate("/signin");
       return;
     }
@@ -323,6 +327,11 @@ const BranchAll = () => {
   return (
     <>
       <Wrapper>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={"Please sign in!"}
+        />
         <Container>
           {/* <Background> */}
           {/* <ImgContainer src="https://secure.meetupstatic.com/next/images/blobs/red-blob.svg" />
