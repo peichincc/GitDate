@@ -392,7 +392,7 @@ export const ModalSubtitle = styled.div`
   line-height: 30px;
   font-weight: 600;
   width: 175px;
-  @media screen and (min-width: 770px) {
+  @media screen and (max-width: 770px) {
     font-size: 14px;
   }
 `;
@@ -402,7 +402,7 @@ export const ModalContent = styled.div`
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   font-size: 16px;
   line-height: 30px;
-  @media screen and (min-width: 770px) {
+  @media screen and (max-width: 770px) {
     font-size: 12px;
   }
 `;

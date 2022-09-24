@@ -68,6 +68,9 @@ const LayoutContainer = styled.div`
   padding-left: 32px;
   display: flex;
   width: 100%;
+  @media screen and (max-width: 770px) {
+    flex-direction: column;
+  }
 `;
 const SidebarLayout = styled.div`
   display: flex;
@@ -89,6 +92,12 @@ const NavContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 20px;
+  @media screen and (max-width: 1376px) {
+    padding-left: 0;
+  }
+  @media screen and (max-width: 550px) {
+    flex-wrap: wrap;
+  }
 `;
 const NavTab = styled.button`
   display: flex;
