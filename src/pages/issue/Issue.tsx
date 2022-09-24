@@ -34,6 +34,8 @@ import {
   PostImgBoxImg,
   StatusOpen,
   TagButton,
+  EditBtn,
+  DeleteBtn,
 } from "../../utils/StyledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -143,20 +145,6 @@ const TagsWrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-`;
-
-const EditBtn = styled(Button)`
-  font-size: 12px;
-  line-height: 20px;
-  padding: 3px 12px;
-  margin-bottom: 5px;
-`;
-const DeleteBtn = styled(EditBtn)`
-  color: red;
-  &:hover {
-    color: white;
-    background-color: #953800;
-  }
 `;
 
 const Issue = () => {

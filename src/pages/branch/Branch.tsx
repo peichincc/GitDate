@@ -23,6 +23,7 @@ import {
   PostImgContainer,
   MergeBtn,
   PostContentText,
+  DeleteBtn,
 } from "../../utils/StyledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -137,6 +138,11 @@ const ParticipantsBtn = styled.button`
   font-size: 1.25rem;
   line-height: 1.75rem;
 `;
+const DeleteWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
+`;
 
 const Branch = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -158,6 +164,8 @@ const Branch = () => {
   const [newList, setNewList] = useState([]);
   const [openParticipants, setOpenParticipants] = useState(false);
   const [participantsList, setParticipantsList] = useState<any>();
+  // Check author status
+  const [isAuthor, setIsAuthor] = useState(false);
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -182,6 +190,9 @@ const Branch = () => {
           setGetAuthor(res["firstname"]);
           setGetAuthorID(res["user_id"]);
           setIsLoading(false);
+          if (res["user_id"] === userId) {
+            setIsAuthor(true);
+          }
         }
       });
     });
@@ -327,6 +338,19 @@ const Branch = () => {
                       git checkout
                     </CheckOutBtn>
                   </CardContainer>
+                  {isAuthor && (
+                    <>
+                      <DeleteWrapper>
+                        <DeleteBtn
+                          onClick={() => {
+                            deleteBranch(id);
+                          }}
+                        >
+                          Delete this branch
+                        </DeleteBtn>
+                      </DeleteWrapper>
+                    </>
+                  )}
                 </LeftContent>
                 <RightContent>
                   <CardContainer>
@@ -364,14 +388,6 @@ const Branch = () => {
             </MainContainer>
           </>
         )}
-        {/* <h2>Area for author</h2>
-        <button
-          onClick={() => {
-            deleteBranch(id);
-          }}
-        >
-          Delete this branch
-        </button> */}
       </Wrapper>
     </>
   );
