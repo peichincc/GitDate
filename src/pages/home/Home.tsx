@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 import img01 from "./slider/slider01.jpg";
 import img02 from "./slider/slider02.jpg";
@@ -172,6 +173,8 @@ const TourReminder = styled.div`
 const images = [img01, img02, img03, img04, img05, img06];
 
 const Home = () => {
+  const userInfo = useSelector((state) => state) as any;
+  const [userLoggedStatus, setUserLoggedStatus] = useState(false);
   // // New Carousel
   // const slidePresentationTime = 3000; // after how many ms slide will change - now 3s / 3000ms
   // const [currentSlide, setCurrentSlide] = useState(0);
@@ -200,6 +203,7 @@ const Home = () => {
   // });
 
   useEffect(() => {
+    setUserLoggedStatus(userInfo.isLogged);
     firebaseapi.readBranchLocations().then((res) => {
       console.log(res);
       if (res) {
@@ -250,20 +254,26 @@ const Home = () => {
                 <BlockTitle>Make the first commit.</BlockTitle>
                 <BlockText>Start meeting new people!</BlockText>
                 <BlockAction>
-                  <SignUpBtn
-                    onClick={() => {
-                      navigate("/signup");
-                    }}
-                  >
-                    Join
-                  </SignUpBtn>
-                  <ActionButton
-                    onClick={() => {
-                      navigate("/signin");
-                    }}
-                  >
-                    Sign In
-                  </ActionButton>
+                  {userLoggedStatus ? (
+                    ""
+                  ) : (
+                    <>
+                      <SignUpBtn
+                        onClick={() => {
+                          navigate("/signup");
+                        }}
+                      >
+                        Join
+                      </SignUpBtn>
+                      <ActionButton
+                        onClick={() => {
+                          navigate("/signin");
+                        }}
+                      >
+                        Sign In
+                      </ActionButton>
+                    </>
+                  )}
                 </BlockAction>
                 <TourReminder>
                   <Tour />

@@ -94,6 +94,7 @@ const SignUpBtn = styled.button`
 
 const Signin = () => {
   const [ButtonPop, setButtonPop] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state) as any;
   const [errorMsg, setErrorMsg] = useState("");
@@ -137,8 +138,12 @@ const Signin = () => {
         // navigate("/");
         setIsLoading(false);
         setAlreadyLogged(true);
+        setButtonPop(true);
+        setAlertMsg("Log in successfully!");
       })
       .catch((error) => {
+        setButtonPop(true);
+        setAlertMsg("Please enter the correct info");
         switch (error.code) {
           case "auth/email-already-in-use": {
             setErrorMsg("Email already in use");
@@ -155,6 +160,7 @@ const Signin = () => {
         dispatch(signin());
         dispatch(setUserData("", "", ""));
         setButtonPop(true);
+        setAlertMsg("Sign out Successfully!");
         console.log("sign out!");
         setTimeout(() => {
           navigate("/");
@@ -172,7 +178,7 @@ const Signin = () => {
         <Alert
           trigger={ButtonPop}
           setButtonPop={setButtonPop}
-          alertMsg={"Sign out successfully"}
+          alertMsg={alertMsg}
         />
         <BlockInnerImg>
           <BlockInner>
