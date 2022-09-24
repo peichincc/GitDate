@@ -273,7 +273,11 @@ const Branch = () => {
 
   const deleteBranch = async (id: string | undefined) => {
     await firebaseapi.deleteBranch(id);
-    navigate("/");
+    setAlertMsg("Successfully delete this branch!");
+    setButtonPop(true);
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
   };
 
   return (
