@@ -44,6 +44,9 @@ const Container = styled.div`
 const InsideContainder = styled.div`
   display: flex;
   margin-top: 20px;
+  @media screen and (max-width: 770px) {
+    flex-direction: column;
+  }
 `;
 const LeftContainer = styled.div`
   margin-left: 20px;
