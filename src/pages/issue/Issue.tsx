@@ -410,18 +410,28 @@ const Issue = () => {
                           <FontAwesomeIcon icon={faCodeMerge} />
                         </MergeIcon>
                       </AvatarBlock>
-                      <PRPostBox>
-                        <PRBox>
-                          <PostContentText>
-                            Start chatting by making this pull request to{" "}
-                            {getAuthor}
-                            <FontAwesomeIcon icon={faMugSaucer} />
-                          </PostContentText>
-                          <PRbtn id="PRbtn" onClick={sendRequest}>
-                            Create Pull Request
-                          </PRbtn>
-                        </PRBox>
-                      </PRPostBox>
+                      {issueOpen ? (
+                        <PRPostBox>
+                          <PRBox>
+                            <PostContentText>
+                              Start chatting by making this pull request to{" "}
+                              {getAuthor}
+                              <FontAwesomeIcon icon={faMugSaucer} />
+                            </PostContentText>
+                            <PRbtn id="PRbtn" onClick={sendRequest}>
+                              Create Pull Request
+                            </PRbtn>
+                          </PRBox>
+                        </PRPostBox>
+                      ) : (
+                        <PRPostBox>
+                          <PRBox>
+                            <PostContentText>
+                              This issus is already closed.
+                            </PostContentText>
+                          </PRBox>
+                        </PRPostBox>
+                      )}
                     </PostWraper>
                   </PRContainer>
                 </LeftContainer>
