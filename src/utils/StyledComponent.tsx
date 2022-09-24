@@ -395,3 +395,10 @@ export const CloseBtnWrapper = styled.div`
   justify-content: center;
   margin-top: 20px;
 `;
+
+// Go back
+export const GoBackWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;

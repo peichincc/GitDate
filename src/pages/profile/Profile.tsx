@@ -424,7 +424,9 @@ const Profile = () => {
     if (imageUpload == null) return;
     const imageRef = ref(storage, `users/${getUser}.jpg`);
     await uploadBytes(imageRef, imageUpload).then(() => {
-      alert("uploaded photo!");
+      setAlertMsg("Photo updated");
+      setButtonPop(true);
+      // alert("uploaded photo!");
     });
     const downloadUrl = await getDownloadURL(imageRef);
     setImageURL(downloadUrl);
@@ -583,26 +585,19 @@ const Profile = () => {
               )}
               {showTextInput && (
                 <>
-                  <form>
-                    <TextInputCard>
-                      {uploadFormGroups.map(
-                        ({ label, key, textarea, options }) => (
-                          <FormGroup key={key}>
-                            <FormLabel>{label}</FormLabel>
-                            {uploadFormInputCheck(
-                              label,
-                              key,
-                              textarea,
-                              options
-                            )}
-                          </FormGroup>
-                        )
-                      )}
-                      <SubmitBtnWrapper>
-                        <SubmitBtn onClick={updateDB}>Update Profile</SubmitBtn>
-                      </SubmitBtnWrapper>
-                    </TextInputCard>
-                  </form>
+                  <TextInputCard>
+                    {uploadFormGroups.map(
+                      ({ label, key, textarea, options }) => (
+                        <FormGroup key={key}>
+                          <FormLabel>{label}</FormLabel>
+                          {uploadFormInputCheck(label, key, textarea, options)}
+                        </FormGroup>
+                      )
+                    )}
+                    <SubmitBtnWrapper>
+                      <SubmitBtn onClick={updateDB}>Update Profile</SubmitBtn>
+                    </SubmitBtnWrapper>
+                  </TextInputCard>
                 </>
               )}
               {showWelcomeMsg && (

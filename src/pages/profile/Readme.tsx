@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
 import {
@@ -24,6 +25,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
 
 import Loading from "../../components/Loading";
+
+import { GoBackWrapper, Button } from "../../utils/StyledComponent";
 
 const Wrapper = styled.div`
   width: 90%;
@@ -93,6 +96,7 @@ export const DataCard = styled.div`
 `;
 
 const Readme = () => {
+  let navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const db = getFirestore();
   const { id } = useParams<any>();
@@ -240,6 +244,9 @@ const Readme = () => {
             )}
           </>
         )}
+        <GoBackWrapper>
+          <Button onClick={() => navigate(-1)}>Go back</Button>
+        </GoBackWrapper>
       </Wrapper>
     </>
   );
