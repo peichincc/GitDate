@@ -116,6 +116,9 @@ const SignUpBtn = styled(ActionButton)`
 const BlockFeature = styled.div`
   height: 100vh;
   margin-top: 48px;
+  @media screen and (max-width: 700px) {
+    height: auto;
+  }
 `;
 const Features = styled.div`
   text-align: center;
@@ -124,6 +127,9 @@ const FeaturesList = styled.div`
   margin-top: 32px;
   display: flex;
   justify-content: center;
+  @media screen and (max-width: 700px) {
+    flex-direction: column;
+  }
 `;
 const FeaturesItem = styled.div`
   /* flex: 1 1 auto;
@@ -132,6 +138,9 @@ const FeaturesItem = styled.div`
   width: 30%;
   margin: 20px;
   margin-bottom: 0px;
+  @media screen and (max-width: 700px) {
+    width: 100%;
+  }
 `;
 const FeaturesPhoto = styled.div`
   width: 100%;

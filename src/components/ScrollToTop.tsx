@@ -9,6 +9,7 @@ const UpBtn = styled.button`
   background: none;
   font-size: 30px;
   cursor: pointer;
+  color: #24292f;
 `;
 const ScrollWrapper = styled.div`
   position: fixed;

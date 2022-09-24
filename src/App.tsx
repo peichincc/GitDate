@@ -18,7 +18,8 @@ const GlobalStyle = createGlobalStyle`
 }
 
   body {
-    font-family: sans-serif;
+    font-family: "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   }
 
   #root {
