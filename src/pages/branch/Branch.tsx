@@ -12,6 +12,7 @@ import {
   collection,
   DocumentData,
   onSnapshot,
+  getDoc,
 } from "firebase/firestore";
 import { ShowMap } from "../../components/map/ShowMap";
 import Participants from "./Participants";
@@ -23,6 +24,7 @@ import {
   PostImgContainer,
   MergeBtn,
   PostContentText,
+  DeleteBtn,
 } from "../../utils/StyledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -137,6 +139,11 @@ const ParticipantsBtn = styled.button`
   font-size: 1.25rem;
   line-height: 1.75rem;
 `;
+const DeleteWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
+`;
 
 const Branch = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -158,6 +165,8 @@ const Branch = () => {
   const [newList, setNewList] = useState([]);
   const [openParticipants, setOpenParticipants] = useState(false);
   const [participantsList, setParticipantsList] = useState<any>();
+  // Check author status
+  const [isAuthor, setIsAuthor] = useState(false);
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -182,6 +191,9 @@ const Branch = () => {
           setGetAuthor(res["firstname"]);
           setGetAuthorID(res["user_id"]);
           setIsLoading(false);
+          if (res["user_id"] === userId) {
+            setIsAuthor(true);
+          }
         }
       });
     });
@@ -261,8 +273,34 @@ const Branch = () => {
   };
 
   const deleteBranch = async (id: string | undefined) => {
+    updateLocationMarkers();
     await firebaseapi.deleteBranch(id);
-    navigate("/");
+    setAlertMsg("Successfully delete this branch!");
+    setButtonPop(true);
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
+  };
+
+  // To delete the location in the map then update back
+  const updateLocationMarkers = () => {
+    firebaseapi.readBranchLocations().then((res) => {
+      console.log(res?.markers);
+      console.log(id);
+      var ob_array = res?.markers;
+      var my_array = [id];
+      console.log(
+        ob_array.filter(
+          (O: { id: string | undefined }) => !my_array.includes(O.id)
+        )
+      );
+      var new_array = ob_array.filter(
+        (O: { id: string | undefined }) => !my_array.includes(O.id)
+      );
+      const LocationsRef = collection(db, "Location");
+      const docRef = doc(LocationsRef, "c4ttDiHr8UCyB0OMOtwA");
+      updateDoc(docRef, { markers: new_array });
+    });
   };
 
   return (
@@ -327,6 +365,19 @@ const Branch = () => {
                       git checkout
                     </CheckOutBtn>
                   </CardContainer>
+                  {isAuthor && (
+                    <>
+                      <DeleteWrapper>
+                        <DeleteBtn
+                          onClick={() => {
+                            deleteBranch(id);
+                          }}
+                        >
+                          Delete this branch
+                        </DeleteBtn>
+                      </DeleteWrapper>
+                    </>
+                  )}
                 </LeftContent>
                 <RightContent>
                   <CardContainer>
@@ -364,14 +415,6 @@ const Branch = () => {
             </MainContainer>
           </>
         )}
-        {/* <h2>Area for author</h2>
-        <button
-          onClick={() => {
-            deleteBranch(id);
-          }}
-        >
-          Delete this branch
-        </button> */}
       </Wrapper>
     </>
   );

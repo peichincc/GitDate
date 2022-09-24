@@ -7,8 +7,9 @@ import firebaseapi from "../../utils/firebaseapi";
 import "./terminal.css";
 
 import Chatroom from "./Chatroom";
-
+import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
+import defaultAvatar from "../../utils/DefaultAvatar.png";
 
 // Terminal Container
 const TerminalContainer = styled.div`
@@ -131,6 +132,8 @@ const ChatNameCardName = styled(NameCardName)`
 
 const Repo = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [ButtonPop, setButtonPop] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
   let navigate = useNavigate();
   const userData = useSelector((state) => state) as any;
   const [getUser, setGetUser] = useState("");
@@ -148,6 +151,14 @@ const Repo = () => {
     const userPhoto = userData.user.user_photo;
     console.log(userId);
     console.log(userName);
+    if (!userId) {
+      setAlertMsg("Please sign in!");
+      setButtonPop(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+      return;
+    }
     if (userId && userName) {
       setGetUser(userId);
       setGetUserName(userName);
@@ -165,6 +176,11 @@ const Repo = () => {
   return (
     <>
       <Container>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={alertMsg}
+        />
         <TerminalContainer>
           <FakeMenu id="repoSidebar">
             <FakeButtonsClose />
@@ -175,7 +191,11 @@ const Repo = () => {
             <Sidebar>
               <NameCard>
                 <NameCardPhotoContainer>
-                  <NameCardPhoto src={getUserPhoto} />
+                  {getUser ? (
+                    <NameCardPhoto src={getUserPhoto} />
+                  ) : (
+                    <NameCardPhoto src={defaultAvatar} />
+                  )}
                 </NameCardPhotoContainer>
                 <NameCardName>{getUserName}</NameCardName>
               </NameCard>

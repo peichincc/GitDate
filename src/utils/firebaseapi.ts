@@ -61,7 +61,7 @@ const firebaseapi = {
   async deleteIssue(id: string | undefined) {
     await deleteDoc(doc(issuesRef, id))
       .then(() => {
-        alert("Delete successful!");
+        // alert("Delete successful!");
       })
       .catch((error) => {
         console.error("Error removing document: ", error);
@@ -97,7 +97,7 @@ const firebaseapi = {
     const imageRef = ref(storage, `issues/${newIssueRef.id}.jpg`);
     await uploadBytes(imageRef, imageUpload)
       .then(() => {
-        alert("uploaded!");
+        // alert("uploaded!");
         console.log(newIssueRef);
         console.log(recipient);
         setDoc(newIssueRef, recipient);
@@ -134,7 +134,7 @@ const firebaseapi = {
     if (imageUpload == null) return;
     const imageRef = ref(storage, `users/${userid}.jpg`);
     await uploadBytes(imageRef, imageUpload).then(() => {
-      alert("uploaded!");
+      // alert("uploaded!");
     });
     const downloadUrl = await getDownloadURL(imageRef);
     return downloadUrl;
@@ -145,7 +145,7 @@ const firebaseapi = {
   async updateDB(userid: string, recipient: any, imageURL: string) {
     const userRef = doc(usersRef, `${userid}`);
     await updateDoc(userRef, { ...recipient, main_photo: imageURL });
-    alert("updated!");
+    // alert("updated!");
   },
   // In Issue
   // 更新版本:送出好友邀請Update fields in Users collection
@@ -200,7 +200,7 @@ const firebaseapi = {
     const imageRef = ref(storage, `branches/${newBranchRef.id}.jpg`);
     await uploadBytes(imageRef, imageUpload)
       .then(() => {
-        alert("uploaded!");
+        // alert("uploaded!");
         console.log(newBranchRef);
         console.log(recipient);
         setDoc(newBranchRef, recipient);
@@ -245,7 +245,7 @@ const firebaseapi = {
   async deleteBranch(id: string | undefined) {
     await deleteDoc(doc(branchesRef, id))
       .then(() => {
-        alert("Delete successful!");
+        // alert("Delete successful!");
       })
       .catch((error) => {
         console.error("Error removing document: ", error);

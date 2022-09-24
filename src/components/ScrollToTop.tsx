@@ -1,0 +1,41 @@
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUpLong } from "@fortawesome/free-solid-svg-icons";
+
+const UpBtn = styled.button`
+  border: none;
+  background: none;
+  font-size: 30px;
+  cursor: pointer;
+`;
+const ScrollWrapper = styled.div`
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 200;
+`;
+
+const ScrollToTop = () => {
+  useEffect(() => {
+    // 👇️ scroll to top on page load
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
+
+  return (
+    <>
+      <ScrollWrapper>
+        <UpBtn
+          onClick={() => {
+            window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+          }}
+        >
+          <FontAwesomeIcon icon={faUpLong} />
+        </UpBtn>
+      </ScrollWrapper>
+    </>
+  );
+};
+
+export default ScrollToTop;

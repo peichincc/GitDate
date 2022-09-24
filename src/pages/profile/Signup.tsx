@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 
 import back from "./SignUpBack.jpg";
+import Alert from "../../components/modal/Alert";
 
 const Wrapper = styled.div`
   display: block;
@@ -121,6 +122,8 @@ const BlockContent = styled.div`
 `;
 
 const Signup = () => {
+  const [ButtonPop, setButtonPop] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
   const db = getFirestore();
   const navigate = useNavigate();
   const [showPasswordInput, setShowPasswordInput] = useState(false);
@@ -149,9 +152,13 @@ const Signup = () => {
         });
       })
       .then(() => {
+        setButtonPop(true);
+        setAlertMsg("Sign up successfully, now let's write README!");
         navigate("/profile");
       })
       .catch((error) => {
+        setButtonPop(true);
+        setAlertMsg("Please enter the correct info");
         switch (error.code) {
           case "auth/email-already-in-use": {
             setErrorMsg("Email already in use");
@@ -174,6 +181,11 @@ const Signup = () => {
   return (
     <>
       <Wrapper>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={alertMsg}
+        />
         <BlockInnerImg>
           <BlockInner>
             <BlockContent>

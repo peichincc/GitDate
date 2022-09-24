@@ -56,7 +56,6 @@ const ModalExplaination = styled(ModalContent)`
 `;
 
 const Alert = (props: any) => {
-  let navigate = useNavigate();
   const { trigger, setButtonPop, alertMsg } = props;
   return trigger ? (
     <>

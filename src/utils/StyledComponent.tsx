@@ -395,3 +395,25 @@ export const CloseBtnWrapper = styled.div`
   justify-content: center;
   margin-top: 20px;
 `;
+
+// Go back
+export const GoBackWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+// Author btn
+export const EditBtn = styled(Button)`
+  font-size: 12px;
+  line-height: 20px;
+  padding: 3px 12px;
+  margin-bottom: 5px;
+`;
+export const DeleteBtn = styled(EditBtn)`
+  color: red;
+  &:hover {
+    color: white;
+    background-color: #953800;
+  }
+`;

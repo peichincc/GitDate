@@ -14,6 +14,13 @@ import {
 } from "firebase/firestore";
 import firebaseapi from "../../utils/firebaseapi";
 import { useSelector, useDispatch } from "react-redux";
+import { setUserData, signin } from "../../actions";
+import { auth } from "../../utils/firebase";
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 
 import PostedIssues from "../../components/user/PostedIssues";
 import AttendedBranches from "../../components/user/AttendedBranches";
@@ -33,6 +40,7 @@ import {
 
 import { Button } from "../../utils/StyledComponent";
 import Loading from "../../components/Loading";
+import { SubmitBtn } from "./Signup";
 
 const IconContainer = styled.div`
   width: 16px;
@@ -195,14 +203,20 @@ const ReadmeBtn = styled(MemberBtn)`
   color: white;
   background-color: #24292f;
 `;
+const SignOutBtn = styled(SubmitBtn)`
+  margin-top: 0;
+  width: 120px;
+`;
 
 const Member = () => {
+  const [ButtonPop, setButtonPop] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   let navigate = useNavigate();
+  const dispatch = useDispatch();
   const db = getFirestore();
   const userInfo = useSelector((state) => state) as any;
   const [getUser, setGetUser] = useState("");
-  const [userData, setUserData] = useState<any>(null);
+  const [logInUserData, setLoginUserData] = useState<any>(null);
   const [memberOverview, setMemberOverview] = useState(true);
   const [openIssue, setOpenIssue] = useState(false);
   const [postedIssues, setPostedIssues] = useState<DocumentData>();
@@ -227,7 +241,7 @@ const Member = () => {
     searchAttenedBranches(userId);
     firebaseapi.readUserData(userId).then((res) => {
       if (res) {
-        setUserData(res);
+        setLoginUserData(res);
         setIsLoading(false);
       }
     });
@@ -296,6 +310,23 @@ const Member = () => {
         setAttendedBranches(newArr);
       }
     });
+  };
+
+  const signout = () => {
+    signOut(auth)
+      .then(() => {
+        dispatch(signin());
+        dispatch(setUserData("", "", ""));
+        setButtonPop(true);
+        console.log("sign out!");
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // navigate("/");
   };
 
   return (
@@ -373,16 +404,16 @@ const Member = () => {
           <LayoutContainer>
             <SidebarLayout>
               {isLoading && <Loading />}
-              {userData && (
+              {logInUserData && (
                 <>
                   <PhotoContainer>
                     <PhotoContainerImg
-                      src={userData.main_photo}
+                      src={logInUserData.main_photo}
                       alt="main_photo"
                     />
                   </PhotoContainer>
                   <UserName>
-                    {userData.firstname} {userData.lastname}
+                    {logInUserData.firstname} {logInUserData.lastname}
                   </UserName>
                   <MemberBtn
                     id="editProfile"
@@ -396,11 +427,12 @@ const Member = () => {
                   >
                     README.md
                   </ReadmeBtn>
+                  <SignOutBtn onClick={signout}>Sign out</SignOutBtn>
                 </>
               )}
             </SidebarLayout>
             <MainLayout>
-              {userData && memberOverview && (
+              {logInUserData && memberOverview && (
                 <>
                   <Container>
                     <BoxHeader>
@@ -410,39 +442,39 @@ const Member = () => {
                     <InsideContainder>
                       <FormTextRead>
                         <DataCard> Name </DataCard>
-                        {userData.firstname} {userData.lastname}
+                        {logInUserData.firstname} {logInUserData.lastname}
                       </FormTextRead>
                       <FormTextRead>
                         <DataCard> Occupation </DataCard>
-                        {userData.occupation}
+                        {logInUserData.occupation}
                       </FormTextRead>
                       <FormTextRead>
-                        <DataCard>Age</DataCard> {userData.age}
+                        <DataCard>Age</DataCard> {logInUserData.age}
                       </FormTextRead>
                       <FormTextRead>
-                        <DataCard> Gender </DataCard> {userData.gender}
+                        <DataCard> Gender </DataCard> {logInUserData.gender}
                       </FormTextRead>
                       <FormTextRead>
                         <DataCard> Interested in </DataCard>
-                        {userData.gender_interested}
+                        {logInUserData.gender_interested}
                       </FormTextRead>
                       <FormTextRead>
                         <DataCard> Wish relationship </DataCard>
-                        {userData.wish_relationship}
+                        {logInUserData.wish_relationship}
                       </FormTextRead>
                       <FormTextRead>
                         <DataCard> GithubLink</DataCard>
                         <a
-                          href={userData.githublink}
+                          href={logInUserData.githublink}
                           target="_blank"
                           rel="noreferrer"
                         >
-                          {userData.githublink}
+                          {logInUserData.githublink}
                         </a>
                       </FormTextRead>
                       <FormTextRead>
                         <DataCard> Details</DataCard>
-                        <TextArea>{userData.details}</TextArea>
+                        <TextArea>{logInUserData.details}</TextArea>
                       </FormTextRead>
                     </InsideContainder>
                   </Container>
