@@ -370,15 +370,19 @@ const Branch = () => {
                       dangerouslySetInnerHTML={{ __html: branchData.content }}
                     ></div>
                   </BranchConent>
-                  <CardContainer>
-                    <PostContentText>
-                      Click to attend this activity{" "}
-                      <FontAwesomeIcon icon={faCheck} />
-                    </PostContentText>
-                    <CheckOutBtn id="checkoutBtn" onClick={attendActivity}>
-                      git checkout
-                    </CheckOutBtn>
-                  </CardContainer>
+                  {!isAuthor && (
+                    <>
+                      <CardContainer>
+                        <PostContentText>
+                          Click to attend this activity{" "}
+                          <FontAwesomeIcon icon={faCheck} />
+                        </PostContentText>
+                        <CheckOutBtn id="checkoutBtn" onClick={attendActivity}>
+                          git checkout
+                        </CheckOutBtn>
+                      </CardContainer>
+                    </>
+                  )}
                   {isAuthor && (
                     <>
                       <DeleteWrapper>
