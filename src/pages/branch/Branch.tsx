@@ -63,6 +63,9 @@ const MainContainer = styled.div`
 `;
 const LeftContent = styled.div`
   width: 660px;
+  @media screen and (max-width: 660px) {
+    width: 100%;
+  }
 `;
 const RightContent = styled.div`
   margin-top: 20px;
@@ -80,10 +83,18 @@ const MainContentContainer = styled.div`
 `;
 const BranchImgBox = styled(PostImgContainer)`
   margin-left: 0;
+  @media screen and (max-width: 770px) {
+    max-width: 250px;
+    max-height: 200px;
+  }
 `;
 const BranchImgBoxImg = styled.img`
   max-width: 500px;
   max-height: 400px;
+  @media screen and (max-width: 770px) {
+    width: 250px;
+    height: 200px;
+  }
 `;
 const BranchSubTitle = styled.div`
   text-align: left;
@@ -115,6 +126,9 @@ const CardContainer = styled.div`
 const MapContainer = styled.div`
   width: 400px;
   height: 200px;
+  @media screen and (max-width: 660px) {
+    width: 100%;
+  }
 `;
 
 const CheckOutBtn = styled(MergeBtn)`

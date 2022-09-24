@@ -193,6 +193,9 @@ export const BlogList = styled.div`
   &:hover {
     background-color: #f6f8fa;
   }
+  @media screen and (max-width: 450px) {
+    flex-direction: column;
+  }
 `;
 export const GithubPostTitle = styled.div`
   padding: 2px;

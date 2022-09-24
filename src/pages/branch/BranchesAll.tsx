@@ -148,6 +148,11 @@ const CalendarContainerIn = styled.div`
 const BranchesContainer = styled.div`
   margin-top: 20px;
   width: 60%;
+  @media screen and (max-width: 661px) {
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 `;
 
 const FilterContainer = styled.div`

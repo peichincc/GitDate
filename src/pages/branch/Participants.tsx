@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 const ParticipantsContainer = styled.div`
   display: flex;
+  @media screen and (max-width: 450px) {
+    flex-direction: column;
+  }
 `;
 const ParticipantContainer = styled.div`
   margin-left: 10px;
