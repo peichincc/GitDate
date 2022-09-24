@@ -58,10 +58,7 @@ const ModalExplaination = styled(ModalContent)`
 `;
 
 const Confirm = (props: any) => {
-  let navigate = useNavigate();
-  const { trigger, setConfirmPop, confirmMsg, clickToConfirm } = props;
-
-  // const [confirm, setConfirm] = useState(false)
+  const { trigger, confirmMsg, clickToConfirm } = props;
 
   return trigger ? (
     <>

@@ -15,6 +15,7 @@ import firebaseapi from "../../utils/firebaseapi";
 
 import defaultAvatar from "../../utils/DefaultAvatar.png";
 import {
+  Button,
   LebalsText,
   PostImgContainer,
   PostTitle,
@@ -39,6 +40,7 @@ import {
   faCodeMerge,
   faCodePullRequest,
   faMugSaucer,
+  faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Alert from "../../components/modal/Alert";
@@ -132,11 +134,29 @@ const PRbtn = styled(MergeBtn)`
 const StatusWord = styled.div`
   margin-left: 5px;
 `;
+const CloseStatus = styled(StatusOpen)`
+  width: fit-content;
+  background-color: #8250df;
+`;
 
 const TagsWrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+`;
+
+const EditBtn = styled(Button)`
+  font-size: 12px;
+  line-height: 20px;
+  padding: 3px 12px;
+  margin-bottom: 5px;
+`;
+const DeleteBtn = styled(EditBtn)`
+  color: red;
+  &:hover {
+    color: white;
+    background-color: #953800;
+  }
 `;
 
 const Issue = () => {
@@ -167,6 +187,10 @@ const Issue = () => {
   const [getUserPhoto, setGetUserPhoto] = useState("");
   const [getAuthor, setGetAuthor] = useState("");
   const [getAuthorID, setGetAuthorID] = useState("");
+  // Check author status
+  const [isAuthor, setIsAuthor] = useState(false);
+  // render issue status
+  const [issueOpen, setIssueOpen] = useState(true);
 
   // 讀取使用者資料
   // const readData = async (id: string | undefined) => {
@@ -208,12 +232,17 @@ const Issue = () => {
     updateDoc(updateRef, {
       status: "Closed",
     });
-    alert("Successfully closed this issue!");
+    setAlertMsg("Successfully closed this issue!");
+    setButtonPop(true);
   };
 
   const deleteIssue = async (id: string | undefined) => {
     await firebaseapi.deleteIssue(id);
-    navigate("/");
+    setAlertMsg("Successfully delete this issue!");
+    setButtonPop(true);
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
     // await deleteDoc(doc(collection(db, "Issues"), id))
     //   .then(() => {
     //     alert("Delete successful!");
@@ -240,6 +269,13 @@ const Issue = () => {
         const newT = new Date(res.posted_at.seconds * 1000).toString();
         setNewT(newT);
         setIssueData(res);
+        if (res.status === "Open") {
+          console.log("open");
+          setIssueOpen(true);
+        } else {
+          console.log("close");
+          setIssueOpen(false);
+        }
       }
       firebaseapi.searchUserName(res?.posted_by).then((res) => {
         if (res) {
@@ -247,6 +283,9 @@ const Issue = () => {
           setGetAuthor(res["firstname"]);
           setGetAuthorID(res["user_id"]);
           setIsLoading(false);
+          if (res["user_id"] === userId) {
+            setIsAuthor(true);
+          }
         }
       });
     });
@@ -264,14 +303,12 @@ const Issue = () => {
     setConfirmMsg("Do you want to send this pull request?");
     setConfirmPop(true);
   };
-
   const clickToConfirm = (isConfirm: boolean) => {
     if (isConfirm) {
       confirmSendRequest();
     }
     setConfirmPop(false);
   };
-
   const confirmSendRequest = async () => {
     const userRef = doc(db, "Users", getAuthorID);
     await updateDoc(userRef, {
@@ -315,10 +352,17 @@ const Issue = () => {
               <TopContainer>
                 <PostTitle>{issueData.title}</PostTitle>
                 <IssueSubTitle>
-                  <StatusOpen>
-                    <FontAwesomeIcon icon={faCodePullRequest} />
-                    <StatusWord>{issueData.status}</StatusWord>
-                  </StatusOpen>
+                  {issueOpen ? (
+                    <StatusOpen>
+                      <FontAwesomeIcon icon={faCodePullRequest} />
+                      <StatusWord>{issueData.status}</StatusWord>
+                    </StatusOpen>
+                  ) : (
+                    <CloseStatus>
+                      <FontAwesomeIcon icon={faCircleCheck} />
+                      <StatusWord> {issueData.status}</StatusWord>
+                    </CloseStatus>
+                  )}
                   <AuthorContainer>
                     <PostSubTitle>
                       <AuthorBtn
@@ -398,22 +442,30 @@ const Issue = () => {
                       ))}
                     </TagsWrapper>
                   </LebalsContainer>
+                  {isAuthor && (
+                    <>
+                      <LebalsContainer>
+                        <LebalsText>Area for author</LebalsText>
+                        <LebalContentText>
+                          <EditBtn onClick={changeIssueStatus}>
+                            Close issue
+                          </EditBtn>
+                          <DeleteBtn
+                            onClick={() => {
+                              deleteIssue(id);
+                            }}
+                          >
+                            Delete issue
+                          </DeleteBtn>
+                        </LebalContentText>
+                      </LebalsContainer>
+                    </>
+                  )}
                 </RightContainer>
               </MainContainer>
             </Container>
           </div>
         )}
-        {/* <br />
-        <h2>Area for author</h2>
-        <button onClick={changeIssueStatus}>Close this issue</button>
-        <br />
-        <button
-          onClick={() => {
-            deleteIssue(id);
-          }}
-        >
-          Delete this issue
-        </button> */}
       </Wrapper>
     </>
   );
