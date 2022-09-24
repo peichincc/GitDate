@@ -152,6 +152,8 @@ const Signin = () => {
   const signout = () => {
     signOut(auth)
       .then(() => {
+        dispatch(signin());
+        dispatch(setUserData("", "", ""));
         setButtonPop(true);
         console.log("sign out!");
         setTimeout(() => {
