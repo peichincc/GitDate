@@ -12,6 +12,7 @@ import {
   collection,
   DocumentData,
   onSnapshot,
+  getDoc,
 } from "firebase/firestore";
 import { ShowMap } from "../../components/map/ShowMap";
 import Participants from "./Participants";
@@ -272,12 +273,34 @@ const Branch = () => {
   };
 
   const deleteBranch = async (id: string | undefined) => {
+    updateLocationMarkers();
     await firebaseapi.deleteBranch(id);
     setAlertMsg("Successfully delete this branch!");
     setButtonPop(true);
     setTimeout(() => {
       navigate("/");
     }, 1000);
+  };
+
+  // To delete the location in the map then update back
+  const updateLocationMarkers = () => {
+    firebaseapi.readBranchLocations().then((res) => {
+      console.log(res?.markers);
+      console.log(id);
+      var ob_array = res?.markers;
+      var my_array = [id];
+      console.log(
+        ob_array.filter(
+          (O: { id: string | undefined }) => !my_array.includes(O.id)
+        )
+      );
+      var new_array = ob_array.filter(
+        (O: { id: string | undefined }) => !my_array.includes(O.id)
+      );
+      const LocationsRef = collection(db, "Location");
+      const docRef = doc(LocationsRef, "c4ttDiHr8UCyB0OMOtwA");
+      updateDoc(docRef, { markers: new_array });
+    });
   };
 
   return (
