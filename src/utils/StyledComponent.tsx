@@ -291,11 +291,19 @@ export const PostContentText = styled.div`
 `;
 export const PostImgContainer = styled.div`
   margin: 20px;
+  @media screen and (max-width: 770px) {
+    max-width: 250px;
+    max-height: 200px;
+  }
 `;
 export const PostImgBoxImg = styled.img`
   max-width: 500px;
   max-height: 400px;
   object-fit: cover;
+  @media screen and (max-width: 770px) {
+    width: 250px;
+    height: 200px;
+  }
 `;
 export const LebalsText = styled.div`
   font-size: 12px;
@@ -311,6 +319,9 @@ export const LebalContentText = styled.div`
 export const LebalsContainer = styled.div`
   border-bottom: 1px solid #d0d7de;
   padding: 10px;
+  @media screen and (max-width: 770px) {
+    border-bottom: 0px;
+  }
 `;
 export const AuthorBtn = styled.button`
   font-weight: 600;
@@ -378,6 +389,9 @@ export const ModalSubtitle = styled.div`
   line-height: 30px;
   font-weight: 600;
   width: 175px;
+  @media screen and (min-width: 770px) {
+    font-size: 14px;
+  }
 `;
 export const ModalContent = styled.div`
   color: #333;
@@ -385,6 +399,9 @@ export const ModalContent = styled.div`
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   font-size: 16px;
   line-height: 30px;
+  @media screen and (min-width: 770px) {
+    font-size: 12px;
+  }
 `;
 export const ModalWordWrapper = styled.div`
   display: flex;

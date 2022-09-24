@@ -70,6 +70,9 @@ const MainContainer = styled.div`
   display: flex;
   width: 100%;
   padding-top: 8px;
+  @media screen and (max-width: 770px) {
+    flex-direction: column-reverse;
+  }
 `;
 const LeftContainer = styled.div`
   width: 80%;
@@ -77,11 +80,18 @@ const LeftContainer = styled.div`
 const RightContainer = styled.div`
   width: 20%;
   padding-left: 20px;
+  @media screen and (max-width: 770px) {
+    display: flex;
+  }
 `;
 const IssueSubTitle = styled.div`
   padding-top: 5px;
   display: flex;
   align-items: center;
+  @media screen and (max-width: 770px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 const AuthorContainer = styled.div``;
 const ContentContainer = styled.div`
