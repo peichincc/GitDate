@@ -195,6 +195,7 @@ export const BlogList = styled.div`
   }
 `;
 export const GithubPostTitle = styled.div`
+  padding: 2px;
   font-size: 16px;
   font-weight: 600;
   color: #24292f;

@@ -140,6 +140,7 @@ const FeaturesItem = styled.div`
   margin-bottom: 0px;
   @media screen and (max-width: 700px) {
     width: 100%;
+    margin: 0;
   }
 `;
 const FeaturesPhoto = styled.div`
@@ -253,11 +254,6 @@ const Home = () => {
         <Block>
           <BlockCarousel id="mainDoc">
             <Carousel />
-            {/* <BlockInnerImg
-            style={{
-              backgroundImage: `url(${returnPhotoURL()})`,
-            }}
-          > */}
             <BlockInner>
               <BlockContent id="signup">
                 <BlockTitle>Make the first commit.</BlockTitle>

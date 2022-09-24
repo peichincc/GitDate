@@ -30,6 +30,9 @@ const Wrapper = styled.div`
   padding-left: 16px;
   align-items: center;
   width: 100%;
+  @media screen and (max-width: 770px) {
+    padding-left: 0;
+  }
 `;
 
 const LogoContainer = styled(Link)`
@@ -97,6 +100,9 @@ const CategoryLinks = styled.div`
   margin-left: 20px;
   width: 100%;
   margin-top: 7px;
+  @media screen and (max-width: 770px) {
+    display: none;
+  }
 `;
 const Category = styled(Link)`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
@@ -109,6 +115,13 @@ const Category = styled(Link)`
   cursor: pointer;
   :hover {
     color: #9a9b9d;
+  }
+  @media screen and (max-width: 770px) {
+    border-bottom: 1px solid #d0d7de;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    font-size: 14px;
+    color: #d0d7de;
   }
 `;
 
@@ -125,6 +138,52 @@ const RightContainer = styled.div`
   align-items: center;
 `;
 
+const MobileBar = styled.div`
+  @media screen and (max-width: 770px) {
+    display: block;
+  }
+`;
+const ToggleBtn = styled.button`
+  margin-left: 16px;
+  height: 24px;
+  width: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 0;
+  box-sizing: border-box;
+  @media screen and (min-width: 770px) {
+    display: none;
+  }
+`;
+const ToggleBtnLine = styled.div`
+  width: 17px;
+  height: 2px;
+  background: #d0d7de;
+`;
+const MobileSidebar = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 250px;
+  background-color: #24292f;
+  top: 62px;
+`;
+const MobileLinkContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+`;
+const ClostBtn = styled.button`
+  font-size: 20px;
+  background-color: #24292f;
+  border: none;
+  margin-top: 3px;
+  color: white;
+`;
+
 const Header = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -132,6 +191,12 @@ const Header = () => {
   const [alreadyLogged, setAlreadyLogged] = useState(false);
 
   const [searchResults, setSearchRsults] = useState<DocumentData>();
+
+  // Mobile sidebar (RWD)
+  const [showSidebar, setShowSidebar] = useState(false);
+  const clickhandler = () => {
+    setShowSidebar(true);
+  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -206,6 +271,41 @@ const Header = () => {
   return (
     <>
       <Wrapper>
+        <MobileBar>
+          <ToggleBtn onClick={clickhandler}>
+            <ToggleBtnLine />
+            <ToggleBtnLine />
+            <ToggleBtnLine />
+          </ToggleBtn>
+        </MobileBar>
+        {showSidebar && (
+          <MobileSidebar>
+            <MobileLinkContainer>
+              <Category to="issues" id="issues">
+                Issues
+              </Category>
+              <Category to="branches" id="branches">
+                Branches
+              </Category>
+              <Category as="div" id="docs">
+                <Tours />
+              </Category>
+              <Category to="repo" id="repo">
+                Repo
+              </Category>
+              <Category as="div" onClick={memberHandler}>
+                <Member />
+              </Category>
+              <ClostBtn
+                onClick={() => {
+                  setShowSidebar(false);
+                }}
+              >
+                &times;
+              </ClostBtn>
+            </MobileLinkContainer>
+          </MobileSidebar>
+        )}
         <LogoContainer to="/">
           <GitHub stroke="#FFF" />
         </LogoContainer>

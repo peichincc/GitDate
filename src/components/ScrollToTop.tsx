@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUpLong } from "@fortawesome/free-solid-svg-icons";
+import { faCircleArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 const UpBtn = styled.button`
   border: none;
@@ -32,7 +32,7 @@ const ScrollToTop = () => {
             window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
           }}
         >
-          <FontAwesomeIcon icon={faUpLong} />
+          <FontAwesomeIcon icon={faCircleArrowUp} />
         </UpBtn>
       </ScrollWrapper>
     </>
