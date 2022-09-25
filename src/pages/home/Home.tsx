@@ -139,7 +139,7 @@ const FeaturesItem = styled.div`
   width: 30%;
   margin: 20px;
   margin-bottom: 0px;
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 770px) {
     width: 100%;
     margin: 0;
   }
@@ -171,6 +171,9 @@ const PrideContainer = styled.div`
   display: flex;
   align-items: center;
   height: 100%;
+  @media screen and (max-width: 770px) {
+    flex-direction: column;
+  }
 `;
 const PrideItem = styled(FeaturesItem)`
   background-image: url(${pride});
