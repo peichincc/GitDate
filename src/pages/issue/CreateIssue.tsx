@@ -352,6 +352,7 @@ const CreateIssue = () => {
                   return (
                     <FormCheck key={index}>
                       <FormCheckInput
+                        name="category"
                         type="radio"
                         id={`custom-checkbox-${index}`}
                         value={name}

@@ -4,11 +4,9 @@ import styled from "styled-components";
 
 const ResultBox = styled.div`
   width: 100%;
-  background-color: white;
   height: auto;
   color: black;
   z-index: 999;
-  border-radius: 6px;
 `;
 const Results = styled.div`
   cursor: pointer;

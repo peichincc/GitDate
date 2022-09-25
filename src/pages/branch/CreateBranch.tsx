@@ -368,11 +368,11 @@ const CreateBranch = () => {
                   return (
                     <FormCheck key={index}>
                       <FormCheckInput
+                        name="type"
                         type="radio"
                         id={`custom-checkbox-${index}`}
                         value={name}
                         onChange={getType}
-                        required
                       />
                       {name}
                     </FormCheck>
