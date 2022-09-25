@@ -12,9 +12,10 @@ import img06 from "./slider/slider06.jpg";
 import hangout from "./feature/hangout.jpg";
 import dating from "./feature/dating.jpg";
 import networking from "./feature/networking.jpg";
+import pride from "./feature/pride.jpg";
 import { Tour } from "../../components/Tour";
 
-import { ActionButton } from "../../utils/StyledComponent";
+import { ActionButton, TagButton } from "../../utils/StyledComponent";
 import { ShowMainMap } from "../../components/map/MainMap";
 
 import firebaseapi from "../../utils/firebaseapi";
@@ -165,6 +166,25 @@ const FeaturesItemTitleDate = styled(FeaturesItemTitle)`
 `;
 const FeaturesItemTitleNetworking = styled(FeaturesItemTitle)`
   top: 30%;
+`;
+const PrideContainer = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+`;
+const PrideItem = styled(FeaturesItem)`
+  background-image: url(${pride});
+  width: 50%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
+const PrideWordWrapper = styled.div`
+  width: 50%;
+  padding: 30px;
+`;
+const PrideTitle = styled(FeaturesItemTitle)`
+  right: 0;
 `;
 
 const MapContainer = styled.div`
@@ -334,6 +354,36 @@ const Home = () => {
             </MapContainer>
           </Features>
         </MapBlock>
+        <Block>
+          <BlockFeature>
+            <PrideContainer>
+              <PrideWordWrapper>
+                <h2>
+                  In GitDate,
+                  <br />
+                  Be who you are.
+                  <br />
+                  <br />
+                  You could choose your gender options freely.
+                  <br />
+                  <br />
+                  <TagButton>Female</TagButton>
+                  <TagButton>Male</TagButton>
+                  <TagButton>Non-binary</TagButton>
+                  <TagButton>Transgender</TagButton>
+                  <TagButton>Intersex</TagButton>
+                  <TagButton>Prefer not to say</TagButton>
+                </h2>
+              </PrideWordWrapper>
+              <PrideItem>
+                <PrideTitle>Building a better world</PrideTitle>
+                {/* <FeaturesPhoto>
+                  <FeaturesPhotoImg src={pride} />
+                </FeaturesPhoto> */}
+              </PrideItem>
+            </PrideContainer>
+          </BlockFeature>
+        </Block>
       </Wrapper>
     </>
   );
