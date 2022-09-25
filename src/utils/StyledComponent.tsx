@@ -90,6 +90,7 @@ export const AvatarUser = styled.div`
   width: 40px;
   height: 40px;
   margin-top: 10px;
+  object-fit: cover;
   @media screen and (max-width: 600px) {
     display: none;
   }

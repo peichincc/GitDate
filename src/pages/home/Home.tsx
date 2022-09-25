@@ -90,7 +90,7 @@ const BlockContent = styled.div`
   width: 100%;
   background-color: rgba(255, 255, 255, 0.9);
   text-align: center;
-  @media screen and (min-width: 1280px) {
+  @media screen and (min-width: 770px) {
     max-width: 680px;
     padding-bottom: 15px;
     padding-top: 55px;
@@ -327,7 +327,7 @@ const Home = () => {
             <h2>
               What's more...
               <br />
-              To meet our GitDaters around the world
+              Meet our GitDaters around the world
             </h2>
             <MapContainer>
               <ShowMainMap markersFromDB={markersFromDB} />

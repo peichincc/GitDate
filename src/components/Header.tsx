@@ -13,6 +13,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
+import useOnclickOutside from "react-cool-onclickoutside";
 
 import { ReactComponent as Doc } from "./doc.svg";
 import { ReactComponent as Repo } from "./repo.svg";
@@ -21,6 +22,8 @@ import { ReactComponent as Member } from "./member.svg";
 import { ReactComponent as Logout } from "./logout.svg";
 
 import { Tours } from "./Tours";
+
+import SearchResults from "./SearchResults";
 
 const Wrapper = styled.div`
   display: flex;
@@ -36,6 +39,7 @@ const Wrapper = styled.div`
 `;
 
 const LogoContainer = styled(Link)`
+  cursor: pointer;
   width: 62px;
   height: 62px;
   display: flex;
@@ -55,6 +59,7 @@ const SearchForm = styled.div`
   width: 100%;
   margin-left: 10px;
   max-width: 272px;
+  height: auto;
   /* min-height: 28px; */
   margin-top: 6px;
   background-color: #24292f;
@@ -86,11 +91,12 @@ const SearchWrapper = styled.div`
   align-items: center;
   margin-top: 2px;
 `;
-const ResultBox = styled.div`
-  width: 100%;
+const SearchContainer = styled.div`
+  position: absolute;
+  width: 270px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   background-color: white;
-  height: 20px;
-  color: black;
+  border-radius: 0px 0px 6px 6px;
 `;
 
 const CategoryLinks = styled.div`
@@ -250,10 +256,12 @@ const Header = () => {
   function expand() {
     setExpanded(true);
   }
-
-  function close() {
+  const ref = useOnclickOutside(() => {
+    // When user clicks outside of the component, we can dismiss
+    // the searched suggestions by calling this method
     setExpanded(false);
-  }
+  });
+
   const getSearchName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchName(e.target.value);
   };
@@ -261,10 +269,10 @@ const Header = () => {
     firebaseapi.searchUserByName(searchName).then((res) => {
       console.log(res);
       if (res) {
+        expand();
         // console.log(res["firstname"]);
         setSearchRsults(res);
       }
-      expand();
     });
   };
 
@@ -309,7 +317,7 @@ const Header = () => {
         <LogoContainer to="/">
           <GitHub stroke="#FFF" />
         </LogoContainer>
-        {/* <SearchForm>
+        <SearchForm>
           <SearchWrapper>
             <SearchInput
               placeholder="Enter name to search user..."
@@ -318,15 +326,11 @@ const Header = () => {
             <SearchBtn onClick={getSearchResults}>/</SearchBtn>
           </SearchWrapper>
           {expanded && (
-            <ResultBox>
-              {searchResults?.map((user: any) => {
-                <>
-                  <h1>{user.firstname}</h1>
-                </>;
-              })}
-            </ResultBox>
+            <SearchContainer ref={ref}>
+              <SearchResults searchResults={searchResults} />
+            </SearchContainer>
           )}
-        </SearchForm> */}
+        </SearchForm>
         <CategoryLinks>
           <CategoryContainer>
             <LeftContainer>
@@ -338,11 +342,7 @@ const Header = () => {
               </Category>
             </LeftContainer>
             <RightContainer>
-              {/* <Category to="tutorial">
-                Docs
-              </Category> */}
               <Category as="div" id="docs">
-                {/* Docs */}
                 <Tours />
               </Category>
               <Category to="repo" id="repo">
