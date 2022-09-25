@@ -198,6 +198,7 @@ const Btn = styled.button`
 
 const WelcomeMsg = styled.div`
   margin-top: 30vh;
+  padding: 20px;
 `;
 
 const PreviewReadmeContainer = styled.div`

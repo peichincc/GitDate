@@ -42,8 +42,11 @@ const FormLabel = styled.div``;
 export const FormInputContainer = styled.div`
   display: flex;
   margin-bottom: 10px;
+  align-items: center;
 `;
 const FormControl = styled.input`
+  margin-left: 5px;
+  margin-right: 5px;
   border: 0px;
   width: 100%;
 `;
@@ -157,12 +160,16 @@ const Signup = () => {
         navigate("/profile");
       })
       .catch((error) => {
-        setButtonPop(true);
-        setAlertMsg("Please enter the correct info");
         switch (error.code) {
           case "auth/email-already-in-use": {
             setErrorMsg("Email already in use");
+            setButtonPop(true);
+            setAlertMsg("Email already in use");
             break;
+          }
+          default: {
+            setButtonPop(true);
+            setAlertMsg("Please enter the correct info");
           }
         }
         setIsLoading(false);

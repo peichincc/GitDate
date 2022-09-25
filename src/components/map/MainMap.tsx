@@ -85,7 +85,7 @@ const MainMap = ({ markersFromDB }: any) => {
             onClick={() => handleActiveMarker(id)}
             icon={{
               url: GitHub,
-              scaledSize: new window.google.maps.Size(35, 35),
+              scaledSize: new window.google.maps.Size(30, 30),
             }}
           >
             {activeMarker === id ? (

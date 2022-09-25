@@ -56,6 +56,7 @@ const TiptapEditor = ({
       setEditorHtmlContent(editor.getHTML());
     },
   });
+
   return (
     <Container>
       <OuterEditor>

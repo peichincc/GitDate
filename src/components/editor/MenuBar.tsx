@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import React from "react";
 import { Button } from "../../utils/StyledComponent";
+import HorizontalRule from "@tiptap/extension-horizontal-rule";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,6 +11,7 @@ import {
   faList,
   faRotateRight,
   faRotateLeft,
+  faGripLines,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
@@ -65,6 +67,11 @@ const MenuBar = ({ editor }: any) => {
             className={editor.isActive("orderedList") ? "is-active" : ""}
           >
             <FontAwesomeIcon icon={faList} />
+          </Button>
+          <Button
+            onClick={() => editor.chain().focus().setHorizontalRule().run()}
+          >
+            <FontAwesomeIcon icon={faGripLines} />
           </Button>
           <Button
             onClick={() =>
