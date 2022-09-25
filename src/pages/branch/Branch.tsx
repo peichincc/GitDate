@@ -25,6 +25,8 @@ import {
   MergeBtn,
   PostContentText,
   DeleteBtn,
+  GoBackWrapper,
+  Button,
 } from "../../utils/StyledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -433,6 +435,9 @@ const Branch = () => {
             </MainContainer>
           </>
         )}
+        <GoBackWrapper>
+          <Button onClick={() => navigate("/branches")}>Go back</Button>
+        </GoBackWrapper>
       </Wrapper>
     </>
   );

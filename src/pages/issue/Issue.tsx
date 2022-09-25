@@ -15,6 +15,7 @@ import firebaseapi from "../../utils/firebaseapi";
 
 import defaultAvatar from "../../utils/DefaultAvatar.png";
 import {
+  GoBackWrapper,
   Button,
   LebalsText,
   PostImgContainer,
@@ -478,6 +479,9 @@ const Issue = () => {
             </Container>
           </div>
         )}
+        <GoBackWrapper>
+          <Button onClick={() => navigate("/issues")}>Go back</Button>
+        </GoBackWrapper>
       </Wrapper>
     </>
   );

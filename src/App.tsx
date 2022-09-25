@@ -16,6 +16,9 @@ const GlobalStyle = createGlobalStyle`
   ul {
   list-style-type: none;
 }
+a {
+    all: unset;
+}
 
   body {
     font-family: "Segoe UI", Helvetica, Arial,

@@ -90,11 +90,17 @@ export const AvatarUser = styled.div`
   width: 40px;
   height: 40px;
   margin-top: 10px;
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 `;
 export const AvatarUserImg = styled.img`
   max-width: 100%;
   max-height: 100%;
   border-radius: 50%;
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 `;
 
 export const FormGroup = styled.div`
@@ -231,6 +237,9 @@ export const LabelsButton = styled.button`
 export const AvatarBlock = styled.div`
   width: auto;
   margin-right: 25px;
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 `;
 export const PostWraper = styled.div`
   display: flex;

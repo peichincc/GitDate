@@ -39,6 +39,12 @@ const Wrapper = styled.div`
   margin: 0 auto;
 `;
 
+const CreateTitle = styled.div`
+  font-size: 28px;
+  @media screen and (max-width: 600px) {
+    font-size: 14px;
+  }
+`;
 const MainLayout = styled.div`
   margin-top: 50px;
   display: flex;
@@ -51,10 +57,17 @@ const TabWraper = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: -1px;
+  @media screen and (max-width: 1093px) {
+    margin-left: 30px;
+  }
 `;
 const TabsContainer = styled.div`
   margin-right: 70px;
+  @media screen and (max-width: 1093px) {
+    margin-right: 30px;
+  }
 `;
 const TabChoseBtn = styled.button`
   border-radius: 6px 6px 0 0;
@@ -67,6 +80,9 @@ const TabChoseBtn = styled.button`
   margin-right: 10px;
   width: 150px;
   cursor: pointer;
+  @media screen and (max-width: 600px) {
+    width: 75px;
+  }
 `;
 const TabButton = styled.button`
   border-radius: 6px 6px 0 0;
@@ -79,6 +95,9 @@ const TabButton = styled.button`
   margin-right: 10px;
   width: 150px;
   cursor: pointer;
+  @media screen and (max-width: 600px) {
+    width: 75px;
+  }
   &:hover {
     color: white;
     background-color: #e6e7e9;
@@ -308,7 +327,7 @@ const CreateIssue = () => {
         />
         <MainLayout>
           <TabWraper>
-            <h1>To Create...</h1>
+            <CreateTitle>To Create...</CreateTitle>
             <TabsContainer>
               <TabChoseBtn>Issue</TabChoseBtn>
               <TabButton

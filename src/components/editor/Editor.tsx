@@ -35,7 +35,7 @@ const StyledEditorContent = styled(EditorContent)`
     overflow-y: auto;
     background-color: white;
     @media screen and (max-width: 1140px) {
-      width: 100%;
+      width: auto;
     }
   }
 `;
