@@ -453,7 +453,7 @@ const Profile = () => {
     setHideTitle(false);
     setTimeout(() => {
       navigate("/signin");
-    }, 1000);
+    }, 3000);
   };
 
   return (
