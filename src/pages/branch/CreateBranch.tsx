@@ -116,7 +116,6 @@ const PostBox = styled.div`
   border-radius: 0.4em;
   width: 100%;
   height: auto;
-  /* border: 1px solid #d0d7de; */
   position: relative;
   &:before {
     content: "";
@@ -130,17 +129,6 @@ const PostBox = styled.div`
     border-left: 0;
     margin-top: -20px;
     margin-left: -20px;
-    /* border: 1px solid black;
-    position: absolute;
-    top: 11px;
-    right: 100%;
-    left: -8px;
-    display: block;
-    width: 8px;
-    height: 16px;
-    pointer-events: none;
-    content: " ";
-    clip-path: polygon(0 50%, 100% 0, 100% 100%); */
   }
 `;
 const PreviewPhotoContainer = styled.div`
@@ -170,7 +158,6 @@ const DateFormControl = styled(FormControl)`
 `;
 
 const FormCheckInput = styled.input`
-  /* margin-left: 5px; */
   margin-right: 10px;
   width: 15px;
   height: 16px;

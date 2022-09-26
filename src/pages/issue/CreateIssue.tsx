@@ -2,18 +2,14 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-
 import {
   getFirestore,
   doc,
   serverTimestamp,
   collection,
 } from "firebase/firestore";
-
 import firebaseapi from "../../utils/firebaseapi";
-
 import TiptapEditor from "../../components/editor/Editor";
-
 import defaultAvatar from "../../utils/DefaultAvatar.png";
 import {
   Button,
@@ -30,7 +26,6 @@ import {
   UploadCardStyled,
   TagButton,
 } from "../../utils/StyledComponent";
-
 import Alert from "../../components/modal/Alert";
 
 const Wrapper = styled.div`
@@ -49,7 +44,6 @@ const MainLayout = styled.div`
   margin-top: 50px;
   display: flex;
   flex-direction: column;
-  /* margin: 0 auto; */
   padding: 20px;
 `;
 const TabWraper = styled.div`
@@ -117,7 +111,6 @@ const PostBox = styled.div`
   border-radius: 0.4em;
   width: 100%;
   height: auto;
-  /* border: 1px solid #d0d7de; */
   position: relative;
   &:before {
     content: "";
@@ -131,17 +124,6 @@ const PostBox = styled.div`
     border-left: 0;
     margin-top: -20px;
     margin-left: -20px;
-    /* border: 1px solid black;
-    position: absolute;
-    top: 11px;
-    right: 100%;
-    left: -8px;
-    display: block;
-    width: 8px;
-    height: 16px;
-    pointer-events: none;
-    content: " ";
-    clip-path: polygon(0 50%, 100% 0, 100% 100%); */
   }
 `;
 
@@ -185,7 +167,6 @@ const GitAddBtn = styled(Button)`
 `;
 
 const FormCheckInput = styled.input`
-  /* margin-left: 5px; */
   margin-right: 10px;
   width: 15px;
   height: 16px;

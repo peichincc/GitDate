@@ -50,9 +50,6 @@ const CalendarContainer = styled.div`
   max-width: 600px;
   margin: auto;
   margin-top: 0px;
-  /* background-color: white;
-  padding: 10px;
-  border-radius: 3px;
   /* ~~~ navigation styles ~~~ */
   .react-calendar__navigation {
     display: flex;
@@ -72,7 +69,6 @@ const CalendarContainer = styled.div`
     cursor: pointer;
     margin: 3px;
     background: none;
-    /* background-color: #6f876f; */
     border: 0;
     border-radius: 3px;
     color: black;
@@ -93,7 +89,6 @@ const CalendarContainer = styled.div`
     }
     .react-calendar__tile--range {
       border: 1px solid;
-      /* box-shadow: 0 0 6px 2px black; */
     }
   }
   /* ~~~ neighboring month & weekend styles ~~~ */
@@ -137,10 +132,6 @@ const Container = styled.div`
     align-items: center;
   }
 `;
-// const CalendarContainer = styled.div`
-//   width: 30%;
-//   margin-right: 20px;
-// `;
 const CalendarContainerIn = styled.div`
   border: 1px solid #d0d7de;
   border-radius: 6px;
@@ -351,7 +342,6 @@ const BranchAll = () => {
         <Container>
           <ImgContainer src="https://secure.meetupstatic.com/next/images/blobs/yellow-blob.svg" />
           <ImgContainer2 src="https://secure.meetupstatic.com/next/images/blobs/red-blob.svg" />
-          {/* <ImgContainer src="https://secure.meetupstatic.com/next/images/blobs/green-blob.svg" /> */}
           <CalendarContainer>
             <h1>Select date to see branches</h1>
             <CalendarContainerIn id="branchCalendar">

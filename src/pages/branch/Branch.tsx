@@ -183,6 +183,8 @@ const Branch = () => {
   const [participantsList, setParticipantsList] = useState<any>();
   // Check author status
   const [isAuthor, setIsAuthor] = useState(false);
+  // Check branch expired or not
+  const [isExpired, setIsExpired] = useState(true);
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -196,6 +198,23 @@ const Branch = () => {
     firebaseapi.readBranchData(id).then((res) => {
       if (res) {
         console.log(res);
+        // check whether the branch is expired or not
+        console.log(res.date);
+        var today = new Date();
+        var date =
+          today.getFullYear() +
+          "-" +
+          (today.getMonth() + 1) +
+          "-" +
+          today.getDate();
+        console.log(date);
+        var date1 = new Date(res.date);
+        var date2 = new Date(date);
+        console.log(date1 > date2);
+        if (date1 > date2) {
+          setIsExpired(false);
+        }
+        //
         const newT = new Date(res.posted_at.seconds * 1000).toString();
         setNewT(newT);
         setBranchData(res);
@@ -382,16 +401,28 @@ const Branch = () => {
                       {!isAuthor && (
                         <>
                           <CardContainer>
-                            <PostContentText>
-                              Click to attend this activity{" "}
-                              <FontAwesomeIcon icon={faCheck} />
-                            </PostContentText>
-                            <CheckOutBtn
-                              id="checkoutBtn"
-                              onClick={attendActivity}
-                            >
-                              git checkout
-                            </CheckOutBtn>
+                            {isExpired ? (
+                              <>
+                                <PostContentText>
+                                  This branch is already closed.
+                                  <br />
+                                  Come earlier next time 💃
+                                </PostContentText>
+                              </>
+                            ) : (
+                              <>
+                                <PostContentText>
+                                  Click to attend this activity{" "}
+                                  <FontAwesomeIcon icon={faCheck} />
+                                </PostContentText>
+                                <CheckOutBtn
+                                  id="checkoutBtn"
+                                  onClick={attendActivity}
+                                >
+                                  git checkout
+                                </CheckOutBtn>
+                              </>
+                            )}
                           </CardContainer>
                         </>
                       )}
