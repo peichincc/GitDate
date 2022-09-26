@@ -41,6 +41,7 @@ import {
 import { Button, GithubLink } from "../../utils/StyledComponent";
 import Loading from "../../components/Loading";
 import { SubmitBtn } from "./Signup";
+import Alert from "../../components/modal/Alert";
 
 const IconContainer = styled.div`
   width: 16px;
@@ -219,6 +220,7 @@ const SignOutBtn = styled(SubmitBtn)`
 
 const Member = () => {
   const [ButtonPop, setButtonPop] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -327,7 +329,7 @@ const Member = () => {
         dispatch(signin());
         dispatch(setUserData("", "", ""));
         setButtonPop(true);
-        console.log("sign out!");
+        setAlertMsg("Sign out Successfully!");
         setTimeout(() => {
           navigate("/");
         }, 1000);
@@ -341,6 +343,11 @@ const Member = () => {
   return (
     <>
       <Wrapper>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={alertMsg}
+        />
         <UpperContainer>
           <NavContainer>
             <NavTab

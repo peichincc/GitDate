@@ -42,7 +42,7 @@ const ImgContainer2 = styled.img`
 
 const CalendarContainer = styled.div`
   position: sticky;
-  top: 0;
+  top: 3%;
   @media screen and (max-width: 1280px) {
     position: relative;
   }
@@ -137,6 +137,7 @@ const CalendarContainerIn = styled.div`
   border-radius: 6px;
   padding: 20px;
   background-color: white;
+  margin-top: 10px;
 `;
 const BranchesContainer = styled.div`
   margin-top: 20px;
