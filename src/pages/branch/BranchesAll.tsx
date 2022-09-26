@@ -43,6 +43,9 @@ const ImgContainer2 = styled.img`
 const CalendarContainer = styled.div`
   position: sticky;
   top: 0;
+  @media screen and (max-width: 1280px) {
+    position: relative;
+  }
   /* ~~~ container styles ~~~ */
   max-width: 600px;
   margin: auto;
