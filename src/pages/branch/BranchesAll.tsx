@@ -47,7 +47,7 @@ const CalendarContainer = styled.div`
   max-width: 600px;
   margin: auto;
   margin-top: 0px;
-  /* background-color: #d4f7d4; */
+  /* background-color: white;
   padding: 10px;
   border-radius: 3px;
   /* ~~~ navigation styles ~~~ */
@@ -142,6 +142,7 @@ const CalendarContainerIn = styled.div`
   border: 1px solid #d0d7de;
   border-radius: 6px;
   padding: 20px;
+  background-color: white;
 `;
 const BranchesContainer = styled.div`
   margin-top: 20px;
