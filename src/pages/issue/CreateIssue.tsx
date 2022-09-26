@@ -183,6 +183,7 @@ interface Data {
 }
 
 const CreateIssue = () => {
+  const [isSending, setIsSending] = useState(false);
   const [ButtonPop, setButtonPop] = useState(false);
   const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
   const userData = useSelector((state) => state) as any;
@@ -270,6 +271,7 @@ const CreateIssue = () => {
 
   // upload photo w/ doc id, get photo URL, then setDoc
   const postIssue = async () => {
+    setIsSending(true);
     if (!category) {
       setAlertMsg("Please select the issue category");
       setButtonPop(true);
@@ -289,6 +291,7 @@ const CreateIssue = () => {
     await firebaseapi
       .postIssue(imageUpload, newIssueRef, recipient)
       .then(() => {
+        setIsSending(false);
         setAlertMsg("Commited successfully!");
         setButtonPop(true);
         setTimeout(() => {
@@ -419,7 +422,11 @@ const CreateIssue = () => {
               </FormGroup>
               <SubmitWrapper>
                 <p></p>
-                <MergeBtn onClick={postIssue} id="issuesBtn">
+                <MergeBtn
+                  disabled={isSending}
+                  onClick={postIssue}
+                  id="issuesBtn"
+                >
                   git push
                 </MergeBtn>
               </SubmitWrapper>

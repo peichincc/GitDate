@@ -174,6 +174,7 @@ interface Data {
 }
 
 const CreateBranch = () => {
+  const [isSending, setIsSending] = useState(false);
   const [ButtonPop, setButtonPop] = useState(false);
   const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
   const hiddenFileInput = useRef<any>(null);
@@ -264,6 +265,7 @@ const CreateBranch = () => {
   // upload photo w/ doc id, get photo URL, then setDoc
   // then update user db while hosting an activity
   const createBranch = async () => {
+    setIsSending(true);
     if (!type) {
       setAlertMsg("Please select the branch type");
       setButtonPop(true);
@@ -312,6 +314,7 @@ const CreateBranch = () => {
         };
         updateDoc(docRef, { markers: arrayUnion(locationInfo) });
         console.log(`${getUser} hosted this activity!`);
+        setIsSending(false);
         setAlertMsg("You hosted an activity successfully!");
         setButtonPop(true);
         setTimeout(() => {
@@ -423,7 +426,11 @@ const CreateBranch = () => {
               </FormGroup>
               <SubmitWrapper>
                 <p></p>
-                <MergeBtn id="branchesBtn" onClick={createBranch}>
+                <MergeBtn
+                  id="branchesBtn"
+                  disabled={isSending}
+                  onClick={createBranch}
+                >
                   git branch
                 </MergeBtn>
               </SubmitWrapper>
