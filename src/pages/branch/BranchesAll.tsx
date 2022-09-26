@@ -24,11 +24,6 @@ import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
 
-const Background = styled.div`
-  overflow: hidden;
-  z-index: 0;
-  position: relative;
-`;
 const ImgContainer = styled.img`
   overflow: hidden;
   z-index: 0;
@@ -36,15 +31,10 @@ const ImgContainer = styled.img`
   left: 2%;
   top: 15%;
 `;
-const ImgContainer2 = styled(ImgContainer)`
-  bottom: 0;
-  right: 0;
-  z-index: 0;
-  position: absolute;
-  overflow: hidden;
-`;
 
 const CalendarContainer = styled.div`
+  position: sticky;
+  top: 0;
   /* ~~~ container styles ~~~ */
   max-width: 600px;
   margin: auto;
@@ -299,6 +289,9 @@ const BranchAll = () => {
     setDocs(mixedBranch);
   };
 
+  // const mark = ["04-09-2022", "03-09-2022", "15-09-2022"];
+  const marks = new Set(["04-09-2022", "03-09-2022", "15-09-2022"]);
+
   const dateClick = async (date: any) => {
     // console.log(date);
     const dateAssigned =
@@ -399,3 +392,6 @@ const BranchAll = () => {
 };
 
 export default BranchAll;
+function moment(date: Date) {
+  throw new Error("Function not implemented.");
+}
