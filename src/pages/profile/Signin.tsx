@@ -188,7 +188,7 @@ const Signin = () => {
                 {alreadyLogged ? (
                   <>
                     <h2>Welcome! {userInfo.user.user_name}</h2>
-                    <SubmitBtn onClick={signout}>Sign out</SubmitBtn>
+                    {/* <SubmitBtn onClick={signout}>Sign out</SubmitBtn> */}
                   </>
                 ) : (
                   <>

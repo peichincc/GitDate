@@ -10,6 +10,7 @@ import {
   CloseBtnWrapper,
   Button,
 } from "../../utils/StyledComponent";
+import git from "./gitIcon.png";
 
 const Back = styled.div`
   position: fixed;
@@ -50,6 +51,9 @@ const ModalExplaination = styled(ModalContent)`
   flex-wrap: wrap;
   margin-bottom: 10px;
 `;
+const Title = styled.h2`
+  padding-left: 5px;
+`;
 
 const CheatSheet = (props: any) => {
   const { trigger, setButtonPop } = props;
@@ -59,7 +63,12 @@ const CheatSheet = (props: any) => {
         <ModalBx>
           <ModalContents>
             <ModalHeader>
-              <h2>GIT CHEAT SHEET</h2>
+              <img
+                src={git}
+                alt="git_icon"
+                style={{ height: "40px", width: "40px" }}
+              />
+              <Title>GIT CHEAT SHEET</Title>
             </ModalHeader>
             <ModalContentsWrapper>
               <ModalExplaination>
