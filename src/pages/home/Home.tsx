@@ -290,26 +290,26 @@ const Home = () => {
                   Make the first commit and start meeting new people!
                 </BlockText>
                 <BlockAction>
-                  {userLoggedStatus ? (
+                  {/* {userLoggedStatus ? (
                     ""
                   ) : (
-                    <>
-                      <SignUpBtn
-                        onClick={() => {
-                          navigate("/signup");
-                        }}
-                      >
-                        Join
-                      </SignUpBtn>
-                      <ActionButton
-                        onClick={() => {
-                          navigate("/signin");
-                        }}
-                      >
-                        Sign In
-                      </ActionButton>
-                    </>
-                  )}
+                    <> */}
+                  <SignUpBtn
+                    onClick={() => {
+                      navigate("/signup");
+                    }}
+                  >
+                    Join
+                  </SignUpBtn>
+                  <ActionButton
+                    onClick={() => {
+                      navigate("/signin");
+                    }}
+                  >
+                    Sign In
+                  </ActionButton>
+                  {/* </>
+                  )} */}
                 </BlockAction>
                 <TourReminder>
                   <Tour />
