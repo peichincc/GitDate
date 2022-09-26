@@ -26,10 +26,18 @@ import Loading from "../../components/Loading";
 
 const ImgContainer = styled.img`
   overflow: hidden;
-  z-index: 0;
-  position: absolute;
-  left: 2%;
+  z-index: -1;
+  position: fixed;
+  left: 1%;
   top: 15%;
+  max-width: 900px;
+`;
+const ImgContainer2 = styled.img`
+  overflow: hidden;
+  z-index: -2;
+  position: fixed;
+  bottom: 2%;
+  left: 25%;
 `;
 
 const CalendarContainer = styled.div`
@@ -337,10 +345,9 @@ const BranchAll = () => {
           alertMsg={"Please sign in!"}
         />
         <Container>
-          {/* <Background> */}
-          {/* <ImgContainer src="https://secure.meetupstatic.com/next/images/blobs/red-blob.svg" />
           <ImgContainer src="https://secure.meetupstatic.com/next/images/blobs/yellow-blob.svg" />
-          <ImgContainer2 src="https://secure.meetupstatic.com/next/images/blobs/green-blob.svg" /> */}
+          <ImgContainer2 src="https://secure.meetupstatic.com/next/images/blobs/red-blob.svg" />
+          {/* <ImgContainer src="https://secure.meetupstatic.com/next/images/blobs/green-blob.svg" /> */}
           <CalendarContainer>
             <h1>Select date to see branches</h1>
             <CalendarContainerIn id="branchCalendar">
@@ -384,7 +391,6 @@ const BranchAll = () => {
             {isLoading && <Loading />}
             {docs && <BranchesList docs={docs} branchType={branchType} />}
           </BranchesContainer>
-          {/* </Background> */}
         </Container>
       </Wrapper>
     </>

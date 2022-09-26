@@ -197,6 +197,7 @@ export const BlogList = styled.div`
   padding-left: 20px;
   padding-right: 20px;
   justify-content: space-between;
+  background-color: white;
   &:hover {
     background-color: #f6f8fa;
   }
