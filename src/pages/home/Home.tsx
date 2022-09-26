@@ -376,6 +376,7 @@ const Home = () => {
                   <TagButton>Transgender</TagButton>
                   <TagButton>Intersex</TagButton>
                   <TagButton>Prefer not to say</TagButton>
+                  <TagButton>...more to come</TagButton>
                 </h2>
               </PrideWordWrapper>
               <PrideItem>

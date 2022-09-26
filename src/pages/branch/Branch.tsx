@@ -206,7 +206,9 @@ const Branch = () => {
           console.log(res["firstname"]);
           setGetAuthor(res["firstname"]);
           setGetAuthorID(res["user_id"]);
-          setIsLoading(false);
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 1000);
           if (res["user_id"] === userId) {
             setIsAuthor(true);
           }
@@ -333,106 +335,116 @@ const Branch = () => {
           clickToConfirm={clickToConfirm}
           confirmMsg={confirmMsg}
         />
-        {isLoading && <Loading />}
-        {branchData && (
+        {isLoading ? (
+          <Loading />
+        ) : (
           <>
-            <TopContainer>
-              <TopContentContainer>
-                <PostSubTitle>
-                  {branchData.date} · {branchData.time}
-                </PostSubTitle>
-                <PostTitle>{branchData.title}</PostTitle>
-                <LebalsText>
-                  Posted by
-                  <AuthorBtn
-                    id="branchAuthor"
-                    onClick={() => {
-                      navigate("/readme/" + branchData.hosted_by);
-                    }}
-                  >
-                    {getAuthor}{" "}
-                  </AuthorBtn>
-                  at{"  "}
-                  {newT}
-                </LebalsText>
-              </TopContentContainer>
-            </TopContainer>
-            <MainContainer>
-              <MainContentContainer>
-                <LeftContent>
-                  <BranchImgBox>
-                    <BranchImgBoxImg
-                      src={branchData.main_image}
-                      alt="main_photo"
-                    />
-                  </BranchImgBox>
-                  <BranchSubTitle>Details</BranchSubTitle>
-                  <BranchConent>
-                    <div
-                      dangerouslySetInnerHTML={{ __html: branchData.content }}
-                    ></div>
-                  </BranchConent>
-                  {!isAuthor && (
-                    <>
-                      <CardContainer>
-                        <PostContentText>
-                          Click to attend this activity{" "}
-                          <FontAwesomeIcon icon={faCheck} />
-                        </PostContentText>
-                        <CheckOutBtn id="checkoutBtn" onClick={attendActivity}>
-                          git checkout
-                        </CheckOutBtn>
-                      </CardContainer>
-                    </>
-                  )}
-                  {isAuthor && (
-                    <>
-                      <DeleteWrapper>
-                        <DeleteBtn
-                          onClick={() => {
-                            deleteBranch(id);
+            {branchData && (
+              <>
+                <TopContainer>
+                  <TopContentContainer>
+                    <PostSubTitle>
+                      {branchData.date} · {branchData.time}
+                    </PostSubTitle>
+                    <PostTitle>{branchData.title}</PostTitle>
+                    <LebalsText>
+                      Posted by
+                      <AuthorBtn
+                        id="branchAuthor"
+                        onClick={() => {
+                          navigate("/readme/" + branchData.hosted_by);
+                        }}
+                      >
+                        {getAuthor}{" "}
+                      </AuthorBtn>
+                      at{"  "}
+                      {newT}
+                    </LebalsText>
+                  </TopContentContainer>
+                </TopContainer>
+                <MainContainer>
+                  <MainContentContainer>
+                    <LeftContent>
+                      <BranchImgBox>
+                        <BranchImgBoxImg
+                          src={branchData.main_image}
+                          alt="main_photo"
+                        />
+                      </BranchImgBox>
+                      <BranchSubTitle>Details</BranchSubTitle>
+                      <BranchConent>
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: branchData.content,
                           }}
-                        >
-                          Delete this branch
-                        </DeleteBtn>
-                      </DeleteWrapper>
-                    </>
-                  )}
-                </LeftContent>
-                <RightContent>
-                  <CardContainer>
-                    <BranchSubTitle>Type:</BranchSubTitle>
-                    {branchData.type}
-                  </CardContainer>
-                  {/* <CardContainer>
+                        ></div>
+                      </BranchConent>
+                      {!isAuthor && (
+                        <>
+                          <CardContainer>
+                            <PostContentText>
+                              Click to attend this activity{" "}
+                              <FontAwesomeIcon icon={faCheck} />
+                            </PostContentText>
+                            <CheckOutBtn
+                              id="checkoutBtn"
+                              onClick={attendActivity}
+                            >
+                              git checkout
+                            </CheckOutBtn>
+                          </CardContainer>
+                        </>
+                      )}
+                      {isAuthor && (
+                        <>
+                          <DeleteWrapper>
+                            <DeleteBtn
+                              onClick={() => {
+                                deleteBranch(id);
+                              }}
+                            >
+                              Delete this branch
+                            </DeleteBtn>
+                          </DeleteWrapper>
+                        </>
+                      )}
+                    </LeftContent>
+                    <RightContent>
+                      <CardContainer>
+                        <BranchSubTitle>Type:</BranchSubTitle>
+                        {branchData.type}
+                      </CardContainer>
+                      {/* <CardContainer>
                     <BranchSubTitle>Branch status:</BranchSubTitle>
                     {branchData.status}
                   </CardContainer> */}
-                  <CardContainer>
-                    <BranchSubTitle>Date:</BranchSubTitle>
-                    {branchData.date} · {branchData.time}
-                  </CardContainer>
-                  <CardContainer>
-                    <BranchSubTitle>Location: </BranchSubTitle>
-                    {branchData.address}
-                    <MapContainer>
-                      <ShowMap center={center} />
-                    </MapContainer>
-                  </CardContainer>
-                  <ParticipantsContainer>
-                    <ParticipantsBtn
-                      onClick={handleChange}
-                      id="branchParticipants"
-                    >
-                      Click to see the participants!
-                    </ParticipantsBtn>
-                    {openParticipants && participantsList && (
-                      <Participants participantsList={participantsList} />
-                    )}
-                  </ParticipantsContainer>
-                </RightContent>
-              </MainContentContainer>
-            </MainContainer>
+                      <CardContainer>
+                        <BranchSubTitle>Date:</BranchSubTitle>
+                        {branchData.date} · {branchData.time}
+                      </CardContainer>
+                      <CardContainer>
+                        <BranchSubTitle>Location: </BranchSubTitle>
+                        {branchData.address}
+                        <MapContainer>
+                          <ShowMap center={center} />
+                        </MapContainer>
+                      </CardContainer>
+                      <ParticipantsContainer>
+                        <ParticipantsBtn
+                          onClick={handleChange}
+                          id="branchParticipants"
+                        >
+                          Click to see the participants!
+                        </ParticipantsBtn>
+                        {openParticipants && participantsList && (
+                          <Participants participantsList={participantsList} />
+                        )}
+                      </ParticipantsContainer>
+                    </RightContent>
+                  </MainContentContainer>
+                </MainContainer>
+              </>
+            )}
           </>
         )}
         <GoBackWrapper>

@@ -150,14 +150,20 @@ const Signup = () => {
             var uid = user.uid;
             await setDoc(doc(collection(db, "Users"), uid), {
               user_id: uid,
+              main_photo:
+                "https://firebasestorage.googleapis.com/v0/b/gitdate-ec8a6.appspot.com/o/users%2Fdefault.png?alt=media&token=2335423d-fbcf-43f5-90ff-2103e3e2fddc",
             });
           }
         });
       })
       .then(() => {
         setButtonPop(true);
-        setAlertMsg("Sign up successfully, now let's write README!");
-        navigate("/profile");
+        setAlertMsg("Sign up successfully!");
+        setTimeout(() => {
+          navigate("/signin");
+        }, 1000);
+        // setAlertMsg("Sign up successfully, now let's write README!");
+        // navigate("/profile");
       })
       .catch((error) => {
         switch (error.code) {
