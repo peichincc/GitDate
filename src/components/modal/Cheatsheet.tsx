@@ -82,7 +82,7 @@ const CheatSheet = (props: any) => {
                 <ModalContent>To add image into posts </ModalContent>
               </ModalWordWrapper>
               <ModalWordWrapper>
-                <ModalSubtitle>git commit</ModalSubtitle>
+                <ModalSubtitle>git push</ModalSubtitle>
                 <ModalContent>To create new posts</ModalContent>
               </ModalWordWrapper>
               <ModalWordWrapper>

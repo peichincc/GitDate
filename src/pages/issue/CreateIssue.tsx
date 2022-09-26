@@ -439,7 +439,7 @@ const CreateIssue = () => {
               <SubmitWrapper>
                 <p></p>
                 <MergeBtn onClick={postIssue} id="issuesBtn">
-                  Commit new issue
+                  git push
                 </MergeBtn>
               </SubmitWrapper>
             </PostBox>

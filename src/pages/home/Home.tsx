@@ -99,7 +99,9 @@ const BlockContent = styled.div`
     padding-left: 32px;
   }
 `;
-const BlockTitle = styled.h1``;
+const BlockTitle = styled.h1`
+  padding-bottom: 10px;
+`;
 const BlockText = styled.div``;
 const BlockAction = styled.div`
   display: flex;
@@ -279,8 +281,14 @@ const Home = () => {
             <Carousel />
             <BlockInner>
               <BlockContent id="signup">
-                <BlockTitle>Make the first commit.</BlockTitle>
-                <BlockText>Start meeting new people!</BlockText>
+                <BlockTitle>
+                  Push On GitDate.
+                  <br />
+                  Merge Your Soulmate.
+                </BlockTitle>
+                <BlockText>
+                  Make the first commit and start meeting new people!
+                </BlockText>
                 <BlockAction>
                   {userLoggedStatus ? (
                     ""
