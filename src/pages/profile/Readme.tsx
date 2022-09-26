@@ -26,7 +26,7 @@ import { faListUl } from "@fortawesome/free-solid-svg-icons";
 
 import Loading from "../../components/Loading";
 
-import { GoBackWrapper, Button } from "../../utils/StyledComponent";
+import { GoBackWrapper, Button, GithubLink } from "../../utils/StyledComponent";
 
 const Wrapper = styled.div`
   width: 90%;
@@ -228,7 +228,7 @@ const Readme = () => {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      {userData.githublink}
+                      <GithubLink>{userData.githublink}</GithubLink>
                     </a>
                   </FormTextRead>
                   <FormTextRead>

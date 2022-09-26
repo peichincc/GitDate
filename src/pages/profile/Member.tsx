@@ -38,7 +38,7 @@ import {
   faListUl,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { Button } from "../../utils/StyledComponent";
+import { Button, GithubLink } from "../../utils/StyledComponent";
 import Loading from "../../components/Loading";
 import { SubmitBtn } from "./Signup";
 
@@ -478,7 +478,7 @@ const Member = () => {
                           target="_blank"
                           rel="noreferrer"
                         >
-                          {logInUserData.githublink}
+                          <GithubLink>{logInUserData.githublink}</GithubLink>
                         </a>
                       </FormTextRead>
                       <FormTextRead>

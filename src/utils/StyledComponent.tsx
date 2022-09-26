@@ -346,6 +346,16 @@ export const AuthorBtn = styled.button`
     text-decoration: underline;
   }
 `;
+export const GithubLink = styled.button`
+  margin-left: -5px;
+  font-size: 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  :hover {
+    text-decoration: underline;
+  }
+`;
 
 export const StatusOpen = styled.div`
   display: flex;
