@@ -18,6 +18,7 @@ const MapHome = ({ setLocation, setFormatAddress }: any) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
     libraries: ["places"],
+    language: "en",
   });
 
   if (!isLoaded) return <div>Loading...</div>;
