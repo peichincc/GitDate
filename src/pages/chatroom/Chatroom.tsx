@@ -32,6 +32,25 @@ const MsgContainer = styled.div`
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-button {
+    display: none;
+    /* background: transparent;
+    border-radius: 4px; */
+  }
+  &::-webkit-scrollbar-track-piece {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 1px solid slategrey;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: transparent;
+  }
 `;
 const MsgInput = styled.input`
   width: 100%;
