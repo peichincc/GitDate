@@ -384,7 +384,11 @@ const CreateBranch = () => {
               </FormGroup>
               <FormGroup>
                 <FormLabel>Time</FormLabel>
-                <DateFormControl type="date" onChange={getDate} />
+                <DateFormControl
+                  type="date"
+                  onChange={getDate}
+                  min={new Date().toISOString().split("T")[0]}
+                />
                 <DateFormControl type="time" onChange={getTime} />
                 {/* <input type="datetime-local" onChange={getTime} /> */}
               </FormGroup>
