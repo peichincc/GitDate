@@ -13,6 +13,11 @@ import styled from "styled-components";
 const LocationInput = styled(FormControl)`
   width: 150px;
 `;
+const RenderSuggestion = styled.div`
+  &:hover {
+    cursor: pointer;
+  }
+`;
 
 const MapHome = ({ setLocation, setFormatAddress }: any) => {
   const { isLoaded } = useLoadScript({
@@ -107,9 +112,11 @@ const PlacesAutocomplete = ({
       } = suggestion;
 
       return (
-        <li key={place_id} onClick={handleSelect(suggestion)}>
-          <strong>{main_text}</strong> <small>{secondary_text}</small>
-        </li>
+        <RenderSuggestion>
+          <li key={place_id} onClick={handleSelect(suggestion)}>
+            <strong>{main_text}</strong> <small>{secondary_text}</small>
+          </li>
+        </RenderSuggestion>
       );
     });
 
