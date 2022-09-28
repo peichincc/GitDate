@@ -49,6 +49,7 @@ import {
 import Alert from "../../components/modal/Alert";
 import Confirm from "../../components/modal/Confirm";
 import Loading from "../../components/Loading";
+import AlertWtihCTA from "../../components/modal/AlertWithCTA";
 
 const Wrapper = styled.div`
   display: block;
@@ -161,6 +162,7 @@ const TagsWrapper = styled.div`
 const Issue = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
+  const [alertWtihCTAPop, setAlertWtihCTAPop] = useState(false);
   const [confirmPop, setConfirmPop] = useState(false);
   const [confirmMsg, setConfirmMsg] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
@@ -257,6 +259,9 @@ const Issue = () => {
     const userPhoto = userData.user.user_photo;
     console.log(userId);
     console.log(userName);
+    if (userId) {
+      setGetUser(userId);
+    }
     if (userId && userName) {
       setGetUser(userId);
       setGetUserName(userName);
@@ -300,6 +305,11 @@ const Issue = () => {
       // navigate("/signin");
       return;
     }
+    if (!getUserName) {
+      setAlertMsg("You haven't completed your README, let's write it here");
+      setAlertWtihCTAPop(true);
+      return;
+    }
     // console.log(`User:${getAuthorID}`);
     setConfirmMsg("Do you want to send this pull request?");
     setConfirmPop(true);
@@ -337,6 +347,11 @@ const Issue = () => {
         <Alert
           trigger={ButtonPop}
           setButtonPop={setButtonPop}
+          alertMsg={alertMsg}
+        />
+        <AlertWtihCTA
+          trigger={alertWtihCTAPop}
+          setAlertWtihCTAPop={setAlertWtihCTAPop}
           alertMsg={alertMsg}
         />
         <Confirm

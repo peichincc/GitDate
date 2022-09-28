@@ -159,11 +159,11 @@ const Signup = () => {
       .then(() => {
         setButtonPop(true);
         setAlertMsg("Sign up successfully!");
-        setTimeout(() => {
-          navigate("/signin");
-        }, 1000);
-        // setAlertMsg("Sign up successfully, now let's write README!");
-        // navigate("/profile");
+        // setTimeout(() => {
+        //   navigate("/signin");
+        // }, 1000);
+        setAlertMsg("Sign up successfully, now let's write README!");
+        navigate("/profile");
       })
       .catch((error) => {
         switch (error.code) {

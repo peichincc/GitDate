@@ -470,7 +470,7 @@ const Profile = () => {
               <ReminderBoxText>Introduce yourself 👋 </ReminderBoxText>
               <ReminderBoxTextSmall>
                 The easiest way to introduce yourself on GitDate is by creating
-                a README in a repository about you! You can start here:
+                a README in a repository about you! You can start from here:
               </ReminderBoxTextSmall>
             </ReminderBox>
             {/* <h1>
@@ -546,6 +546,11 @@ const Profile = () => {
                   <PhotoContainerEmpty>
                     <PhotoContainerImg src={Avatar} />
                   </PhotoContainerEmpty>
+                  <FormTextReadEmpty>Aftet finishing README,</FormTextReadEmpty>
+                  <FormTextReadEmpty>
+                    you can make pull requests to others and checkout to
+                    branches.
+                  </FormTextReadEmpty>
                 </PreviewReadmeContainerEmpty>
               )}
             </PreviewContainer>
