@@ -215,9 +215,6 @@ const Repo = () => {
                             setChaterName(friend["user_name"]);
                             setChaterID(friend["user_id"]);
                           }}
-                          // onClick={() => {
-                          //   navigate("/chatroom/" + friend["chat_id"]);
-                          // }}
                         >
                           <NameCardPhotoContainer>
                             <NameCardPhoto src={friend["user_photo"]} />

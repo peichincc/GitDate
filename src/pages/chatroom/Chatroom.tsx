@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
 import "./chatroom.css";
@@ -96,11 +95,9 @@ const EmojiBx = styled.div`
 const Chatroom = ({ chatroomId }: any) => {
   const userData = useSelector((state) => state) as any;
   const db = getFirestore();
-  // const { id } = useParams<any>();
   const [messages, setMessages] = useState<any>([]);
   const [chosenEmoji, setChosenEmoji] = useState<any>();
 
-  //
   const containerRef = useRef<any>(null);
   useLayoutEffect(() => {
     if (containerRef.current) {

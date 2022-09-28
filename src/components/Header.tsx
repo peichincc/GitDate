@@ -193,8 +193,8 @@ const Header = () => {
   };
 
   useEffect(() => {
-    console.log(currentPage);
-    console.log(currentPage.pathname);
+    // console.log(currentPage);
+    // console.log(currentPage.pathname);
     setPage(currentPage.pathname);
   }, [currentPage]);
 

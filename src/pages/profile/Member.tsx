@@ -274,7 +274,7 @@ const Member = () => {
     const q = query(collection(db, "Issues"), where("posted_by", "==", userId));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.data());
+      // console.log(doc.data());
       temp.push(doc.data());
     });
     setPostedIssues(temp);
@@ -289,7 +289,7 @@ const Member = () => {
     );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.data());
+      // console.log(doc.data());
       temp.push(doc.data());
     });
     setHostedBranches(temp);
@@ -297,16 +297,16 @@ const Member = () => {
   const searchAttenedBranches = async (userId: string) => {
     onSnapshot(doc(collection(db, "Users"), userId), async (doc) => {
       if (doc.exists()) {
-        console.log(doc.data().activity_attend);
+        // console.log(doc.data().activity_attend);
         const newArr = [] as any;
         for (let i = 0; i < doc.data().activity_attend.length; i++) {
           await firebaseapi
             .readBranchData(doc.data().activity_attend[i])
             .then((res) => {
-              console.log(res);
+              // console.log(res);
               if (res) {
-                console.log(res["title"]);
-                console.log(res["main_image"]);
+                // console.log(res["title"]);
+                // console.log(res["main_image"]);
                 const tempObj = {
                   id: res["branch_id"],
                   title: res["title"],
@@ -317,7 +317,7 @@ const Member = () => {
             });
         }
         // Promise.all(promises).then((res) => console.log(res));
-        console.log(newArr);
+        // console.log(newArr);
         setAttendedBranches(newArr);
       }
     });

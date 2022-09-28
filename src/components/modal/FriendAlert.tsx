@@ -1,5 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 import {
   ModalHeader,
@@ -54,25 +57,29 @@ const ModalExplaination = styled(ModalContent)`
   justify-content: center;
 `;
 
-const Alert = (props: any) => {
-  const { trigger, setButtonPop, alertMsg } = props;
+const FriendAlert = (props: any) => {
+  let navigate = useNavigate();
+  const { trigger, setAlertWtihCTAPop, alertMsg } = props;
   return trigger ? (
     <>
       <Back>
         <ModalBx>
           <ModalContents>
             <ModalHeader>
-              <h2>ALERT</h2>
+              <h2>
+                <FontAwesomeIcon icon={faTriangleExclamation} />
+              </h2>
             </ModalHeader>
             <ModalContentsWrapper>
               <ModalExplaination>{alertMsg}</ModalExplaination>
               <CloseBtnWrapper>
                 <Button
                   onClick={() => {
-                    setButtonPop(false);
+                    navigate("/member");
+                    setAlertWtihCTAPop(false);
                   }}
                 >
-                  Close
+                  To Member
                 </Button>
               </CloseBtnWrapper>
             </ModalContentsWrapper>
@@ -83,4 +90,4 @@ const Alert = (props: any) => {
   ) : null;
 };
 
-export default Alert;
+export default FriendAlert;
