@@ -66,6 +66,11 @@ export const stepType = {
   ],
   issue: [
     {
+      target: "body",
+      content: "Issues are posts created by other users",
+      disableBeacon: true,
+    },
+    {
       target: "#issueAuthor",
       content: "You could see this issue's author README",
       disableBeacon: true,
@@ -104,6 +109,11 @@ export const stepType = {
   ],
   branch: [
     {
+      target: "body",
+      content: "Branches are activities created by other users",
+      disableBeacon: true,
+    },
+    {
       target: "#branchAuthor",
       content: "You could see this branch's host README",
       disableBeacon: true,
@@ -119,18 +129,9 @@ export const stepType = {
   ],
   member: [
     {
-      target: "#editProfile",
-      content: "You could change your Readme (Public profile) info here",
-      disableBeacon: true,
-    },
-    {
-      target: "#seeReadme",
-      content:
-        "Here is your public Readme page, you can share this to your friends 🙌️ ",
-    },
-    {
       target: "#overview",
       content: "You could see your info here",
+      disableBeacon: true,
     },
     {
       target: "#pullrequests",
@@ -147,6 +148,15 @@ export const stepType = {
     {
       target: "#branchesMember",
       content: "Here are all activities you attended and hosted",
+    },
+    {
+      target: "#editProfile",
+      content: "You could change your Readme (Public profile) info here",
+    },
+    {
+      target: "#seeReadme",
+      content:
+        "Here is your public Readme page, you can share this to your friends 🙌️ ",
     },
   ],
   repo: [
@@ -178,15 +188,6 @@ export function Tours({
       page.indexOf("/") - 1,
       page.lastIndexOf("/")
     );
-    if (!localStorage.getItem("tutorial2PassedAll")) {
-      if (page === "/") {
-        setState({
-          run: true,
-          steps: stepType.all,
-        });
-        window.localStorage.setItem("tutorial2PassedAll", "true");
-      }
-    }
     if (!localStorage.getItem("tutorial2PassedIssues")) {
       if (page === "/issues") {
         setState({
@@ -202,7 +203,7 @@ export function Tours({
           run: true,
           steps: stepType.issue,
         });
-        window.localStorage.setItem("tutorial2PassedIssue", "true");
+        localStorage.setItem("tutorial2PassedIssue", "true");
       }
     }
     if (!localStorage.getItem("tutorial2PassedCreateIssue")) {
@@ -335,12 +336,6 @@ export function Tours({
     if (finishedStatuses.includes(status)) {
       setState({ run: false, steps });
     }
-    // if (localStorage.getItem("tutorial2PassedAll")) {
-    //   setState({ run: false, steps });
-    // }
-    // if (localStorage.getItem("tutorial2PassedIssues")) {
-    //   setState({ run: false, steps });
-    // }
     logGroup(type, data);
   };
 
@@ -350,14 +345,6 @@ export function Tours({
         Docs
       </div>
       <Joyride
-        // callback={({ status }) => {
-        //   if (
-        //     ([STATUS.FINISHED, STATUS.SKIPPED] as string[]).includes(status)
-        //   ) {
-        //     window.localStorage.setItem("tutorial2Passed", "true");
-        //     setTutorial2Passed(true);
-        //   }
-        // }}
         callback={handleJoyrideCallback}
         continuous
         hideCloseButton

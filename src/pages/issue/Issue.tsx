@@ -362,7 +362,10 @@ const Issue = () => {
           confirmMsg={confirmMsg}
         />
         {isLoading ? (
-          <Loading />
+          <>
+            <p>Issue</p>
+            <Loading />
+          </>
         ) : (
           <>
             {issueData && (
