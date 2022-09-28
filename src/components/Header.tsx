@@ -2,27 +2,13 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import logo from "./logo.png";
 import { useLocation, Link, useNavigate } from "react-router-dom";
-
 import { useSelector, useDispatch } from "react-redux";
-import { setUserData, signin } from "../../src/actions/index";
 import firebaseapi from "../../src/utils/firebaseapi";
 import { DocumentData } from "firebase/firestore";
-import { auth } from "../../src/utils/firebase";
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
 import useOnclickOutside from "react-cool-onclickoutside";
-
-import { ReactComponent as Doc } from "./doc.svg";
-import { ReactComponent as Repo } from "./repo.svg";
 import { ReactComponent as GitHub } from "./github.svg";
 import { ReactComponent as Member } from "./member.svg";
-import { ReactComponent as Logout } from "./logout.svg";
-
 import { Tours, stepType } from "./Tours";
-
 import SearchResults from "./SearchResults";
 
 const Wrapper = styled.div`
