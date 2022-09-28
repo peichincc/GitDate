@@ -51,7 +51,7 @@ const TiptapEditor = ({
   // );
   const editor = useEditor({
     extensions: [StarterKit, Underline],
-    content: "<p>Write your story...</p>",
+    content: "",
     onUpdate: ({ editor }) => {
       setEditorHtmlContent(editor.getHTML());
     },
