@@ -287,7 +287,7 @@ const Header = () => {
           <GitHub stroke="#FFF" />
         </LogoContainer>
         <SearchForm>
-          <SearchWrapper>
+          <SearchWrapper id="searchUser">
             <SearchInput
               placeholder="Enter name to search user..."
               onChange={getSearchName}

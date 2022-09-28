@@ -28,7 +28,12 @@ export const stepType = {
   all: [
     {
       target: "body",
-      content: "In every page you could click Docs to see the tutorials",
+      content: "In every page you could click Docs to see tutorials",
+      disableBeacon: true,
+    },
+    {
+      target: "#searchUser",
+      content: "You can also search other users by their name here",
       disableBeacon: true,
     },
   ],
@@ -36,6 +41,7 @@ export const stepType = {
     {
       target: "#issuesFilter",
       content: "You can filter issues by status and category",
+      disableBeacon: true,
     },
     {
       target: "#createIssue",
@@ -50,9 +56,12 @@ export const stepType = {
       target: "#issueClick",
       content: "Now let's browse these amazing posts!",
     },
+  ],
+  createissue: [
     {
       target: "#issuesBtn",
       content: "Here to create new issues!",
+      disableBeacon: true,
     },
   ],
   issue: [
@@ -140,14 +149,6 @@ export const stepType = {
       content: "Here are all activities you attended and hosted",
     },
   ],
-  friendRequest: [
-    {
-      target: "#mergeBtn",
-      content:
-        "You could merge this pull request and open a repository (chatroom) with another GitDater!",
-      disableBeacon: true,
-    },
-  ],
   repo: [
     {
       target: "#repoSidebar",
@@ -173,11 +174,92 @@ export function Tours({
   });
 
   useEffect(() => {
-    setState({
-      run: false,
-      steps: stepType,
-    });
-  }, [page, stepType]);
+    const location = page?.substring(
+      page.indexOf("/") - 1,
+      page.lastIndexOf("/")
+    );
+    if (!localStorage.getItem("tutorial2PassedAll")) {
+      if (page === "/") {
+        setState({
+          run: true,
+          steps: stepType.all,
+        });
+        window.localStorage.setItem("tutorial2PassedAll", "true");
+      }
+    }
+    if (!localStorage.getItem("tutorial2PassedIssues")) {
+      if (page === "/issues") {
+        setState({
+          run: true,
+          steps: stepType.issues,
+        });
+        window.localStorage.setItem("tutorial2PassedIssues", "true");
+      }
+    }
+    if (!localStorage.getItem("tutorial2PassedIssue")) {
+      if (location === "/issue") {
+        setState({
+          run: true,
+          steps: stepType.issue,
+        });
+        window.localStorage.setItem("tutorial2PassedIssue", "true");
+      }
+    }
+    if (!localStorage.getItem("tutorial2PassedCreateIssue")) {
+      if (page === "/createissue") {
+        setState({
+          run: true,
+          steps: stepType.createissue,
+        });
+        window.localStorage.setItem("tutorial2PassedCreateIssue", "true");
+      }
+    }
+    if (!localStorage.getItem("tutorial2PassedBranches")) {
+      if (page === "/branches") {
+        setState({
+          run: true,
+          steps: stepType.branches,
+        });
+        window.localStorage.setItem("tutorial2PassedBranches", "true");
+      }
+    }
+    if (!localStorage.getItem("tutorial2PassedCreateBranch")) {
+      if (page === "/createbranch") {
+        setState({
+          run: true,
+          steps: stepType.createbranch,
+        });
+        window.localStorage.setItem("tutorial2PassedCreateBranch", "true");
+      }
+    }
+    if (!localStorage.getItem("tutorial2PassedBranch")) {
+      if (location === "/branch") {
+        setState({
+          run: true,
+          steps: stepType.branch,
+        });
+        window.localStorage.setItem("tutorial2PassedBranch", "true");
+      }
+    }
+    if (!localStorage.getItem("tutorial2PassedMember")) {
+      if (page === "/member") {
+        setState({
+          run: true,
+          steps: stepType.member,
+        });
+        window.localStorage.setItem("tutorial2PassedMember", "true");
+      }
+    }
+    if (!localStorage.getItem("tutorial2PassedRepo")) {
+      if (page === "/repo") {
+        setState({
+          run: true,
+          steps: stepType.repo,
+        });
+        window.localStorage.setItem("tutorial2PassedRepo", "true");
+      }
+    }
+  }, [page]);
 
   const handleClickStart = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -203,6 +285,12 @@ export function Tours({
       setState({
         run: true,
         steps: stepType.issue,
+      });
+    }
+    if (page === "/createissue") {
+      setState({
+        run: true,
+        steps: stepType.createissue,
       });
     }
     if (page === "/branches") {
@@ -244,11 +332,15 @@ export function Tours({
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { status, type } = data;
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
-
     if (finishedStatuses.includes(status)) {
       setState({ run: false, steps });
     }
-
+    // if (localStorage.getItem("tutorial2PassedAll")) {
+    //   setState({ run: false, steps });
+    // }
+    // if (localStorage.getItem("tutorial2PassedIssues")) {
+    //   setState({ run: false, steps });
+    // }
     logGroup(type, data);
   };
 
@@ -288,170 +380,3 @@ export function Tours({
     </div>
   );
 }
-
-// export class Tours extends Component {
-//   constructor(props: any) {
-//     super(props);
-//     this.state = {
-//       run: false,
-//       steps: [
-//         {
-//           target: "body",
-//           content: "In every page you could click Docs to see the tutorials",
-//           disableBeacon: true,
-//         },
-//         {
-//           target: "#issuesFilter",
-//           content: "You can filter issues by status and category",
-//         },
-//         {
-//           target: "#createIssue",
-//           content:
-//             "Here to create your issues (no need to be an issue, just anything you want to share)",
-//         },
-//         {
-//           target: "#issuesToggle",
-//           content: "Here you can change the style of issues",
-//         },
-//         {
-//           target: "#issueClick",
-//           content: "Now let's browse these amazing posts!",
-//         },
-//         {
-//           target: "#issuesBtn",
-//           content: "Here to create new issues!",
-//         },
-//         {
-//           target: "#issueAuthor",
-//           content: "You could see this issue's author README",
-//         },
-//         {
-//           target: "#PRbtn",
-//           content:
-//             "You could send this pull request to the author to ask for chatting",
-//         },
-//         {
-//           target: "#branchesFilter",
-//           content: "You can filter branches by activity types",
-//         },
-//         {
-//           target: "#branchCalendar",
-//           content:
-//             "You can click the date to see whether there is any activity",
-//         },
-//         {
-//           target: "#createBranch",
-//           content: "Wanna start something? Just do it!",
-//         },
-//         {
-//           target: "#mapInput",
-//           content: "You could pin your activity location on the map!",
-//         },
-//         {
-//           target: "#branchesBtn",
-//           content: "Here to create new branches!",
-//         },
-//         {
-//           target: "#branchAuthor",
-//           content: "You could see this branch's host README",
-//         },
-//         {
-//           target: "#checkoutBtn",
-//           content: "You can checkout to this branch to attend this activity",
-//         },
-//         {
-//           target: "#branchParticipants",
-//           content: "To see other people who attend this activity",
-//         },
-//         {
-//           target: "#editProfile",
-//           content: "You could change your Readme (Public profile) info here",
-//         },
-//         {
-//           target: "#seeReadme",
-//           content:
-//             "Here is your public Readme page, you can share this to your friends 🙌️ ",
-//         },
-//         {
-//           target: "#overview",
-//           content: "You could see your info here",
-//         },
-//         {
-//           target: "#pullrequests",
-//           content: "You could see who sent you pull requests",
-//         },
-//         {
-//           target: "#repositories",
-//           content: "Here are your friend list and chatrooms",
-//         },
-//         {
-//           target: "#issuesMember",
-//           content: "Here are all the issues you created",
-//         },
-//         {
-//           target: "#branchesMember",
-//           content: "Here are all activities you attended and hosted",
-//         },
-//         {
-//           target: "#mergeBtn",
-//           content:
-//             "You could merge this pull request and open a repository (chatroom) with another GitDater!",
-//         },
-//         {
-//           target: "#repoSidebar",
-//           content:
-//             "Here are all your friends in GitDate, let's chat with them!",
-//         },
-//       ],
-//     };
-//   }
-
-//   handleClickStart = (e: React.MouseEvent<HTMLElement>) => {
-//     e.preventDefault();
-//     this.setState({
-//       run: true,
-//     });
-//   };
-
-//   handleJoyrideCallback = (data: CallBackProps) => {
-//     const { status, type } = data;
-//     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
-
-//     if (finishedStatuses.includes(status)) {
-//       this.setState({ run: false });
-//     }
-
-//     logGroup(type, data);
-//   };
-
-//   render() {
-//     const { steps, run } = this.state as any;
-//     return (
-//       <div className="App">
-//         <div className="btn second-step" onClick={this.handleClickStart}>
-//           Docs
-//         </div>
-//         <Joyride
-//           callback={this.handleJoyrideCallback}
-//           continuous
-//           hideCloseButton
-//           run={run}
-//           scrollToFirstStep
-//           showProgress
-//           showSkipButton
-//           steps={steps}
-//           styles={{
-//             options: {
-//               zIndex: 10000,
-//               arrowColor: "#edede9",
-//               backgroundColor: "#edede9",
-//               // overlayColor: "rgba(79, 26, 0, 0.4)",
-//               primaryColor: "#ff69b4",
-//               textColor: "#3f3a3a",
-//             },
-//           }}
-//         />
-//       </div>
-//     );
-//   }
-// }

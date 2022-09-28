@@ -237,7 +237,7 @@ const FriendRequest = ({ getInvitationList }: Props) => {
                     </ClickBtn>
                   </NameContainer>
                   <BtnContainer>
-                    <MergeBtn id="mergeBtn" value={index} onClick={merge}>
+                    <MergeBtn value={index} onClick={merge}>
                       Merge
                     </MergeBtn>
                     <CloseBtn value={index} onClick={close}>
