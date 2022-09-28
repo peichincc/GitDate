@@ -204,28 +204,28 @@ const Header = () => {
     setShowSidebar(true);
   };
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        var uid = user.uid;
-        firebaseapi.searchUserName(uid).then((result) => {
-          if (result) {
-            console.log(result);
-            console.log(result["firstname"]);
-            dispatch(
-              setUserData(
-                result["user_id"],
-                result["firstname"],
-                result["main_photo"]
-              )
-            );
-            console.log(userInfo);
-          }
-        });
-        setAlreadyLogged(true);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       var uid = user.uid;
+  //       firebaseapi.searchUserName(uid).then((result) => {
+  //         if (result) {
+  //           console.log(result);
+  //           console.log(result["firstname"]);
+  //           dispatch(
+  //             setUserData(
+  //               result["user_id"],
+  //               result["firstname"],
+  //               result["main_photo"]
+  //             )
+  //           );
+  //           console.log(userInfo);
+  //         }
+  //       });
+  //       setAlreadyLogged(true);
+  //     }
+  //   });
+  // }, []);
 
   const memberHandler = () => {
     if (userInfo.user.user_id) {

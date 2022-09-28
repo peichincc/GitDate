@@ -45,6 +45,7 @@ const CalendarContainer = styled.div`
   top: 3%;
   @media screen and (max-width: 1280px) {
     position: relative;
+    top: 0;
   }
   /* ~~~ container styles ~~~ */
   max-width: 600px;

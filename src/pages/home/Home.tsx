@@ -209,7 +209,7 @@ const images = [img01, img02, img03, img04, img05, img06];
 
 const Home = () => {
   const userInfo = useSelector((state) => state) as any;
-  const [userLoggedStatus, setUserLoggedStatus] = useState(false);
+  const [alreadyLogged, setAlreadyLogged] = useState(false);
   // // New Carousel
   // const slidePresentationTime = 3000; // after how many ms slide will change - now 3s / 3000ms
   // const [currentSlide, setCurrentSlide] = useState(0);
@@ -238,7 +238,10 @@ const Home = () => {
   // });
 
   useEffect(() => {
-    setUserLoggedStatus(userInfo.isLogged);
+    const userID = userInfo.user.user_id;
+    if (userID) {
+      setAlreadyLogged(true);
+    }
     firebaseapi.readBranchLocations().then((res) => {
       console.log(res);
       if (res) {
@@ -290,26 +293,26 @@ const Home = () => {
                   Make the first commit and start meeting new people!
                 </BlockText>
                 <BlockAction>
-                  {/* {userLoggedStatus ? (
+                  {alreadyLogged ? (
                     ""
                   ) : (
-                    <> */}
-                  <SignUpBtn
-                    onClick={() => {
-                      navigate("/signup");
-                    }}
-                  >
-                    Join
-                  </SignUpBtn>
-                  <ActionButton
-                    onClick={() => {
-                      navigate("/signin");
-                    }}
-                  >
-                    Sign In
-                  </ActionButton>
-                  {/* </>
-                  )} */}
+                    <>
+                      <SignUpBtn
+                        onClick={() => {
+                          navigate("/signup");
+                        }}
+                      >
+                        Join
+                      </SignUpBtn>
+                      <ActionButton
+                        onClick={() => {
+                          navigate("/signin");
+                        }}
+                      >
+                        Sign In
+                      </ActionButton>
+                    </>
+                  )}
                 </BlockAction>
                 <TourReminder>
                   <Tour />

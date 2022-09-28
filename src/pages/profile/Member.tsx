@@ -331,7 +331,8 @@ const Member = () => {
         setButtonPop(true);
         setAlertMsg("Sign out Successfully!");
         setTimeout(() => {
-          navigate("/");
+          window.location.reload();
+          // navigate("/");
         }, 1000);
       })
       .catch((error) => {
