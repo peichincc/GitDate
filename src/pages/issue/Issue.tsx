@@ -363,7 +363,6 @@ const Issue = () => {
         />
         {isLoading ? (
           <>
-            <p>Issue</p>
             <Loading />
           </>
         ) : (

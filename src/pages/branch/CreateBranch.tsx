@@ -357,7 +357,7 @@ const CreateBranch = () => {
               </AvatarUser>
             </AvatarBlock>
             <PostBox>
-              <FormGroup>
+              <FormGroup id="branchType">
                 <FormLabel>Category</FormLabel>
                 {TypeList.map(({ name, value }, index) => {
                   return (
@@ -406,12 +406,12 @@ const CreateBranch = () => {
                   />
                 </MapContainer>
               </FormGroup>
-              <FormGroup>
+              <FormGroup id="branchContent">
                 <FormLabel>Activity Description</FormLabel>
                 <TiptapEditor setEditorHtmlContent={setEditorHtmlContent} />
                 {/* <textarea onChange={getContent}></textarea> */}
               </FormGroup>
-              <FormGroup>
+              <FormGroup id="branchImage">
                 <FormLabel>Image</FormLabel>
                 <PreviewPhotoContainer>
                   <input

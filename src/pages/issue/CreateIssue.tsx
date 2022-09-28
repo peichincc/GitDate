@@ -335,7 +335,7 @@ const CreateIssue = () => {
               </AvatarUser>
             </AvatarBlock>
             <PostBox>
-              <FormGroup>
+              <FormGroup id="issueCategory">
                 <FormLabel>Category</FormLabel>
                 {CategoryList.map(({ name, value }, index) => {
                   return (
@@ -372,12 +372,12 @@ const CreateIssue = () => {
                 <FormLabel>Title</FormLabel>
                 <FormControl onChange={getTitle}></FormControl>
               </FormGroup>
-              <FormGroup>
+              <FormGroup id="issueContent">
                 <FormLabel>Content</FormLabel>
                 {/* <textarea onChange={getContent}></textarea> */}
                 <TiptapEditor setEditorHtmlContent={setEditorHtmlContent} />
               </FormGroup>
-              <FormGroup>
+              <FormGroup id="issueImage">
                 <FormLabel>Image</FormLabel>
                 <PreviewPhotoContainer>
                   <input
@@ -399,7 +399,7 @@ const CreateIssue = () => {
                   <GitAddBtn onClick={handleClick}>git add</GitAddBtn>
                 </PreviewPhotoContainer>
               </FormGroup>
-              <FormGroup>
+              <FormGroup id="issueTags">
                 <FormLabel>Tags</FormLabel>
                 <TagInputWrapper>
                   <TagsWrapper>

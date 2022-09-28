@@ -28,13 +28,16 @@ export const stepType = {
   all: [
     {
       target: "body",
-      content: "In every page you could click Docs to see tutorials",
+      content: "In every page you could always click Docs to see tutorials",
       disableBeacon: true,
     },
     {
       target: "#searchUser",
-      content: "You can also search other users by their name here",
-      disableBeacon: true,
+      content: "You can also search other users by their names here",
+    },
+    {
+      target: "#corner",
+      content: "↙ Don't forget git cheat sheet here ↙",
     },
   ],
   issues: [
@@ -59,14 +62,30 @@ export const stepType = {
   ],
   createissue: [
     {
-      target: "#issuesBtn",
-      content: "Here to create new issues!",
+      target: "#issueCategory",
+      content: "You could choose different types for your issue",
       disableBeacon: true,
+    },
+    {
+      target: "#issueContent",
+      content: "You can style your issue whatever you like!",
+    },
+    {
+      target: "#issueImage",
+      content: "Don't forget to git add your amazing photo to your issue!",
+    },
+    {
+      target: "#issueTags",
+      content: "You could add tags to your issue",
+    },
+    {
+      target: "#issuesBtn",
+      content: "git push --your amazing post",
     },
   ],
   issue: [
     {
-      target: "body",
+      target: "#issues",
       content: "Issues are posts created by other users",
       disableBeacon: true,
     },
@@ -98,18 +117,30 @@ export const stepType = {
   ],
   createbranch: [
     {
-      target: "#mapInput",
-      content: "You could pin your activity location on the map!",
+      target: "#branchType",
+      content: "You could choose your activity type",
       disableBeacon: true,
     },
     {
+      target: "#mapInput",
+      content: "You could pin your activity location on the map!",
+    },
+    {
+      target: "#branchContent",
+      content: "You can write your activity description with styles",
+    },
+    {
+      target: "#branchImage",
+      content: "Don't forget to git add your amazing photo to your activity!",
+    },
+    {
       target: "#branchesBtn",
-      content: "Here to create new branches!",
+      content: "git branch --your awesome activity",
     },
   ],
   branch: [
     {
-      target: "body",
+      target: "#branches",
       content: "Branches are activities created by other users",
       disableBeacon: true,
     },
@@ -162,7 +193,8 @@ export const stepType = {
   repo: [
     {
       target: "#repoSidebar",
-      content: "Here are all your friends in GitDate, let's chat with them!",
+      content:
+        "Once you have merged pull requests, you will see friend lists here and you can chat with them!",
       disableBeacon: true,
     },
   ],
