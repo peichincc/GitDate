@@ -121,7 +121,6 @@ interface Props {
 
 const FriendRequest = ({ getInvitationList }: Props) => {
   const [ButtonPop, setButtonPop] = useState(false);
-  const [confirmMsg, setConfirmMsg] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
   let navigate = useNavigate();
   const userData = useSelector((state) => state) as any;

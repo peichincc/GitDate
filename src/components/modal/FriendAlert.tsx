@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { faCodePullRequest } from "@fortawesome/free-solid-svg-icons";
 
 import {
   ModalHeader,
@@ -67,7 +67,7 @@ const FriendAlert = (props: any) => {
           <ModalContents>
             <ModalHeader>
               <h2>
-                <FontAwesomeIcon icon={faTriangleExclamation} />
+                <FontAwesomeIcon icon={faCodePullRequest} />
               </h2>
             </ModalHeader>
             <ModalContentsWrapper>

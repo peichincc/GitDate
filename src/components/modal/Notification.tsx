@@ -9,7 +9,7 @@ import FriendAlert from "./FriendAlert";
 const NotificationWrapper = styled.div`
   position: fixed;
   top: 15px;
-  right: 225px;
+  right: 230px;
   z-index: 200;
   @media screen and (max-width: 770px) {
     right: 0px;
@@ -26,6 +26,9 @@ const NotificationBox = styled.div`
   width: 50px;
   height: 40px;
   cursor: pointer;
+  &:hover {
+    color: #9a9b9d;
+  }
 `;
 
 const Notification = () => {
