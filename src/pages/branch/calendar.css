@@ -1,3 +1,6 @@
+.myClassName {
+  color: red;
+}
 .react-calendar {
   display: flex;
   flex-direction: column;

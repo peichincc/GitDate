@@ -8,11 +8,22 @@ import useOnclickOutside from "react-cool-onclickoutside";
 
 import "./map.css";
 import { FormControl } from "../../utils/StyledComponent";
+import styled from "styled-components";
+
+const LocationInput = styled(FormControl)`
+  width: 150px;
+`;
+const RenderSuggestion = styled.div`
+  &:hover {
+    cursor: pointer;
+  }
+`;
 
 const MapHome = ({ setLocation, setFormatAddress }: any) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
     libraries: ["places"],
+    language: "en",
   });
 
   if (!isLoaded) return <div>Loading...</div>;
@@ -101,15 +112,17 @@ const PlacesAutocomplete = ({
       } = suggestion;
 
       return (
-        <li key={place_id} onClick={handleSelect(suggestion)}>
-          <strong>{main_text}</strong> <small>{secondary_text}</small>
-        </li>
+        <RenderSuggestion>
+          <li key={place_id} onClick={handleSelect(suggestion)}>
+            <strong>{main_text}</strong> <small>{secondary_text}</small>
+          </li>
+        </RenderSuggestion>
       );
     });
 
   return (
     <div ref={ref}>
-      <FormControl
+      <LocationInput
         value={value}
         onChange={handleInput}
         disabled={!ready}

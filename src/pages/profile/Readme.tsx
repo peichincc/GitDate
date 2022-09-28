@@ -13,20 +13,15 @@ import {
   getDocs,
   DocumentData,
 } from "firebase/firestore";
-
 import { BoxHeader } from "./Profile";
 import { NavWord } from "../../utils/StyledComponent";
-
 import PostedIssues from "../../components/user/PostedIssues";
 import HostedBranches from "../../components/user/HostedBranches";
 import AttendedBranches from "../../components/user/AttendedBranches";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
-
 import Loading from "../../components/Loading";
-
-import { GoBackWrapper, Button } from "../../utils/StyledComponent";
+import { GoBackWrapper, Button, GithubLink } from "../../utils/StyledComponent";
 
 const Wrapper = styled.div`
   width: 90%;
@@ -44,6 +39,9 @@ const Container = styled.div`
 const InsideContainder = styled.div`
   display: flex;
   margin-top: 20px;
+  @media screen and (max-width: 770px) {
+    flex-direction: column;
+  }
 `;
 const LeftContainer = styled.div`
   margin-left: 20px;
@@ -181,65 +179,71 @@ const Readme = () => {
   return (
     <>
       <Wrapper>
-        {isLoading && <Loading />}
-        {userData && (
+        {isLoading ? (
+          <Loading />
+        ) : (
           <>
-            <Container>
-              <BoxHeader>
-                <FontAwesomeIcon icon={faListUl} /> <NavWord>README.md</NavWord>
-              </BoxHeader>
-              <InsideContainder>
-                <LeftContainer>
-                  <PhotoContainer>
-                    <PhotoContainerImg
-                      src={userData.main_photo}
-                      alt="main_photo"
-                    />
-                  </PhotoContainer>
-                  <NameCard>
-                    <b>
-                      {userData.firstname} {userData.lastname}
-                    </b>
-                  </NameCard>
-                  <NameCard>{userData.occupation}</NameCard>
-                </LeftContainer>
-                <RightContainer>
-                  <FormTextRead>
-                    <DataCard>Age</DataCard> {userData.age}
-                  </FormTextRead>
-                  <FormTextRead>
-                    <DataCard> Gender </DataCard> {userData.gender}
-                  </FormTextRead>
-                  <FormTextRead>
-                    <DataCard> Interested in </DataCard>
-                    {userData.gender_interested}
-                  </FormTextRead>
-                  <FormTextRead>
-                    <DataCard> Wish relationship </DataCard>
-                    {userData.wish_relationship}
-                  </FormTextRead>
-                  <FormTextRead>
-                    <DataCard> GithubLink</DataCard>
-                    <a
-                      href={userData.githublink}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {userData.githublink}
-                    </a>
-                  </FormTextRead>
-                  <FormTextRead>
-                    <DataCard> Details</DataCard>
-                    {userData.details}
-                  </FormTextRead>
-                </RightContainer>
-              </InsideContainder>
-            </Container>
-            {postedIssues && <PostedIssues postedIssues={postedIssues} />}
-            {hostedBranches && (
+            {userData && (
               <>
-                <HostedBranches hostedBranches={hostedBranches} />
-                <AttendedBranches attendedBranches={attendedBranches} />
+                <Container>
+                  <BoxHeader>
+                    <FontAwesomeIcon icon={faListUl} />{" "}
+                    <NavWord>README.md</NavWord>
+                  </BoxHeader>
+                  <InsideContainder>
+                    <LeftContainer>
+                      <PhotoContainer>
+                        <PhotoContainerImg
+                          src={userData.main_photo}
+                          alt="main_photo"
+                        />
+                      </PhotoContainer>
+                      <NameCard>
+                        <b>
+                          {userData.firstname} {userData.lastname}
+                        </b>
+                      </NameCard>
+                      <NameCard>{userData.occupation}</NameCard>
+                    </LeftContainer>
+                    <RightContainer>
+                      <FormTextRead>
+                        <DataCard>Age</DataCard> {userData.age}
+                      </FormTextRead>
+                      <FormTextRead>
+                        <DataCard> Gender </DataCard> {userData.gender}
+                      </FormTextRead>
+                      <FormTextRead>
+                        <DataCard> Interested in </DataCard>
+                        {userData.gender_interested}
+                      </FormTextRead>
+                      <FormTextRead>
+                        <DataCard> Wish relationship </DataCard>
+                        {userData.wish_relationship}
+                      </FormTextRead>
+                      <FormTextRead>
+                        <DataCard> GithubLink</DataCard>
+                        <a
+                          href={userData.githublink}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <GithubLink>{userData.githublink}</GithubLink>
+                        </a>
+                      </FormTextRead>
+                      <FormTextRead>
+                        <DataCard> Details</DataCard>
+                        {userData.details}
+                      </FormTextRead>
+                    </RightContainer>
+                  </InsideContainder>
+                </Container>
+                {postedIssues && <PostedIssues postedIssues={postedIssues} />}
+                {hostedBranches && (
+                  <>
+                    <HostedBranches hostedBranches={hostedBranches} />
+                    <AttendedBranches attendedBranches={attendedBranches} />
+                  </>
+                )}
               </>
             )}
           </>

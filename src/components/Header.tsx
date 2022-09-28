@@ -13,6 +13,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
+import useOnclickOutside from "react-cool-onclickoutside";
 
 import { ReactComponent as Doc } from "./doc.svg";
 import { ReactComponent as Repo } from "./repo.svg";
@@ -22,6 +23,8 @@ import { ReactComponent as Logout } from "./logout.svg";
 
 import { Tours } from "./Tours";
 
+import SearchResults from "./SearchResults";
+
 const Wrapper = styled.div`
   display: flex;
   margin: 0 auto;
@@ -30,9 +33,13 @@ const Wrapper = styled.div`
   padding-left: 16px;
   align-items: center;
   width: 100%;
+  @media screen and (max-width: 770px) {
+    padding-left: 0;
+  }
 `;
 
 const LogoContainer = styled(Link)`
+  cursor: pointer;
   width: 62px;
   height: 62px;
   display: flex;
@@ -52,6 +59,7 @@ const SearchForm = styled.div`
   width: 100%;
   margin-left: 10px;
   max-width: 272px;
+  height: auto;
   /* min-height: 28px; */
   margin-top: 6px;
   background-color: #24292f;
@@ -83,11 +91,12 @@ const SearchWrapper = styled.div`
   align-items: center;
   margin-top: 2px;
 `;
-const ResultBox = styled.div`
-  width: 100%;
+const SearchContainer = styled.div`
+  position: absolute;
+  width: 270px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   background-color: white;
-  height: 20px;
-  color: black;
+  border-radius: 0px 0px 6px 6px;
 `;
 
 const CategoryLinks = styled.div`
@@ -97,6 +106,9 @@ const CategoryLinks = styled.div`
   margin-left: 20px;
   width: 100%;
   margin-top: 7px;
+  @media screen and (max-width: 770px) {
+    display: none;
+  }
 `;
 const Category = styled(Link)`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
@@ -109,6 +121,13 @@ const Category = styled(Link)`
   cursor: pointer;
   :hover {
     color: #9a9b9d;
+  }
+  @media screen and (max-width: 770px) {
+    border-bottom: 1px solid #d0d7de;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    font-size: 14px;
+    color: #d0d7de;
   }
 `;
 
@@ -125,6 +144,52 @@ const RightContainer = styled.div`
   align-items: center;
 `;
 
+const MobileBar = styled.div`
+  @media screen and (max-width: 770px) {
+    display: block;
+  }
+`;
+const ToggleBtn = styled.button`
+  margin-left: 16px;
+  height: 24px;
+  width: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 0;
+  box-sizing: border-box;
+  @media screen and (min-width: 770px) {
+    display: none;
+  }
+`;
+const ToggleBtnLine = styled.div`
+  width: 17px;
+  height: 2px;
+  background: #d0d7de;
+`;
+const MobileSidebar = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 250px;
+  background-color: #24292f;
+  top: 62px;
+`;
+const MobileLinkContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+`;
+const ClostBtn = styled.button`
+  font-size: 20px;
+  background-color: #24292f;
+  border: none;
+  margin-top: 3px;
+  color: white;
+`;
+
 const Header = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -133,28 +198,34 @@ const Header = () => {
 
   const [searchResults, setSearchRsults] = useState<DocumentData>();
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        var uid = user.uid;
-        firebaseapi.searchUserName(uid).then((result) => {
-          if (result) {
-            console.log(result);
-            console.log(result["firstname"]);
-            dispatch(
-              setUserData(
-                result["user_id"],
-                result["firstname"],
-                result["main_photo"]
-              )
-            );
-            console.log(userInfo);
-          }
-        });
-        setAlreadyLogged(true);
-      }
-    });
-  }, []);
+  // Mobile sidebar (RWD)
+  const [showSidebar, setShowSidebar] = useState(false);
+  const clickhandler = () => {
+    setShowSidebar(true);
+  };
+
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       var uid = user.uid;
+  //       firebaseapi.searchUserName(uid).then((result) => {
+  //         if (result) {
+  //           console.log(result);
+  //           console.log(result["firstname"]);
+  //           dispatch(
+  //             setUserData(
+  //               result["user_id"],
+  //               result["firstname"],
+  //               result["main_photo"]
+  //             )
+  //           );
+  //           console.log(userInfo);
+  //         }
+  //       });
+  //       setAlreadyLogged(true);
+  //     }
+  //   });
+  // }, []);
 
   const memberHandler = () => {
     if (userInfo.user.user_id) {
@@ -185,10 +256,12 @@ const Header = () => {
   function expand() {
     setExpanded(true);
   }
-
-  function close() {
+  const ref = useOnclickOutside(() => {
+    // When user clicks outside of the component, we can dismiss
+    // the searched suggestions by calling this method
     setExpanded(false);
-  }
+  });
+
   const getSearchName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchName(e.target.value);
   };
@@ -196,20 +269,55 @@ const Header = () => {
     firebaseapi.searchUserByName(searchName).then((res) => {
       console.log(res);
       if (res) {
+        expand();
         // console.log(res["firstname"]);
         setSearchRsults(res);
       }
-      expand();
     });
   };
 
   return (
     <>
       <Wrapper>
+        <MobileBar>
+          <ToggleBtn onClick={clickhandler}>
+            <ToggleBtnLine />
+            <ToggleBtnLine />
+            <ToggleBtnLine />
+          </ToggleBtn>
+        </MobileBar>
+        {showSidebar && (
+          <MobileSidebar>
+            <MobileLinkContainer>
+              <Category to="issues" id="issues">
+                Issues
+              </Category>
+              <Category to="branches" id="branches">
+                Branches
+              </Category>
+              <Category as="div" id="docs">
+                <Tours />
+              </Category>
+              <Category to="repo" id="repo">
+                Repo
+              </Category>
+              <Category as="div" onClick={memberHandler}>
+                <Member />
+              </Category>
+              <ClostBtn
+                onClick={() => {
+                  setShowSidebar(false);
+                }}
+              >
+                &times;
+              </ClostBtn>
+            </MobileLinkContainer>
+          </MobileSidebar>
+        )}
         <LogoContainer to="/">
           <GitHub stroke="#FFF" />
         </LogoContainer>
-        {/* <SearchForm>
+        <SearchForm>
           <SearchWrapper>
             <SearchInput
               placeholder="Enter name to search user..."
@@ -218,15 +326,11 @@ const Header = () => {
             <SearchBtn onClick={getSearchResults}>/</SearchBtn>
           </SearchWrapper>
           {expanded && (
-            <ResultBox>
-              {searchResults?.map((user: any) => {
-                <>
-                  <h1>{user.firstname}</h1>
-                </>;
-              })}
-            </ResultBox>
+            <SearchContainer ref={ref}>
+              <SearchResults searchResults={searchResults} />
+            </SearchContainer>
           )}
-        </SearchForm> */}
+        </SearchForm>
         <CategoryLinks>
           <CategoryContainer>
             <LeftContainer>
@@ -238,11 +342,7 @@ const Header = () => {
               </Category>
             </LeftContainer>
             <RightContainer>
-              {/* <Category to="tutorial">
-                Docs
-              </Category> */}
               <Category as="div" id="docs">
-                {/* Docs */}
                 <Tours />
               </Category>
               <Category to="repo" id="repo">

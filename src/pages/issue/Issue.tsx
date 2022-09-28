@@ -15,6 +15,7 @@ import firebaseapi from "../../utils/firebaseapi";
 
 import defaultAvatar from "../../utils/DefaultAvatar.png";
 import {
+  GoBackWrapper,
   Button,
   LebalsText,
   PostImgContainer,
@@ -48,6 +49,7 @@ import {
 import Alert from "../../components/modal/Alert";
 import Confirm from "../../components/modal/Confirm";
 import Loading from "../../components/Loading";
+import AlertWtihCTA from "../../components/modal/AlertWithCTA";
 
 const Wrapper = styled.div`
   display: block;
@@ -70,6 +72,9 @@ const MainContainer = styled.div`
   display: flex;
   width: 100%;
   padding-top: 8px;
+  @media screen and (max-width: 770px) {
+    flex-direction: column-reverse;
+  }
 `;
 const LeftContainer = styled.div`
   width: 80%;
@@ -77,11 +82,18 @@ const LeftContainer = styled.div`
 const RightContainer = styled.div`
   width: 20%;
   padding-left: 20px;
+  @media screen and (max-width: 770px) {
+    display: flex;
+  }
 `;
 const IssueSubTitle = styled.div`
   padding-top: 5px;
   display: flex;
   align-items: center;
+  @media screen and (max-width: 770px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 const AuthorContainer = styled.div``;
 const ContentContainer = styled.div`
@@ -150,6 +162,7 @@ const TagsWrapper = styled.div`
 const Issue = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
+  const [alertWtihCTAPop, setAlertWtihCTAPop] = useState(false);
   const [confirmPop, setConfirmPop] = useState(false);
   const [confirmMsg, setConfirmMsg] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
@@ -246,6 +259,9 @@ const Issue = () => {
     const userPhoto = userData.user.user_photo;
     console.log(userId);
     console.log(userName);
+    if (userId) {
+      setGetUser(userId);
+    }
     if (userId && userName) {
       setGetUser(userId);
       setGetUserName(userName);
@@ -270,7 +286,9 @@ const Issue = () => {
           console.log(res["firstname"]);
           setGetAuthor(res["firstname"]);
           setGetAuthorID(res["user_id"]);
-          setIsLoading(false);
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 1000);
           if (res["user_id"] === userId) {
             setIsAuthor(true);
           }
@@ -285,6 +303,11 @@ const Issue = () => {
       setButtonPop(true);
       // alert("Please sign in!");
       // navigate("/signin");
+      return;
+    }
+    if (!getUserName) {
+      setAlertMsg("You haven't completed your README, let's write it here");
+      setAlertWtihCTAPop(true);
       return;
     }
     // console.log(`User:${getAuthorID}`);
@@ -326,6 +349,11 @@ const Issue = () => {
           setButtonPop={setButtonPop}
           alertMsg={alertMsg}
         />
+        <AlertWtihCTA
+          trigger={alertWtihCTAPop}
+          setAlertWtihCTAPop={setAlertWtihCTAPop}
+          alertMsg={alertMsg}
+        />
         <Confirm
           trigger={confirmPop}
           setConfirmPop={setConfirmPop}
@@ -333,127 +361,151 @@ const Issue = () => {
           // attendActivity={attendActivity}
           confirmMsg={confirmMsg}
         />
-        {isLoading && <Loading />}
-        {issueData && (
-          <div>
-            <Container>
-              <TopContainer>
-                <PostTitle>{issueData.title}</PostTitle>
-                <IssueSubTitle>
-                  {issueOpen ? (
-                    <StatusOpen>
-                      <FontAwesomeIcon icon={faCodePullRequest} />
-                      <StatusWord>{issueData.status}</StatusWord>
-                    </StatusOpen>
-                  ) : (
-                    <CloseStatus>
-                      <FontAwesomeIcon icon={faCircleCheck} />
-                      <StatusWord> {issueData.status}</StatusWord>
-                    </CloseStatus>
-                  )}
-                  <AuthorContainer>
-                    <PostSubTitle>
-                      <AuthorBtn
-                        id="issueAuthor"
-                        onClick={() => {
-                          navigate("/readme/" + issueData.posted_by);
-                        }}
-                      >
-                        {getAuthor}
-                      </AuthorBtn>
-                      posted this issue at:{"  "}
-                      {newT}
-                    </PostSubTitle>
-                  </AuthorContainer>
-                </IssueSubTitle>
-              </TopContainer>
-              <MainContainer>
-                <LeftContainer>
-                  <PostWraper>
-                    <AvatarBlock>
-                      <AvatarUser>
-                        <AvatarUserImg src={defaultAvatar} />
-                      </AvatarUser>
-                    </AvatarBlock>
-                    <PostBox>
-                      <ContentContainer>
-                        <PostImgContainer>
-                          <PostImgBoxImg
-                            src={issueData.main_image}
-                            alt="main_photo"
-                          />
-                        </PostImgContainer>
-                        <PostContentText>
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html: issueData.content,
-                            }}
-                          ></div>
-                        </PostContentText>
-                      </ContentContainer>
-                    </PostBox>
-                  </PostWraper>
-                  <PRContainer>
-                    <PostWraper>
-                      <AvatarBlock>
-                        <MergeIcon>
-                          <FontAwesomeIcon icon={faCodeMerge} />
-                        </MergeIcon>
-                      </AvatarBlock>
-                      <PRPostBox>
-                        <PRBox>
-                          <PostContentText>
-                            Start chatting by making this pull request to{" "}
-                            {getAuthor}
-                            <FontAwesomeIcon icon={faMugSaucer} />
-                          </PostContentText>
-                          <PRbtn id="PRbtn" onClick={sendRequest}>
-                            Create Pull Request
-                          </PRbtn>
-                        </PRBox>
-                      </PRPostBox>
-                    </PostWraper>
-                  </PRContainer>
-                </LeftContainer>
-                <RightContainer>
-                  <LebalsContainer>
-                    <LebalsText>Category</LebalsText>
-                    <LebalContentText>{issueData.category}</LebalContentText>
-                  </LebalsContainer>
-                  <LebalsContainer>
-                    <LebalsText>Tags</LebalsText>
-                    <TagsWrapper>
-                      {issueData.tags.map((tag: any) => (
-                        <>
-                          <TagButton>{tag}</TagButton>
-                        </>
-                      ))}
-                    </TagsWrapper>
-                  </LebalsContainer>
-                  {isAuthor && (
-                    <>
-                      <LebalsContainer>
-                        <LebalsText>Area for author</LebalsText>
-                        <LebalContentText>
-                          <EditBtn onClick={changeIssueStatus}>
-                            Close issue
-                          </EditBtn>
-                          <DeleteBtn
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <>
+            {issueData && (
+              <div>
+                <Container>
+                  <TopContainer>
+                    <PostTitle>{issueData.title}</PostTitle>
+                    <IssueSubTitle>
+                      {issueOpen ? (
+                        <StatusOpen>
+                          <FontAwesomeIcon icon={faCodePullRequest} />
+                          <StatusWord>{issueData.status}</StatusWord>
+                        </StatusOpen>
+                      ) : (
+                        <CloseStatus>
+                          <FontAwesomeIcon icon={faCircleCheck} />
+                          <StatusWord> {issueData.status}</StatusWord>
+                        </CloseStatus>
+                      )}
+                      <AuthorContainer>
+                        <PostSubTitle>
+                          <AuthorBtn
+                            id="issueAuthor"
                             onClick={() => {
-                              deleteIssue(id);
+                              navigate("/readme/" + issueData.posted_by);
                             }}
                           >
-                            Delete issue
-                          </DeleteBtn>
+                            {getAuthor}
+                          </AuthorBtn>
+                          posted this issue at:{"  "}
+                          {newT}
+                        </PostSubTitle>
+                      </AuthorContainer>
+                    </IssueSubTitle>
+                  </TopContainer>
+                  <MainContainer>
+                    <LeftContainer>
+                      <PostWraper>
+                        <AvatarBlock>
+                          <AvatarUser>
+                            <AvatarUserImg src={defaultAvatar} />
+                          </AvatarUser>
+                        </AvatarBlock>
+                        <PostBox>
+                          <ContentContainer>
+                            <PostImgContainer>
+                              <PostImgBoxImg
+                                src={issueData.main_image}
+                                alt="main_photo"
+                              />
+                            </PostImgContainer>
+                            <PostContentText>
+                              <div
+                                dangerouslySetInnerHTML={{
+                                  __html: issueData.content,
+                                }}
+                              ></div>
+                            </PostContentText>
+                          </ContentContainer>
+                        </PostBox>
+                      </PostWraper>
+                      {!isAuthor && (
+                        <>
+                          <PRContainer>
+                            <PostWraper>
+                              <AvatarBlock>
+                                <MergeIcon>
+                                  <FontAwesomeIcon icon={faCodeMerge} />
+                                </MergeIcon>
+                              </AvatarBlock>
+                              {issueOpen ? (
+                                <PRPostBox>
+                                  <PRBox>
+                                    <PostContentText>
+                                      Start chatting by making this pull request
+                                      to {getAuthor}
+                                      <FontAwesomeIcon icon={faMugSaucer} />
+                                    </PostContentText>
+                                    <PRbtn id="PRbtn" onClick={sendRequest}>
+                                      Create Pull Request
+                                    </PRbtn>
+                                  </PRBox>
+                                </PRPostBox>
+                              ) : (
+                                <PRPostBox>
+                                  <PRBox>
+                                    <PostContentText>
+                                      This issue is already closed.
+                                    </PostContentText>
+                                  </PRBox>
+                                </PRPostBox>
+                              )}
+                            </PostWraper>
+                          </PRContainer>
+                        </>
+                      )}
+                    </LeftContainer>
+                    <RightContainer>
+                      <LebalsContainer>
+                        <LebalsText>Category</LebalsText>
+                        <LebalContentText>
+                          {issueData.category}
                         </LebalContentText>
                       </LebalsContainer>
-                    </>
-                  )}
-                </RightContainer>
-              </MainContainer>
-            </Container>
-          </div>
+                      <LebalsContainer>
+                        <LebalsText>Tags</LebalsText>
+                        <TagsWrapper>
+                          {issueData.tags.map((tag: any) => (
+                            <>
+                              <TagButton>{tag}</TagButton>
+                            </>
+                          ))}
+                        </TagsWrapper>
+                      </LebalsContainer>
+                      {isAuthor && (
+                        <>
+                          <LebalsContainer>
+                            <LebalsText>Area for author</LebalsText>
+                            <LebalContentText>
+                              <EditBtn onClick={changeIssueStatus}>
+                                Close issue
+                              </EditBtn>
+                              <DeleteBtn
+                                onClick={() => {
+                                  deleteIssue(id);
+                                }}
+                              >
+                                Delete issue
+                              </DeleteBtn>
+                            </LebalContentText>
+                          </LebalsContainer>
+                        </>
+                      )}
+                    </RightContainer>
+                  </MainContainer>
+                </Container>
+              </div>
+            )}
+          </>
         )}
+        <GoBackWrapper>
+          <Button onClick={() => navigate("/issues")}>Go back</Button>
+        </GoBackWrapper>
       </Wrapper>
     </>
   );

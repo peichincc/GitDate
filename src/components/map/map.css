@@ -6,14 +6,17 @@
 
 .places-container {
   position: absolute;
-  top: 200px;
-  left: 300px;
+  top: 180px;
+  left: 225px;
   /* top: 0;
   left: 50%; */
   transform: translateX(-50%);
   z-index: 10;
-  width: 300px;
+  width: 150px;
   background-color: white;
+  /* @media screen and (max-width: 650px) {
+    width: auto;
+  } */
 }
 
 .input-container {

@@ -38,9 +38,10 @@ import {
   faListUl,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { Button } from "../../utils/StyledComponent";
+import { Button, GithubLink } from "../../utils/StyledComponent";
 import Loading from "../../components/Loading";
 import { SubmitBtn } from "./Signup";
+import Alert from "../../components/modal/Alert";
 
 const IconContainer = styled.div`
   width: 16px;
@@ -68,6 +69,9 @@ const LayoutContainer = styled.div`
   padding-left: 32px;
   display: flex;
   width: 100%;
+  @media screen and (max-width: 770px) {
+    flex-direction: column;
+  }
 `;
 const SidebarLayout = styled.div`
   display: flex;
@@ -89,6 +93,12 @@ const NavContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 20px;
+  @media screen and (max-width: 1376px) {
+    padding-left: 0;
+  }
+  @media screen and (max-width: 550px) {
+    flex-wrap: wrap;
+  }
 `;
 const NavTab = styled.button`
   display: flex;
@@ -210,6 +220,7 @@ const SignOutBtn = styled(SubmitBtn)`
 
 const Member = () => {
   const [ButtonPop, setButtonPop] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -318,9 +329,10 @@ const Member = () => {
         dispatch(signin());
         dispatch(setUserData("", "", ""));
         setButtonPop(true);
-        console.log("sign out!");
+        setAlertMsg("Sign out Successfully!");
         setTimeout(() => {
-          navigate("/");
+          window.location.reload();
+          // navigate("/");
         }, 1000);
       })
       .catch((error) => {
@@ -332,6 +344,11 @@ const Member = () => {
   return (
     <>
       <Wrapper>
+        <Alert
+          trigger={ButtonPop}
+          setButtonPop={setButtonPop}
+          alertMsg={alertMsg}
+        />
         <UpperContainer>
           <NavContainer>
             <NavTab
@@ -469,7 +486,7 @@ const Member = () => {
                           target="_blank"
                           rel="noreferrer"
                         >
-                          {logInUserData.githublink}
+                          <GithubLink>{logInUserData.githublink}</GithubLink>
                         </a>
                       </FormTextRead>
                       <FormTextRead>

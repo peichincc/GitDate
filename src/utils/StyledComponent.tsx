@@ -90,11 +90,18 @@ export const AvatarUser = styled.div`
   width: 40px;
   height: 40px;
   margin-top: 10px;
+  object-fit: cover;
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 `;
 export const AvatarUserImg = styled.img`
   max-width: 100%;
   max-height: 100%;
   border-radius: 50%;
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 `;
 
 export const FormGroup = styled.div`
@@ -190,11 +197,17 @@ export const BlogList = styled.div`
   padding-left: 20px;
   padding-right: 20px;
   justify-content: space-between;
+  background-color: white;
   &:hover {
     background-color: #f6f8fa;
   }
+  @media screen and (max-width: 450px) {
+    flex-direction: column;
+  }
 `;
 export const GithubPostTitle = styled.div`
+  padding-right: 2px;
+  /* padding: 2px; */
   font-size: 16px;
   font-weight: 600;
   color: #24292f;
@@ -227,6 +240,9 @@ export const LabelsButton = styled.button`
 export const AvatarBlock = styled.div`
   width: auto;
   margin-right: 25px;
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 `;
 export const PostWraper = styled.div`
   display: flex;
@@ -290,11 +306,19 @@ export const PostContentText = styled.div`
 `;
 export const PostImgContainer = styled.div`
   margin: 20px;
+  @media screen and (max-width: 770px) {
+    max-width: 250px;
+    max-height: 200px;
+  }
 `;
 export const PostImgBoxImg = styled.img`
   max-width: 500px;
   max-height: 400px;
   object-fit: cover;
+  @media screen and (max-width: 770px) {
+    width: 250px;
+    height: 200px;
+  }
 `;
 export const LebalsText = styled.div`
   font-size: 12px;
@@ -310,10 +334,23 @@ export const LebalContentText = styled.div`
 export const LebalsContainer = styled.div`
   border-bottom: 1px solid #d0d7de;
   padding: 10px;
+  @media screen and (max-width: 770px) {
+    border-bottom: 0px;
+  }
 `;
 export const AuthorBtn = styled.button`
   font-weight: 600;
   color: #57606a;
+  border: none;
+  background: none;
+  cursor: pointer;
+  :hover {
+    text-decoration: underline;
+  }
+`;
+export const GithubLink = styled.button`
+  margin-left: -5px;
+  font-size: 16px;
   border: none;
   background: none;
   cursor: pointer;
@@ -377,6 +414,9 @@ export const ModalSubtitle = styled.div`
   line-height: 30px;
   font-weight: 600;
   width: 175px;
+  @media screen and (max-width: 770px) {
+    font-size: 14px;
+  }
 `;
 export const ModalContent = styled.div`
   color: #333;
@@ -384,6 +424,9 @@ export const ModalContent = styled.div`
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   font-size: 16px;
   line-height: 30px;
+  @media screen and (max-width: 770px) {
+    font-size: 12px;
+  }
 `;
 export const ModalWordWrapper = styled.div`
   display: flex;

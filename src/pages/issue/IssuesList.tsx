@@ -75,13 +75,12 @@ const CardContainer = styled.div`
 const Card = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   width: 220px;
   height: 280px;
   background: #fff;
   border-radius: 4px;
-  border: 1px solid #d0d7de;
+  /* border: 1px solid #d0d7de; */
   /* box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15); */
 `;
 const ImageBox = styled.div`
@@ -91,11 +90,11 @@ const ImageBox = styled.div`
   border-radius: 20px;
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
   overflow: hidden;
-  &:hover {
+  /* &:hover {
     transform: scale(1.1);
     transition-duration: 0.3s;
     transition-duration: 0.5s;
-  }
+  } */
 `;
 const ImageBoxImage = styled.img`
   width: 150px;
@@ -192,15 +191,15 @@ const IssuesList = ({ issuesStatus, docs }: any) => {
                 <>
                   <CardContainer>
                     <Card>
-                      {/* <ImageBox> */}
-                      <ImageBoxImage
-                        src={blog.main_image}
-                        alt="issue_photo"
-                        onClick={() => {
-                          navigate("/issue/" + blog.issue_id);
-                        }}
-                      />
-                      {/* </ImageBox> */}
+                      <ImageBox>
+                        <ImageBoxImage
+                          src={blog.main_image}
+                          alt="issue_photo"
+                          onClick={() => {
+                            navigate("/issue/" + blog.issue_id);
+                          }}
+                        />
+                      </ImageBox>
                       <ContentBox>
                         <CategoryContainerGallery>
                           {blog.category}

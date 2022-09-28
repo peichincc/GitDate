@@ -24,34 +24,33 @@ import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
 
-const Background = styled.div`
-  overflow: hidden;
-  z-index: 0;
-  position: relative;
-`;
 const ImgContainer = styled.img`
   overflow: hidden;
-  z-index: 0;
-  position: absolute;
-  left: 2%;
+  z-index: -1;
+  position: fixed;
+  left: 1%;
   top: 15%;
+  max-width: 900px;
 `;
-const ImgContainer2 = styled(ImgContainer)`
-  bottom: 0;
-  right: 0;
-  z-index: 0;
-  position: absolute;
+const ImgContainer2 = styled.img`
   overflow: hidden;
+  z-index: -2;
+  position: fixed;
+  bottom: 2%;
+  left: 25%;
 `;
 
 const CalendarContainer = styled.div`
+  position: sticky;
+  top: 3%;
+  @media screen and (max-width: 1280px) {
+    position: relative;
+    top: 0;
+  }
   /* ~~~ container styles ~~~ */
   max-width: 600px;
   margin: auto;
   margin-top: 0px;
-  /* background-color: #d4f7d4; */
-  padding: 10px;
-  border-radius: 3px;
   /* ~~~ navigation styles ~~~ */
   .react-calendar__navigation {
     display: flex;
@@ -71,7 +70,6 @@ const CalendarContainer = styled.div`
     cursor: pointer;
     margin: 3px;
     background: none;
-    /* background-color: #6f876f; */
     border: 0;
     border-radius: 3px;
     color: black;
@@ -92,7 +90,6 @@ const CalendarContainer = styled.div`
     }
     .react-calendar__tile--range {
       border: 1px solid;
-      /* box-shadow: 0 0 6px 2px black; */
     }
   }
   /* ~~~ neighboring month & weekend styles ~~~ */
@@ -136,18 +133,21 @@ const Container = styled.div`
     align-items: center;
   }
 `;
-// const CalendarContainer = styled.div`
-//   width: 30%;
-//   margin-right: 20px;
-// `;
 const CalendarContainerIn = styled.div`
   border: 1px solid #d0d7de;
   border-radius: 6px;
   padding: 20px;
+  background-color: white;
+  margin-top: 10px;
 `;
 const BranchesContainer = styled.div`
   margin-top: 20px;
   width: 60%;
+  @media screen and (max-width: 661px) {
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 `;
 
 const FilterContainer = styled.div`
@@ -294,6 +294,9 @@ const BranchAll = () => {
     setDocs(mixedBranch);
   };
 
+  // const mark = ["04-09-2022", "03-09-2022", "15-09-2022"];
+  const marks = new Set(["04-09-2022", "03-09-2022", "15-09-2022"]);
+
   const dateClick = async (date: any) => {
     // console.log(date);
     const dateAssigned =
@@ -339,10 +342,8 @@ const BranchAll = () => {
           alertMsg={"Please sign in!"}
         />
         <Container>
-          {/* <Background> */}
-          {/* <ImgContainer src="https://secure.meetupstatic.com/next/images/blobs/red-blob.svg" />
           <ImgContainer src="https://secure.meetupstatic.com/next/images/blobs/yellow-blob.svg" />
-          <ImgContainer2 src="https://secure.meetupstatic.com/next/images/blobs/green-blob.svg" /> */}
+          <ImgContainer2 src="https://secure.meetupstatic.com/next/images/blobs/red-blob.svg" />
           <CalendarContainer>
             <h1>Select date to see branches</h1>
             <CalendarContainerIn id="branchCalendar">
@@ -386,7 +387,6 @@ const BranchAll = () => {
             {isLoading && <Loading />}
             {docs && <BranchesList docs={docs} branchType={branchType} />}
           </BranchesContainer>
-          {/* </Background> */}
         </Container>
       </Wrapper>
     </>
@@ -394,3 +394,6 @@ const BranchAll = () => {
 };
 
 export default BranchAll;
+function moment(date: Date) {
+  throw new Error("Function not implemented.");
+}

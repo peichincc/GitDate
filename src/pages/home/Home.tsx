@@ -12,9 +12,10 @@ import img06 from "./slider/slider06.jpg";
 import hangout from "./feature/hangout.jpg";
 import dating from "./feature/dating.jpg";
 import networking from "./feature/networking.jpg";
+import pride from "./feature/pride.jpg";
 import { Tour } from "../../components/Tour";
 
-import { ActionButton } from "../../utils/StyledComponent";
+import { ActionButton, TagButton } from "../../utils/StyledComponent";
 import { ShowMainMap } from "../../components/map/MainMap";
 
 import firebaseapi from "../../utils/firebaseapi";
@@ -90,7 +91,7 @@ const BlockContent = styled.div`
   width: 100%;
   background-color: rgba(255, 255, 255, 0.9);
   text-align: center;
-  @media screen and (min-width: 1280px) {
+  @media screen and (min-width: 770px) {
     max-width: 680px;
     padding-bottom: 15px;
     padding-top: 55px;
@@ -98,7 +99,9 @@ const BlockContent = styled.div`
     padding-left: 32px;
   }
 `;
-const BlockTitle = styled.h1``;
+const BlockTitle = styled.h1`
+  padding-bottom: 10px;
+`;
 const BlockText = styled.div``;
 const BlockAction = styled.div`
   display: flex;
@@ -116,6 +119,9 @@ const SignUpBtn = styled(ActionButton)`
 const BlockFeature = styled.div`
   height: 100vh;
   margin-top: 48px;
+  @media screen and (max-width: 700px) {
+    height: auto;
+  }
 `;
 const Features = styled.div`
   text-align: center;
@@ -124,6 +130,9 @@ const FeaturesList = styled.div`
   margin-top: 32px;
   display: flex;
   justify-content: center;
+  @media screen and (max-width: 700px) {
+    flex-direction: column;
+  }
 `;
 const FeaturesItem = styled.div`
   /* flex: 1 1 auto;
@@ -132,6 +141,10 @@ const FeaturesItem = styled.div`
   width: 30%;
   margin: 20px;
   margin-bottom: 0px;
+  @media screen and (max-width: 770px) {
+    width: 100%;
+    margin: 0;
+  }
 `;
 const FeaturesPhoto = styled.div`
   width: 100%;
@@ -156,6 +169,28 @@ const FeaturesItemTitleDate = styled(FeaturesItemTitle)`
 const FeaturesItemTitleNetworking = styled(FeaturesItemTitle)`
   top: 30%;
 `;
+const PrideContainer = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  @media screen and (max-width: 770px) {
+    flex-direction: column;
+  }
+`;
+const PrideItem = styled(FeaturesItem)`
+  background-image: url(${pride});
+  width: 50%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
+const PrideWordWrapper = styled.div`
+  width: 50%;
+  padding: 30px;
+`;
+const PrideTitle = styled(FeaturesItemTitle)`
+  right: 0;
+`;
 
 const MapContainer = styled.div`
   margin-top: 32px;
@@ -174,7 +209,7 @@ const images = [img01, img02, img03, img04, img05, img06];
 
 const Home = () => {
   const userInfo = useSelector((state) => state) as any;
-  const [userLoggedStatus, setUserLoggedStatus] = useState(false);
+  const [alreadyLogged, setAlreadyLogged] = useState(false);
   // // New Carousel
   // const slidePresentationTime = 3000; // after how many ms slide will change - now 3s / 3000ms
   // const [currentSlide, setCurrentSlide] = useState(0);
@@ -203,7 +238,10 @@ const Home = () => {
   // });
 
   useEffect(() => {
-    setUserLoggedStatus(userInfo.isLogged);
+    const userID = userInfo.user.user_id;
+    if (userID) {
+      setAlreadyLogged(true);
+    }
     firebaseapi.readBranchLocations().then((res) => {
       console.log(res);
       if (res) {
@@ -244,17 +282,18 @@ const Home = () => {
         <Block>
           <BlockCarousel id="mainDoc">
             <Carousel />
-            {/* <BlockInnerImg
-            style={{
-              backgroundImage: `url(${returnPhotoURL()})`,
-            }}
-          > */}
             <BlockInner>
               <BlockContent id="signup">
-                <BlockTitle>Make the first commit.</BlockTitle>
-                <BlockText>Start meeting new people!</BlockText>
+                <BlockTitle>
+                  Push On GitDate.
+                  <br />
+                  Merge Your Soulmate.
+                </BlockTitle>
+                <BlockText>
+                  Make the first commit and start meeting new people!
+                </BlockText>
                 <BlockAction>
-                  {userLoggedStatus ? (
+                  {alreadyLogged ? (
                     ""
                   ) : (
                     <>
@@ -322,13 +361,44 @@ const Home = () => {
             <h2>
               What's more...
               <br />
-              To meet our GitDaters around the world
+              Meet our GitDaters around the world
             </h2>
             <MapContainer>
               <ShowMainMap markersFromDB={markersFromDB} />
             </MapContainer>
           </Features>
         </MapBlock>
+        <Block>
+          <BlockFeature>
+            <PrideContainer>
+              <PrideWordWrapper>
+                <h2>
+                  In GitDate,
+                  <br />
+                  Be who you are.
+                  <br />
+                  <br />
+                  You could choose your gender options freely.
+                  <br />
+                  <br />
+                  <TagButton>Female</TagButton>
+                  <TagButton>Male</TagButton>
+                  <TagButton>Non-binary</TagButton>
+                  <TagButton>Transgender</TagButton>
+                  <TagButton>Intersex</TagButton>
+                  <TagButton>Prefer not to say</TagButton>
+                  <TagButton>...more to come</TagButton>
+                </h2>
+              </PrideWordWrapper>
+              <PrideItem>
+                <PrideTitle>Building a better world</PrideTitle>
+                {/* <FeaturesPhoto>
+                  <FeaturesPhotoImg src={pride} />
+                </FeaturesPhoto> */}
+              </PrideItem>
+            </PrideContainer>
+          </BlockFeature>
+        </Block>
       </Wrapper>
     </>
   );

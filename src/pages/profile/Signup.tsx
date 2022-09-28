@@ -42,8 +42,11 @@ const FormLabel = styled.div``;
 export const FormInputContainer = styled.div`
   display: flex;
   margin-bottom: 10px;
+  align-items: center;
 `;
 const FormControl = styled.input`
+  margin-left: 5px;
+  margin-right: 5px;
   border: 0px;
   width: 100%;
 `;
@@ -147,22 +150,32 @@ const Signup = () => {
             var uid = user.uid;
             await setDoc(doc(collection(db, "Users"), uid), {
               user_id: uid,
+              main_photo:
+                "https://firebasestorage.googleapis.com/v0/b/gitdate-ec8a6.appspot.com/o/users%2Fdefault.png?alt=media&token=2335423d-fbcf-43f5-90ff-2103e3e2fddc",
             });
           }
         });
       })
       .then(() => {
         setButtonPop(true);
+        setAlertMsg("Sign up successfully!");
+        // setTimeout(() => {
+        //   navigate("/signin");
+        // }, 1000);
         setAlertMsg("Sign up successfully, now let's write README!");
         navigate("/profile");
       })
       .catch((error) => {
-        setButtonPop(true);
-        setAlertMsg("Please enter the correct info");
         switch (error.code) {
           case "auth/email-already-in-use": {
             setErrorMsg("Email already in use");
+            setButtonPop(true);
+            setAlertMsg("Email already in use");
             break;
+          }
+          default: {
+            setButtonPop(true);
+            setAlertMsg("Please enter the correct info");
           }
         }
         setIsLoading(false);

@@ -14,6 +14,7 @@ import {
   orderBy,
 } from "firebase/firestore";
 import Picker from "emoji-picker-react";
+import useOnclickOutside from "react-cool-onclickoutside";
 
 const ChatContainer = styled.div`
   display: flex;
@@ -24,12 +25,32 @@ const ChatContainer = styled.div`
   flex-grow: 1;
   overflow: hidden;
   color: white;
+  position: relative;
 `;
 
 const MsgContainer = styled.div`
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-button {
+    display: none;
+    /* background: transparent;
+    border-radius: 4px; */
+  }
+  &::-webkit-scrollbar-track-piece {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 1px solid slategrey;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: transparent;
+  }
 `;
 const MsgInput = styled.input`
   width: 100%;
@@ -51,13 +72,14 @@ const MsgBtn = styled.button`
   font-size: 20px;
   cursor: pointer;
   &:hover {
-    color: #e6e7e9;
+    color: #ff69b4;
   }
 `;
 
 const EmojiIcon = styled.div`
   margin-top: 6px;
-  position: relative;
+  margin-left: 6px;
+  /* position: relative; */
   width: 35px;
   height: 35px;
   cursor: pointer;
@@ -65,8 +87,10 @@ const EmojiIcon = styled.div`
 `;
 const EmojiBx = styled.div`
   position: absolute;
-  left: 0;
   bottom: 0;
+  right: 0;
+  /* bottom: 10%;
+  left: 0; */
 `;
 
 const Chatroom = ({ chatroomId }: any) => {
@@ -144,6 +168,10 @@ const Chatroom = ({ chatroomId }: any) => {
     setChosenEmoji((pre: any) => !pre);
   };
 
+  const ref = useOnclickOutside(() => {
+    setChosenEmoji(false);
+  });
+
   return (
     <>
       <ChatContainer>
@@ -160,12 +188,6 @@ const Chatroom = ({ chatroomId }: any) => {
         </div>
         <form onSubmit={handleSubmit} className="message-input-container">
           <MsgContainer>
-            <EmojiIcon onClick={showEmoji}>😃</EmojiIcon>
-            {chosenEmoji && (
-              <EmojiBx>
-                <Picker onEmojiClick={onEmojiClick} />
-              </EmojiBx>
-            )}
             <MsgInput
               type="text"
               placeholder="Enter your message"
@@ -175,6 +197,12 @@ const Chatroom = ({ chatroomId }: any) => {
               required
               minLength={1}
             />
+            <EmojiIcon onClick={showEmoji}>😃</EmojiIcon>
+            {chosenEmoji && (
+              <EmojiBx ref={ref}>
+                <Picker onEmojiClick={onEmojiClick} />
+              </EmojiBx>
+            )}
             <MsgBtn type="submit" disabled={value < 1} className="send-message">
               Send
             </MsgBtn>

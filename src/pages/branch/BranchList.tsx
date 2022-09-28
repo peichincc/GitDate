@@ -42,6 +42,12 @@ const ImageBoxImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+    transition-duration: 0.3s;
+    transition-duration: 0.5s;
+  }
 `;
 const GithubTitleContainer = styled.div`
   display: flex;
@@ -72,7 +78,13 @@ const BranchesList = ({ branchType, docs }: any) => {
               <BlogList>
                 <LeftContainer>
                   <ImageBox>
-                    <ImageBoxImage src={blog.main_image} alt="issue_photo" />
+                    <ImageBoxImage
+                      src={blog.main_image}
+                      alt="branch_photo"
+                      onClick={() => {
+                        navigate("/branch/" + blog.branch_id);
+                      }}
+                    />
                   </ImageBox>
                   <GithubTitleContainer>
                     <BranchDate>

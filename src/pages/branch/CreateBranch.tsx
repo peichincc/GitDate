@@ -37,6 +37,13 @@ const Wrapper = styled.div`
   max-width: 980px;
   margin: 0 auto;
 `;
+
+const CreateTitle = styled.div`
+  font-size: 28px;
+  @media screen and (max-width: 600px) {
+    font-size: 14px;
+  }
+`;
 const MainLayout = styled.div`
   margin-top: 50px;
   display: flex;
@@ -49,10 +56,17 @@ const TabWraper = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: -1px;
+  @media screen and (max-width: 1093px) {
+    margin-left: 30px;
+  }
 `;
 const TabsContainer = styled.div`
   margin-right: 70px;
+  @media screen and (max-width: 1093px) {
+    margin-right: 30px;
+  }
 `;
 const TabChoseBtn = styled.button`
   border-radius: 6px 6px 0 0;
@@ -65,6 +79,9 @@ const TabChoseBtn = styled.button`
   margin-right: 10px;
   width: 150px;
   cursor: pointer;
+  @media screen and (max-width: 600px) {
+    width: 75px;
+  }
 `;
 const TabButton = styled.button`
   border-radius: 6px 6px 0 0;
@@ -77,6 +94,9 @@ const TabButton = styled.button`
   margin-right: 10px;
   width: 150px;
   cursor: pointer;
+  @media screen and (max-width: 600px) {
+    width: 75px;
+  }
   &:hover {
     color: white;
     background-color: #e6e7e9;
@@ -96,7 +116,6 @@ const PostBox = styled.div`
   border-radius: 0.4em;
   width: 100%;
   height: auto;
-  /* border: 1px solid #d0d7de; */
   position: relative;
   &:before {
     content: "";
@@ -110,17 +129,6 @@ const PostBox = styled.div`
     border-left: 0;
     margin-top: -20px;
     margin-left: -20px;
-    /* border: 1px solid black;
-    position: absolute;
-    top: 11px;
-    right: 100%;
-    left: -8px;
-    display: block;
-    width: 8px;
-    height: 16px;
-    pointer-events: none;
-    content: " ";
-    clip-path: polygon(0 50%, 100% 0, 100% 100%); */
   }
 `;
 const PreviewPhotoContainer = styled.div`
@@ -150,7 +158,6 @@ const DateFormControl = styled(FormControl)`
 `;
 
 const FormCheckInput = styled.input`
-  /* margin-left: 5px; */
   margin-right: 10px;
   width: 15px;
   height: 16px;
@@ -167,6 +174,7 @@ interface Data {
 }
 
 const CreateBranch = () => {
+  const [isSending, setIsSending] = useState(false);
   const [ButtonPop, setButtonPop] = useState(false);
   const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
   const hiddenFileInput = useRef<any>(null);
@@ -257,6 +265,7 @@ const CreateBranch = () => {
   // upload photo w/ doc id, get photo URL, then setDoc
   // then update user db while hosting an activity
   const createBranch = async () => {
+    setIsSending(true);
     if (!type) {
       setAlertMsg("Please select the branch type");
       setButtonPop(true);
@@ -287,6 +296,11 @@ const CreateBranch = () => {
       setButtonPop(true);
       return;
     }
+    if (!editorHtmlContent) {
+      setAlertMsg("Please fill in the activity description");
+      setButtonPop(true);
+      return;
+    }
     const newBranchRef = doc(collection(db, "Branches"));
     const userRef = doc(db, "Users", getUser);
     await firebaseapi
@@ -305,6 +319,7 @@ const CreateBranch = () => {
         };
         updateDoc(docRef, { markers: arrayUnion(locationInfo) });
         console.log(`${getUser} hosted this activity!`);
+        setIsSending(false);
         setAlertMsg("You hosted an activity successfully!");
         setButtonPop(true);
         setTimeout(() => {
@@ -323,7 +338,7 @@ const CreateBranch = () => {
         />
         <MainLayout>
           <TabWraper>
-            <h1>To Create...</h1>
+            <CreateTitle>To Create...</CreateTitle>
             <TabsContainer>
               <TabButton
                 onClick={() => {
@@ -348,11 +363,11 @@ const CreateBranch = () => {
                   return (
                     <FormCheck key={index}>
                       <FormCheckInput
+                        name="type"
                         type="radio"
                         id={`custom-checkbox-${index}`}
                         value={name}
                         onChange={getType}
-                        required
                       />
                       {name}
                     </FormCheck>
@@ -374,7 +389,11 @@ const CreateBranch = () => {
               </FormGroup>
               <FormGroup>
                 <FormLabel>Time</FormLabel>
-                <DateFormControl type="date" onChange={getDate} />
+                <DateFormControl
+                  type="date"
+                  onChange={getDate}
+                  min={new Date().toISOString().split("T")[0]}
+                />
                 <DateFormControl type="time" onChange={getTime} />
                 {/* <input type="datetime-local" onChange={getTime} /> */}
               </FormGroup>
@@ -416,7 +435,11 @@ const CreateBranch = () => {
               </FormGroup>
               <SubmitWrapper>
                 <p></p>
-                <MergeBtn id="branchesBtn" onClick={createBranch}>
+                <MergeBtn
+                  id="branchesBtn"
+                  disabled={isSending}
+                  onClick={createBranch}
+                >
                   git branch
                 </MergeBtn>
               </SubmitWrapper>

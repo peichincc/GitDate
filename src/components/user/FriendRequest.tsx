@@ -59,6 +59,9 @@ const ListContainer = styled.div`
   border-bottom: 1px solid #d0d7de;
   padding-top: 10px;
   padding-bottom: 10px;
+  @media screen and (max-width: 550px) {
+    flex-direction: column;
+  }
 `;
 
 const NameContainer = styled.div`

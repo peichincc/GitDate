@@ -39,6 +39,7 @@ export const ShowMainMap = ({ markersFromDB, position }: any) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
     libraries: ["places"],
+    language: "en",
   });
 
   if (!isLoaded) return <div>Loading...</div>;
@@ -85,7 +86,7 @@ const MainMap = ({ markersFromDB }: any) => {
             onClick={() => handleActiveMarker(id)}
             icon={{
               url: GitHub,
-              scaledSize: new window.google.maps.Size(35, 35),
+              scaledSize: new window.google.maps.Size(30, 30),
             }}
           >
             {activeMarker === id ? (

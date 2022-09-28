@@ -108,6 +108,7 @@ const Signin = () => {
 
   useEffect(() => {
     console.log(userInfo.isLogged);
+    setAlreadyLogged(userInfo.isLogged);
     onAuthStateChanged(auth, (user) => {
       if (user) {
         var uid = user.uid;
@@ -123,9 +124,10 @@ const Signin = () => {
               )
             );
             console.log(userInfo);
+            setAlreadyLogged(true);
           }
         });
-        setAlreadyLogged(true);
+        // setAlreadyLogged(true);
       }
     });
   }, []);
@@ -134,12 +136,14 @@ const Signin = () => {
     setIsLoading(true);
     signInWithEmailAndPassword(auth, recipient.email, recipient.password)
       .then(() => {
-        dispatch(signin());
+        // dispatch(signin());
         // navigate("/");
         setIsLoading(false);
-        setAlreadyLogged(true);
+        // setAlreadyLogged(true);
         setButtonPop(true);
         setAlertMsg("Log in successfully!");
+        // console.log(userInfo.isLogged);
+        setAlreadyLogged(userInfo.isLogged);
       })
       .catch((error) => {
         setButtonPop(true);
@@ -188,7 +192,7 @@ const Signin = () => {
                 {alreadyLogged ? (
                   <>
                     <h2>Welcome! {userInfo.user.user_name}</h2>
-                    <SubmitBtn onClick={signout}>Sign out</SubmitBtn>
+                    {/* <SubmitBtn onClick={signout}>Sign out</SubmitBtn> */}
                   </>
                 ) : (
                   <>
