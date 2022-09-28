@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Joyride, { CallBackProps, STATUS, Step } from "react-joyride";
 import styled from "styled-components";
 
@@ -71,6 +71,16 @@ export function Tour() {
       },
     ],
   });
+
+  useEffect(() => {
+    if (!localStorage.getItem("tutorial2Passed")) {
+      setState({
+        run: true,
+        steps,
+      });
+      window.localStorage.setItem("tutorial2Passed", "true");
+    }
+  }, []);
 
   const handleClickStart = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
