@@ -184,7 +184,7 @@ const Repo = () => {
           alertMsg={alertMsg}
         />
         <TerminalContainer>
-          <FakeMenu id="repoSidebar">
+          <FakeMenu>
             <FakeButtonsClose />
             <FakeButtonsMinimize />
             <FakeButtonsZoom />
@@ -194,35 +194,40 @@ const Repo = () => {
               <NameCard>
                 <NameCardPhotoContainer>
                   {getUser ? (
-                    <NameCardPhoto src={getUserPhoto} />
+                    <NameCardPhoto src={getUserPhoto} id="repoSidebar" />
                   ) : (
                     <NameCardPhoto src={defaultAvatar} />
                   )}
                 </NameCardPhotoContainer>
                 <NameCardName>{getUserName}</NameCardName>
               </NameCard>
-              {isLoading && <Loading />}
-              {friendList &&
-                friendList.map((friend: any) => {
-                  return (
-                    <MsgList
-                      onClick={() => {
-                        setOpenChatroom(true);
-                        setChatroomId(friend["chat_id"]);
-                        setChaterName(friend["user_name"]);
-                        setChaterID(friend["user_id"]);
-                      }}
-                      // onClick={() => {
-                      //   navigate("/chatroom/" + friend["chat_id"]);
-                      // }}
-                    >
-                      <NameCardPhotoContainer>
-                        <NameCardPhoto src={friend["user_photo"]} />
-                      </NameCardPhotoContainer>
-                      <NameCardName>{friend["user_name"]}</NameCardName>
-                    </MsgList>
-                  );
-                })}
+              {isLoading ? (
+                <Loading />
+              ) : (
+                <>
+                  {friendList &&
+                    friendList.map((friend: any) => {
+                      return (
+                        <MsgList
+                          onClick={() => {
+                            setOpenChatroom(true);
+                            setChatroomId(friend["chat_id"]);
+                            setChaterName(friend["user_name"]);
+                            setChaterID(friend["user_id"]);
+                          }}
+                          // onClick={() => {
+                          //   navigate("/chatroom/" + friend["chat_id"]);
+                          // }}
+                        >
+                          <NameCardPhotoContainer>
+                            <NameCardPhoto src={friend["user_photo"]} />
+                          </NameCardPhotoContainer>
+                          <NameCardName>{friend["user_name"]}</NameCardName>
+                        </MsgList>
+                      );
+                    })}
+                </>
+              )}
             </Sidebar>
             <Chat>
               {chatroomId && openChatroom ? (

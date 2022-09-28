@@ -303,6 +303,9 @@ const Issue = () => {
       setButtonPop(true);
       // alert("Please sign in!");
       // navigate("/signin");
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
       return;
     }
     if (!getUserName) {
@@ -362,7 +365,9 @@ const Issue = () => {
           confirmMsg={confirmMsg}
         />
         {isLoading ? (
-          <Loading />
+          <>
+            <Loading />
+          </>
         ) : (
           <>
             {issueData && (

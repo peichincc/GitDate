@@ -148,32 +148,8 @@ const Signin = () => {
       .catch((error) => {
         setButtonPop(true);
         setAlertMsg("Please enter the correct info");
-        switch (error.code) {
-          case "auth/email-already-in-use": {
-            setErrorMsg("Email already in use");
-            break;
-          }
-        }
         setIsLoading(false);
       });
-  };
-
-  const signout = () => {
-    signOut(auth)
-      .then(() => {
-        dispatch(signin());
-        dispatch(setUserData("", "", ""));
-        setButtonPop(true);
-        setAlertMsg("Sign out Successfully!");
-        console.log("sign out!");
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    // navigate("/");
   };
 
   return (
@@ -192,7 +168,9 @@ const Signin = () => {
                 {alreadyLogged ? (
                   <>
                     <h2>Welcome! {userInfo.user.user_name}</h2>
-                    {/* <SubmitBtn onClick={signout}>Sign out</SubmitBtn> */}
+                    <SubmitBtn onClick={() => navigate("/member")}>
+                      Your Profile
+                    </SubmitBtn>
                   </>
                 ) : (
                   <>

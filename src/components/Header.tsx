@@ -1,28 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import logo from "./logo.png";
-import { Link, useNavigate } from "react-router-dom";
-
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setUserData, signin } from "../../src/actions/index";
 import firebaseapi from "../../src/utils/firebaseapi";
 import { DocumentData } from "firebase/firestore";
-import { auth } from "../../src/utils/firebase";
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
 import useOnclickOutside from "react-cool-onclickoutside";
-
-import { ReactComponent as Doc } from "./doc.svg";
-import { ReactComponent as Repo } from "./repo.svg";
 import { ReactComponent as GitHub } from "./github.svg";
 import { ReactComponent as Member } from "./member.svg";
-import { ReactComponent as Logout } from "./logout.svg";
-
-import { Tours } from "./Tours";
-
+import { Tours, stepType } from "./Tours";
 import SearchResults from "./SearchResults";
 
 const Wrapper = styled.div`
@@ -191,6 +177,8 @@ const ClostBtn = styled.button`
 `;
 
 const Header = () => {
+  const currentPage = useLocation();
+  const [page, setPage] = useState<any>("");
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state) as any;
@@ -204,28 +192,11 @@ const Header = () => {
     setShowSidebar(true);
   };
 
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       var uid = user.uid;
-  //       firebaseapi.searchUserName(uid).then((result) => {
-  //         if (result) {
-  //           console.log(result);
-  //           console.log(result["firstname"]);
-  //           dispatch(
-  //             setUserData(
-  //               result["user_id"],
-  //               result["firstname"],
-  //               result["main_photo"]
-  //             )
-  //           );
-  //           console.log(userInfo);
-  //         }
-  //       });
-  //       setAlreadyLogged(true);
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    console.log(currentPage);
+    console.log(currentPage.pathname);
+    setPage(currentPage.pathname);
+  }, [currentPage]);
 
   const memberHandler = () => {
     if (userInfo.user.user_id) {
@@ -233,22 +204,6 @@ const Header = () => {
     } else {
       navigate("/signin");
     }
-  };
-
-  const signout = () => {
-    signOut(auth)
-      .then(() => {
-        console.log("sign out!");
-        alert("Signed out successfully");
-        dispatch(signin());
-        dispatch(setUserData("", "", ""));
-        setAlreadyLogged(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    navigate("/");
-    console.log(userInfo);
   };
 
   const [searchName, setSearchName] = useState("");
@@ -296,7 +251,7 @@ const Header = () => {
                 Branches
               </Category>
               <Category as="div" id="docs">
-                <Tours />
+                <Tours stepType={stepType} page={page} />
               </Category>
               <Category to="repo" id="repo">
                 Repo
@@ -318,7 +273,7 @@ const Header = () => {
           <GitHub stroke="#FFF" />
         </LogoContainer>
         <SearchForm>
-          <SearchWrapper>
+          <SearchWrapper id="searchUser">
             <SearchInput
               placeholder="Enter name to search user..."
               onChange={getSearchName}
@@ -343,7 +298,7 @@ const Header = () => {
             </LeftContainer>
             <RightContainer>
               <Category as="div" id="docs">
-                <Tours />
+                <Tours stepType={stepType} page={page} />
               </Category>
               <Category to="repo" id="repo">
                 Repo

@@ -131,7 +131,6 @@ const Signup = () => {
   const navigate = useNavigate();
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [recipient, setRecipient] = useState({
     email: "",
@@ -158,19 +157,22 @@ const Signup = () => {
       })
       .then(() => {
         setButtonPop(true);
-        setAlertMsg("Sign up successfully!");
-        // setTimeout(() => {
-        //   navigate("/signin");
-        // }, 1000);
         setAlertMsg("Sign up successfully, now let's write README!");
-        navigate("/profile");
+        setTimeout(() => {
+          navigate("/profile");
+        }, 3000);
       })
       .catch((error) => {
+        console.log(error);
         switch (error.code) {
           case "auth/email-already-in-use": {
-            setErrorMsg("Email already in use");
             setButtonPop(true);
             setAlertMsg("Email already in use");
+            break;
+          }
+          case "auth/weak-password": {
+            setButtonPop(true);
+            setAlertMsg("Password should be at least 6 characters");
             break;
           }
           default: {
@@ -258,19 +260,6 @@ const Signup = () => {
                     )}
                   </InputContainer>
                 </InsideContainer>
-                {/* {signInData.map(({ label, key, type }: ListData) => (
-              <FormGroup key={key}>
-                <FormLabel>{label}</FormLabel>
-                <FormControl
-                  type={type}
-                  value={recipient[key as keyof recipientType]}
-                  onChange={(e) =>
-                    setRecipient({ ...recipient, [key]: e.target.value })
-                  }
-                />
-              </FormGroup>
-            ))} */}
-                {errorMsg && <p>{errorMsg}</p>}
                 {showSignUp && (
                   <SubmitBtn onClick={onSubmit}>
                     {isLoading ? "Loading" : "Sign Up"}
