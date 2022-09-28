@@ -103,6 +103,8 @@ const NameCardName = styled.div`
   color: white;
   margin-left: 20px;
   width: 200px;
+  word-break: break-all;
+  word-wrap: break-word;
 `;
 const MsgList = styled(NameCard)`
   cursor: pointer;

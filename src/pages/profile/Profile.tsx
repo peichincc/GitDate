@@ -451,9 +451,9 @@ const Profile = () => {
     setShowWelcomeMsg(true);
     setShowTextInput(false);
     setHideTitle(false);
-    setTimeout(() => {
-      navigate("/signin");
-    }, 3000);
+    // setTimeout(() => {
+    //   navigate("/signin");
+    // }, 3000);
   };
 
   return (
