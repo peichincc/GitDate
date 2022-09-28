@@ -296,6 +296,11 @@ const CreateBranch = () => {
       setButtonPop(true);
       return;
     }
+    if (!editorHtmlContent) {
+      setAlertMsg("Please fill in the activity description");
+      setButtonPop(true);
+      return;
+    }
     const newBranchRef = doc(collection(db, "Branches"));
     const userRef = doc(db, "Users", getUser);
     await firebaseapi

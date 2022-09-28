@@ -287,6 +287,11 @@ const CreateIssue = () => {
       setButtonPop(true);
       return;
     }
+    if (!editorHtmlContent) {
+      setAlertMsg("Please fill in the content");
+      setButtonPop(true);
+      return;
+    }
     const newIssueRef = doc(collection(db, "Issues"));
     await firebaseapi
       .postIssue(imageUpload, newIssueRef, recipient)
