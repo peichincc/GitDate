@@ -301,7 +301,6 @@ const Header = () => {
               </Category>
             </LeftContainer>
             <RightContainer>
-              {/* {showNotification && <Notification />} */}
               <Category as="div" id="docs">
                 <Tours stepType={stepType} page={page} />
               </Category>

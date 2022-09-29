@@ -20,6 +20,7 @@ import Footer from "./components/Footer";
 import Slider from "./components/Slider";
 import ScrollToTop from "./components/ScrollToTop";
 import Notification from "./components/modal/Notification";
+import NewMsg from "./components/modal/NewMsg";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -44,6 +45,7 @@ a {
 function App() {
   const db = getFirestore();
   const [showNotification, setShowNotification] = useState(false);
+  const [newMsgNotification, setNewMsgNotification] = useState(true);
   const dispatch = useDispatch();
   const [getInvitationList, setGetInvitationList] = useState<any>();
   const [arrayLength, setArrayLength] = useState(0);
@@ -91,6 +93,7 @@ function App() {
     <>
       <GlobalStyle />
       <Header />
+      {newMsgNotification && <NewMsg />}
       <Outlet />
       {showNotification && <Notification />}
       <Slider />
