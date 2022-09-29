@@ -8,6 +8,7 @@ import {
   where,
   onSnapshot,
   getFirestore,
+  orderBy,
 } from "firebase/firestore";
 import { auth } from "../src/utils/firebase";
 import { onAuthStateChanged } from "firebase/auth";
@@ -45,7 +46,7 @@ a {
 function App() {
   const db = getFirestore();
   const [showNotification, setShowNotification] = useState(false);
-  const [newMsgNotification, setNewMsgNotification] = useState(true);
+  const [newMsgNotification, setNewMsgNotification] = useState(false);
   const dispatch = useDispatch();
   const [getInvitationList, setGetInvitationList] = useState<any>();
   const [arrayLength, setArrayLength] = useState(0);
@@ -67,6 +68,7 @@ function App() {
             getFriend(result["user_id"]);
             //
             // see chatroom update
+            getChatUpdate(result["user_id"]);
             //
           }
         });
@@ -85,6 +87,58 @@ function App() {
         if (doc.data().friend_request.length > arrayLength) {
           setShowNotification(true);
         }
+      }
+    });
+  };
+
+  const getChatUpdate = (id: string) => {
+    firebaseapi.readUserData(id).then((result) => {
+      if (result) {
+        // console.log(result["friend_list"]);
+        result["friend_list"].forEach((doc: any) => {
+          // console.log(doc.chat_id);
+          // const q = query(
+          //   collection(db, "Chatrooms", doc.chat_id, "messages")
+          //   // where("sender_id", "==", id)
+          // );
+          onSnapshot(
+            query(
+              collection(db, "Chatrooms", doc.chat_id, "messages"),
+              orderBy("timestamp", "asc")
+            ),
+            (querySnapshot) => {
+              const messages = querySnapshot.docs.map((x) => ({
+                id: x.id,
+                ...x.data(),
+              }));
+              console.log(messages);
+              messages.forEach((details: any) => {
+                // const MsgT = new Date(details.timestamp * 1000).toString();
+                // console.log(MsgT);
+                // const NowT = new Date(Date.now() * 1000).toString();
+                // console.log(NowT);
+                console.log(details.timestamp.seconds * 1000);
+                console.log(Date.now());
+                const timeDiff = Date.now() - details.timestamp.seconds * 1000;
+                console.log(timeDiff);
+                if (timeDiff < 10000) {
+                  setNewMsgNotification(true);
+                }
+              });
+            }
+          );
+          // const unsubscribe = onSnapshot(q, (snapshot) => {
+          //   snapshot.docChanges().forEach((change) => {
+          //     console.log(change.doc.data());
+          //     // setNewMsgNotification(false);
+          //     if (change.type === "added") {
+          //       // setNewMsgNotification(true);
+          //     }
+          //     // setNewMsgNotification(false);
+          //   });
+          // });
+          // unsubscribe();
+        });
       }
     });
   };

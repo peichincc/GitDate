@@ -9,6 +9,11 @@ const MsgIcon = styled.div`
   top: 17px;
   font-size: 12px;
   color: #ff69b4;
+  @media screen and (max-width: 770px) {
+    right: 40px;
+    font-size: 18px;
+    top: 26px;
+  }
 `;
 
 const NewMsg = () => {

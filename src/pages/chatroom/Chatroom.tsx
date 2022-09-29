@@ -116,7 +116,7 @@ const Chatroom = ({ chatroomId }: any) => {
           id: x.id,
           ...x.data(),
         }));
-        console.log(messages);
+        // console.log(messages);
         setMessages(messages);
       }
     );
