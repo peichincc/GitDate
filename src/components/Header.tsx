@@ -125,7 +125,7 @@ const CategoryContainer = styled.div`
 `;
 const LeftContainer = styled.div``;
 const RightContainer = styled.div`
-  margin-right: 25px;
+  margin-right: 5px;
   display: flex;
   align-items: center;
 `;

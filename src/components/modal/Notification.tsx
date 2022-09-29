@@ -6,17 +6,13 @@ import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 import FriendAlert from "./FriendAlert";
 
-const NotificationWrapper = styled.div`
-  position: fixed;
-  top: 19px;
-  right: 5px;
-  z-index: 200;
-`;
 const NotificationBox = styled.div`
+  position: absolute;
+  top: 23px;
+  right: 230px;
   font-size: 18px;
-  color: black;
+  color: #f6f8fa;
   border-radius: 50%;
-  background-color: #f6f8fa;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,6 +20,9 @@ const NotificationBox = styled.div`
   width: 25px;
   height: 25px;
   cursor: pointer;
+  @media screen and (max-width: 770px) {
+    right: 10px;
+  }
   &:hover {
     color: #9a9b9d;
   }
@@ -44,11 +43,9 @@ const Notification = () => {
         setAlertWtihCTAPop={setAlertWtihCTAPop}
         alertMsg={alertMsg}
       />
-      <NotificationWrapper>
-        <NotificationBox>
-          <FontAwesomeIcon icon={faTriangleExclamation} onClick={openAlert} />
-        </NotificationBox>
-      </NotificationWrapper>
+      <NotificationBox>
+        <FontAwesomeIcon icon={faTriangleExclamation} onClick={openAlert} />
+      </NotificationBox>
     </>
   );
 };

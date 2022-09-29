@@ -83,6 +83,7 @@ const FriendAlert = (props: any) => {
                 <CTABtn
                   onClick={() => {
                     navigate("/member");
+                    setAlertWtihCTAPop(false);
                   }}
                 >
                   To Member
