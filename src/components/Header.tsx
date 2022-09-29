@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import logo from "./logo.png";
 import { useLocation, Link, useNavigate } from "react-router-dom";
@@ -223,6 +223,7 @@ const Header = () => {
     setSearchName(e.target.value);
   };
   const getSearchResults = () => {
+    setSearchName("");
     firebaseapi.searchUserByName(searchName).then((res) => {
       console.log(res);
       if (res) {
@@ -279,6 +280,7 @@ const Header = () => {
             <SearchInput
               placeholder="Enter name to search user..."
               onChange={getSearchName}
+              value={searchName}
             />
             <SearchBtn onClick={getSearchResults}>/</SearchBtn>
           </SearchWrapper>
