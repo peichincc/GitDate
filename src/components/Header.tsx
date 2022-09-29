@@ -31,8 +31,6 @@ const LogoContainer = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-image: url(${logo});
-  background-size: contain; */
   &:hover {
     path {
       stroke: #9a9b9d;
@@ -162,6 +160,7 @@ const MobileSidebar = styled.div`
   height: 250px;
   background-color: #24292f;
   top: 62px;
+  z-index: 999;
 `;
 const MobileLinkContainer = styled.div`
   display: flex;
@@ -174,16 +173,17 @@ const ClostBtn = styled.button`
   border: none;
   margin-top: 3px;
   color: white;
+  cursor: pointer;
+  &:hover {
+    color: #9a9b9d;
+  }
 `;
 
 const Header = () => {
-  const [showNotification, setShowNotification] = useState(false);
   const currentPage = useLocation();
   const [page, setPage] = useState<any>("");
   let navigate = useNavigate();
-  const dispatch = useDispatch();
   const userInfo = useSelector((state) => state) as any;
-  const [alreadyLogged, setAlreadyLogged] = useState(false);
 
   const [searchResults, setSearchRsults] = useState<DocumentData>();
 
@@ -216,6 +216,7 @@ const Header = () => {
     // When user clicks outside of the component, we can dismiss
     // the searched suggestions by calling this method
     setExpanded(false);
+    setShowSidebar(false);
   });
 
   const getSearchName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -243,7 +244,7 @@ const Header = () => {
           </ToggleBtn>
         </MobileBar>
         {showSidebar && (
-          <MobileSidebar>
+          <MobileSidebar ref={ref}>
             <MobileLinkContainer>
               <Category to="issues" id="issues">
                 Issues
@@ -258,7 +259,7 @@ const Header = () => {
                 Repo
               </Category>
               <Category as="div" onClick={memberHandler}>
-                <Member />
+                Member
               </Category>
               <ClostBtn
                 onClick={() => {

@@ -33,12 +33,10 @@ const GlobalStyle = createGlobalStyle`
 a {
     all: unset;
 }
-
   body {
     font-family: "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   }
-
   #root {
   }
 `;

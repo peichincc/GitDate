@@ -13,8 +13,8 @@ const UpBtn = styled.button`
 `;
 const ScrollWrapper = styled.div`
   position: fixed;
-  bottom: 10px;
-  right: 10px;
+  bottom: 0;
+  right: 0;
   z-index: 200;
 `;
 
