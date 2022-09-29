@@ -4,15 +4,7 @@ import logo from "./logo.png";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import firebaseapi from "../../src/utils/firebaseapi";
-import {
-  doc,
-  query,
-  collection,
-  where,
-  onSnapshot,
-  getFirestore,
-  DocumentData,
-} from "firebase/firestore";
+import { DocumentData } from "firebase/firestore";
 import useOnclickOutside from "react-cool-onclickoutside";
 import { ReactComponent as GitHub } from "./github.svg";
 import { ReactComponent as Member } from "./member.svg";
@@ -187,15 +179,13 @@ const ClostBtn = styled.button`
 `;
 
 const Header = () => {
-  const db = getFirestore();
   const [showNotification, setShowNotification] = useState(false);
-  const [getInvitationList, setGetInvitationList] = useState<any>();
-  const [arrayLength, setArrayLength] = useState(0);
   const currentPage = useLocation();
   const [page, setPage] = useState<any>("");
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state) as any;
+  const [alreadyLogged, setAlreadyLogged] = useState(false);
 
   const [searchResults, setSearchRsults] = useState<DocumentData>();
 
@@ -206,28 +196,10 @@ const Header = () => {
   };
 
   useEffect(() => {
-    const userId = userInfo.user.user_id;
-    console.log(userId);
-    getFriend(userId);
     // console.log(currentPage);
     // console.log(currentPage.pathname);
     setPage(currentPage.pathname);
   }, [currentPage]);
-
-  const getFriend = (id: string) => {
-    onSnapshot(doc(collection(db, "Users"), id), (doc) => {
-      if (doc.exists()) {
-        setGetInvitationList(doc.data().friend_request);
-        // console.log(doc.data().friend_request);
-        // To compare the friend request
-        setArrayLength(doc.data().friend_request.length);
-        setShowNotification(false);
-        if (doc.data().friend_request.length > arrayLength) {
-          setShowNotification(true);
-        }
-      }
-    });
-  };
 
   const memberHandler = () => {
     if (userInfo.user.user_id) {
@@ -328,7 +300,7 @@ const Header = () => {
               </Category>
             </LeftContainer>
             <RightContainer>
-              {showNotification && <Notification />}
+              {/* {showNotification && <Notification />} */}
               <Category as="div" id="docs">
                 <Tours stepType={stepType} page={page} />
               </Category>
