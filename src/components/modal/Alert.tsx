@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 import {
   ModalHeader,
@@ -62,7 +64,9 @@ const Alert = (props: any) => {
         <ModalBx>
           <ModalContents>
             <ModalHeader>
-              <h2>ALERT</h2>
+              <h2>
+                <FontAwesomeIcon icon={faTriangleExclamation} />
+              </h2>
             </ModalHeader>
             <ModalContentsWrapper>
               <ModalExplaination>{alertMsg}</ModalExplaination>
