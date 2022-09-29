@@ -11,8 +11,6 @@ import { ReactComponent as Member } from "./member.svg";
 import { Tours, stepType } from "./Tours";
 import SearchResults from "./SearchResults";
 
-import Notification from "../components/modal/Notification";
-
 const Wrapper = styled.div`
   display: flex;
   margin: 0 auto;
@@ -127,7 +125,7 @@ const CategoryContainer = styled.div`
 `;
 const LeftContainer = styled.div``;
 const RightContainer = styled.div`
-  margin-right: 20px;
+  margin-right: 25px;
   display: flex;
   align-items: center;
 `;

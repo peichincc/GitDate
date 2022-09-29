@@ -8,24 +8,21 @@ import FriendAlert from "./FriendAlert";
 
 const NotificationWrapper = styled.div`
   position: fixed;
-  top: 15px;
-  right: 230px;
+  top: 19px;
+  right: 5px;
   z-index: 200;
-  @media screen and (max-width: 770px) {
-    right: 0px;
-  }
 `;
 const NotificationBox = styled.div`
-  position: sticky;
-  font-size: 20px;
-  color: #f6f8fa;
-  border-radius: 6px;
+  font-size: 18px;
+  color: black;
+  border-radius: 50%;
+  background-color: #f6f8fa;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 50px;
-  height: 40px;
+  width: 25px;
+  height: 25px;
   cursor: pointer;
   &:hover {
     color: #9a9b9d;
