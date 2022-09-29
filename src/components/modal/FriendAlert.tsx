@@ -12,6 +12,7 @@ import {
   ModalContentsWrapper,
   CloseBtnWrapper,
   Button,
+  MergeBtn,
 } from "../../utils/StyledComponent";
 
 const Back = styled.div`
@@ -56,6 +57,12 @@ const ModalExplaination = styled(ModalContent)`
   text-align: center;
   justify-content: center;
 `;
+const CTABtn = styled(MergeBtn)`
+  width: 110px;
+`;
+const CancelBtn = styled(Button)`
+  width: 110px;
+`;
 
 const FriendAlert = (props: any) => {
   let navigate = useNavigate();
@@ -73,14 +80,20 @@ const FriendAlert = (props: any) => {
             <ModalContentsWrapper>
               <ModalExplaination>{alertMsg}</ModalExplaination>
               <CloseBtnWrapper>
-                <Button
+                <CTABtn
                   onClick={() => {
                     navigate("/member");
-                    setAlertWtihCTAPop(false);
                   }}
                 >
                   To Member
-                </Button>
+                </CTABtn>
+                <CancelBtn
+                  onClick={() => {
+                    setAlertWtihCTAPop(false);
+                  }}
+                >
+                  Maybe Later
+                </CancelBtn>
               </CloseBtnWrapper>
             </ModalContentsWrapper>
           </ModalContents>

@@ -16,6 +16,7 @@ const NotificationWrapper = styled.div`
   }
 `;
 const NotificationBox = styled.div`
+  position: sticky;
   font-size: 20px;
   color: #f6f8fa;
   border-radius: 6px;
