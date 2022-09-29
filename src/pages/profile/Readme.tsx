@@ -126,7 +126,7 @@ const Readme = () => {
         setIsLoading(false);
       }
     });
-  }, []);
+  }, [id]);
 
   // 搜尋使用者發過的文
   const searchIssues = async (userId: string) => {
