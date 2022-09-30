@@ -206,10 +206,10 @@ const IssuesList = ({ issuesStatus, docs }: any) => {
                           onClick={() => {
                             navigate("/issue/" + blog.issue_id);
                           }}
-                          style={{ display: isLoading ? "none" : "block" }}
-                          onLoad={onLoad}
+                          // style={{ display: isLoading ? "none" : "block" }}
+                          // onLoad={onLoad}
                         />
-                        <ImageBoxImage
+                        {/* <ImageBoxImage
                           id="issueClick"
                           src={Loading}
                           alt="issue_photo"
@@ -217,7 +217,7 @@ const IssuesList = ({ issuesStatus, docs }: any) => {
                             navigate("/issue/" + blog.issue_id);
                           }}
                           style={{ display: isLoading ? "block" : "none" }}
-                        />
+                        /> */}
                       </ImageBox>
                       <ContentBox>
                         <CategoryContainerGallery>

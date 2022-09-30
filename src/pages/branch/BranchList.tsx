@@ -90,17 +90,17 @@ const BranchesList = ({ branchType, docs }: any) => {
                       onClick={() => {
                         navigate("/branch/" + blog.branch_id);
                       }}
-                      style={{ display: isLoading ? "none" : "block" }}
-                      onLoad={onLoad}
+                      // style={{ display: isLoading ? "none" : "block" }}
+                      // onLoad={onLoad}
                     />
-                    <ImageBoxImage
+                    {/* <ImageBoxImage
                       src={Loading}
                       alt="branch_photo"
                       onClick={() => {
                         navigate("/branch/" + blog.branch_id);
                       }}
                       style={{ display: isLoading ? "block" : "none" }}
-                    />
+                    /> */}
                   </ImageBox>
                   <GithubTitleContainer>
                     <BranchDate>
