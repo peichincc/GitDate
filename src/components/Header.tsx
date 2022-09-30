@@ -281,6 +281,11 @@ const Header = () => {
               placeholder="Enter name to search user..."
               onChange={getSearchName}
               value={searchName}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  getSearchResults();
+                }
+              }}
             />
             <SearchBtn onClick={getSearchResults}>/</SearchBtn>
           </SearchWrapper>

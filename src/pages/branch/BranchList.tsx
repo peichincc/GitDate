@@ -14,6 +14,8 @@ import {
 
 import branch from "./branch.png";
 
+import Loading from "../../utils/loading.gif";
+
 const BranchesHeader = styled(BoxHeader)`
   font-size: 14px;
   line-height: 1.5;
@@ -61,6 +63,10 @@ const RightContainer = styled.div``;
 
 const BranchesList = ({ branchType, docs }: any) => {
   let navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+  function onLoad() {
+    setTimeout(() => setIsLoading(false), 1000);
+  }
   return (
     <>
       <Container>
@@ -84,7 +90,17 @@ const BranchesList = ({ branchType, docs }: any) => {
                       onClick={() => {
                         navigate("/branch/" + blog.branch_id);
                       }}
+                      // style={{ display: isLoading ? "none" : "block" }}
+                      // onLoad={onLoad}
                     />
+                    {/* <ImageBoxImage
+                      src={Loading}
+                      alt="branch_photo"
+                      onClick={() => {
+                        navigate("/branch/" + blog.branch_id);
+                      }}
+                      style={{ display: isLoading ? "block" : "none" }}
+                    /> */}
                   </ImageBox>
                   <GithubTitleContainer>
                     <BranchDate>

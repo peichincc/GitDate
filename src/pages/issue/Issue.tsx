@@ -192,40 +192,8 @@ const Issue = () => {
   const [isAuthor, setIsAuthor] = useState(false);
   // render issue status
   const [issueOpen, setIssueOpen] = useState(true);
-
-  // 讀取使用者資料
-  // const readData = async (id: string | undefined) => {
-  //   const docRef = doc(collection(db, "Issues"), id);
-  //   await getDoc(docRef).then((doc) => {
-  //     if (doc.exists()) {
-  //       const userDataFromDB = doc.data() as ListData;
-  //       setUserData(userDataFromDB);
-  //       if (userDataFromDB) {
-  //         const newT = new Date(
-  //           userDataFromDB.posted_at.seconds * 1000
-  //         ).toString();
-  //         setNewT(newT);
-  //         const searchUser = async () => {
-  //           const userRef = collection(db, "Users");
-  //           const q = query(
-  //             userRef,
-  //             where("user_id", "==", userDataFromDB.posted_by)
-  //           );
-  //           const querySnapshot = await getDocs(q);
-  //           querySnapshot.forEach((doc) => {
-  //             // console.log(doc.data().firstname);
-  //             setGetAuthor(doc.data().firstname);
-  //             // console.log(doc.data().user_id);
-  //             setGetAuthorID(doc.data().user_id);
-  //           });
-  //         };
-  //         searchUser();
-  //       }
-  //     } else {
-  //       console.log("No such document!");
-  //     }
-  //   });
-  // };
+  // Check friendlist
+  const [authorFriends, setAuthorFriends] = useState([]);
 
   const changeIssueStatus = () => {
     const issueRef = collection(db, "Issues");
@@ -244,13 +212,6 @@ const Issue = () => {
     setTimeout(() => {
       navigate("/");
     }, 1000);
-    // await deleteDoc(doc(collection(db, "Issues"), id))
-    //   .then(() => {
-    //     alert("Delete successful!");
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error removing document: ", error);
-    //   });
   };
 
   useEffect(() => {
@@ -286,6 +247,7 @@ const Issue = () => {
           console.log(res["firstname"]);
           setGetAuthor(res["firstname"]);
           setGetAuthorID(res["user_id"]);
+          setAuthorFriends(res["friend_list"]);
           setTimeout(() => {
             setIsLoading(false);
           }, 1000);
@@ -303,9 +265,9 @@ const Issue = () => {
       setButtonPop(true);
       // alert("Please sign in!");
       // navigate("/signin");
-      setTimeout(() => {
-        navigate("/");
-      }, 1500);
+      // setTimeout(() => {
+      //   navigate("/");
+      // }, 1500);
       return;
     }
     if (!getUserName) {
@@ -324,6 +286,14 @@ const Issue = () => {
     setConfirmPop(false);
   };
   const confirmSendRequest = async () => {
+    console.log(authorFriends);
+    console.log(getUser);
+    // check friendList
+    if (authorFriends.some((e: { user_id: string }) => e.user_id === getUser)) {
+      setButtonPop(true);
+      setAlertMsg("You've already merged😉");
+      return;
+    }
     const userRef = doc(db, "Users", getAuthorID);
     await updateDoc(userRef, {
       friend_request: arrayUnion({
@@ -361,7 +331,6 @@ const Issue = () => {
           trigger={confirmPop}
           setConfirmPop={setConfirmPop}
           clickToConfirm={clickToConfirm}
-          // attendActivity={attendActivity}
           confirmMsg={confirmMsg}
         />
         {isLoading ? (

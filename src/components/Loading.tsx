@@ -11,11 +11,16 @@ const LoadingWrapper = styled.div`
   margin: 50px;
 `;
 
+const BlankArea = styled.div`
+  height: 30px;
+`;
+
 const Loading = () => {
   return (
     <>
       <LoadingWrapper>
         One moment please...
+        <BlankArea />
         <img
           src={loadingGif}
           alt="wait until the page loads"

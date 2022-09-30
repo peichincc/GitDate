@@ -395,7 +395,6 @@ const Profile = () => {
     } else {
       return (
         <FormControl
-          required
           value={recipient[key as keyof typeof recipient]}
           onChange={(e) =>
             setRecipient({ ...recipient, [key]: e.target.value })

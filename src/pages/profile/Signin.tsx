@@ -201,6 +201,11 @@ const Signin = () => {
                               password: e.target.value,
                             })
                           }
+                          onKeyPress={(e) => {
+                            if (e.key === "Enter") {
+                              onSubmit();
+                            }
+                          }}
                         />
                       </FormInputContainer>
                     </FormGroup>

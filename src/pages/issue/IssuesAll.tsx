@@ -71,21 +71,6 @@ const CategoryButton = styled(LabelsButton)`
   background-color: #d87613;
 `;
 
-// const LabelsButton = styled.button`
-//   padding: 0 10px;
-//   font-size: 12px;
-//   font-weight: 500;
-//   line-height: 22px;
-//   white-space: nowrap;
-//   border: 1px solid transparent;
-//   border-radius: 2em;
-//   color: white;
-//   background-color: ${(props) => (props. ? "white" : "#99262a")};
-//   /* background-color: #7057ff; */
-//   margin-right: 2px;
-//   cursor: pointer;
-// `;
-
 const ReminderBox = styled.div`
   color: #24292f;
   width: 100%;
@@ -228,9 +213,9 @@ const IssueAll = () => {
   const CreateHandler = () => {
     if (!getUser) {
       setButtonPop(true);
-      setTimeout(() => {
-        navigate("/signin");
-      }, 3000);
+      // setTimeout(() => {
+      //   navigate("/signin");
+      // }, 3000);
       // alert("Please sign in!");
       // navigate("/signin");
       return;

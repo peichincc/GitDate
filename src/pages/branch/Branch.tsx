@@ -251,9 +251,9 @@ const Branch = () => {
     if (!getUser) {
       setButtonPop(true);
       setAlertMsg("Please sign in!");
-      setTimeout(() => {
-        navigate("/");
-      }, 1500);
+      // setTimeout(() => {
+      //   navigate("/");
+      // }, 1500);
       // alert("Please sign in!");
       // navigate("/signin");
       return;
@@ -287,7 +287,7 @@ const Branch = () => {
     });
     await getParticipants();
     setButtonPop(true);
-    setAlertMsg("Attended successful!");
+    setAlertMsg("Attended successful💃");
     // alert("Attended successful!");}
   };
 
