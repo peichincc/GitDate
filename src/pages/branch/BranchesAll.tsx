@@ -185,8 +185,8 @@ const TypeBtn = styled(LabelsButton)`
   background-color: #453d38;
 `;
 const StatusBtn = styled(LabelsButton)`
-  background-color: #e4e669;
-  color: black;
+  background-color: #d73a4a;
+  /* color: black; */
 `;
 
 const ReminderBox = styled.div`
@@ -415,6 +415,7 @@ const BranchAll = () => {
                 onClickDay={dateClick}
                 tileClassName={tileClassName}
                 // tileDisabled={({ date }) => date.getDay() === 0}
+                locale="en-GB"
               />
             </CalendarContainerIn>
           </CalendarContainer>

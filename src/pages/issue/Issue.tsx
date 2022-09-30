@@ -193,40 +193,6 @@ const Issue = () => {
   // render issue status
   const [issueOpen, setIssueOpen] = useState(true);
 
-  // 讀取使用者資料
-  // const readData = async (id: string | undefined) => {
-  //   const docRef = doc(collection(db, "Issues"), id);
-  //   await getDoc(docRef).then((doc) => {
-  //     if (doc.exists()) {
-  //       const userDataFromDB = doc.data() as ListData;
-  //       setUserData(userDataFromDB);
-  //       if (userDataFromDB) {
-  //         const newT = new Date(
-  //           userDataFromDB.posted_at.seconds * 1000
-  //         ).toString();
-  //         setNewT(newT);
-  //         const searchUser = async () => {
-  //           const userRef = collection(db, "Users");
-  //           const q = query(
-  //             userRef,
-  //             where("user_id", "==", userDataFromDB.posted_by)
-  //           );
-  //           const querySnapshot = await getDocs(q);
-  //           querySnapshot.forEach((doc) => {
-  //             // console.log(doc.data().firstname);
-  //             setGetAuthor(doc.data().firstname);
-  //             // console.log(doc.data().user_id);
-  //             setGetAuthorID(doc.data().user_id);
-  //           });
-  //         };
-  //         searchUser();
-  //       }
-  //     } else {
-  //       console.log("No such document!");
-  //     }
-  //   });
-  // };
-
   const changeIssueStatus = () => {
     const issueRef = collection(db, "Issues");
     const updateRef = doc(issueRef, `${id}`);
@@ -244,13 +210,6 @@ const Issue = () => {
     setTimeout(() => {
       navigate("/");
     }, 1000);
-    // await deleteDoc(doc(collection(db, "Issues"), id))
-    //   .then(() => {
-    //     alert("Delete successful!");
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error removing document: ", error);
-    //   });
   };
 
   useEffect(() => {
@@ -361,7 +320,6 @@ const Issue = () => {
           trigger={confirmPop}
           setConfirmPop={setConfirmPop}
           clickToConfirm={clickToConfirm}
-          // attendActivity={attendActivity}
           confirmMsg={confirmMsg}
         />
         {isLoading ? (
