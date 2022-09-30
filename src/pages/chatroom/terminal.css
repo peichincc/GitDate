@@ -118,6 +118,13 @@ span {
   animation: blink 1s 6.5s infinite;
 }
 
+.cursor_plus {
+  -webkit-animation: blink 1s 0s infinite;
+  -moz-animation: blink 1s 0s infinite;
+  -o-animation: blink 1s 0s infinite;
+  animation: blink 1s 0.5s infinite;
+}
+
 @-webkit-keyframes blink {
   0% {
     opacity: 0;

@@ -52,16 +52,24 @@ const MsgContainer = styled.div`
   }
 `;
 const MsgInput = styled.input`
-  width: 100%;
+  width: 190px;
+  /* width: fit-content; */
   display: inline;
   font-size: 20px;
-  padding: 10px 10px;
-  border-radius: 30px;
+  /* padding: 10px 10px;
+  border-radius: 30px; */
   outline: none;
   border: none;
   color: #bbb;
   background-color: rgba(0, 0, 0, 0.4);
   /* color: black; */
+  &:focus {
+    width: 90%;
+    transition: width 0.4s ease-in-out;
+  }
+`;
+const InputContainer = styled.div`
+  width: 100%;
 `;
 const MsgBtn = styled.button`
   margin-left: 10px;
@@ -187,16 +195,18 @@ const Chatroom = ({ chatroomId }: any) => {
         <form onSubmit={handleSubmit} className="message-input-container">
           <MsgContainer>
             <p>&#65310;</p>
-            <span className="cursor4">_</span>
-            <MsgInput
-              type="text"
-              placeholder="Enter your message"
-              value={value}
-              onChange={handleChange}
-              className="message-input"
-              required
-              minLength={1}
-            />
+
+            <InputContainer>
+              <MsgInput
+                type="text"
+                placeholder="Enter your message"
+                value={value}
+                onChange={handleChange}
+                required
+                minLength={1}
+              />
+              <span className="cursor_plus">_</span>
+            </InputContainer>
             <EmojiIcon onClick={showEmoji}>😃</EmojiIcon>
             {chosenEmoji && (
               <EmojiBx ref={ref}>
