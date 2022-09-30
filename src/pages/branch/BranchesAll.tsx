@@ -184,6 +184,10 @@ const FilterButtons = styled.div`
 const TypeBtn = styled(LabelsButton)`
   background-color: #453d38;
 `;
+const StatusBtn = styled(LabelsButton)`
+  background-color: #e4e669;
+  color: black;
+`;
 
 const ReminderBox = styled.div`
   color: #24292f;
@@ -225,6 +229,8 @@ const BranchAll = () => {
   const [inpersonBranch, setInpersonBranch] = useState<DocumentData>();
   const [onlineBranch, setOnlineBranch] = useState<DocumentData>();
   const [mixedBranch, setMixedBranch] = useState<DocumentData>();
+  const [upcomingBranch, setUpcomingBranch] = useState<DocumentData>();
+  const [expiredBranch, setExpiredBranch] = useState<DocumentData>();
 
   useEffect(() => {
     // Check log in
@@ -273,6 +279,28 @@ const BranchAll = () => {
           tempMixed.push(doc.data());
         });
         setMixedBranch(tempMixed);
+        // get upcoming
+        let tempUpcoming = [] as any;
+        const qUpcoming = query(
+          collection(db, "Branches"),
+          where("status", "==", "Upcoming")
+        );
+        const querySnapshotUpcoming = await getDocs(qUpcoming);
+        querySnapshotUpcoming.forEach((doc) => {
+          tempUpcoming.push(doc.data());
+        });
+        setUpcomingBranch(tempUpcoming);
+        // get expired
+        let tempExpired = [] as any;
+        const qExpired = query(
+          collection(db, "Branches"),
+          where("status", "==", "Expired")
+        );
+        const querySnapshotExpired = await getDocs(qExpired);
+        querySnapshotExpired.forEach((doc) => {
+          tempExpired.push(doc.data());
+        });
+        setExpiredBranch(tempExpired);
       }
     });
   }, []);
@@ -292,6 +320,14 @@ const BranchAll = () => {
   const mixedBranches = () => {
     setBranchType("Mixed");
     setDocs(mixedBranch);
+  };
+  const upcomingBranches = () => {
+    setBranchType("Upcoming");
+    setDocs(upcomingBranch);
+  };
+  const expiredBranches = () => {
+    setBranchType("Expired");
+    setDocs(expiredBranch);
   };
 
   // const mark = ["04-09-2022", "03-09-2022", "15-09-2022"];
@@ -374,7 +410,9 @@ const BranchAll = () => {
               <Filters>
                 <FilterText id="branchesFilter">Filters</FilterText>
                 <FilterButtons>
-                  <TypeBtn onClick={allBranches}>All</TypeBtn>
+                  <StatusBtn onClick={allBranches}>All</StatusBtn>
+                  <StatusBtn onClick={upcomingBranches}>Upcoming</StatusBtn>
+                  <StatusBtn onClick={expiredBranches}>Expired</StatusBtn>
                   <TypeBtn onClick={inpersonBranches}>In Person</TypeBtn>
                   <TypeBtn onClick={onlineBranches}>Online</TypeBtn>
                   <TypeBtn onClick={mixedBranches}>Mixed</TypeBtn>

@@ -187,6 +187,7 @@ const Branch = () => {
   const [isAuthor, setIsAuthor] = useState(false);
   // Check branch expired or not
   const [isExpired, setIsExpired] = useState(true);
+  const branchRef = doc(collection(db, "Branches"), id);
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -218,6 +219,11 @@ const Branch = () => {
         console.log(date1 > date2);
         if (date1 > date2) {
           setIsExpired(false);
+        }
+        if (date1 < date2) {
+          updateDoc(branchRef, {
+            status: "Expired",
+          });
         }
         //
         const newT = new Date(res.posted_at.seconds * 1000).toString();
@@ -463,10 +469,10 @@ const Branch = () => {
                         <BranchSubTitle>Type:</BranchSubTitle>
                         {branchData.type}
                       </CardContainer>
-                      {/* <CardContainer>
-                    <BranchSubTitle>Branch status:</BranchSubTitle>
-                    {branchData.status}
-                  </CardContainer> */}
+                      <CardContainer>
+                        <BranchSubTitle>Branch status:</BranchSubTitle>
+                        {branchData.status}
+                      </CardContainer>
                       <CardContainer>
                         <BranchSubTitle>Date:</BranchSubTitle>
                         {branchData.date} · {branchData.time}
