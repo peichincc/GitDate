@@ -291,7 +291,7 @@ const Issue = () => {
     // check friendList
     if (authorFriends.some((e: { user_id: string }) => e.user_id === getUser)) {
       setButtonPop(true);
-      setAlertMsg("You've already merged!");
+      setAlertMsg("You've already merged😉");
       return;
     }
     const userRef = doc(db, "Users", getAuthorID);

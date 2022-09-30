@@ -287,7 +287,7 @@ const Branch = () => {
     });
     await getParticipants();
     setButtonPop(true);
-    setAlertMsg("Attended successful!");
+    setAlertMsg("Attended successful💃");
     // alert("Attended successful!");}
   };
 
