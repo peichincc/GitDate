@@ -242,14 +242,15 @@ const BranchAll = () => {
     const branchesRef = collection(db, "Branches");
     firebaseapi.readAllBranches(branchesRef).then(async (res) => {
       if (res) {
-        console.log(res);
+        // console.log(res);
         // get all the branch date
         let dateTemp = [] as any;
         res.forEach((doc: any) => {
-          console.log(doc.date);
+          // console.log(doc.date);
           dateTemp.push(doc.date);
         });
-        setDateDocs(dateTemp);
+        const dates = new Set(dateTemp);
+        setDateDocs(dates);
         //
         setDocs(res);
         setAllbranch(res);
@@ -347,7 +348,7 @@ const BranchAll = () => {
       ("0" + (date.getMonth() + 1)).slice(-2) +
       "-" +
       ("0" + date.getDate()).slice(-2);
-    console.log(dateAssigned);
+    // console.log(dateAssigned);
     // console.log(date.toISOString().split("T")[0]);
     // const dateAssigned = date.toISOString().split("T")[0];
     let temp = [] as any;
@@ -365,9 +366,9 @@ const BranchAll = () => {
   const CreateHandler = () => {
     if (!getUser) {
       setButtonPop(true);
-      setTimeout(() => {
-        navigate("/signin");
-      }, 3000);
+      // setTimeout(() => {
+      //   navigate("/signin");
+      // }, 3000);
       // alert("Please sign in!");
       // navigate("/signin");
       return;
@@ -387,7 +388,7 @@ const BranchAll = () => {
   ]);
   const tileClassName = ({ date }: any) => {
     // console.log(moment(date).format("YYYY-MM-DD"));
-    if (mark.has(moment(date).format("YYYY-MM-DD"))) {
+    if (dateDocs?.has(moment(date).format("YYYY-MM-DD"))) {
       return "highlight";
     }
     return null;
@@ -413,7 +414,7 @@ const BranchAll = () => {
                 // defaultValue={date}
                 onClickDay={dateClick}
                 tileClassName={tileClassName}
-                tileDisabled={({ date }) => date.getDay() === 0}
+                // tileDisabled={({ date }) => date.getDay() === 0}
               />
             </CalendarContainerIn>
           </CalendarContainer>

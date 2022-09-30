@@ -231,6 +231,11 @@ const Signup = () => {
                               email: e.target.value,
                             })
                           }
+                          onKeyPress={(e) => {
+                            if (e.key === "Enter") {
+                              handleEmailInput();
+                            }
+                          }}
                         />
                         <ContinueBtn onClick={handleEmailInput}>
                           Continue
@@ -251,6 +256,11 @@ const Signup = () => {
                                 password: e.target.value,
                               })
                             }
+                            onKeyPress={(e) => {
+                              if (e.key === "Enter") {
+                                handlePasswordInput();
+                              }
+                            }}
                           />
                           <ContinueBtn onClick={handlePasswordInput}>
                             Continue

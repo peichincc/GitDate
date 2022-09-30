@@ -117,10 +117,10 @@ function App() {
                 // console.log(MsgT);
                 // const NowT = new Date(Date.now() * 1000).toString();
                 // console.log(NowT);
-                console.log(details.timestamp.seconds * 1000);
-                console.log(Date.now());
+                // console.log(details.timestamp.seconds * 1000);
+                // console.log(Date.now());
                 const timeDiff = Date.now() - details.timestamp.seconds * 1000;
-                console.log(timeDiff);
+                // console.log(timeDiff);
                 if (timeDiff < 10000) {
                   setNewMsgNotification(true);
                 }

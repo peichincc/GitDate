@@ -251,9 +251,9 @@ const Branch = () => {
     if (!getUser) {
       setButtonPop(true);
       setAlertMsg("Please sign in!");
-      setTimeout(() => {
-        navigate("/");
-      }, 1500);
+      // setTimeout(() => {
+      //   navigate("/");
+      // }, 1500);
       // alert("Please sign in!");
       // navigate("/signin");
       return;

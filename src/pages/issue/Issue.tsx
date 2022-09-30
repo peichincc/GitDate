@@ -303,9 +303,9 @@ const Issue = () => {
       setButtonPop(true);
       // alert("Please sign in!");
       // navigate("/signin");
-      setTimeout(() => {
-        navigate("/");
-      }, 1500);
+      // setTimeout(() => {
+      //   navigate("/");
+      // }, 1500);
       return;
     }
     if (!getUserName) {
