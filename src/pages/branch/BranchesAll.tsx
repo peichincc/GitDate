@@ -11,12 +11,12 @@ import {
 } from "firebase/firestore";
 import styled from "styled-components";
 import Calendar from "react-calendar";
-// import "./calendar.css";
+import "./calendar.css";
 import BranchesList from "./BranchList";
 
 import firebaseapi from "../../utils/firebaseapi";
 
-import { MergeBtn, Button, LabelsButton } from "../../utils/StyledComponent";
+import { MergeBtn, LabelsButton } from "../../utils/StyledComponent";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
@@ -242,6 +242,15 @@ const BranchAll = () => {
     const branchesRef = collection(db, "Branches");
     firebaseapi.readAllBranches(branchesRef).then(async (res) => {
       if (res) {
+        console.log(res);
+        // get all the branch date
+        let dateTemp = [] as any;
+        res.forEach((doc: any) => {
+          console.log(doc.date);
+          dateTemp.push(doc.date);
+        });
+        setDateDocs(dateTemp);
+        //
         setDocs(res);
         setAllbranch(res);
         setIsLoading(false);
@@ -330,9 +339,6 @@ const BranchAll = () => {
     setDocs(expiredBranch);
   };
 
-  // const mark = ["04-09-2022", "03-09-2022", "15-09-2022"];
-  const marks = new Set(["04-09-2022", "03-09-2022", "15-09-2022"]);
-
   const dateClick = async (date: any) => {
     // console.log(date);
     const dateAssigned =
@@ -369,6 +375,24 @@ const BranchAll = () => {
     navigate("/createbranch");
   };
 
+  var moment = require("moment");
+  const mark = new Set([
+    "2022-09-27",
+    "2022-09-28",
+    "2022-10-06",
+    "2022-10-11",
+    "2022-10-27",
+    "2022-11-07",
+    "2022-12-02",
+  ]);
+  const tileClassName = ({ date }: any) => {
+    // console.log(moment(date).format("YYYY-MM-DD"));
+    if (mark.has(moment(date).format("YYYY-MM-DD"))) {
+      return "highlight";
+    }
+    return null;
+  };
+
   return (
     <>
       <Wrapper>
@@ -386,13 +410,12 @@ const BranchAll = () => {
               <Calendar
                 onChange={setDate}
                 value={date}
-                defaultValue={date}
+                // defaultValue={date}
                 onClickDay={dateClick}
+                tileClassName={tileClassName}
+                tileDisabled={({ date }) => date.getDay() === 0}
               />
             </CalendarContainerIn>
-            {/* <p className="text-center">
-              <span className="bold">Selected Date:</span> {date.toDateString()}
-            </p> */}
           </CalendarContainer>
           <BranchesContainer>
             <ReminderBox>
