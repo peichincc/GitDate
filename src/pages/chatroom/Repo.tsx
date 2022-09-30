@@ -67,6 +67,9 @@ const Container = styled.div`
   display: flex;
   padding: 50px;
   background-color: #24292f;
+  @media screen and (max-width: 992px) {
+    padding: 20px;
+  }
 `;
 const Sidebar = styled.div`
   background: #24292f;
@@ -81,6 +84,9 @@ const NameCard = styled.div`
   display: flex;
   align-items: center;
   padding: 10px;
+  @media screen and (max-width: 1280px) {
+    justify-content: center;
+  }
   /* height: 75px;
   padding: 10px; */
   /* background: hsla(0, 0%, 100%, 0.3); */
@@ -96,6 +102,10 @@ const NameCardPhoto = styled.img`
   object-fit: cover;
   border-radius: 50%;
   background-color: white;
+  @media screen and (max-width: 992px) {
+    width: 30px;
+    height: 30px;
+  }
 `;
 const NameCardName = styled.div`
   font-size: 20px;
@@ -105,6 +115,9 @@ const NameCardName = styled.div`
   width: 200px;
   word-break: break-all;
   word-wrap: break-word;
+  @media screen and (max-width: 1280px) {
+    display: none;
+  }
 `;
 const MsgList = styled(NameCard)`
   cursor: pointer;
