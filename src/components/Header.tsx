@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import logo from "./logo.png";
 import { useLocation, Link, useNavigate } from "react-router-dom";
@@ -31,8 +31,6 @@ const LogoContainer = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-image: url(${logo});
-  background-size: contain; */
   &:hover {
     path {
       stroke: #9a9b9d;
@@ -125,7 +123,7 @@ const CategoryContainer = styled.div`
 `;
 const LeftContainer = styled.div``;
 const RightContainer = styled.div`
-  margin-right: 20px;
+  margin-right: 5px;
   display: flex;
   align-items: center;
 `;
@@ -162,6 +160,7 @@ const MobileSidebar = styled.div`
   height: 250px;
   background-color: #24292f;
   top: 62px;
+  z-index: 999;
 `;
 const MobileLinkContainer = styled.div`
   display: flex;
@@ -174,15 +173,17 @@ const ClostBtn = styled.button`
   border: none;
   margin-top: 3px;
   color: white;
+  cursor: pointer;
+  &:hover {
+    color: #9a9b9d;
+  }
 `;
 
 const Header = () => {
   const currentPage = useLocation();
   const [page, setPage] = useState<any>("");
   let navigate = useNavigate();
-  const dispatch = useDispatch();
   const userInfo = useSelector((state) => state) as any;
-  const [alreadyLogged, setAlreadyLogged] = useState(false);
 
   const [searchResults, setSearchRsults] = useState<DocumentData>();
 
@@ -193,8 +194,8 @@ const Header = () => {
   };
 
   useEffect(() => {
-    console.log(currentPage);
-    console.log(currentPage.pathname);
+    // console.log(currentPage);
+    // console.log(currentPage.pathname);
     setPage(currentPage.pathname);
   }, [currentPage]);
 
@@ -215,12 +216,14 @@ const Header = () => {
     // When user clicks outside of the component, we can dismiss
     // the searched suggestions by calling this method
     setExpanded(false);
+    setShowSidebar(false);
   });
 
   const getSearchName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchName(e.target.value);
   };
   const getSearchResults = () => {
+    setSearchName("");
     firebaseapi.searchUserByName(searchName).then((res) => {
       console.log(res);
       if (res) {
@@ -242,7 +245,7 @@ const Header = () => {
           </ToggleBtn>
         </MobileBar>
         {showSidebar && (
-          <MobileSidebar>
+          <MobileSidebar ref={ref}>
             <MobileLinkContainer>
               <Category to="issues" id="issues">
                 Issues
@@ -257,7 +260,7 @@ const Header = () => {
                 Repo
               </Category>
               <Category as="div" onClick={memberHandler}>
-                <Member />
+                Member
               </Category>
               <ClostBtn
                 onClick={() => {
@@ -277,6 +280,7 @@ const Header = () => {
             <SearchInput
               placeholder="Enter name to search user..."
               onChange={getSearchName}
+              value={searchName}
             />
             <SearchBtn onClick={getSearchResults}>/</SearchBtn>
           </SearchWrapper>
@@ -306,9 +310,6 @@ const Header = () => {
               <Category as="div" onClick={memberHandler}>
                 <Member />
               </Category>
-              {/* <Category as="div" onClick={signout}>
-                <Logout />
-              </Category> */}
             </RightContainer>
           </CategoryContainer>
         </CategoryLinks>

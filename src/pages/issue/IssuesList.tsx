@@ -193,6 +193,7 @@ const IssuesList = ({ issuesStatus, docs }: any) => {
                     <Card>
                       <ImageBox>
                         <ImageBoxImage
+                          id="issueClick"
                           src={blog.main_image}
                           alt="issue_photo"
                           onClick={() => {

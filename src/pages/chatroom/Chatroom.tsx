@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
 import "./chatroom.css";
@@ -53,15 +52,24 @@ const MsgContainer = styled.div`
   }
 `;
 const MsgInput = styled.input`
-  width: 100%;
+  width: 190px;
+  /* width: fit-content; */
   display: inline;
   font-size: 20px;
-  padding: 10px 10px;
-  border-radius: 30px;
+  /* padding: 10px 10px;
+  border-radius: 30px; */
   outline: none;
   border: none;
-  background: #bbb;
-  color: black;
+  color: #bbb;
+  background-color: rgba(0, 0, 0, 0.4);
+  /* color: black; */
+  &:focus {
+    width: 90%;
+    transition: width 0.4s ease-in-out;
+  }
+`;
+const InputContainer = styled.div`
+  width: 100%;
 `;
 const MsgBtn = styled.button`
   margin-left: 10px;
@@ -96,11 +104,9 @@ const EmojiBx = styled.div`
 const Chatroom = ({ chatroomId }: any) => {
   const userData = useSelector((state) => state) as any;
   const db = getFirestore();
-  // const { id } = useParams<any>();
   const [messages, setMessages] = useState<any>([]);
   const [chosenEmoji, setChosenEmoji] = useState<any>();
 
-  //
   const containerRef = useRef<any>(null);
   useLayoutEffect(() => {
     if (containerRef.current) {
@@ -119,7 +125,7 @@ const Chatroom = ({ chatroomId }: any) => {
           id: x.id,
           ...x.data(),
         }));
-        console.log(messages);
+        // console.log(messages);
         setMessages(messages);
       }
     );
@@ -188,15 +194,19 @@ const Chatroom = ({ chatroomId }: any) => {
         </div>
         <form onSubmit={handleSubmit} className="message-input-container">
           <MsgContainer>
-            <MsgInput
-              type="text"
-              placeholder="Enter your message"
-              value={value}
-              onChange={handleChange}
-              className="message-input"
-              required
-              minLength={1}
-            />
+            <p>&#65310;</p>
+
+            <InputContainer>
+              <MsgInput
+                type="text"
+                placeholder="Enter your message"
+                value={value}
+                onChange={handleChange}
+                required
+                minLength={1}
+              />
+              <span className="cursor_plus">_</span>
+            </InputContainer>
             <EmojiIcon onClick={showEmoji}>😃</EmojiIcon>
             {chosenEmoji && (
               <EmojiBx ref={ref}>

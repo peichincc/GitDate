@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClipboardQuestion } from "@fortawesome/free-solid-svg-icons";
 
 import {
   ModalHeader,
@@ -66,7 +67,9 @@ const Confirm = (props: any) => {
         <ModalBx>
           <ModalContents>
             <ModalHeader>
-              <h2>Are you sure?</h2>
+              <h2>
+                <FontAwesomeIcon icon={faClipboardQuestion} />
+              </h2>
             </ModalHeader>
             <ModalContentsWrapper>
               <ModalExplaination>{confirmMsg}</ModalExplaination>

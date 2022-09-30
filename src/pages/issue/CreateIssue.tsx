@@ -275,21 +275,25 @@ const CreateIssue = () => {
     if (!category) {
       setAlertMsg("Please select the issue category");
       setButtonPop(true);
+      setIsSending(false);
       return;
     }
     if (!title) {
       setAlertMsg("Please fill the title");
       setButtonPop(true);
+      setIsSending(false);
       return;
     }
     if (!fileSrc) {
       setAlertMsg("Please select photo");
       setButtonPop(true);
+      setIsSending(false);
       return;
     }
     if (!editorHtmlContent) {
       setAlertMsg("Please fill in the content");
       setButtonPop(true);
+      setIsSending(false);
       return;
     }
     const newIssueRef = doc(collection(db, "Issues"));

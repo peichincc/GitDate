@@ -269,34 +269,45 @@ const CreateBranch = () => {
     if (!type) {
       setAlertMsg("Please select the branch type");
       setButtonPop(true);
+      setIsSending(false);
       return;
     }
     if (!title) {
       setAlertMsg("Please fill the title");
       setButtonPop(true);
+      setIsSending(false);
       return;
     }
     if (!date) {
+      setIsSending(false);
       setAlertMsg("Please select the date");
       setButtonPop(true);
+
       return;
     }
     if (!time) {
+      setIsSending(false);
       setAlertMsg("Please select the time");
       setButtonPop(true);
+
       return;
     }
     if (!location) {
+      setIsSending(false);
       setAlertMsg("Please select the location");
       setButtonPop(true);
+
       return;
     }
     if (!fileSrc) {
+      setIsSending(false);
       setAlertMsg("Please select photo");
       setButtonPop(true);
+
       return;
     }
     if (!editorHtmlContent) {
+      setIsSending(false);
       setAlertMsg("Please fill in the activity description");
       setButtonPop(true);
       return;

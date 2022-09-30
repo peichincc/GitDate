@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { faCodePullRequest } from "@fortawesome/free-solid-svg-icons";
 
 import {
   ModalHeader,
@@ -11,6 +12,7 @@ import {
   ModalContentsWrapper,
   CloseBtnWrapper,
   Button,
+  MergeBtn,
 } from "../../utils/StyledComponent";
 
 const Back = styled.div`
@@ -55,9 +57,16 @@ const ModalExplaination = styled(ModalContent)`
   text-align: center;
   justify-content: center;
 `;
+const CTABtn = styled(MergeBtn)`
+  width: 110px;
+`;
+const CancelBtn = styled(Button)`
+  width: 110px;
+`;
 
-const Alert = (props: any) => {
-  const { trigger, setButtonPop, alertMsg } = props;
+const FriendAlert = (props: any) => {
+  let navigate = useNavigate();
+  const { trigger, setAlertWtihCTAPop, alertMsg } = props;
   return trigger ? (
     <>
       <Back>
@@ -65,19 +74,27 @@ const Alert = (props: any) => {
           <ModalContents>
             <ModalHeader>
               <h2>
-                <FontAwesomeIcon icon={faTriangleExclamation} />
+                <FontAwesomeIcon icon={faCodePullRequest} />
               </h2>
             </ModalHeader>
             <ModalContentsWrapper>
               <ModalExplaination>{alertMsg}</ModalExplaination>
               <CloseBtnWrapper>
-                <Button
+                <CTABtn
                   onClick={() => {
-                    setButtonPop(false);
+                    navigate("/member");
+                    setAlertWtihCTAPop(false);
                   }}
                 >
-                  Close
-                </Button>
+                  To Member
+                </CTABtn>
+                <CancelBtn
+                  onClick={() => {
+                    setAlertWtihCTAPop(false);
+                  }}
+                >
+                  Maybe Later
+                </CancelBtn>
               </CloseBtnWrapper>
             </ModalContentsWrapper>
           </ModalContents>
@@ -87,4 +104,4 @@ const Alert = (props: any) => {
   ) : null;
 };
 
-export default Alert;
+export default FriendAlert;
