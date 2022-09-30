@@ -132,18 +132,13 @@ const ChatNameCard = styled(NameCard)`
 `;
 const ChatNameCardName = styled(NameCardName)`
   cursor: pointer;
+  @media screen and (max-width: 1280px) {
+    display: block;
+  }
   &:hover {
     color: #ff69b4;
   }
 `;
-// const EllipsisContainer = styled.div`
-//   color: white;
-//   padding-right: 20px;
-//   cursor: pointer;
-//   &:hover {
-//     color: #ff69b4;
-//   }
-// `;
 
 const Repo = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -250,9 +245,6 @@ const Repo = () => {
                     >
                       {chaterName}
                     </ChatNameCardName>
-                    {/* <EllipsisContainer>
-                      <FontAwesomeIcon icon={faEllipsisVertical} />
-                    </EllipsisContainer> */}
                   </ChatNameCard>
                   <Chatroom chatroomId={chatroomId} />
                 </>
