@@ -16,6 +16,8 @@ import { ReactComponent as Open } from "./issue-open.svg";
 import ToggleOn from "./toggle-on.svg";
 import ToggleOff from "./toggle-off.svg";
 
+import Loading from "../../utils/loading.gif";
+
 const IssuesHeader = styled(BoxHeader)`
   font-size: 14px;
   line-height: 1.5;
@@ -120,6 +122,11 @@ const IssuesList = ({ issuesStatus, docs }: any) => {
   const [switchMode, setSwitchMode] = useState(true);
   let navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState(true);
+  function onLoad() {
+    setTimeout(() => setIsLoading(false), 1000);
+  }
+
   return (
     <>
       <Container>
@@ -199,6 +206,17 @@ const IssuesList = ({ issuesStatus, docs }: any) => {
                           onClick={() => {
                             navigate("/issue/" + blog.issue_id);
                           }}
+                          style={{ display: isLoading ? "none" : "block" }}
+                          onLoad={onLoad}
+                        />
+                        <ImageBoxImage
+                          id="issueClick"
+                          src={Loading}
+                          alt="issue_photo"
+                          onClick={() => {
+                            navigate("/issue/" + blog.issue_id);
+                          }}
+                          style={{ display: isLoading ? "block" : "none" }}
                         />
                       </ImageBox>
                       <ContentBox>

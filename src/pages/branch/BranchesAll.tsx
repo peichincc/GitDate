@@ -456,6 +456,3 @@ const BranchAll = () => {
 };
 
 export default BranchAll;
-function moment(date: Date) {
-  throw new Error("Function not implemented.");
-}
