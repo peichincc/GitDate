@@ -192,6 +192,8 @@ const Issue = () => {
   const [isAuthor, setIsAuthor] = useState(false);
   // render issue status
   const [issueOpen, setIssueOpen] = useState(true);
+  // Check friendlist
+  const [authorFriends, setAuthorFriends] = useState([]);
 
   const changeIssueStatus = () => {
     const issueRef = collection(db, "Issues");
@@ -245,6 +247,7 @@ const Issue = () => {
           console.log(res["firstname"]);
           setGetAuthor(res["firstname"]);
           setGetAuthorID(res["user_id"]);
+          setAuthorFriends(res["friend_list"]);
           setTimeout(() => {
             setIsLoading(false);
           }, 1000);
@@ -283,6 +286,14 @@ const Issue = () => {
     setConfirmPop(false);
   };
   const confirmSendRequest = async () => {
+    console.log(authorFriends);
+    console.log(getUser);
+    // check friendList
+    if (authorFriends.some((e: { user_id: string }) => e.user_id === getUser)) {
+      setButtonPop(true);
+      setAlertMsg("You've already merged!");
+      return;
+    }
     const userRef = doc(db, "Users", getAuthorID);
     await updateDoc(userRef, {
       friend_request: arrayUnion({
