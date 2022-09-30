@@ -59,8 +59,9 @@ const MsgInput = styled.input`
   border-radius: 30px;
   outline: none;
   border: none;
-  background: #bbb;
-  color: black;
+  color: #bbb;
+  background-color: rgba(0, 0, 0, 0.4);
+  /* color: black; */
 `;
 const MsgBtn = styled.button`
   margin-left: 10px;
@@ -185,6 +186,8 @@ const Chatroom = ({ chatroomId }: any) => {
         </div>
         <form onSubmit={handleSubmit} className="message-input-container">
           <MsgContainer>
+            <p>&#65310;</p>
+            <span className="cursor4">_</span>
             <MsgInput
               type="text"
               placeholder="Enter your message"
