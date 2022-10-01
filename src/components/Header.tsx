@@ -247,11 +247,11 @@ const Header = () => {
         {showSidebar && (
           <MobileSidebar ref={ref}>
             <MobileLinkContainer>
-              <Category to="issues" id="issues">
-                Issues
-              </Category>
               <Category to="branches" id="branches">
                 Branches
+              </Category>
+              <Category to="issues" id="issues">
+                Issues
               </Category>
               <Category as="div" id="docs">
                 <Tours stepType={stepType} page={page} />
@@ -298,11 +298,11 @@ const Header = () => {
         <CategoryLinks>
           <CategoryContainer>
             <LeftContainer>
-              <Category to="issues" id="issues">
-                Issues
-              </Category>
               <Category to="branches" id="branches">
                 Branches
+              </Category>
+              <Category to="issues" id="issues">
+                Issues
               </Category>
             </LeftContainer>
             <RightContainer>
