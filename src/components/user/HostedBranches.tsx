@@ -34,21 +34,22 @@ const HostedBranches = ({ hostedBranches }: any) => {
       <Container>
         <BoxHeader>Hosted branches</BoxHeader>
         <ContentContainer>
-          {hostedBranches &&
-            hostedBranches.map((blog: any) => (
-              <>
-                <BlogList>
-                  <BlogTitle>{blog.title}</BlogTitle>
-                  <ClickBtn
-                    onClick={() => {
-                      navigate("/branch/" + blog.branch_id);
-                    }}
-                  >
-                    Click to branch
-                  </ClickBtn>
-                </BlogList>
-              </>
-            ))}
+          {hostedBranches && hostedBranches.length > 0
+            ? hostedBranches.map((blog: any) => (
+                <>
+                  <BlogList>
+                    <BlogTitle>{blog.title}</BlogTitle>
+                    <ClickBtn
+                      onClick={() => {
+                        navigate("/branch/" + blog.branch_id);
+                      }}
+                    >
+                      Click to branch
+                    </ClickBtn>
+                  </BlogList>
+                </>
+              ))
+            : "...more to come"}
         </ContentContainer>
       </Container>
     </>

@@ -1,8 +1,66 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Gitgraph, templateExtend, TemplateName } from "@gitgraph/react";
 import { GitgraphCore } from "@gitgraph/core";
 
-function SourceTree() {
+// basic graph if registered
+function buildGraph0(gitgraph: any) {
+  const master = gitgraph.branch("master");
+  master.commit("git init");
+}
+// basic graph if write readme
+function buildGraph1(gitgraph: any) {
+  const master = gitgraph.branch("master");
+  master.commit("git init");
+  const develop = gitgraph.branch("develop");
+  develop.commit("write readme");
+  master.merge(develop);
+}
+// graph if posted issue
+function buildGraph2(gitgraph: any) {
+  const master = gitgraph.branch("master");
+  master.commit("git init");
+  const develop = gitgraph.branch("develop");
+  develop.commit("write readme");
+  master.merge(develop);
+  const feata = gitgraph.branch("feat/issue");
+  feata.commit("write issue");
+  master.merge(feata);
+}
+// graph if host branch
+function buildGraph3(gitgraph: any) {
+  const master = gitgraph.branch("master");
+  master.commit("git init");
+  const develop = gitgraph.branch("develop");
+  develop.commit("write readme");
+  master.merge(develop);
+  const featb = gitgraph.branch("feat/branch");
+  featb.commit("hosted branch!");
+}
+// graph if attend branch
+function buildGraph4(gitgraph: any) {
+  const master = gitgraph.branch("master");
+  master.commit("git init");
+  const develop = gitgraph.branch("develop");
+  develop.commit("write readme");
+  master.merge(develop);
+  const featb = gitgraph.branch("feat/branch");
+  featb.commit("attend branch!");
+}
+// graph if attend and host branch
+function buildGraph5(gitgraph: any) {
+  const master = gitgraph.branch("master");
+  master.commit("git init");
+  const develop = gitgraph.branch("develop");
+  develop.commit("write readme");
+  master.merge(develop);
+  const featb = gitgraph.branch("feat/branch");
+  featb.commit("hosted branch!");
+  develop.merge(featb);
+  const featc = gitgraph.branch("feat/newbranch");
+  featc.commit("attend branch!");
+}
+
+function SourceTree({ sourceTreeStatus }: any) {
   const templateConfig = {
     branch: {
       lineWidth: 2,
@@ -28,30 +86,47 @@ function SourceTree() {
         displayBranch: false,
         displayHash: false,
         displayAuthor: false,
-        // font: "normal 14pt Arial",
+        font: "normal 10pt Arial",
       },
     },
   };
   const template = templateExtend(TemplateName.Metro, templateConfig);
+
+  const buildGraphs = [
+    buildGraph0,
+    buildGraph1,
+    buildGraph2,
+    buildGraph3,
+    buildGraph4,
+    buildGraph5,
+  ];
+  const [currentGraph, setCurrentGraph] = React.useState(0);
+  const graph = new GitgraphCore() as any;
+  buildGraphs[currentGraph](graph.getUserApi());
+  useEffect(() => setCurrentGraph(parseInt(sourceTreeStatus)), []);
+
   return (
     <Gitgraph
       options={{
         // orientation: Orientation.VerticalReverse,
-        // author: "Rain120",
+        //author: "Rain120",
         template,
         reverseArrow: true,
       }}
+      key={currentGraph}
     >
-      {(gitgraph) => {
-        const master = gitgraph.branch("master");
-        master.commit("git init");
-        const develop = gitgraph.branch("develop");
-        develop.commit("write readme");
-        master.merge(develop);
-        const feata = gitgraph.branch("feat/issue");
-        feata.commit("write issue");
-      }}
+      {buildGraphs[currentGraph]}
     </Gitgraph>
+    // {(gitgraph) => {
+    //   const master = gitgraph.branch("master");
+    //   master.commit("git init");
+    //   const develop = gitgraph.branch("develop");
+    //   develop.commit("write readme");
+    //   master.merge(develop);
+    //   const feata = gitgraph.branch("feat/issue");
+    //   feata.commit("write issue");
+    // }}
+    // </Gitgraph>
     // <Gitgraph
     //   options={{
     //     author: " ",

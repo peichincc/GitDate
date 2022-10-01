@@ -44,23 +44,25 @@ const PostedIssues = ({ postedIssues }: any) => {
       <Container>
         <BoxHeader>Posted issues</BoxHeader>
         <ContentContainer>
-          {postedIssues.map((blog: any) => (
-            <>
-              <BlogList>
-                <BlogTitle>
-                  <BlogStatus>{blog.status}</BlogStatus>
-                  {blog.title}
-                </BlogTitle>
-                <ClickBtn
-                  onClick={() => {
-                    navigate("/issue/" + blog.issue_id);
-                  }}
-                >
-                  Click to issue
-                </ClickBtn>
-              </BlogList>
-            </>
-          ))}
+          {postedIssues && postedIssues.length > 0
+            ? postedIssues.map((blog: any) => (
+                <>
+                  <BlogList>
+                    <BlogTitle>
+                      <BlogStatus>{blog.status}</BlogStatus>
+                      {blog.title}
+                    </BlogTitle>
+                    <ClickBtn
+                      onClick={() => {
+                        navigate("/issue/" + blog.issue_id);
+                      }}
+                    >
+                      Click to issue
+                    </ClickBtn>
+                  </BlogList>
+                </>
+              ))
+            : "...more to come"}
         </ContentContainer>
       </Container>
     </>

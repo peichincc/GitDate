@@ -39,11 +39,23 @@ const Container = styled.div`
   height: auto;
 `;
 const InsideContainder = styled.div`
+  height: 410px;
   display: flex;
   margin-top: 20px;
   @media screen and (max-width: 770px) {
     flex-direction: column;
   }
+`;
+const TreeContainer = styled.div`
+  position: relative;
+  /* flex-grow: 7; */
+  height: auto;
+  width: 32%;
+`;
+const TreeGraph = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
 `;
 const LeftContainer = styled.div`
   margin-left: 20px;
@@ -52,6 +64,7 @@ const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 25%;
 `;
 export const PhotoContainer = styled.div`
   display: flex;
@@ -71,6 +84,7 @@ const RightContainer = styled.div`
   flex-grow: 4;
   margin-top: 20px;
   margin-bottom: 20px;
+  width: 35%;
 `;
 const NameCard = styled.div`
   padding-top: 8px;
@@ -116,10 +130,33 @@ const Readme = () => {
   const [postedIssues, setPostedIssues] = useState<DocumentData>();
   const [hostedBranches, setHostedBranches] = useState<DocumentData>();
   const [attendedBranches, setAttendedBranches] = useState<DocumentData>();
+  const [sourceTreeStatus, setSourceTreeStatus] = useState(0);
 
   useEffect(() => {
     firebaseapi.readUserData(id).then((res) => {
       if (res) {
+        console.log(res);
+        if (res.firstname) {
+          setSourceTreeStatus(1);
+        }
+        if (res["activity_hosted"]) {
+          if (res["activity_hosted"].length > 0) {
+            setSourceTreeStatus(3);
+          }
+        }
+        if (res["activity_attend"]) {
+          if (res["activity_attend"].length > 0) {
+            setSourceTreeStatus(4);
+          }
+        }
+        if (res["activity_attend"] && res["activity_hosted"]) {
+          if (
+            res["activity_attend"].length > 0 &&
+            res["activity_hosted"].length > 0
+          ) {
+            setSourceTreeStatus(5);
+          }
+        }
         setUserData(res);
         console.log(res.user_id);
         searchIssues(res.user_id);
@@ -188,7 +225,6 @@ const Readme = () => {
             {userData && (
               <>
                 <Container>
-                  {/* <SourceTree /> */}
                   <BoxHeader>
                     <FontAwesomeIcon icon={faListUl} />{" "}
                     <NavWord>README.md</NavWord>
@@ -238,6 +274,11 @@ const Readme = () => {
                         {userData.details}
                       </FormTextRead>
                     </RightContainer>
+                    <TreeContainer>
+                      <TreeGraph>
+                        <SourceTree sourceTreeStatus={sourceTreeStatus} />
+                      </TreeGraph>
+                    </TreeContainer>
                   </InsideContainder>
                 </Container>
                 {postedIssues && <PostedIssues postedIssues={postedIssues} />}
