@@ -34,8 +34,8 @@ const TreeGraph = styled.div`
 `;
 
 const TextBox = styled.div`
-  font-size: 24px;
-  line-height: 50px;
+  font-size: 26px;
+  line-height: 60px;
   margin-bottom: 90px;
   margin-left: 20px;
   text-align: right;
@@ -86,7 +86,7 @@ function buildGraph4(gitgraph: any) {
   develop.commit("write readme");
   master.merge(develop);
   const featb = gitgraph.branch("feat/branch");
-  featb.commit("attend branch!");
+  featb.commit("attended branch!");
 }
 // graph if attend and host branch
 function buildGraph5(gitgraph: any) {
@@ -96,13 +96,12 @@ function buildGraph5(gitgraph: any) {
   develop.commit("write readme");
   // master.merge(develop);
   const featb = gitgraph.branch("feat/branch");
-  featb.commit("hosted branch!");
-  develop.merge(featb);
   const featc = gitgraph.branch("feat/new");
-  featc.commit("attend branch!");
+  featb.commit("hosted branch!");
+  featc.commit("attended branch!");
+  develop.merge(featb);
   develop.merge(featc);
-  master.merge(develop);
-  master.tag("v1");
+  master.merge(develop).tag("v1 👏");
 }
 
 function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
@@ -131,7 +130,7 @@ function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
         displayBranch: false,
         displayHash: false,
         displayAuthor: false,
-        font: "normal 14pt Arial",
+        font: "normal 12pt Arial",
       },
     },
   };
@@ -185,7 +184,7 @@ function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
       <TreeContainer>
         <TreeGraph>
           {currentGraph && currentGraph < 5 ? (
-            <TextBox>Be an active GitDaters to grow your sourcetree👏</TextBox>
+            <TextBox>Be an active GitDaters to grow your sourcetree 👏</TextBox>
           ) : null}
           <Gitgraph
             options={{
