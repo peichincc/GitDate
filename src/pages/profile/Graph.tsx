@@ -184,7 +184,7 @@ function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
       </div>
       <TreeContainer>
         <TreeGraph>
-          {currentGraph && currentGraph < 4 ? (
+          {currentGraph && currentGraph < 5 ? (
             <TextBox>Be an active GitDaters to grow your sourcetree👏</TextBox>
           ) : null}
           <Gitgraph
