@@ -12,8 +12,6 @@ const ModalBx = styled.div`
   width: 500px;
   height: 560px;
   background-color: #fff;
-  /* background-color: lightgray; */
-  /* background: linear-gradient(#fff 50%, #f6f6f6 50%); */
   background-size: 100% 70px;
   top: 50%;
   left: 75%;
@@ -30,7 +28,7 @@ const TreeContainer = styled.div`
 `;
 const TreeGraph = styled.div`
   position: absolute;
-  bottom: 12px;
+  bottom: 20px;
   left: 10px;
 `;
 
@@ -87,7 +85,7 @@ function buildGraph4(gitgraph: any) {
   develop.commit("write readme");
   master.merge(develop);
   const featb = gitgraph.branch("feat/branch");
-  featb.commit("attended branch!");
+  featb.commit("attended branch 💃");
 }
 // graph if attend and host branch
 function buildGraph5(gitgraph: any) {
@@ -99,7 +97,7 @@ function buildGraph5(gitgraph: any) {
   const featb = gitgraph.branch("feat/branch");
   const featc = gitgraph.branch("feat/new");
   featb.commit("hosted branch!");
-  featc.commit("attended branch!");
+  featc.commit("attended branch 💃");
   develop.merge(featb);
   develop.merge(featc);
   master.merge(develop).tag("v1 👏");
