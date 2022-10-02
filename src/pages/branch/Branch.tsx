@@ -188,6 +188,8 @@ const Branch = () => {
   // Check branch expired or not
   const [isExpired, setIsExpired] = useState(true);
   const branchRef = doc(collection(db, "Branches"), id);
+  // Delete branch id in Users
+  const [hostedList, setHostedList] = useState([]);
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -233,7 +235,9 @@ const Branch = () => {
       }
       firebaseapi.searchUserName(res?.hosted_by).then((res) => {
         if (res) {
-          console.log(res["firstname"]);
+          console.log(res["activity_hosted"]);
+          setHostedList(res["activity_hosted"]);
+          // console.log(res["firstname"]);
           setGetAuthor(res["firstname"]);
           setGetAuthorID(res["user_id"]);
           setTimeout(() => {
@@ -329,6 +333,14 @@ const Branch = () => {
   };
 
   const deleteBranch = async (id: string | undefined) => {
+    let newHostedList = hostedList.filter(function (e) {
+      return e !== id;
+    });
+    console.log(newHostedList);
+    const userRef = doc(db, "Users", getAuthorID);
+    await updateDoc(userRef, {
+      activity_hosted: newHostedList,
+    });
     updateLocationMarkers();
     await firebaseapi.deleteBranch(id);
     setAlertMsg("Successfully delete this branch!");
