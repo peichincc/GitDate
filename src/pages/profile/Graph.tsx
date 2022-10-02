@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { Gitgraph, templateExtend, TemplateName } from "@gitgraph/react";
 import { GitgraphCore } from "@gitgraph/core";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+
 import "./macOS.css";
 
 // try popup effect
@@ -179,7 +182,9 @@ function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
             </a>
           </div>
         </div>
-        <WindowTitle>Sourcetree</WindowTitle>
+        <WindowTitle>
+          <FontAwesomeIcon icon={faLocationDot} /> Sourcetree
+        </WindowTitle>
       </div>
       <TreeContainer>
         <TreeGraph>
