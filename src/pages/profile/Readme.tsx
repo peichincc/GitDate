@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -24,6 +24,8 @@ import Loading from "../../components/Loading";
 import { GoBackWrapper, Button, GithubLink } from "../../utils/StyledComponent";
 
 import SourceTree from "./Graph";
+import ToggleOn from "../../utils/toggle-on.svg";
+import ToggleOff from "../../utils/toggle-off.svg";
 
 const Wrapper = styled.div`
   width: 90%;
@@ -39,25 +41,12 @@ const Container = styled.div`
   height: auto;
 `;
 const InsideContainder = styled.div`
-  height: 410px;
+  height: auto;
   display: flex;
   margin-top: 20px;
   @media screen and (max-width: 770px) {
     flex-direction: column;
   }
-`;
-const TreeContainer = styled.div`
-  position: relative;
-  /* flex-grow: 7; */
-  height: auto;
-  width: 32%;
-  margin-right: 10px;
-  margin-top: 10px;
-`;
-const TreeGraph = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
 `;
 const LeftContainer = styled.div`
   margin-left: 20px;
@@ -66,7 +55,7 @@ const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 25%;
+  width: 30%;
 `;
 export const PhotoContainer = styled.div`
   display: flex;
@@ -86,10 +75,18 @@ const RightContainer = styled.div`
   flex-grow: 4;
   margin-top: 20px;
   margin-bottom: 20px;
-  width: 35%;
+  width: 70%;
 `;
 const NameCard = styled.div`
   padding-top: 8px;
+`;
+const ToggleOnBtn = styled(Button)`
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  justify-content: space-evenly;
+  width: 150px;
+  padding: 2px;
 `;
 
 export const FormTextRead = styled.div`
@@ -217,9 +214,18 @@ const Readme = () => {
     });
   };
 
+  const [ButtonPop, setButtonPop] = useState(false);
+
   return (
     <>
       <Wrapper>
+        {ButtonPop ? (
+          <SourceTree
+            // trigger={ButtonPop}
+            setButtonPop={setButtonPop}
+            sourceTreeStatus={sourceTreeStatus}
+          />
+        ) : null}
         {isLoading ? (
           <Loading />
         ) : (
@@ -245,6 +251,19 @@ const Readme = () => {
                         </b>
                       </NameCard>
                       <NameCard>{userData.occupation}</NameCard>
+                      <ToggleOnBtn
+                        id="sourcetree"
+                        onClick={() => {
+                          setButtonPop((pre) => !pre);
+                        }}
+                      >
+                        Sourcetree
+                        {ButtonPop ? (
+                          <img src={ToggleOn} alt="ToggleBtn" />
+                        ) : (
+                          <img src={ToggleOff} alt="ToggleBtn" />
+                        )}
+                      </ToggleOnBtn>
                     </LeftContainer>
                     <RightContainer>
                       <FormTextRead>
@@ -276,11 +295,14 @@ const Readme = () => {
                         {userData.details}
                       </FormTextRead>
                     </RightContainer>
-                    <TreeContainer id="sourcetree">
+                    {/* <TreeContainer>
                       <TreeGraph>
-                        <SourceTree sourceTreeStatus={sourceTreeStatus} />
+                        <SourceTree
+                          sourceTreeStatus={sourceTreeStatus}
+                          id="gitgraph"
+                        />
                       </TreeGraph>
-                    </TreeContainer>
+                    </TreeContainer> */}
                   </InsideContainder>
                 </Container>
                 {postedIssues && <PostedIssues postedIssues={postedIssues} />}

@@ -1,6 +1,48 @@
 import React, { useEffect } from "react";
+import styled from "styled-components";
 import { Gitgraph, templateExtend, TemplateName } from "@gitgraph/react";
 import { GitgraphCore } from "@gitgraph/core";
+
+import "./macOS.css";
+
+// try popup effect
+const ModalBx = styled.div`
+  border: 1px solid #acacac;
+  width: 500px;
+  height: 560px;
+  background-color: #fff;
+  /* background-color: lightgray; */
+  /* background: linear-gradient(#fff 50%, #f6f6f6 50%); */
+  background-size: 100% 70px;
+  top: 45%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+  position: fixed;
+  border-radius: 6px;
+  box-shadow: 0px 0px 20px #acacac;
+`;
+const TreeContainer = styled.div`
+  position: relative;
+  height: 100%;
+  width: 100%;
+`;
+const TreeGraph = styled.div`
+  position: absolute;
+  bottom: 12px;
+  left: 10px;
+`;
+
+const TextBox = styled.div`
+  font-size: 24px;
+  line-height: 50px;
+  margin-bottom: 90px;
+  margin-left: 20px;
+  text-align: right;
+  padding-right: 30px;
+  background-color: #24292f;
+  color: white;
+`;
 
 // basic graph if registered
 function buildGraph0(gitgraph: any) {
@@ -56,12 +98,14 @@ function buildGraph5(gitgraph: any) {
   const featb = gitgraph.branch("feat/branch");
   featb.commit("hosted branch!");
   develop.merge(featb);
-  const featc = gitgraph.branch("feat/newbranch");
+  const featc = gitgraph.branch("feat/new");
   featc.commit("attend branch!");
   develop.merge(featc);
+  master.merge(develop);
+  master.tag("v1");
 }
 
-function SourceTree({ sourceTreeStatus }: any) {
+function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
   const templateConfig = {
     branch: {
       lineWidth: 2,
@@ -87,7 +131,7 @@ function SourceTree({ sourceTreeStatus }: any) {
         displayBranch: false,
         displayHash: false,
         displayAuthor: false,
-        font: "normal 10pt Arial",
+        font: "normal 14pt Arial",
       },
     },
   };
@@ -107,17 +151,81 @@ function SourceTree({ sourceTreeStatus }: any) {
   useEffect(() => setCurrentGraph(parseInt(sourceTreeStatus)), []);
 
   return (
-    <Gitgraph
-      options={{
-        // orientation: Orientation.VerticalReverse,
-        //author: "Rain120",
-        template,
-        reverseArrow: true,
-      }}
-      key={currentGraph}
-    >
-      {buildGraphs[currentGraph]}
-    </Gitgraph>
+    <ModalBx>
+      <div className="titlebar">
+        <div className="buttons">
+          <div
+            className="close"
+            onClick={() => {
+              setButtonPop(false);
+            }}
+          >
+            <a className="closebutton" href="#">
+              <span>
+                <strong>x</strong>
+              </span>
+            </a>
+          </div>
+          <div className="minimize">
+            <a className="minimizebutton" href="#">
+              <span>
+                <strong>&ndash;</strong>
+              </span>
+            </a>
+          </div>
+          <div className="zoom">
+            <a className="zoombutton" href="#">
+              <span>
+                <strong>+</strong>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <TreeContainer>
+        <TreeGraph>
+          {currentGraph && currentGraph < 4 ? (
+            <TextBox>Be an active GitDaters to grow your sourcetree👏</TextBox>
+          ) : null}
+          <Gitgraph
+            options={{
+              // orientation: Orientation.VerticalReverse,
+              //author: "Rain120",
+              template,
+              reverseArrow: true,
+            }}
+            key={currentGraph}
+          >
+            {buildGraphs[currentGraph]}
+          </Gitgraph>
+        </TreeGraph>
+      </TreeContainer>
+    </ModalBx>
+    // <ModalBx>
+    //   <TreeContainer>
+    //     <TreeGraph>
+    //       {currentGraph && currentGraph < 4 ? (
+    //         <TextBox>
+    //           You have come so far, well done!
+    //           <br />
+    //           Be an active GitDaters to grow your sourcetree!
+    //         </TextBox>
+    //       ) : null}
+    //       <Gitgraph
+    //         options={{
+    //           // orientation: Orientation.VerticalReverse,
+    //           //author: "Rain120",
+    //           template,
+    //           reverseArrow: true,
+    //         }}
+    //         key={currentGraph}
+    //       >
+    //         {buildGraphs[currentGraph]}
+    //       </Gitgraph>
+    //     </TreeGraph>
+    //   </TreeContainer>
+    // </ModalBx>
+
     // {(gitgraph) => {
     //   const master = gitgraph.branch("master");
     //   master.commit("git init");
