@@ -198,6 +198,18 @@ export const stepType = {
       disableBeacon: true,
     },
   ],
+  readme: [
+    {
+      target: "#readme",
+      content: "You could see other users' readme here",
+      disableBeacon: true,
+    },
+    {
+      target: "#sourcetree",
+      content:
+        "The sourcetree represents what users have done in GitDate so far",
+    },
+  ],
 };
 
 export function Tours({
@@ -292,16 +304,25 @@ export function Tours({
         window.localStorage.setItem("tutorial2PassedRepo", "true");
       }
     }
+    if (!localStorage.getItem("tutorial2PassedReadme")) {
+      if (location === "/readme") {
+        setState({
+          run: true,
+          steps: stepType.readme,
+        });
+        window.localStorage.setItem("tutorial2PassedReadme", "true");
+      }
+    }
   }, [page]);
 
   const handleClickStart = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    console.log(page);
+    // console.log(page);
     const location = page?.substring(
       page.indexOf("/") - 1,
       page.lastIndexOf("/")
     );
-    console.log(location);
+    // console.log(location);
     if (page === "/") {
       setState({
         run: true,
@@ -354,6 +375,12 @@ export function Tours({
       setState({
         run: true,
         steps: stepType.repo,
+      });
+    }
+    if (location === "/readme") {
+      setState({
+        run: true,
+        steps: stepType.readme,
       });
     }
     // setState({

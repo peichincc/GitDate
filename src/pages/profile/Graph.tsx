@@ -52,12 +52,13 @@ function buildGraph5(gitgraph: any) {
   master.commit("git init");
   const develop = gitgraph.branch("develop");
   develop.commit("write readme");
-  master.merge(develop);
+  // master.merge(develop);
   const featb = gitgraph.branch("feat/branch");
   featb.commit("hosted branch!");
   develop.merge(featb);
   const featc = gitgraph.branch("feat/newbranch");
   featc.commit("attend branch!");
+  develop.merge(featc);
 }
 
 function SourceTree({ sourceTreeStatus }: any) {

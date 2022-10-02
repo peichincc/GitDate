@@ -51,6 +51,8 @@ const TreeContainer = styled.div`
   /* flex-grow: 7; */
   height: auto;
   width: 32%;
+  margin-right: 10px;
+  margin-top: 10px;
 `;
 const TreeGraph = styled.div`
   position: absolute;
@@ -229,7 +231,7 @@ const Readme = () => {
                     <FontAwesomeIcon icon={faListUl} />{" "}
                     <NavWord>README.md</NavWord>
                   </BoxHeader>
-                  <InsideContainder>
+                  <InsideContainder id="readme">
                     <LeftContainer>
                       <PhotoContainer>
                         <PhotoContainerImg
@@ -274,7 +276,7 @@ const Readme = () => {
                         {userData.details}
                       </FormTextRead>
                     </RightContainer>
-                    <TreeContainer>
+                    <TreeContainer id="sourcetree">
                       <TreeGraph>
                         <SourceTree sourceTreeStatus={sourceTreeStatus} />
                       </TreeGraph>
