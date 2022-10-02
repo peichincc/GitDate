@@ -6,6 +6,7 @@ import { GitgraphCore } from "@gitgraph/core";
 import "./macOS.css";
 
 // try popup effect
+const WindowTitle = styled.div``;
 const ModalBx = styled.div`
   border: 1px solid #acacac;
   width: 500px;
@@ -14,7 +15,7 @@ const ModalBx = styled.div`
   /* background-color: lightgray; */
   /* background: linear-gradient(#fff 50%, #f6f6f6 50%); */
   background-size: 100% 70px;
-  top: 45%;
+  top: 50%;
   left: 75%;
   transform: translate(-50%, -50%);
   z-index: 101;
@@ -180,6 +181,7 @@ function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
             </a>
           </div>
         </div>
+        <WindowTitle>Sourcetree</WindowTitle>
       </div>
       <TreeContainer>
         <TreeGraph>
