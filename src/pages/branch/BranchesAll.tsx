@@ -215,13 +215,13 @@ const AttentionIcon = styled.div`
 `;
 
 const BranchAll = () => {
+  let navigate = useNavigate();
+  const db = getFirestore();
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
   const userData = useSelector((state) => state) as any;
   const [getUser, setGetUser] = useState<any>("");
   const [date, setDate] = useState(new Date());
-  let navigate = useNavigate();
-  const db = getFirestore();
   const [docs, setDocs] = useState<DocumentData>();
   const [dateDocs, setDateDocs] = useState<DocumentData>();
   const [allBranch, setAllbranch] = useState<DocumentData>();
@@ -256,61 +256,21 @@ const BranchAll = () => {
         setAllbranch(res);
         setIsLoading(false);
         setBranchType("All");
-        // get inperson
-        let temp = [] as any;
-        const q = query(
-          collection(db, "Branches"),
-          where("type", "==", "Inperson")
-        );
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          temp.push(doc.data());
+        firebaseapi.getBranches("type", "Inperson").then((res) => {
+          setInpersonBranch(res);
         });
-        setInpersonBranch(temp);
-        // get online
-        let tempOnline = [] as any;
-        const qOnline = query(
-          collection(db, "Branches"),
-          where("type", "==", "Online")
-        );
-        const querySnapshotOnline = await getDocs(qOnline);
-        querySnapshotOnline.forEach((doc) => {
-          tempOnline.push(doc.data());
+        firebaseapi.getBranches("type", "Online").then((res) => {
+          setOnlineBranch(res);
         });
-        setOnlineBranch(tempOnline);
-        // get mixed
-        let tempMixed = [] as any;
-        const qMixed = query(
-          collection(db, "Branches"),
-          where("type", "==", "Mixed")
-        );
-        const querySnapshotMixed = await getDocs(qMixed);
-        querySnapshotMixed.forEach((doc) => {
-          tempMixed.push(doc.data());
+        firebaseapi.getBranches("type", "Mixed").then((res) => {
+          setMixedBranch(res);
         });
-        setMixedBranch(tempMixed);
-        // get upcoming
-        let tempUpcoming = [] as any;
-        const qUpcoming = query(
-          collection(db, "Branches"),
-          where("status", "==", "Upcoming")
-        );
-        const querySnapshotUpcoming = await getDocs(qUpcoming);
-        querySnapshotUpcoming.forEach((doc) => {
-          tempUpcoming.push(doc.data());
+        firebaseapi.getBranches("status", "Upcoming").then((res) => {
+          setUpcomingBranch(res);
         });
-        setUpcomingBranch(tempUpcoming);
-        // get expired
-        let tempExpired = [] as any;
-        const qExpired = query(
-          collection(db, "Branches"),
-          where("status", "==", "Expired")
-        );
-        const querySnapshotExpired = await getDocs(qExpired);
-        querySnapshotExpired.forEach((doc) => {
-          tempExpired.push(doc.data());
+        firebaseapi.getBranches("status", "Expired").then((res) => {
+          setExpiredBranch(res);
         });
-        setExpiredBranch(tempExpired);
       }
     });
   }, []);
@@ -377,15 +337,6 @@ const BranchAll = () => {
   };
 
   var moment = require("moment");
-  const mark = new Set([
-    "2022-09-27",
-    "2022-09-28",
-    "2022-10-06",
-    "2022-10-11",
-    "2022-10-27",
-    "2022-11-07",
-    "2022-12-02",
-  ]);
   const tileClassName = ({ date }: any) => {
     // console.log(moment(date).format("YYYY-MM-DD"));
     if (dateDocs?.has(moment(date).format("YYYY-MM-DD"))) {
@@ -411,10 +362,8 @@ const BranchAll = () => {
               <Calendar
                 onChange={setDate}
                 value={date}
-                // defaultValue={date}
                 onClickDay={dateClick}
                 tileClassName={tileClassName}
-                // tileDisabled={({ date }) => date.getDay() === 0}
                 locale="en-GB"
               />
             </CalendarContainerIn>

@@ -6,8 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import firebaseapi from "../../src/utils/firebaseapi";
 import { DocumentData } from "firebase/firestore";
 import useOnclickOutside from "react-cool-onclickoutside";
-import { ReactComponent as GitHub } from "./github.svg";
-import { ReactComponent as Member } from "./member.svg";
+import { ReactComponent as GitHub } from "../assets/images/github.svg";
+import { ReactComponent as Member } from "../assets/images/member.svg";
 import { Tours, stepType } from "./Tours";
 import SearchResults from "./SearchResults";
 

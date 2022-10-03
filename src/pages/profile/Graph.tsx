@@ -23,6 +23,12 @@ const ModalBx = styled.div`
   position: fixed;
   border-radius: 6px;
   box-shadow: 0px 0px 20px #acacac;
+  @media screen and (max-width: 1280px) {
+    left: 50%;
+  }
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
 `;
 const TreeContainer = styled.div`
   position: relative;

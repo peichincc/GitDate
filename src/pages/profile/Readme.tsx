@@ -56,6 +56,9 @@ const LeftContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 30%;
+  @media screen and (max-width: 770px) {
+    width: 100%;
+  }
 `;
 export const PhotoContainer = styled.div`
   display: flex;
@@ -76,6 +79,9 @@ const RightContainer = styled.div`
   margin-top: 20px;
   margin-bottom: 20px;
   width: 70%;
+  @media screen and (max-width: 770px) {
+    width: 100%;
+  }
 `;
 const NameCard = styled.div`
   padding-top: 8px;
@@ -87,6 +93,9 @@ const ToggleOnBtn = styled(Button)`
   justify-content: space-evenly;
   width: 150px;
   padding: 2px;
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
 `;
 
 export const FormTextRead = styled.div`

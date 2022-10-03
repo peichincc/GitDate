@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import CheatSheet from "./modal/Cheatsheet";
-import { ReactComponent as Logo } from "./githubConer.svg";
+import { ReactComponent as Logo } from "../assets/images/githubConer.svg";
 import "./corner.css";
 
 const SliderWrapper = styled.div`
