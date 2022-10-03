@@ -1,6 +1,5 @@
-import React, { useState, useMemo } from "react";
+import React from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-
 import "./map.css";
 
 export const ShowMap = ({ center }: any) => {
@@ -20,7 +19,6 @@ export const ShowMap = ({ center }: any) => {
 
 const Map = ({ center }: any) => {
   console.log(center);
-  // const center = useMemo(() => ({ lat: 25.0384803, lng: 121.5301824 }), []);
 
   return (
     <>

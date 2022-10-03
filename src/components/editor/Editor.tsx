@@ -1,7 +1,6 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import styled from "styled-components";
-
 import MenuBar from "./MenuBar";
 import React from "react";
 
@@ -45,9 +44,6 @@ const TiptapEditor = ({
   content = "",
   setEditorHtmlContent = "",
 }: TiptapProps) => {
-  // const [editorHtmlContent, setEditorHtmlContent] = React.useState(
-  //   content.trim()
-  // );
   const editor = useEditor({
     extensions: [StarterKit],
     content: "",
@@ -61,7 +57,6 @@ const TiptapEditor = ({
       <OuterEditor>
         <MenuBar editor={editor} />
         <StyledEditorContent editor={editor} />
-        {/* <div>{editorHtmlContent}</div> */}
       </OuterEditor>
     </Container>
   );

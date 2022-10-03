@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   GoogleMap,
@@ -6,10 +6,8 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
-
 import GitHub from "../../assets/images/githubPin.png";
 import mapStyle from "./mapStyle";
-
 import { GithubPostTitle, Button } from "../../utils/StyledComponent";
 
 const markers = [
@@ -67,13 +65,11 @@ const MainMap = ({ markersFromDB }: any) => {
     setActiveMarker(markersFromDB);
   };
   console.log(markersFromDB);
-  // const center = useMemo(() => ({ lat: 25.0384803, lng: 121.5301824 }), []);
 
   return (
     <>
       <GoogleMap
         mapContainerStyle={{ width: "100vw", height: "80vh" }}
-        // zoom={10}
         onLoad={handleOnLoad}
         mapContainerClassName="map-container"
         onClick={() => setActiveMarker(null)}
@@ -106,7 +102,6 @@ const MainMap = ({ markersFromDB }: any) => {
             ) : null}
           </Marker>
         ))}
-        {/* <Marker position={center} /> */}
       </GoogleMap>
     </>
   );

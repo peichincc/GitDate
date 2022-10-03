@@ -127,17 +127,6 @@ function App() {
               });
             }
           );
-          // const unsubscribe = onSnapshot(q, (snapshot) => {
-          //   snapshot.docChanges().forEach((change) => {
-          //     console.log(change.doc.data());
-          //     // setNewMsgNotification(false);
-          //     if (change.type === "added") {
-          //       // setNewMsgNotification(true);
-          //     }
-          //     // setNewMsgNotification(false);
-          //   });
-          // });
-          // unsubscribe();
         });
       }
     });
