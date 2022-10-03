@@ -298,6 +298,16 @@ const firebaseapi = {
     // });
     // return temp;
   },
+  // Refactor -> BranchesAll get different type branches
+  async getBranches(field: string, value: string) {
+    let temp = [] as any;
+    const q = query(collection(db, "Branches"), where(field, "==", value));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      temp.push(doc.data());
+    });
+    return temp;
+  },
 };
 
 export default firebaseapi;

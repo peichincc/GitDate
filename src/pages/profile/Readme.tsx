@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -23,6 +23,10 @@ import { faListUl } from "@fortawesome/free-solid-svg-icons";
 import Loading from "../../components/Loading";
 import { GoBackWrapper, Button, GithubLink } from "../../utils/StyledComponent";
 
+import SourceTree from "./Graph";
+import ToggleOn from "../../utils/toggle-on.svg";
+import ToggleOff from "../../utils/toggle-off.svg";
+
 const Wrapper = styled.div`
   width: 90%;
   display: block;
@@ -37,6 +41,7 @@ const Container = styled.div`
   height: auto;
 `;
 const InsideContainder = styled.div`
+  height: auto;
   display: flex;
   margin-top: 20px;
   @media screen and (max-width: 770px) {
@@ -50,6 +55,10 @@ const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 30%;
+  @media screen and (max-width: 770px) {
+    width: 100%;
+  }
 `;
 export const PhotoContainer = styled.div`
   display: flex;
@@ -69,9 +78,24 @@ const RightContainer = styled.div`
   flex-grow: 4;
   margin-top: 20px;
   margin-bottom: 20px;
+  width: 70%;
+  @media screen and (max-width: 770px) {
+    width: 100%;
+  }
 `;
 const NameCard = styled.div`
   padding-top: 8px;
+`;
+const ToggleOnBtn = styled(Button)`
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  justify-content: space-evenly;
+  width: 150px;
+  padding: 2px;
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
 `;
 
 export const FormTextRead = styled.div`
@@ -114,10 +138,33 @@ const Readme = () => {
   const [postedIssues, setPostedIssues] = useState<DocumentData>();
   const [hostedBranches, setHostedBranches] = useState<DocumentData>();
   const [attendedBranches, setAttendedBranches] = useState<DocumentData>();
+  const [sourceTreeStatus, setSourceTreeStatus] = useState(0);
 
   useEffect(() => {
     firebaseapi.readUserData(id).then((res) => {
       if (res) {
+        console.log(res);
+        if (res.firstname) {
+          setSourceTreeStatus(1);
+        }
+        if (res["activity_hosted"]) {
+          if (res["activity_hosted"].length > 0) {
+            setSourceTreeStatus(3);
+          }
+        }
+        if (res["activity_attend"]) {
+          if (res["activity_attend"].length > 0) {
+            setSourceTreeStatus(4);
+          }
+        }
+        if (res["activity_attend"] && res["activity_hosted"]) {
+          if (
+            res["activity_attend"].length > 0 &&
+            res["activity_hosted"].length > 0
+          ) {
+            setSourceTreeStatus(5);
+          }
+        }
         setUserData(res);
         console.log(res.user_id);
         searchIssues(res.user_id);
@@ -176,9 +223,18 @@ const Readme = () => {
     });
   };
 
+  const [ButtonPop, setButtonPop] = useState(false);
+
   return (
     <>
       <Wrapper>
+        {ButtonPop ? (
+          <SourceTree
+            // trigger={ButtonPop}
+            setButtonPop={setButtonPop}
+            sourceTreeStatus={sourceTreeStatus}
+          />
+        ) : null}
         {isLoading ? (
           <Loading />
         ) : (
@@ -190,7 +246,7 @@ const Readme = () => {
                     <FontAwesomeIcon icon={faListUl} />{" "}
                     <NavWord>README.md</NavWord>
                   </BoxHeader>
-                  <InsideContainder>
+                  <InsideContainder id="readme">
                     <LeftContainer>
                       <PhotoContainer>
                         <PhotoContainerImg
@@ -204,6 +260,19 @@ const Readme = () => {
                         </b>
                       </NameCard>
                       <NameCard>{userData.occupation}</NameCard>
+                      <ToggleOnBtn
+                        id="sourcetree"
+                        onClick={() => {
+                          setButtonPop((pre) => !pre);
+                        }}
+                      >
+                        Sourcetree
+                        {ButtonPop ? (
+                          <img src={ToggleOn} alt="ToggleBtn" />
+                        ) : (
+                          <img src={ToggleOff} alt="ToggleBtn" />
+                        )}
+                      </ToggleOnBtn>
                     </LeftContainer>
                     <RightContainer>
                       <FormTextRead>
@@ -235,6 +304,14 @@ const Readme = () => {
                         {userData.details}
                       </FormTextRead>
                     </RightContainer>
+                    {/* <TreeContainer>
+                      <TreeGraph>
+                        <SourceTree
+                          sourceTreeStatus={sourceTreeStatus}
+                          id="gitgraph"
+                        />
+                      </TreeGraph>
+                    </TreeContainer> */}
                   </InsideContainder>
                 </Container>
                 {postedIssues && <PostedIssues postedIssues={postedIssues} />}

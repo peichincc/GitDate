@@ -13,10 +13,8 @@ import {
 } from "../../utils/StyledComponent";
 import { ReactComponent as Open } from "./issue-open.svg";
 // import Open from "./Open.png";
-import ToggleOn from "./toggle-on.svg";
-import ToggleOff from "./toggle-off.svg";
-
-import Loading from "../../utils/loading.gif";
+import ToggleOn from "../../utils/toggle-on.svg";
+import ToggleOff from "../../utils/toggle-off.svg";
 
 const IssuesHeader = styled(BoxHeader)`
   font-size: 14px;

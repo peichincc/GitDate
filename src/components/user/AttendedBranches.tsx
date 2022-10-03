@@ -34,21 +34,22 @@ const AttendedBranches = ({ attendedBranches }: any) => {
       <Container>
         <BoxHeader>Attended branches</BoxHeader>
         <ContentContainer>
-          {attendedBranches &&
-            attendedBranches.map((blog: any) => (
-              <>
-                <BlogList>
-                  <BlogTitle>{blog.title}</BlogTitle>
-                  <ClickBtn
-                    onClick={() => {
-                      navigate("/branch/" + blog.id);
-                    }}
-                  >
-                    Click to branch
-                  </ClickBtn>
-                </BlogList>
-              </>
-            ))}
+          {attendedBranches && attendedBranches.length > 0
+            ? attendedBranches.map((blog: any) => (
+                <>
+                  <BlogList>
+                    <BlogTitle>{blog.title}</BlogTitle>
+                    <ClickBtn
+                      onClick={() => {
+                        navigate("/branch/" + blog.id);
+                      }}
+                    >
+                      Click to branch
+                    </ClickBtn>
+                  </BlogList>
+                </>
+              ))
+            : "...more to come"}
         </ContentContainer>
       </Container>
     </>

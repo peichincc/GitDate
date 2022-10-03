@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import logo from "./logo.png";
 import { useLocation, Link, useNavigate } from "react-router-dom";
@@ -6,8 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import firebaseapi from "../../src/utils/firebaseapi";
 import { DocumentData } from "firebase/firestore";
 import useOnclickOutside from "react-cool-onclickoutside";
-import { ReactComponent as GitHub } from "./github.svg";
-import { ReactComponent as Member } from "./member.svg";
+import { ReactComponent as GitHub } from "../assets/images/github.svg";
+import { ReactComponent as Member } from "../assets/images/member.svg";
 import { Tours, stepType } from "./Tours";
 import SearchResults from "./SearchResults";
 
@@ -247,11 +247,11 @@ const Header = () => {
         {showSidebar && (
           <MobileSidebar ref={ref}>
             <MobileLinkContainer>
-              <Category to="issues" id="issues">
-                Issues
-              </Category>
               <Category to="branches" id="branches">
                 Branches
+              </Category>
+              <Category to="issues" id="issues">
+                Issues
               </Category>
               <Category as="div" id="docs">
                 <Tours stepType={stepType} page={page} />
@@ -298,11 +298,11 @@ const Header = () => {
         <CategoryLinks>
           <CategoryContainer>
             <LeftContainer>
-              <Category to="issues" id="issues">
-                Issues
-              </Category>
               <Category to="branches" id="branches">
                 Branches
+              </Category>
+              <Category to="issues" id="issues">
+                Issues
               </Category>
             </LeftContainer>
             <RightContainer>
