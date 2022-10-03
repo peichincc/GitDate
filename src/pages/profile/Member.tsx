@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import PR from "./pr_icon.png";
+import PR from "../../assets/icons/pr_icon.png";
 import { useNavigate } from "react-router-dom";
 import {
   getFirestore,

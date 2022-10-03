@@ -9,7 +9,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
-import back from "./SignUpBack.jpg";
+import back from "../../assets/images/backSignUp.jpg";
 import Alert from "../../components/modal/Alert";
 
 const Wrapper = styled.div`

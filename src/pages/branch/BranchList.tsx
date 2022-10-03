@@ -12,9 +12,7 @@ import {
   Button,
 } from "../../utils/StyledComponent";
 
-import branch from "./branch.png";
-
-import Loading from "../../utils/loading.gif";
+import branch from "../../assets/icons/branch.png";
 
 const BranchesHeader = styled(BoxHeader)`
   font-size: 14px;

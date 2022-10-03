@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { BoxHeader } from "../../pages/profile/Profile";
 
-import merge from "./merge.png";
+import merge from "../../assets/icons/merge.png";
 
 const Merge = styled.div`
   width: 16px;

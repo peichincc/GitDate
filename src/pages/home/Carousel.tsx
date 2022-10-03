@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
 
-import img01 from "./slider/slider01.jpg";
-import img02 from "./slider/slider02.jpg";
-import img03 from "./slider/slider03.jpg";
-import img04 from "./slider/slider04.jpg";
-import img05 from "./slider/slider05.jpg";
-import img06 from "./slider/slider06.jpg";
+import img01 from "../../assets/images/slider/slider01.jpg";
+import img02 from "../../assets/images/slider/slider02.jpg";
+import img03 from "../../assets/images/slider/slider03.jpg";
+import img04 from "../../assets/images/slider/slider04.jpg";
+import img05 from "../../assets/images/slider/slider05.jpg";
+import img06 from "../../assets/images/slider/slider06.jpg";
 
 import "./test.css";
 

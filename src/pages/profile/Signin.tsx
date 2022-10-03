@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserData, signin } from "../../actions";
-import back from "./back.jpg";
+import back from "../../assets/images/backSignIn.jpg";
 
 import firebaseapi from "../../utils/firebaseapi";
 import { auth } from "../../utils/firebase";

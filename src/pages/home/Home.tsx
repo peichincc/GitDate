@@ -3,16 +3,10 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import img01 from "./slider/slider01.jpg";
-import img02 from "./slider/slider02.jpg";
-import img03 from "./slider/slider03.jpg";
-import img04 from "./slider/slider04.jpg";
-import img05 from "./slider/slider05.jpg";
-import img06 from "./slider/slider06.jpg";
-import hangout from "./feature/hangout.jpg";
-import dating from "./feature/dating.jpg";
-import networking from "./feature/networking.jpg";
-import pride from "./feature/pride.jpg";
+import hangout from "../../assets/images/feature/hangout.jpg";
+import dating from "../../assets/images/feature/dating.jpg";
+import networking from "../../assets/images/feature/networking.jpg";
+import pride from "../../assets/images/feature/pride.jpg";
 import { Tour } from "../../components/Tour";
 
 import { ActionButton, TagButton } from "../../utils/StyledComponent";
@@ -205,8 +199,6 @@ const TourReminder = styled.div`
   text-align: right;
 `;
 
-const images = [img01, img02, img03, img04, img05, img06];
-
 const Home = () => {
   const userInfo = useSelector((state) => state) as any;
   const [alreadyLogged, setAlreadyLogged] = useState(false);
@@ -256,25 +248,6 @@ const Home = () => {
     //   };
     // }, [photo]
   }, []);
-
-  const returnPhotoURL = () => {
-    switch (photo) {
-      case 1:
-        return img01;
-      case 2:
-        return img02;
-      case 3:
-        return img03;
-      case 4:
-        return img04;
-      case 5:
-        return img05;
-      case 6:
-        return img06;
-      default:
-        return img01;
-    }
-  };
 
   return (
     <>

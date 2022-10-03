@@ -7,7 +7,7 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 
-import GitHub from "./github.png";
+import GitHub from "../../assets/images/githubPin.png";
 import mapStyle from "./mapStyle";
 
 import { GithubPostTitle, Button } from "../../utils/StyledComponent";

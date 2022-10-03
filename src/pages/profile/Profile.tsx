@@ -21,7 +21,7 @@ import { Button, NavWord } from "../../utils/StyledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
 
-import Avatar from "../../utils/DefaultAvatar.png";
+import Avatar from "../../assets/images/DefaultAvatar.png";
 
 import Alert from "../../components/modal/Alert";
 

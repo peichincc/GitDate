@@ -15,9 +15,9 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { BoxHeader } from "../../pages/profile/Profile";
 
-import pr from "./pr_icon.png";
-import merge from "./merge.png";
-import close from "./close.png";
+import pr from "../../assets/icons/pr_icon.png";
+import merge from "../../assets/icons/merge.png";
+import close from "../../assets/icons/close.png";
 
 import Alert from "../../components/modal/Alert";
 

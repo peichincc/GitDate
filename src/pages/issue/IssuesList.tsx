@@ -11,10 +11,9 @@ import {
   GithubSubTitle,
   Button,
 } from "../../utils/StyledComponent";
-import { ReactComponent as Open } from "./issue-open.svg";
-// import Open from "./Open.png";
-import ToggleOn from "../../utils/toggle-on.svg";
-import ToggleOff from "../../utils/toggle-off.svg";
+import { ReactComponent as Open } from "../../assets/images/issueOpen.svg";
+import ToggleOn from "../../assets/images/toggle-on.svg";
+import ToggleOff from "../../assets/images/toggle-off.svg";
 
 const IssuesHeader = styled(BoxHeader)`
   font-size: 14px;

@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import firebaseapi from "../../utils/firebaseapi";
 import TiptapEditor from "../../components/editor/Editor";
-import defaultAvatar from "../../utils/DefaultAvatar.png";
+import defaultAvatar from "../../assets/images/DefaultAvatar.png";
 import {
   Button,
   MergeBtn,

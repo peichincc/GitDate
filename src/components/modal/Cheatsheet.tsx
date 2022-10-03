@@ -10,7 +10,7 @@ import {
   CloseBtnWrapper,
   Button,
 } from "../../utils/StyledComponent";
-import git from "./gitIcon.png";
+import git from "../../assets/images/gitIcon.png";
 
 const Back = styled.div`
   position: fixed;

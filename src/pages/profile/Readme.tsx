@@ -24,8 +24,8 @@ import Loading from "../../components/Loading";
 import { GoBackWrapper, Button, GithubLink } from "../../utils/StyledComponent";
 
 import SourceTree from "./Graph";
-import ToggleOn from "../../utils/toggle-on.svg";
-import ToggleOff from "../../utils/toggle-off.svg";
+import ToggleOn from "../../assets/images/toggle-on.svg";
+import ToggleOff from "../../assets/images/toggle-off.svg";
 
 const Wrapper = styled.div`
   width: 90%;
