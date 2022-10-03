@@ -13,7 +13,7 @@ import {
 import firebaseapi from "../../utils/firebaseapi";
 
 import TiptapEditor from "../../components/editor/Editor";
-import defaultAvatar from "../../assets/images/DefaultAvatar.png";
+import defaultAvatar from "../../assets/images/defaultAvatar.png";
 import {
   Button,
   MergeBtn,

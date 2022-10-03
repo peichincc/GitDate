@@ -9,7 +9,7 @@ import "./terminal.css";
 import Chatroom from "./Chatroom";
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
-import defaultAvatar from "../../assets/images/DefaultAvatar.png";
+import defaultAvatar from "../../assets/images/defaultAvatar.png";
 
 // Terminal Container
 const TerminalContainer = styled.div`

@@ -12,8 +12,8 @@ import {
   Button,
 } from "../../utils/StyledComponent";
 import { ReactComponent as Open } from "../../assets/images/issueOpen.svg";
-import ToggleOn from "../../assets/images/toggle-on.svg";
-import ToggleOff from "../../assets/images/toggle-off.svg";
+import ToggleOn from "../../assets/images/toggleOn.svg";
+import ToggleOff from "../../assets/images/toggleOff.svg";
 
 const IssuesHeader = styled(BoxHeader)`
   font-size: 14px;
