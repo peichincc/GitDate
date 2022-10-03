@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import styled from "styled-components";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   getFirestore,
@@ -9,18 +10,13 @@ import {
   where,
   DocumentData,
 } from "firebase/firestore";
-import styled from "styled-components";
 import Calendar from "react-calendar";
 import "./calendar.css";
 import BranchesList from "./BranchList";
-
 import firebaseapi from "../../utils/firebaseapi";
-
 import { MergeBtn, LabelsButton } from "../../utils/StyledComponent";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
-
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
 
@@ -186,7 +182,6 @@ const TypeBtn = styled(LabelsButton)`
 `;
 const StatusBtn = styled(LabelsButton)`
   background-color: #d73a4a;
-  /* color: black; */
 `;
 
 const ReminderBox = styled.div`
@@ -301,16 +296,12 @@ const BranchAll = () => {
   };
 
   const dateClick = async (date: any) => {
-    // console.log(date);
     const dateAssigned =
       date.getFullYear() +
       "-" +
       ("0" + (date.getMonth() + 1)).slice(-2) +
       "-" +
       ("0" + date.getDate()).slice(-2);
-    // console.log(dateAssigned);
-    // console.log(date.toISOString().split("T")[0]);
-    // const dateAssigned = date.toISOString().split("T")[0];
     let temp = [] as any;
     const q = query(
       collection(db, "Branches"),
@@ -326,11 +317,6 @@ const BranchAll = () => {
   const CreateHandler = () => {
     if (!getUser) {
       setButtonPop(true);
-      // setTimeout(() => {
-      //   navigate("/signin");
-      // }, 3000);
-      // alert("Please sign in!");
-      // navigate("/signin");
       return;
     }
     navigate("/createbranch");
@@ -338,7 +324,6 @@ const BranchAll = () => {
 
   var moment = require("moment");
   const tileClassName = ({ date }: any) => {
-    // console.log(moment(date).format("YYYY-MM-DD"));
     if (dateDocs?.has(moment(date).format("YYYY-MM-DD"))) {
       return "highlight";
     }

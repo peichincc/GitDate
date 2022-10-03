@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   getFirestore,
   doc,
@@ -19,8 +19,6 @@ import {
   FormControl,
   FormGroup,
   FormLabel,
-  FormSelect,
-  FormSelectOptions,
   UploadPreview,
   UploadPreviewImg,
   UploadCardStyled,
@@ -132,11 +130,6 @@ const TagsWrapper = styled.div`
   display: flex;
   margin-bottom: 10px;
 `;
-const Tag = styled.div`
-  border-radius: 6px;
-  border: 1px solid rgba(27, 31, 36, 0.15);
-  padding: 5px 16px;
-`;
 const Tags = styled.div`
   margin-right: 4px;
   display: flex;
@@ -229,10 +222,6 @@ const CreateIssue = () => {
   const getTitle = (e: any) => {
     setTitle(e.target.value);
   };
-  const [content, setContent] = useState("");
-  const getContent = (e: any) => {
-    setContent(e.target.value);
-  };
   const tagRef = useRef<HTMLInputElement>(null);
   const [tags, setTags] = useState<string[]>([]);
   const addTag = () => {
@@ -306,7 +295,6 @@ const CreateIssue = () => {
         setTimeout(() => {
           navigate("/issues");
         }, 1000);
-        // navigate("/");
       });
   };
 
@@ -357,21 +345,6 @@ const CreateIssue = () => {
                   );
                 })}
               </FormGroup>
-              {/* <FormGroup>
-                  <FormLabel>Category</FormLabel>
-                  <FormSelect onChange={getCategory}>
-                    <FormSelectOptions value="0">
-                      Please Select your issue type
-                    </FormSelectOptions>
-                    <FormSelectOptions value="Date">Date</FormSelectOptions>
-                    <FormSelectOptions value="Hang Out">
-                      Hang out
-                    </FormSelectOptions>
-                    <FormSelectOptions value="Networking">
-                      Networking
-                    </FormSelectOptions>
-                  </FormSelect>
-                </FormGroup> */}
               <FormGroup>
                 <FormLabel>Title</FormLabel>
                 <FormControl onChange={getTitle}></FormControl>

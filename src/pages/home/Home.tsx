@@ -1,19 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-
+import { useSelector } from "react-redux";
 import hangout from "../../assets/images/feature/hangout.jpg";
 import dating from "../../assets/images/feature/dating.jpg";
 import networking from "../../assets/images/feature/networking.jpg";
 import pride from "../../assets/images/feature/pride.jpg";
 import { Tour } from "../../components/Tour";
-
 import { ActionButton, TagButton } from "../../utils/StyledComponent";
 import { ShowMainMap } from "../../components/map/MainMap";
-
 import firebaseapi from "../../utils/firebaseapi";
-
 import { Carousel } from "./Carousel";
 
 const Wrapper = styled.div`
@@ -27,50 +23,10 @@ const Block = styled.div`
   margin: 0 auto;
 `;
 
-const BlockInnerImg = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  background-color: #24292f;
-  background-position: top;
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: #333;
-  height: calc(100vh - 64px);
-  /* @media (max-width: 770px) {
-    height: calc(100vh - 64px);
-  } */
-  opacity: 1;
-  animation-name: fadeInOpacity;
-  animation-iteration-count: 1;
-  animation-timing-function: ease-in;
-  animation-duration: 4s;
-  @keyframes fadeInOpacity {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-`;
 const BlockCarousel = styled.div`
   display: flex;
   width: 100%;
   height: calc(100vh - 64px);
-  /* opacity: 1;
-  animation-name: fadeInOpacity;
-  animation-iteration-count: 1;
-  animation-timing-function: ease-in;
-  animation-duration: 4s;
-  @keyframes fadeInOpacity {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  } */
 `;
 const BlockInner = styled.div`
   display: flex;
@@ -129,8 +85,6 @@ const FeaturesList = styled.div`
   }
 `;
 const FeaturesItem = styled.div`
-  /* flex: 1 1 auto;
-  display: flex; */
   position: relative;
   width: 30%;
   margin: 20px;
@@ -202,11 +156,6 @@ const TourReminder = styled.div`
 const Home = () => {
   const userInfo = useSelector((state) => state) as any;
   const [alreadyLogged, setAlreadyLogged] = useState(false);
-  // // New Carousel
-  // const slidePresentationTime = 3000; // after how many ms slide will change - now 3s / 3000ms
-  // const [currentSlide, setCurrentSlide] = useState(0);
-  // let sliderInterval = useRef() as any; // interval ref
-  // //
 
   const [markersFromDB, setMarkersFromDB] = useState([]);
   const navigate = useNavigate();
@@ -219,16 +168,6 @@ const Home = () => {
     setPhoto((prev) => prev + 1);
   };
 
-  // useEffect(() => {
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   sliderInterval = setInterval(() => {
-  //     setCurrentSlide((currentSlide + 1) % images.length); // change current slide to next after 3s
-  //   }, slidePresentationTime);
-  //   return () => {
-  //     clearInterval(sliderInterval);
-  //   };
-  // });
-
   useEffect(() => {
     const userID = userInfo.user.user_id;
     if (userID) {
@@ -240,13 +179,6 @@ const Home = () => {
         setMarkersFromDB(res["markers"]);
       }
     });
-    //   const interval = setInterval(() => {
-    //     change();
-    //   }, 5000);
-    //   return () => {
-    //     clearInterval(interval);
-    //   };
-    // }, [photo]
   }, []);
 
   return (
@@ -290,7 +222,6 @@ const Home = () => {
                 <TourReminder>
                   <Tour />
                 </TourReminder>
-                {/* <Tour /> */}
               </BlockContent>
             </BlockInner>
           </BlockCarousel>
@@ -365,9 +296,6 @@ const Home = () => {
               </PrideWordWrapper>
               <PrideItem>
                 <PrideTitle>Building a better world</PrideTitle>
-                {/* <FeaturesPhoto>
-                  <FeaturesPhotoImg src={pride} />
-                </FeaturesPhoto> */}
               </PrideItem>
             </PrideContainer>
           </BlockFeature>

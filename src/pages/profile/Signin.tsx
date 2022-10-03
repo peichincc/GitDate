@@ -2,21 +2,14 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setUserData, signin } from "../../actions";
+import { setUserData } from "../../actions";
 import back from "../../assets/images/backSignIn.jpg";
-
 import firebaseapi from "../../utils/firebaseapi";
 import { auth } from "../../utils/firebase";
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
-
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { Title } from "./Signup";
 import { FormInputContainer } from "./Signup";
 import { SubmitBtn } from "./Signup";
-
 import Alert from "../../components/modal/Alert";
 
 const Wrapper = styled.div`
@@ -50,10 +43,6 @@ const BlockContent = styled.div`
   text-align: center;
   max-width: 680px;
   padding: 32px;
-  /* @media screen and (min-width: 900px) {
-    max-width: 680px;
-    padding: 32px;
-  } */
 `;
 const Container = styled.div`
   margin-left: auto;
@@ -97,7 +86,6 @@ const Signin = () => {
   const [alertMsg, setAlertMsg] = useState("");
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state) as any;
-  const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [alreadyLogged, setAlreadyLogged] = useState(false);
   const navigate = useNavigate();
@@ -114,8 +102,6 @@ const Signin = () => {
         var uid = user.uid;
         firebaseapi.searchUserName(uid).then((result) => {
           if (result) {
-            // console.log(result);
-            // console.log(result["firstname"]);
             dispatch(
               setUserData(
                 result["user_id"],
@@ -127,7 +113,6 @@ const Signin = () => {
             setAlreadyLogged(true);
           }
         });
-        // setAlreadyLogged(true);
       }
     });
   }, []);
@@ -136,13 +121,9 @@ const Signin = () => {
     setIsLoading(true);
     signInWithEmailAndPassword(auth, recipient.email, recipient.password)
       .then(() => {
-        // dispatch(signin());
-        // navigate("/");
         setIsLoading(false);
-        // setAlreadyLogged(true);
         setButtonPop(true);
         setAlertMsg("Log in successfully!");
-        // console.log(userInfo.isLogged);
         setAlreadyLogged(userInfo.isLogged);
       })
       .catch((error) => {

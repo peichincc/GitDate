@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
 import {
   BoxHeader,
   Container,
@@ -79,8 +78,6 @@ const Card = styled.div`
   height: 280px;
   background: #fff;
   border-radius: 4px;
-  /* border: 1px solid #d0d7de; */
-  /* box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15); */
 `;
 const ImageBox = styled.div`
   width: 150px;
@@ -89,11 +86,6 @@ const ImageBox = styled.div`
   border-radius: 20px;
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
   overflow: hidden;
-  /* &:hover {
-    transform: scale(1.1);
-    transition-duration: 0.3s;
-    transition-duration: 0.5s;
-  } */
 `;
 const ImageBoxImage = styled.img`
   width: 150px;
@@ -118,11 +110,6 @@ const ContentBox = styled.div`
 const IssuesList = ({ issuesStatus, docs }: any) => {
   const [switchMode, setSwitchMode] = useState(true);
   let navigate = useNavigate();
-
-  const [isLoading, setIsLoading] = useState(true);
-  function onLoad() {
-    setTimeout(() => setIsLoading(false), 1000);
-  }
 
   return (
     <>
@@ -160,7 +147,6 @@ const IssuesList = ({ issuesStatus, docs }: any) => {
                         <Open stroke="#adecbf" />
                       </IconContainer>
                       <CategoryContainer>{blog.category}</CategoryContainer>
-                      {/* <OpenIcon /> */}
                       <GithubTitleContainer>
                         <GithubPostTitle>{blog.title}</GithubPostTitle>
                         <GithubSubTitle>Posted time: {postTime}</GithubSubTitle>
@@ -203,18 +189,7 @@ const IssuesList = ({ issuesStatus, docs }: any) => {
                           onClick={() => {
                             navigate("/issue/" + blog.issue_id);
                           }}
-                          // style={{ display: isLoading ? "none" : "block" }}
-                          // onLoad={onLoad}
                         />
-                        {/* <ImageBoxImage
-                          id="issueClick"
-                          src={Loading}
-                          alt="issue_photo"
-                          onClick={() => {
-                            navigate("/issue/" + blog.issue_id);
-                          }}
-                          style={{ display: isLoading ? "block" : "none" }}
-                        /> */}
                       </ImageBox>
                       <ContentBox>
                         <CategoryContainerGallery>

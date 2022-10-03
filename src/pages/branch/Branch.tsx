@@ -1,18 +1,16 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import firebaseapi from "../../utils/firebaseapi";
 import {
   doc,
   getFirestore,
   updateDoc,
   arrayUnion,
-  QueryDocumentSnapshot,
   collection,
   DocumentData,
   onSnapshot,
-  getDoc,
 } from "firebase/firestore";
 import { ShowMap } from "../../components/map/ShowMap";
 import Participants from "./Participants";
@@ -30,7 +28,6 @@ import {
 } from "../../utils/StyledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-
 import Alert from "../../components/modal/Alert";
 import Confirm from "../../components/modal/Confirm";
 import Loading from "../../components/Loading";
@@ -38,7 +35,6 @@ import AlertWtihCTA from "../../components/modal/AlertWithCTA";
 
 const Wrapper = styled.div`
   display: block;
-  /* max-width: 1376px; */
   margin: 0 auto;
   margin-bottom: 100px;
 `;
@@ -180,7 +176,6 @@ const Branch = () => {
   const [branchData, setBranchData] = useState<DocumentData>();
   const [newT, setNewT] = useState("");
   const [center, setCenter] = useState();
-  const [newList, setNewList] = useState([]);
   const [openParticipants, setOpenParticipants] = useState(false);
   const [participantsList, setParticipantsList] = useState<any>();
   // Check author status
@@ -255,11 +250,6 @@ const Branch = () => {
     if (!getUser) {
       setButtonPop(true);
       setAlertMsg("Please sign in!");
-      // setTimeout(() => {
-      //   navigate("/");
-      // }, 1500);
-      // alert("Please sign in!");
-      // navigate("/signin");
       return;
     }
     if (!getUserName) {
@@ -287,12 +277,10 @@ const Branch = () => {
     console.log(`${getUserName} attended this activity!`);
     await updateDoc(branchRef, {
       participants: arrayUnion(getUser),
-      // participants: arrayUnion({ user_id: getUser, user_name: getUserName }),
     });
     await getParticipants();
     setButtonPop(true);
     setAlertMsg("Attended successful💃");
-    // alert("Attended successful!");}
   };
 
   const getParticipants = async () => {
@@ -309,8 +297,6 @@ const Branch = () => {
               console.log(res);
               if (res) {
                 console.log(res["user_id"]);
-                // console.log(res["firstname"]);
-                // console.log(res["main_photo"]);
                 const tempObj = {
                   id: res["user_id"],
                   name: res["firstname"],
@@ -320,7 +306,6 @@ const Branch = () => {
               }
             });
         }
-        // Promise.all(promises).then((res) => console.log(res));
         console.log(newArr);
         setParticipantsList(newArr);
       }

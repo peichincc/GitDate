@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
 import {
   BoxHeader,
   Container,
   ContentContainer,
   BlogList,
   GithubPostTitle,
-  GithubSubTitle,
   Button,
 } from "../../utils/StyledComponent";
-
 import branch from "../../assets/icons/branch.png";
 
 const BranchesHeader = styled(BoxHeader)`
@@ -61,10 +58,6 @@ const RightContainer = styled.div``;
 
 const BranchesList = ({ branchType, docs }: any) => {
   let navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
-  function onLoad() {
-    setTimeout(() => setIsLoading(false), 1000);
-  }
   return (
     <>
       <Container>
@@ -88,17 +81,7 @@ const BranchesList = ({ branchType, docs }: any) => {
                       onClick={() => {
                         navigate("/branch/" + blog.branch_id);
                       }}
-                      // style={{ display: isLoading ? "none" : "block" }}
-                      // onLoad={onLoad}
                     />
-                    {/* <ImageBoxImage
-                      src={Loading}
-                      alt="branch_photo"
-                      onClick={() => {
-                        navigate("/branch/" + blog.branch_id);
-                      }}
-                      style={{ display: isLoading ? "block" : "none" }}
-                    /> */}
                   </ImageBox>
                   <GithubTitleContainer>
                     <BranchDate>

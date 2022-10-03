@@ -16,18 +16,12 @@ import firebaseapi from "../../utils/firebaseapi";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserData, signin } from "../../actions";
 import { auth } from "../../utils/firebase";
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
-
+import { signOut } from "firebase/auth";
 import PostedIssues from "../../components/user/PostedIssues";
 import AttendedBranches from "../../components/user/AttendedBranches";
 import HostedBranches from "../../components/user/HostedBranches";
 import FriendRequest from "../../components/user/FriendRequest";
 import ChatList from "../../components/user/ChatList";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBook,
@@ -37,18 +31,10 @@ import {
   faCodeBranch,
   faListUl,
 } from "@fortawesome/free-solid-svg-icons";
-
 import { Button, GithubLink } from "../../utils/StyledComponent";
 import Loading from "../../components/Loading";
 import { SubmitBtn } from "./Signup";
 import Alert from "../../components/modal/Alert";
-
-const IconContainer = styled.div`
-  width: 16px;
-  height: 16px;
-  background-image: url(${PR});
-  background-size: contain;
-`;
 
 const Wrapper = styled.div`
   display: block;
@@ -110,7 +96,6 @@ const NavTab = styled.button`
   &:hover {
     background-color: rgb(246, 248, 250);
     border-radius: 6px;
-    /* padding: 5px; */
     padding-top: 5px;
     padding-bottom: 5px;
   }
@@ -132,22 +117,6 @@ const PhotoContainerImg = styled.img`
 const UserName = styled.div`
   padding-top: 16px;
   padding-bottom: 16px;
-`;
-const EditBtn = styled.button`
-  color: #24292f;
-  background-color: #f6f8fa;
-  padding: 5px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  white-space: nowrap;
-  vertical-align: middle;
-  cursor: pointer;
-  border: 1px solid;
-  border-radius: 6px;
-  &:hover {
-    border-color: #d0d7de;
-  }
 `;
 
 //Readme part
@@ -191,7 +160,6 @@ const DataCard = styled.div`
   font-weight: 600;
   font-size: 14px;
   border-radius: 8px;
-  /* background-color: rgb(246, 248, 250); */
   padding: 5px;
   margin-right: 10px;
   margin-left: 5px;
@@ -303,10 +271,7 @@ const Member = () => {
           await firebaseapi
             .readBranchData(doc.data().activity_attend[i])
             .then((res) => {
-              // console.log(res);
               if (res) {
-                // console.log(res["title"]);
-                // console.log(res["main_image"]);
                 const tempObj = {
                   id: res["branch_id"],
                   title: res["title"],
@@ -316,8 +281,6 @@ const Member = () => {
               }
             });
         }
-        // Promise.all(promises).then((res) => console.log(res));
-        // console.log(newArr);
         setAttendedBranches(newArr);
       }
     });
@@ -332,13 +295,11 @@ const Member = () => {
         setAlertMsg("Sign out Successfully!");
         setTimeout(() => {
           window.location.reload();
-          // navigate("/");
         }, 1000);
       })
       .catch((error) => {
         console.log(error);
       });
-    // navigate("/");
   };
 
   return (

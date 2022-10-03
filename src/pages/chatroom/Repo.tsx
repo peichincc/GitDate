@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import firebaseapi from "../../utils/firebaseapi";
-
 import "./terminal.css";
-
 import Chatroom from "./Chatroom";
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
@@ -87,13 +85,6 @@ const NameCard = styled.div`
   @media screen and (max-width: 1280px) {
     justify-content: center;
   }
-  /* height: 75px;
-  padding: 10px; */
-  /* background: hsla(0, 0%, 100%, 0.3); */
-  /* display: flex;
-  align-items: center;
-  border-top: 1px solid; */
-  /* border-right: 1px solid black; */
 `;
 const NameCardPhotoContainer = styled.div``;
 const NameCardPhoto = styled.img`

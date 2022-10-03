@@ -1,28 +1,22 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-
 import { getFirestore, doc, updateDoc, collection } from "firebase/firestore";
 import { auth } from "../../utils/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import firebaseapi from "../../utils/firebaseapi";
-
 import {
   DataCard,
   PhotoContainer,
   PhotoContainerImg,
   FormTextRead,
 } from "./Readme";
-
 import { Button, NavWord } from "../../utils/StyledComponent";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
-
 import Avatar from "../../assets/images/defaultAvatar.png";
-
 import Alert from "../../components/modal/Alert";
 
 const Wrapper = styled.div`
@@ -59,8 +53,6 @@ const PreviewContainer = styled.div`
 `;
 const RightContainer = styled.div`
   flex-grow: 1.5;
-  /* border: 1px solid #d0d7de;
-  border-radius: 6px; */
   width: 750px;
   height: auto;
   @media screen and (max-width: 770px) {
@@ -75,7 +67,6 @@ const FormGroup = styled.div`
   margin-top: 10px;
   margin-bottom: 20px;
   width: 100%;
-  /* max-width: 600px; */
 `;
 const FormLabel = styled.div`
   width: 130px;
@@ -88,9 +79,6 @@ const FormCheck = styled.div`
   margin-left: 8px;
   display: flex;
   align-items: center;
-  /* & + & {
-    margin-left: 30px;
-  } */
 `;
 const FormCheckInput = styled.input`
   margin: 0;
@@ -182,20 +170,6 @@ const UploadPreviewImg = styled.img`
   max-height: 100%;
 `;
 
-const Btn = styled.button`
-  font-size: 16px;
-  margin-top: 20px;
-  width: 200px;
-  border: 1px solid #627597;
-  border-radius: 6px;
-  background: none;
-  padding: 5px 12px;
-  cursor: pointer;
-  &:hover {
-    background-color: #edede9;
-  }
-`;
-
 const WelcomeMsg = styled.div`
   margin-top: 30vh;
   padding: 20px;
@@ -270,12 +244,11 @@ const ReminderBoxTextSmall = styled.div`
 `;
 
 const Profile = () => {
+  const db = getFirestore();
   const [ButtonPop, setButtonPop] = useState(false);
-  let navigate = useNavigate();
   const [getUser, setGetUser] = useState("");
   const [imageUpload, setImageUpload] = useState(null);
   const [imageURL, setImageURL] = useState("");
-  const db = getFirestore();
   const storage = getStorage();
   const [userData, setUserData] = useState<any>(null);
   const [showPreviewReadme, setShowPreviewReadme] = useState(false);
@@ -472,11 +445,6 @@ const Profile = () => {
                 a README in a repository about you! You can start from here:
               </ReminderBoxTextSmall>
             </ReminderBox>
-            {/* <h1>
-              Welcome to GitDate
-              <br />
-              We are glad that you are here
-            </h1> */}
             <PreviewContainer>
               <BoxHeader>
                 <FontAwesomeIcon icon={faListUl} />

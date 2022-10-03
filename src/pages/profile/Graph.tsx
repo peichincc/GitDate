@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Gitgraph, templateExtend, TemplateName } from "@gitgraph/react";
 import { GitgraphCore } from "@gitgraph/core";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
@@ -211,63 +210,6 @@ function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
         </TreeGraph>
       </TreeContainer>
     </ModalBx>
-    // <ModalBx>
-    //   <TreeContainer>
-    //     <TreeGraph>
-    //       {currentGraph && currentGraph < 4 ? (
-    //         <TextBox>
-    //           You have come so far, well done!
-    //           <br />
-    //           Be an active GitDaters to grow your sourcetree!
-    //         </TextBox>
-    //       ) : null}
-    //       <Gitgraph
-    //         options={{
-    //           // orientation: Orientation.VerticalReverse,
-    //           //author: "Rain120",
-    //           template,
-    //           reverseArrow: true,
-    //         }}
-    //         key={currentGraph}
-    //       >
-    //         {buildGraphs[currentGraph]}
-    //       </Gitgraph>
-    //     </TreeGraph>
-    //   </TreeContainer>
-    // </ModalBx>
-
-    // {(gitgraph) => {
-    //   const master = gitgraph.branch("master");
-    //   master.commit("git init");
-    //   const develop = gitgraph.branch("develop");
-    //   develop.commit("write readme");
-    //   master.merge(develop);
-    //   const feata = gitgraph.branch("feat/issue");
-    //   feata.commit("write issue");
-    // }}
-    // </Gitgraph>
-    // <Gitgraph
-    //   options={{
-    //     author: " ",
-    //   }}
-    // >
-    // {(gitgraph) => {
-    //   // Simulate git commands with Gitgraph API.
-    //   const master = gitgraph.branch("master");
-    //   master.commit("Initial commit");
-    //   const develop = master.branch("develop");
-    //   develop.commit("Add TypeScript");
-    //   const aFeature = develop.branch("a-feature");
-    //   aFeature
-    //     .commit("Make it work")
-    //     .commit("Make it right")
-    //     .commit("Make it fast");
-    //   develop.merge(aFeature);
-    //   develop.commit("Prepare v1");
-
-    //   master.merge(develop).tag("v1.0.0");
-    // }}
-    // </Gitgraph>
   );
 }
 

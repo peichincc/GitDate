@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -22,7 +22,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
 import Loading from "../../components/Loading";
 import { GoBackWrapper, Button, GithubLink } from "../../utils/StyledComponent";
-
 import SourceTree from "./Graph";
 import ToggleOn from "../../assets/images/toggleOn.svg";
 import ToggleOff from "../../assets/images/toggleOff.svg";
@@ -230,7 +229,6 @@ const Readme = () => {
       <Wrapper>
         {ButtonPop ? (
           <SourceTree
-            // trigger={ButtonPop}
             setButtonPop={setButtonPop}
             sourceTreeStatus={sourceTreeStatus}
           />
@@ -304,14 +302,6 @@ const Readme = () => {
                         {userData.details}
                       </FormTextRead>
                     </RightContainer>
-                    {/* <TreeContainer>
-                      <TreeGraph>
-                        <SourceTree
-                          sourceTreeStatus={sourceTreeStatus}
-                          id="gitgraph"
-                        />
-                      </TreeGraph>
-                    </TreeContainer> */}
                   </InsideContainder>
                 </Container>
                 {postedIssues && <PostedIssues postedIssues={postedIssues} />}

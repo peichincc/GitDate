@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   getFirestore,
@@ -11,7 +11,6 @@ import {
   arrayUnion,
 } from "firebase/firestore";
 import firebaseapi from "../../utils/firebaseapi";
-
 import TiptapEditor from "../../components/editor/Editor";
 import defaultAvatar from "../../assets/images/defaultAvatar.png";
 import {
@@ -22,14 +21,11 @@ import {
   FormControl,
   FormGroup,
   FormLabel,
-  FormSelect,
-  FormSelectOptions,
   UploadPreview,
   UploadPreviewImg,
   UploadCardStyled,
 } from "../../utils/StyledComponent";
 import MapHome from "../../components/map";
-
 import Alert from "../../components/modal/Alert";
 
 const Wrapper = styled.div`
@@ -48,7 +44,6 @@ const MainLayout = styled.div`
   margin-top: 50px;
   display: flex;
   flex-direction: column;
-  /* margin: 0 auto; */
   padding: 20px;
 `;
 const TabWraper = styled.div`
@@ -229,10 +224,6 @@ const CreateBranch = () => {
   const getTitle = (e: any) => {
     setTitle(e.target.value);
   };
-  const [content, setContent] = useState("");
-  const getContent = (e: any) => {
-    setContent(e.target.value);
-  };
   const [date, setDate] = useState("");
   const getDate = (e: any) => {
     setDate(e.target.value);
@@ -243,9 +234,6 @@ const CreateBranch = () => {
   };
   const [location, setLocation] = useState();
   const [formatAddress, setFormatAddress] = useState("");
-  const getLocation = (e: any) => {
-    setLocation(e.target.value);
-  };
 
   const recipient = {
     type: type,
@@ -262,8 +250,6 @@ const CreateBranch = () => {
 
   const [alertMsg, setAlertMsg] = useState("");
 
-  // upload photo w/ doc id, get photo URL, then setDoc
-  // then update user db while hosting an activity
   const createBranch = async () => {
     setIsSending(true);
     if (!type) {
@@ -320,7 +306,6 @@ const CreateBranch = () => {
         updateDoc(userRef, {
           activity_hosted: arrayUnion(newBranchRef.id),
         });
-        // firebaseapi.addBranchLocations(newBranchRef.id, title, location);
         const LocationsRef = collection(db, "Location");
         const docRef = doc(LocationsRef, "c4ttDiHr8UCyB0OMOtwA");
         const locationInfo = {
@@ -385,15 +370,6 @@ const CreateBranch = () => {
                   );
                 })}
               </FormGroup>
-              {/* <FormGroup>
-                <FormLabel>Type</FormLabel>
-                <FormSelect onChange={getType}>
-                  <option value="0">Please Select your brnach type</option>
-                  <option value="Online">Online</option>
-                  <option value="Inperson">In Person</option>
-                  <option value="Mixed">Mixed</option>
-                </FormSelect>
-              </FormGroup> */}
               <FormGroup>
                 <FormLabel>Title</FormLabel>
                 <FormControl onChange={getTitle}></FormControl>
@@ -406,7 +382,6 @@ const CreateBranch = () => {
                   min={new Date().toISOString().split("T")[0]}
                 />
                 <DateFormControl type="time" onChange={getTime} />
-                {/* <input type="datetime-local" onChange={getTime} /> */}
               </FormGroup>
               <FormGroup>
                 <FormLabel>Location</FormLabel>
@@ -420,7 +395,6 @@ const CreateBranch = () => {
               <FormGroup id="branchContent">
                 <FormLabel>Activity Description</FormLabel>
                 <TiptapEditor setEditorHtmlContent={setEditorHtmlContent} />
-                {/* <textarea onChange={getContent}></textarea> */}
               </FormGroup>
               <FormGroup id="branchImage">
                 <FormLabel>Image</FormLabel>

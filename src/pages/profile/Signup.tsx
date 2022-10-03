@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-
 import { doc, setDoc, collection, getFirestore } from "firebase/firestore";
 import { auth } from "../../utils/firebase";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
-
 import back from "../../assets/images/backSignUp.jpg";
 import Alert from "../../components/modal/Alert";
 
@@ -118,10 +116,6 @@ const BlockContent = styled.div`
   text-align: center;
   max-width: 680px;
   padding: 32px;
-  /* @media screen and (min-width: 770px) {
-    max-width: 680px;
-    padding: 32px;
-  } */
 `;
 
 const Signup = () => {

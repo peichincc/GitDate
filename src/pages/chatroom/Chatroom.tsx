@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
 import "./chatroom.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   addDoc,
   collection,
@@ -36,8 +36,6 @@ const MsgContainer = styled.div`
   }
   &::-webkit-scrollbar-button {
     display: none;
-    /* background: transparent;
-    border-radius: 4px; */
   }
   &::-webkit-scrollbar-track-piece {
     background: transparent;
@@ -53,16 +51,12 @@ const MsgContainer = styled.div`
 `;
 const MsgInput = styled.input`
   width: 190px;
-  /* width: fit-content; */
   display: inline;
   font-size: 20px;
-  /* padding: 10px 10px;
-  border-radius: 30px; */
   outline: none;
   border: none;
   color: #bbb;
   background-color: rgba(0, 0, 0, 0.4);
-  /* color: black; */
   &:focus {
     width: 90%;
     transition: width 0.4s ease-in-out;
@@ -87,7 +81,6 @@ const MsgBtn = styled.button`
 const EmojiIcon = styled.div`
   margin-top: 6px;
   margin-left: 6px;
-  /* position: relative; */
   width: 35px;
   height: 35px;
   cursor: pointer;
@@ -97,8 +90,6 @@ const EmojiBx = styled.div`
   position: absolute;
   bottom: 0;
   right: 0;
-  /* bottom: 10%;
-  left: 0; */
 `;
 
 const Chatroom = ({ chatroomId }: any) => {
@@ -125,7 +116,6 @@ const Chatroom = ({ chatroomId }: any) => {
           id: x.id,
           ...x.data(),
         }));
-        // console.log(messages);
         setMessages(messages);
       }
     );
@@ -141,7 +131,6 @@ const Chatroom = ({ chatroomId }: any) => {
     });
   }, [chatroomId]);
 
-  // test send msg function
   const [value, setValue] = useState<any>("");
   const user = userData.user;
 
@@ -195,7 +184,6 @@ const Chatroom = ({ chatroomId }: any) => {
         <form onSubmit={handleSubmit} className="message-input-container">
           <MsgContainer>
             <p>&#65310;</p>
-
             <InputContainer>
               <MsgInput
                 type="text"
