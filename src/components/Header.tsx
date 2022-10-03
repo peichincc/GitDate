@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import firebaseapi from "../../src/utils/firebaseapi";
 import { DocumentData } from "firebase/firestore";
 import useOnclickOutside from "react-cool-onclickoutside";
@@ -22,7 +22,6 @@ const Wrapper = styled.div`
     padding-left: 0;
   }
 `;
-
 const LogoContainer = styled(Link)`
   cursor: pointer;
   width: 62px;
@@ -43,7 +42,6 @@ const SearchForm = styled.div`
   margin-left: 10px;
   max-width: 272px;
   height: auto;
-  /* min-height: 28px; */
   margin-top: 6px;
   background-color: #24292f;
   border: 1px solid #57606a;
@@ -81,7 +79,6 @@ const SearchContainer = styled.div`
   background-color: white;
   border-radius: 0px 0px 6px 6px;
 `;
-
 const CategoryLinks = styled.div`
   display: flex;
   justify-content: center;
@@ -183,18 +180,13 @@ const Header = () => {
   const [page, setPage] = useState<any>("");
   let navigate = useNavigate();
   const userInfo = useSelector((state) => state) as any;
-
   const [searchResults, setSearchRsults] = useState<DocumentData>();
-
-  // Mobile sidebar (RWD)
   const [showSidebar, setShowSidebar] = useState(false);
   const clickhandler = () => {
     setShowSidebar(true);
   };
 
   useEffect(() => {
-    // console.log(currentPage);
-    // console.log(currentPage.pathname);
     setPage(currentPage.pathname);
   }, [currentPage]);
 
@@ -212,8 +204,6 @@ const Header = () => {
     setExpanded(true);
   }
   const ref = useOnclickOutside(() => {
-    // When user clicks outside of the component, we can dismiss
-    // the searched suggestions by calling this method
     setExpanded(false);
     setShowSidebar(false);
   });

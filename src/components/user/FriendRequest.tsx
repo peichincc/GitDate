@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import firebaseapi from "../../utils/firebaseapi";
 import {
   doc,
   setDoc,
@@ -12,13 +11,11 @@ import {
   arrayUnion,
   serverTimestamp,
 } from "firebase/firestore";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { BoxHeader } from "../../pages/profile/Profile";
-
 import pr from "../../assets/icons/pr_icon.png";
 import merge from "../../assets/icons/merge.png";
 import close from "../../assets/icons/close.png";
-
 import Alert from "../../components/modal/Alert";
 
 const PR = styled.div`
@@ -27,18 +24,6 @@ const PR = styled.div`
   background-image: url(${pr});
   background-size: contain;
   margin-right: 5px;
-`;
-const Merge = styled.div`
-  width: 16px;
-  height: 16px;
-  background-image: url(${merge});
-  background-size: contain;
-`;
-const Close = styled.div`
-  width: 16px;
-  height: 16px;
-  background-image: url(${close});
-  background-size: contain;
 `;
 
 const Container = styled.div`
@@ -148,7 +133,7 @@ const FriendRequest = ({ getInvitationList }: Props) => {
     console.log(e.target.value);
     const index = e.target.value;
     const newArr = getInvitationList.splice(index, 1) as any;
-    console.log(newArr); // 被切出來的[obj]
+    console.log(newArr);
     console.log(getInvitationList); // 留下來的[obj]
     const otherUserID = newArr[0]["user_id"];
     console.log(otherUserID);

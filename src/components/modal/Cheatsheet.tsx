@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-
 import {
   ModalHeader,
   ModalSubtitle,
@@ -32,11 +31,9 @@ const ModalBx = styled.div`
   @keyframes slide-down {
     from {
       opacity: 0;
-      /* transform: translateY(-10rem); */
     }
     to {
       opacity: 1;
-      /* transform: translateY(0); */
     }
   }
 `;

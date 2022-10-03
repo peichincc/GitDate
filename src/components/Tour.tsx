@@ -12,15 +12,10 @@ const TourBtn = styled.button`
     text-decoration: underline;
   }
 `;
-
 function logGroup(type: string, data: any) {
   console.groupCollapsed(type);
   console.log(data);
   console.groupEnd();
-}
-
-interface Props {
-  breakpoint: string;
 }
 
 interface State {
@@ -29,7 +24,6 @@ interface State {
 }
 
 export function Tour() {
-  const [tutorial2Passed, setTutorial2Passed] = useState(false);
   const [{ run, steps }, setState] = useState<State>({
     run: false,
     steps: [
@@ -114,14 +108,6 @@ export function Tour() {
       </div>
       <Joyride
         callback={handleJoyrideCallback}
-        // callback={({ status }) => {
-        //   if (
-        //     ([STATUS.FINISHED, STATUS.SKIPPED] as string[]).includes(status)
-        //   ) {
-        //     window.localStorage.setItem("tutorial2Passed", "true");
-        //     setTutorial2Passed(true);
-        //   }
-        // }}
         continuous
         hideCloseButton
         run={run}
@@ -134,7 +120,6 @@ export function Tour() {
             zIndex: 10000,
             arrowColor: "#edede9",
             backgroundColor: "#edede9",
-            // overlayColor: "rgba(79, 26, 0, 0.4)",
             primaryColor: "#ff69b4",
             textColor: "#3f3a3a",
           },

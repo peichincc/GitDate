@@ -2,12 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
-
 import {
   ModalHeader,
-  ModalSubtitle,
   ModalContent,
-  ModalWordWrapper,
   ModalContentsWrapper,
   CloseBtnWrapper,
   Button,
@@ -34,11 +31,9 @@ const ModalBx = styled.div`
   @keyframes slide-down {
     from {
       opacity: 0;
-      /* transform: translateY(-10rem); */
     }
     to {
       opacity: 1;
-      /* transform: translateY(0); */
     }
   }
 `;

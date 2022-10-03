@@ -2,17 +2,6 @@ import React, { useEffect, useState } from "react";
 import Joyride, { CallBackProps, STATUS, Step } from "react-joyride";
 import styled from "styled-components";
 
-const TourBtn = styled.button`
-  font-size: 16px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  :hover {
-    color: #ff69b4;
-    text-decoration: underline;
-  }
-`;
-
 function logGroup(type: string, data: CallBackProps) {
   console.groupCollapsed(type);
   console.log(data);
@@ -221,7 +210,6 @@ export function Tours({
   type?: string;
   page?: string;
 }) {
-  // const [tutorial2Passed, setTutorial2Passed] = useState(false);
   const [{ run, steps }, setState] = useState<State>({
     run: false,
     steps: stepType,
@@ -317,12 +305,10 @@ export function Tours({
 
   const handleClickStart = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    // console.log(page);
     const location = page?.substring(
       page.indexOf("/") - 1,
       page.lastIndexOf("/")
     );
-    // console.log(location);
     if (page === "/") {
       setState({
         run: true,
@@ -383,10 +369,6 @@ export function Tours({
         steps: stepType.readme,
       });
     }
-    // setState({
-    //   run: true,
-    //   steps,
-    // });
   };
 
   const handleJoyrideCallback = (data: CallBackProps) => {
@@ -417,7 +399,6 @@ export function Tours({
             zIndex: 10000,
             arrowColor: "#edede9",
             backgroundColor: "#edede9",
-            // overlayColor: "rgba(79, 26, 0, 0.4)",
             primaryColor: "#ff69b4",
             textColor: "#3f3a3a",
           },

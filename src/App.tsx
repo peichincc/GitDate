@@ -5,14 +5,13 @@ import {
   doc,
   query,
   collection,
-  where,
   onSnapshot,
   getFirestore,
   orderBy,
 } from "firebase/firestore";
 import { auth } from "../src/utils/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUserData } from "../src/actions/index";
 import firebaseapi from "../src/utils/firebaseapi";
 
@@ -64,12 +63,8 @@ function App() {
                 result["main_photo"]
               )
             );
-            // see friend requests difference
             getFriend(result["user_id"]);
-            //
-            // see chatroom update
             getChatUpdate(result["user_id"]);
-            //
           }
         });
       }
@@ -80,8 +75,6 @@ function App() {
     onSnapshot(doc(collection(db, "Users"), id), (doc) => {
       if (doc.exists()) {
         setGetInvitationList(doc.data().friend_request);
-        // console.log(doc.data().friend_request);
-        // To compare the friend request
         setArrayLength(doc.data().friend_request.length);
         setShowNotification(false);
         if (doc.data().friend_request.length > arrayLength) {
@@ -94,13 +87,7 @@ function App() {
   const getChatUpdate = (id: string) => {
     firebaseapi.readUserData(id).then((result) => {
       if (result) {
-        // console.log(result["friend_list"]);
         result["friend_list"].forEach((doc: any) => {
-          // console.log(doc.chat_id);
-          // const q = query(
-          //   collection(db, "Chatrooms", doc.chat_id, "messages")
-          //   // where("sender_id", "==", id)
-          // );
           onSnapshot(
             query(
               collection(db, "Chatrooms", doc.chat_id, "messages"),
@@ -113,14 +100,7 @@ function App() {
               }));
               console.log(messages);
               messages.forEach((details: any) => {
-                // const MsgT = new Date(details.timestamp * 1000).toString();
-                // console.log(MsgT);
-                // const NowT = new Date(Date.now() * 1000).toString();
-                // console.log(NowT);
-                // console.log(details.timestamp.seconds * 1000);
-                // console.log(Date.now());
                 const timeDiff = Date.now() - details.timestamp.seconds * 1000;
-                // console.log(timeDiff);
                 if (timeDiff < 10000) {
                   setNewMsgNotification(true);
                 }

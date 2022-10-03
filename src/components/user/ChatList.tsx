@@ -3,10 +3,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
 import { getFirestore } from "firebase/firestore";
-import { useSelector, useDispatch } from "react-redux";
-
+import { useSelector } from "react-redux";
 import { BoxHeader } from "../../pages/profile/Profile";
-
 import merge from "../../assets/icons/merge.png";
 
 const Merge = styled.div`
@@ -16,7 +14,6 @@ const Merge = styled.div`
   background-size: contain;
   margin-right: 5px;
 `;
-
 const Container = styled.div`
   width: 100%;
   margin-top: 20px;
@@ -67,7 +64,6 @@ const RepoBtn = styled.button`
 const ChatList = () => {
   const userData = useSelector((state) => state) as any;
   let navigate = useNavigate();
-  const db = getFirestore();
   const [getUser, setGetUser] = useState("");
   const [friendList, setFriendList] = useState<any>();
 
