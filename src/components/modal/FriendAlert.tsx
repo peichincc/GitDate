@@ -59,7 +59,11 @@ const CancelBtn = styled(Button)`
   width: 110px;
 `;
 
-const FriendAlert = (props: any) => {
+const FriendAlert = (props: {
+  trigger: boolean;
+  setAlertWtihCTAPop: (arg0: boolean) => void;
+  alertMsg: string;
+}) => {
   let navigate = useNavigate();
   const { trigger, setAlertWtihCTAPop, alertMsg } = props;
   return trigger ? (

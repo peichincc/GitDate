@@ -86,8 +86,6 @@ const firebaseapi = {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       return docSnap.data();
-    } else {
-      console.log("No such document!");
     }
   },
   async pushUserToDB(userid: string) {

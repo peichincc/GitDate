@@ -52,7 +52,11 @@ const ModalExplaination = styled(ModalContent)`
   justify-content: center;
 `;
 
-const AlertWtihCTA = (props: any) => {
+const AlertWtihCTA = (props: {
+  trigger: boolean;
+  setAlertWtihCTAPop: (arg0: boolean) => void;
+  alertMsg: string;
+}) => {
   let navigate = useNavigate();
   const { trigger, setAlertWtihCTAPop, alertMsg } = props;
   return trigger ? (

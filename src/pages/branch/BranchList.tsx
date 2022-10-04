@@ -10,6 +10,7 @@ import {
   Button,
 } from "../../utils/styledComponent";
 import branch from "../../assets/icons/branch.png";
+import { DocumentData } from "firebase/firestore";
 
 const BranchesHeader = styled(BoxHeader)`
   font-size: 14px;
@@ -56,7 +57,7 @@ const LeftContainer = styled.div`
 `;
 const RightContainer = styled.div``;
 
-const BranchesList = ({ branchType, docs }: any) => {
+const BranchesList = ({ branchType, docs }: DocumentData) => {
   let navigate = useNavigate();
   return (
     <>
@@ -70,38 +71,46 @@ const BranchesList = ({ branchType, docs }: any) => {
           {branchType} Branches
         </BranchesHeader>
         <ContentContainer>
-          {docs.map((blog: any) => (
-            <>
-              <BlogList>
-                <LeftContainer>
-                  <ImageBox>
-                    <ImageBoxImage
-                      src={blog.main_image}
-                      alt="branch_photo"
+          {docs.map(
+            (blog: {
+              main_image: string;
+              branch_id: string;
+              date: string;
+              time: string;
+              title: string;
+            }) => (
+              <>
+                <BlogList>
+                  <LeftContainer>
+                    <ImageBox>
+                      <ImageBoxImage
+                        src={blog.main_image}
+                        alt="branch_photo"
+                        onClick={() => {
+                          navigate("/branch/" + blog.branch_id);
+                        }}
+                      />
+                    </ImageBox>
+                    <GithubTitleContainer>
+                      <BranchDate>
+                        {blog.date} · {blog.time}
+                      </BranchDate>
+                      <GithubPostTitle>{blog.title}</GithubPostTitle>
+                    </GithubTitleContainer>
+                  </LeftContainer>
+                  <RightContainer>
+                    <Button
                       onClick={() => {
                         navigate("/branch/" + blog.branch_id);
                       }}
-                    />
-                  </ImageBox>
-                  <GithubTitleContainer>
-                    <BranchDate>
-                      {blog.date} · {blog.time}
-                    </BranchDate>
-                    <GithubPostTitle>{blog.title}</GithubPostTitle>
-                  </GithubTitleContainer>
-                </LeftContainer>
-                <RightContainer>
-                  <Button
-                    onClick={() => {
-                      navigate("/branch/" + blog.branch_id);
-                    }}
-                  >
-                    Click to Branch
-                  </Button>
-                </RightContainer>
-              </BlogList>
-            </>
-          ))}
+                    >
+                      Click to Branch
+                    </Button>
+                  </RightContainer>
+                </BlogList>
+              </>
+            )
+          )}
         </ContentContainer>
       </Container>
     </>

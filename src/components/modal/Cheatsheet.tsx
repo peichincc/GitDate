@@ -52,7 +52,10 @@ const Title = styled.h2`
   padding-left: 5px;
 `;
 
-const CheatSheet = (props: any) => {
+const CheatSheet = (props: {
+  trigger: boolean;
+  setButtonPop: (arg0: boolean) => void;
+}) => {
   const { trigger, setButtonPop } = props;
   return trigger ? (
     <>

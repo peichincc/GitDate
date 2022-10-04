@@ -52,7 +52,11 @@ const ModalExplaination = styled(ModalContent)`
   justify-content: center;
 `;
 
-const Confirm = (props: any) => {
+const Confirm = (props: {
+  trigger: boolean;
+  clickToConfirm: (arg0: boolean) => void;
+  confirmMsg: string;
+}) => {
   const { trigger, confirmMsg, clickToConfirm } = props;
 
   return trigger ? (

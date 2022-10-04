@@ -229,7 +229,6 @@ const BranchAll = () => {
   const [expiredBranch, setExpiredBranch] = useState<DocumentData>();
 
   useEffect(() => {
-    // Check log in
     const userId = userData.user.user_id;
     if (userId) {
       setGetUser(userId);

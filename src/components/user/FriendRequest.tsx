@@ -10,6 +10,7 @@ import {
   updateDoc,
   arrayUnion,
   serverTimestamp,
+  DocumentData,
 } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { BoxHeader } from "../../pages/profile/Profile";
@@ -106,7 +107,7 @@ const ClickBtn = styled.button`
 //   getInvitationList: [{ uesr_name: string; user_id: string }];
 // }
 
-const FriendRequest = ({ getInvitationList }: any) => {
+const FriendRequest = ({ getInvitationList }: DocumentData) => {
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   let navigate = useNavigate();
@@ -169,11 +170,10 @@ const FriendRequest = ({ getInvitationList }: any) => {
   };
 
   const close = async (e: any) => {
-    console.log(e.target.value);
     const index = e.target.value;
     const newArr = getInvitationList.splice(index, 1);
-    console.log(newArr); // 被切出來的[obj]
-    console.log(getInvitationList); // 留下來的[obj]
+    // console.log(newArr); // 被切出來的[obj]
+    // console.log(getInvitationList); // 留下來的[obj]
     // 更新自己的DB
     const userRef = doc(db, "Users", getUser);
     await updateDoc(userRef, {
@@ -194,33 +194,38 @@ const FriendRequest = ({ getInvitationList }: any) => {
         <BoxHeader>Pull requests</BoxHeader>
         <ContentContainer>
           {getInvitationList &&
-            getInvitationList.map((otherUser: any, index: number) => {
-              return (
-                <ListContainer>
-                  <NameContainer>
-                    <PR />
-                    <p key={`${otherUser["user_name"]}`}>
-                      {otherUser["user_name"]}
-                    </p>
-                    <ClickBtn
-                      onClick={() => {
-                        navigate("/readme/" + otherUser["user_id"]);
-                      }}
-                    >
-                      README
-                    </ClickBtn>
-                  </NameContainer>
-                  <BtnContainer>
-                    <MergeBtn value={index} onClick={merge}>
-                      Merge
-                    </MergeBtn>
-                    <CloseBtn value={index} onClick={close}>
-                      Close
-                    </CloseBtn>
-                  </BtnContainer>
-                </ListContainer>
-              );
-            })}
+            getInvitationList.map(
+              (
+                otherUser: { user_name: string; user_id: string },
+                index: number
+              ) => {
+                return (
+                  <ListContainer>
+                    <NameContainer>
+                      <PR />
+                      <p key={`${otherUser["user_name"]}`}>
+                        {otherUser["user_name"]}
+                      </p>
+                      <ClickBtn
+                        onClick={() => {
+                          navigate("/readme/" + otherUser["user_id"]);
+                        }}
+                      >
+                        README
+                      </ClickBtn>
+                    </NameContainer>
+                    <BtnContainer>
+                      <MergeBtn value={index} onClick={merge}>
+                        Merge
+                      </MergeBtn>
+                      <CloseBtn value={index} onClick={close}>
+                        Close
+                      </CloseBtn>
+                    </BtnContainer>
+                  </ListContainer>
+                );
+              }
+            )}
         </ContentContainer>
       </Container>
     </>

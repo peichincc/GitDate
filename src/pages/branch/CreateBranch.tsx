@@ -178,7 +178,7 @@ const CreateBranch = () => {
   const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
   const hiddenFileInput = useRef<any>(null);
   const userData = useSelector((state: RootState) => state);
-  const [getUser, setGetUser] = useState<any>("");
+  const [getUser, setGetUser] = useState("");
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [fileSrc, setFileSrc] = useState<any>(null);
   const handleClick = () => {
@@ -205,7 +205,6 @@ const CreateBranch = () => {
     if (userId) {
       setGetUser(userId);
     }
-    console.log(userId);
   }, []);
 
   const handleUploadFile = (e: any) => {
@@ -219,19 +218,19 @@ const CreateBranch = () => {
   };
 
   const [type, setType] = useState("");
-  const getType = (e: any) => {
+  const getType = (e: React.ChangeEvent<HTMLInputElement>) => {
     setType(e.target.value);
   };
   const [title, setTitle] = useState("");
-  const getTitle = (e: any) => {
+  const getTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
   const [date, setDate] = useState("");
-  const getDate = (e: any) => {
+  const getDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value);
   };
   const [time, setTime] = useState("");
-  const getTime = (e: any) => {
+  const getTime = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTime(e.target.value);
   };
   const [location, setLocation] = useState();
@@ -353,7 +352,7 @@ const CreateBranch = () => {
             <PostBox>
               <FormGroup id="branchType">
                 <FormLabel>Category</FormLabel>
-                {TypeList.map(({ name, value }, index) => {
+                {TypeList.map(({ name }, index) => {
                   return (
                     <FormCheck key={index}>
                       <FormCheckInput

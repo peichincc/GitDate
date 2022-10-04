@@ -160,13 +160,14 @@ const DeleteWrapper = styled.div`
 const Branch = () => {
   const { id } = useParams();
   let navigate = useNavigate();
+  const branchRef = doc(collection(db, "Branches"), id);
+  const userData = useSelector((state: RootState) => state);
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertWtihCTAPop, setAlertWtihCTAPop] = useState(false);
   const [confirmPop, setConfirmPop] = useState(false);
   const [confirmMsg, setConfirmMsg] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
-  const userData = useSelector((state: RootState) => state);
   const [getUser, setGetUser] = useState("");
   const [getUserName, setGetUserName] = useState("");
   const [getAuthor, setGetAuthor] = useState("");
@@ -177,7 +178,6 @@ const Branch = () => {
   const [participantsList, setParticipantsList] = useState([{}]);
   const [isAuthor, setIsAuthor] = useState(false);
   const [isExpired, setIsExpired] = useState(true);
-  const branchRef = doc(collection(db, "Branches"), id);
   const [hostedList, setHostedList] = useState([]);
 
   useEffect(() => {
@@ -338,7 +338,6 @@ const Branch = () => {
         />
         <Confirm
           trigger={confirmPop}
-          setConfirmPop={setConfirmPop}
           clickToConfirm={clickToConfirm}
           confirmMsg={confirmMsg}
         />

@@ -1,3 +1,4 @@
+import { DocumentData } from "firebase/firestore";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -36,7 +37,7 @@ const BlogStatus = styled.div`
   text-align: center;
 `;
 
-const PostedIssues = ({ postedIssues }: any) => {
+const PostedIssues = ({ postedIssues }: DocumentData) => {
   let navigate = useNavigate();
   return (
     <>
@@ -44,23 +45,25 @@ const PostedIssues = ({ postedIssues }: any) => {
         <BoxHeader>Posted issues</BoxHeader>
         <ContentContainer>
           {postedIssues && postedIssues.length > 0
-            ? postedIssues.map((blog: any) => (
-                <>
-                  <BlogList>
-                    <BlogTitle>
-                      <BlogStatus>{blog.status}</BlogStatus>
-                      {blog.title}
-                    </BlogTitle>
-                    <ClickBtn
-                      onClick={() => {
-                        navigate("/issue/" + blog.issue_id);
-                      }}
-                    >
-                      Click to issue
-                    </ClickBtn>
-                  </BlogList>
-                </>
-              ))
+            ? postedIssues.map(
+                (blog: { status: string; title: string; issue_id: string }) => (
+                  <>
+                    <BlogList>
+                      <BlogTitle>
+                        <BlogStatus>{blog.status}</BlogStatus>
+                        {blog.title}
+                      </BlogTitle>
+                      <ClickBtn
+                        onClick={() => {
+                          navigate("/issue/" + blog.issue_id);
+                        }}
+                      >
+                        Click to issue
+                      </ClickBtn>
+                    </BlogList>
+                  </>
+                )
+              )
             : "...more to come"}
         </ContentContainer>
       </Container>

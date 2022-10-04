@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Joyride, { CallBackProps, STATUS, Step } from "react-joyride";
 
-function logGroup(type: string, data: CallBackProps) {
-  console.groupCollapsed(type);
-  console.log(data);
-  console.groupEnd();
-}
-
 interface State {
   run: boolean;
   steps: Step[];
@@ -200,15 +194,7 @@ export const stepType = {
   ],
 };
 
-export function Tours({
-  stepType,
-  type,
-  page,
-}: {
-  stepType: any;
-  type?: string;
-  page?: string;
-}) {
+export function Tours({ stepType, page }: { stepType: any; page?: string }) {
   const [{ run, steps }, setState] = useState<State>({
     run: false,
     steps: stepType,
@@ -371,12 +357,11 @@ export function Tours({
   };
 
   const handleJoyrideCallback = (data: CallBackProps) => {
-    const { status, type } = data;
+    const { status } = data;
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
     if (finishedStatuses.includes(status)) {
       setState({ run: false, steps });
     }
-    logGroup(type, data);
   };
 
   return (

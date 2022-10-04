@@ -77,7 +77,7 @@ const PlacesAutocomplete = ({
     clearSuggestions();
   });
 
-  const handleInput = (e: any) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
   const handleSelect =
@@ -87,9 +87,7 @@ const PlacesAutocomplete = ({
       clearSuggestions();
 
       getGeocode({ address: description }).then((results) => {
-        console.log(results[0].formatted_address);
         const { lat, lng } = getLatLng(results[0]);
-        console.log("📍 Coordinates: ", { lat, lng });
         setSelected({ lat, lng });
         setLocation({ lat, lng });
         setFormatAddress(results[0].formatted_address);

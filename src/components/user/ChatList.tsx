@@ -7,6 +7,7 @@ import { BoxHeader } from "../../pages/profile/Profile";
 import merge from "../../assets/icons/merge.png";
 
 import { RootState } from "../..";
+import { DocumentData } from "firebase/firestore";
 
 const Merge = styled.div`
   width: 16px;
@@ -65,7 +66,7 @@ const RepoBtn = styled.button`
 const ChatList = () => {
   const userData = useSelector((state: RootState) => state);
   let navigate = useNavigate();
-  const [friendList, setFriendList] = useState<any>();
+  const [friendList, setFriendList] = useState<DocumentData>();
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -86,7 +87,7 @@ const ChatList = () => {
         <BoxHeader>Friend list</BoxHeader>
         <ContentContainer>
           {friendList &&
-            friendList.map((friend: any) => {
+            friendList.map((friend: { user_name: string; user_id: string }) => {
               return (
                 <ListContainer>
                   <NameContainer>

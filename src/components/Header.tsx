@@ -10,6 +10,8 @@ import { ReactComponent as Member } from "../assets/images/member.svg";
 import { Tours, stepType } from "./Tours";
 import SearchResults from "./SearchResults";
 
+import { RootState } from "..";
+
 const Wrapper = styled.div`
   display: flex;
   margin: 0 auto;
@@ -177,9 +179,9 @@ const ClostBtn = styled.button`
 
 const Header = () => {
   const currentPage = useLocation();
-  const [page, setPage] = useState<any>("");
+  const [page, setPage] = useState("");
   let navigate = useNavigate();
-  const userInfo = useSelector((state) => state) as any;
+  const userInfo = useSelector((state: RootState) => state);
   const [searchResults, setSearchRsults] = useState<DocumentData>();
   const [showSidebar, setShowSidebar] = useState(false);
   const clickhandler = () => {
@@ -214,10 +216,8 @@ const Header = () => {
   const getSearchResults = () => {
     setSearchName("");
     firebaseapi.searchUserByName(searchName).then((res) => {
-      console.log(res);
       if (res) {
         expand();
-        // console.log(res["firstname"]);
         setSearchRsults(res);
       }
     });

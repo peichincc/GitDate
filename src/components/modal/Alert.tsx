@@ -51,7 +51,11 @@ const ModalExplaination = styled(ModalContent)`
   justify-content: center;
 `;
 
-const Alert = (props: any) => {
+const Alert = (props: {
+  trigger: boolean;
+  setButtonPop: (arg0: boolean) => void;
+  alertMsg: string;
+}) => {
   const { trigger, setButtonPop, alertMsg } = props;
   return trigger ? (
     <>

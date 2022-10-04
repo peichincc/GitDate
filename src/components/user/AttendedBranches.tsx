@@ -1,3 +1,4 @@
+import { DocumentData } from "firebase/firestore";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -26,7 +27,7 @@ const BlogTitle = styled.div`
   display: flex;
 `;
 
-const AttendedBranches = ({ attendedBranches }: any) => {
+const AttendedBranches = ({ attendedBranches }: DocumentData) => {
   let navigate = useNavigate();
   return (
     <>
@@ -34,7 +35,7 @@ const AttendedBranches = ({ attendedBranches }: any) => {
         <BoxHeader>Attended branches</BoxHeader>
         <ContentContainer>
           {attendedBranches && attendedBranches.length > 0
-            ? attendedBranches.map((blog: any) => (
+            ? attendedBranches.map((blog: { title: string; id: string }) => (
                 <>
                   <BlogList>
                     <BlogTitle>{blog.title}</BlogTitle>

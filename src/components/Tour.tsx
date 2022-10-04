@@ -12,11 +12,6 @@ const TourBtn = styled.button`
     text-decoration: underline;
   }
 `;
-function logGroup(type: string, data: any) {
-  console.groupCollapsed(type);
-  console.log(data);
-  console.groupEnd();
-}
 
 interface State {
   run: boolean;
@@ -78,7 +73,6 @@ export function Tour() {
 
   const handleClickStart = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-
     setState({
       run: true,
       steps,
@@ -86,14 +80,11 @@ export function Tour() {
   };
 
   const handleJoyrideCallback = (data: CallBackProps) => {
-    const { status, type } = data;
+    const { status } = data;
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
-
     if (finishedStatuses.includes(status)) {
       setState({ run: false, steps });
     }
-
-    logGroup(type, data);
   };
 
   return (

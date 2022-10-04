@@ -52,12 +52,12 @@ const TextBox = styled.div`
 `;
 
 // basic graph if registered
-function buildGraph0(gitgraph: any) {
+function buildGraph0(gitgraph: { branch: (arg0: string) => any }) {
   const master = gitgraph.branch("master");
   master.commit("git init");
 }
 // basic graph if write readme
-function buildGraph1(gitgraph: any) {
+function buildGraph1(gitgraph: { branch: (arg0: string) => any }) {
   const master = gitgraph.branch("master");
   master.commit("git init");
   const develop = gitgraph.branch("develop");
@@ -65,7 +65,7 @@ function buildGraph1(gitgraph: any) {
   master.merge(develop);
 }
 // graph if posted issue
-function buildGraph2(gitgraph: any) {
+function buildGraph2(gitgraph: { branch: (arg0: string) => any }) {
   const master = gitgraph.branch("master");
   master.commit("git init");
   const develop = gitgraph.branch("develop");
@@ -76,7 +76,7 @@ function buildGraph2(gitgraph: any) {
   master.merge(feata);
 }
 // graph if host branch
-function buildGraph3(gitgraph: any) {
+function buildGraph3(gitgraph: { branch: (arg0: string) => any }) {
   const master = gitgraph.branch("master");
   master.commit("git init");
   const develop = gitgraph.branch("develop");
@@ -86,7 +86,7 @@ function buildGraph3(gitgraph: any) {
   featb.commit("hosted branch!");
 }
 // graph if attend branch
-function buildGraph4(gitgraph: any) {
+function buildGraph4(gitgraph: { branch: (arg0: string) => any }) {
   const master = gitgraph.branch("master");
   master.commit("git init");
   const develop = gitgraph.branch("develop");
@@ -96,12 +96,11 @@ function buildGraph4(gitgraph: any) {
   featb.commit("attended branch 💃");
 }
 // graph if attend and host branch
-function buildGraph5(gitgraph: any) {
+function buildGraph5(gitgraph: { branch: (arg0: string) => any }) {
   const master = gitgraph.branch("master");
   master.commit("git init");
   const develop = gitgraph.branch("develop");
   develop.commit("write readme");
-  // master.merge(develop);
   const featb = gitgraph.branch("feat/branch");
   const featc = gitgraph.branch("feat/new");
   featb.commit("hosted branch!");
@@ -111,29 +110,28 @@ function buildGraph5(gitgraph: any) {
   master.merge(develop).tag("v1 👏");
 }
 
-function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
+function SourceTree(
+  sourceTreeStatus: any,
+  setButtonPop: (arg0: boolean) => void
+) {
   const templateConfig = {
     branch: {
       lineWidth: 2,
-      // spacing: 15,
       label: {
         display: false,
       },
       widthExtension: 10,
     },
     commit: {
-      // spacing: 10,
       widthExtension: 50,
       dot: {
         size: 4,
-        //   strokeWidth: 2,
       },
       tag: {
         font: "normal 10pt Arial",
         color: "yellow",
       },
       message: {
-        // color: "black",
         displayBranch: false,
         displayHash: false,
         displayAuthor: false,
@@ -152,7 +150,7 @@ function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
     buildGraph5,
   ];
   const [currentGraph, setCurrentGraph] = React.useState(0);
-  const graph = new GitgraphCore() as any;
+  const graph = new GitgraphCore();
   buildGraphs[currentGraph](graph.getUserApi());
   useEffect(() => setCurrentGraph(parseInt(sourceTreeStatus)), []);
 

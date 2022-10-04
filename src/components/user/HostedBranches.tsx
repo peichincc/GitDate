@@ -1,3 +1,4 @@
+import { DocumentData } from "firebase/firestore";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -26,7 +27,7 @@ const BlogTitle = styled.div`
   display: flex;
 `;
 
-const HostedBranches = ({ hostedBranches }: any) => {
+const HostedBranches = ({ hostedBranches }: DocumentData) => {
   let navigate = useNavigate();
   return (
     <>
@@ -34,20 +35,22 @@ const HostedBranches = ({ hostedBranches }: any) => {
         <BoxHeader>Hosted branches</BoxHeader>
         <ContentContainer>
           {hostedBranches && hostedBranches.length > 0
-            ? hostedBranches.map((blog: any) => (
-                <>
-                  <BlogList>
-                    <BlogTitle>{blog.title}</BlogTitle>
-                    <ClickBtn
-                      onClick={() => {
-                        navigate("/branch/" + blog.branch_id);
-                      }}
-                    >
-                      Click to branch
-                    </ClickBtn>
-                  </BlogList>
-                </>
-              ))
+            ? hostedBranches.map(
+                (blog: { title: string; branch_id: string }) => (
+                  <>
+                    <BlogList>
+                      <BlogTitle>{blog.title}</BlogTitle>
+                      <ClickBtn
+                        onClick={() => {
+                          navigate("/branch/" + blog.branch_id);
+                        }}
+                      >
+                        Click to branch
+                      </ClickBtn>
+                    </BlogList>
+                  </>
+                )
+              )
             : "...more to come"}
         </ContentContainer>
       </Container>

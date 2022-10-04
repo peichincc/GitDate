@@ -18,8 +18,6 @@ export const ShowMap = ({ center }: any) => {
 };
 
 const Map = ({ center }: any) => {
-  console.log(center);
-
   return (
     <>
       <GoogleMap

@@ -5,7 +5,6 @@ import {
   doc,
   updateDoc,
   arrayUnion,
-  QueryDocumentSnapshot,
   collection,
   DocumentData,
 } from "firebase/firestore";
@@ -27,7 +26,6 @@ import {
   AvatarBlock,
   AvatarUser,
   AvatarUserImg,
-  LabelsButton,
   LebalContentText,
   LebalsContainer,
   AuthorBtn,
@@ -113,7 +111,6 @@ const PRPostBox = styled.div`
   border-radius: 0.4em;
   width: 100%;
   height: auto;
-  /* border: 1px solid #d0d7de; */
   position: relative;
   &:before {
     content: "";
@@ -162,15 +159,15 @@ const TagsWrapper = styled.div`
 `;
 
 const Issue = () => {
+  const { id } = useParams();
+  let navigate = useNavigate();
+  const userData = useSelector((state: RootState) => state);
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertWtihCTAPop, setAlertWtihCTAPop] = useState(false);
   const [confirmPop, setConfirmPop] = useState(false);
   const [confirmMsg, setConfirmMsg] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
-  const userData = useSelector((state: RootState) => state);
-  let navigate = useNavigate();
-  const { id } = useParams();
   const [issueData, setIssueData] = useState<DocumentData>();
   const [newT, setNewT] = useState("");
   const [getUser, setGetUser] = useState("");
@@ -178,11 +175,8 @@ const Issue = () => {
   const [getUserPhoto, setGetUserPhoto] = useState("");
   const [getAuthor, setGetAuthor] = useState("");
   const [getAuthorID, setGetAuthorID] = useState("");
-  // Check author status
   const [isAuthor, setIsAuthor] = useState(false);
-  // render issue status
   const [issueOpen, setIssueOpen] = useState(true);
-  // Check friendlist
   const [authorFriends, setAuthorFriends] = useState([]);
 
   const changeIssueStatus = () => {
@@ -208,8 +202,6 @@ const Issue = () => {
     const userId = userData.user.user_id;
     const userName = userData.user.user_name;
     const userPhoto = userData.user.user_photo;
-    console.log(userId);
-    console.log(userName);
     if (userId) {
       setGetUser(userId);
     }
@@ -220,21 +212,17 @@ const Issue = () => {
     }
     firebaseapi.readIssueData(id).then((res) => {
       if (res) {
-        console.log(res);
         const newT = new Date(res.posted_at.seconds * 1000).toString();
         setNewT(newT);
         setIssueData(res);
         if (res.status === "Open") {
-          console.log("open");
           setIssueOpen(true);
         } else {
-          console.log("close");
           setIssueOpen(false);
         }
       }
       firebaseapi.searchUserName(res?.posted_by).then((res) => {
         if (res) {
-          console.log(res["firstname"]);
           setGetAuthor(res["firstname"]);
           setGetAuthorID(res["user_id"]);
           setAuthorFriends(res["friend_list"]);
@@ -253,11 +241,6 @@ const Issue = () => {
     if (!getUser) {
       setAlertMsg("Please sign in!");
       setButtonPop(true);
-      // alert("Please sign in!");
-      // navigate("/signin");
-      // setTimeout(() => {
-      //   navigate("/");
-      // }, 1500);
       return;
     }
     if (!getUserName) {
@@ -265,7 +248,6 @@ const Issue = () => {
       setAlertWtihCTAPop(true);
       return;
     }
-    // console.log(`User:${getAuthorID}`);
     setConfirmMsg("Do you want to send this pull request?");
     setConfirmPop(true);
   };
@@ -276,9 +258,6 @@ const Issue = () => {
     setConfirmPop(false);
   };
   const confirmSendRequest = async () => {
-    console.log(authorFriends);
-    console.log(getUser);
-    // check friendList
     if (authorFriends.some((e: { user_id: string }) => e.user_id === getUser)) {
       setButtonPop(true);
       setAlertMsg("You've already merged😉");
@@ -294,14 +273,6 @@ const Issue = () => {
     });
     setButtonPop(true);
     setAlertMsg("Sent pull request successful!");
-    console.log(`Invitation Sent to ${getAuthor}`);
-    // const userRef2 = doc(db, "Users", getUser);
-    // await updateDoc(userRef2, {
-    //   friend_sent_request: arrayUnion({
-    //     user_id: getAuthorID,
-    //     user_name: getAuthor,
-    //   }),
-    // });}
   };
 
   return (
@@ -319,7 +290,6 @@ const Issue = () => {
         />
         <Confirm
           trigger={confirmPop}
-          setConfirmPop={setConfirmPop}
           clickToConfirm={clickToConfirm}
           confirmMsg={confirmMsg}
         />

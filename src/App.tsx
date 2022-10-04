@@ -8,6 +8,7 @@ import {
   onSnapshot,
   getFirestore,
   orderBy,
+  DocumentData,
 } from "firebase/firestore";
 import { auth } from "../src/utils/firebase";
 import { onAuthStateChanged } from "firebase/auth";
@@ -85,7 +86,7 @@ function App() {
   const getChatUpdate = (id: string) => {
     firebaseapi.readUserData(id).then((result) => {
       if (result) {
-        result["friend_list"].forEach((doc: any) => {
+        result["friend_list"].forEach((doc: DocumentData) => {
           onSnapshot(
             query(
               collection(db, "Chatrooms", doc.chat_id, "messages"),
@@ -96,7 +97,7 @@ function App() {
                 id: x.id,
                 ...x.data(),
               }));
-              messages.forEach((details: any) => {
+              messages.forEach((details: DocumentData) => {
                 const timeDiff = Date.now() - details.timestamp.seconds * 1000;
                 if (timeDiff < 10000) {
                   setNewMsgNotification(true);
