@@ -16,4 +16,17 @@ interface FormRecipient {
   posted_at: Timestamp | FieldValue;
 }
 
-export { FormRecipient };
+interface ListData {
+  lastname: string;
+  firstname: string;
+  age: number | undefined;
+  gender: string;
+  githublink: string;
+  details: string;
+  gender_interested: string;
+  main_photo: string;
+  wish_relationship: string;
+  friend_sent_request: [];
+}
+
+export { FormRecipient, ListData };

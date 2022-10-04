@@ -1,4 +1,8 @@
-type Action = { type: "setUserData"; setUserData: string; payload: any };
+type Action = {
+  type: "setUserData";
+  setUserData: string;
+  payload: { user_id: string; user_name: string; user_photo: string };
+};
 
 const initialState = {
   user_id: "",

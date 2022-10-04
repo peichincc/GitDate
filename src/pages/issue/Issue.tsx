@@ -170,19 +170,8 @@ const Issue = () => {
   const [alertMsg, setAlertMsg] = useState("");
   const userData = useSelector((state: RootState) => state);
   let navigate = useNavigate();
-  const { id } = useParams<any>();
-  type ListData = {
-    category: string;
-    main_image: string;
-    title: string;
-    content: string;
-    status: string;
-    posted_by: string;
-    posted_at: any;
-    tags: [];
-  };
+  const { id } = useParams();
   const [issueData, setIssueData] = useState<DocumentData>();
-  // const [userData, setUserData] = useState<ListData | null>(null);
   const [newT, setNewT] = useState("");
   const [getUser, setGetUser] = useState("");
   const [getUserName, setGetUserName] = useState("");
@@ -445,7 +434,7 @@ const Issue = () => {
                       <LebalsContainer>
                         <LebalsText>Tags</LebalsText>
                         <TagsWrapper>
-                          {issueData.tags.map((tag: any) => (
+                          {issueData.tags.map((tag: string) => (
                             <>
                               <TagButton>{tag}</TagButton>
                             </>

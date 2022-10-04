@@ -234,8 +234,7 @@ const BranchAll = () => {
     if (userId) {
       setGetUser(userId);
     }
-    const branchesRef = collection(db, "Branches");
-    firebaseapi.readAllBranches(branchesRef).then(async (res) => {
+    firebaseapi.readAllBranches().then(async (res) => {
       if (res) {
         let dateTemp: DocumentData[] = [];
         res.forEach((doc: any) => {
@@ -298,7 +297,7 @@ const BranchAll = () => {
       ("0" + (date.getMonth() + 1)).slice(-2) +
       "-" +
       ("0" + date.getDate()).slice(-2);
-    let temp = [] as any;
+    const temp: DocumentData[] = [];
     const q = query(
       collection(db, "Branches"),
       where("date", "==", dateAssigned)

@@ -18,6 +18,8 @@ import { faListUl } from "@fortawesome/free-solid-svg-icons";
 import Avatar from "../../assets/images/defaultAvatar.png";
 import Alert from "../../components/modal/Alert";
 
+import { ListData } from "../../utils/interface";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 1376px;
@@ -260,23 +262,6 @@ const Profile = () => {
     });
   }, []);
 
-  // 使用者更新資訊
-  type ListData = {
-    lastname: string;
-    firstname: string;
-    age: number | undefined;
-    gender: string;
-    githublink: string;
-    details: string;
-    gender_interested: string;
-    // inerested_gender: [];
-    main_photo: string;
-    wish_relationship: string;
-    // friend_list: [];
-    // friend_request: [];
-    friend_sent_request: [];
-  };
-
   const uploadFormGroups = [
     { label: "First Name", key: "firstname" },
     { label: "Last Name", key: "lastname" },
@@ -328,8 +313,6 @@ const Profile = () => {
     gender_interested: "",
     main_photo: "",
     wish_relationship: "",
-    // friend_list: [],
-    // friend_request: [],
     friend_sent_request: [],
   });
   const uploadFormInputCheck = (
@@ -408,7 +391,6 @@ const Profile = () => {
   const updateDB = async () => {
     const userRef = doc(collection(db, "Users"), `${getUser}`);
     await updateDoc(userRef, { ...recipient, main_photo: imageURL });
-    // alert("updated README!");
     setAlertMsg("README updated");
     setButtonPop(true);
     setShowPreviewReadme(true);
@@ -420,9 +402,6 @@ const Profile = () => {
     setShowWelcomeMsg(true);
     setShowTextInput(false);
     setHideTitle(false);
-    // setTimeout(() => {
-    //   navigate("/signin");
-    // }, 3000);
   };
 
   return (

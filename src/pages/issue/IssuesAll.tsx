@@ -1,24 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { db } from "../../utils/firebase";
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-  DocumentData,
-  orderBy,
-} from "firebase/firestore";
+import { DocumentData } from "firebase/firestore";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
 import IssuesList from "./IssuesList";
-
-import { MergeBtn, Button, LabelsButton } from "../../utils/styledComponent";
-
+import { MergeBtn, LabelsButton } from "../../utils/styledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
-
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
 
@@ -102,7 +91,7 @@ const IssueAll = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
   const userData = useSelector((state: RootState) => state);
-  const [getUser, setGetUser] = useState<any>("");
+  const [getUser, setGetUser] = useState("");
   let navigate = useNavigate();
   const [docs, setDocs] = useState<DocumentData>();
   const [issuesStatus, setIssuesSatus] = useState("");
@@ -114,73 +103,31 @@ const IssueAll = () => {
   const [networkingIssue, setNetworkingIssue] = useState<DocumentData>();
 
   useEffect(() => {
-    // Check log in
     const userId = userData.user.user_id;
     if (userId) {
       setGetUser(userId);
     }
-    const issuesRef = collection(db, "Issues");
-    firebaseapi.readAllIssues(issuesRef).then(async (res) => {
+    firebaseapi.readAllIssues().then(async (res) => {
       if (res) {
         setDocs(res);
         setAllIssue(res);
         setIsLoading(false);
         setIssuesSatus("All");
-        // get open issues
-        let temp = [] as any;
-        const q = query(
-          collection(db, "Issues"),
-          where("status", "==", "Open")
-        );
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          temp.push(doc.data());
+        firebaseapi.getIssues("status", "Open").then((res) => {
+          setOpenIssue(res);
         });
-        setOpenIssue(temp);
-        // get closed issues
-        let temp2 = [] as any;
-        const q2 = query(
-          collection(db, "Issues"),
-          where("status", "==", "Closed")
-        );
-        const querySnapshot2 = await getDocs(q2);
-        querySnapshot2.forEach((doc) => {
-          temp2.push(doc.data());
+        firebaseapi.getIssues("status", "Closed").then((res) => {
+          setClosedIssue(res);
         });
-        setClosedIssue(temp2);
-        // get issues by category: Date
-        let tempDate = [] as any;
-        const qDate = query(
-          collection(db, "Issues"),
-          where("category", "==", "Date")
-        );
-        const querySnapshotDate = await getDocs(qDate);
-        querySnapshotDate.forEach((doc) => {
-          tempDate.push(doc.data());
+        firebaseapi.getIssues("category", "Date").then((res) => {
+          setDateIssue(res);
         });
-        setDateIssue(tempDate);
-        // get issues by category: Hang out
-        let tempHangOut = [] as any;
-        const qHangOut = query(
-          collection(db, "Issues"),
-          where("category", "==", "Hang Out")
-        );
-        const querySnapshotHangOut = await getDocs(qHangOut);
-        querySnapshotHangOut.forEach((doc) => {
-          tempHangOut.push(doc.data());
+        firebaseapi.getIssues("category", "Hang Out").then((res) => {
+          setHangOutIssue(res);
         });
-        setHangOutIssue(tempHangOut);
-        // get issues by category: Networking
-        let tempNetworking = [] as any;
-        const qNetworking = query(
-          collection(db, "Issues"),
-          where("category", "==", "Networking")
-        );
-        const querySnapshotNetworking = await getDocs(qNetworking);
-        querySnapshotNetworking.forEach((doc) => {
-          tempNetworking.push(doc.data());
+        firebaseapi.getIssues("category", "Networking").then((res) => {
+          setNetworkingIssue(res);
         });
-        setNetworkingIssue(tempNetworking);
       }
     });
   }, []);
@@ -214,11 +161,6 @@ const IssueAll = () => {
   const CreateHandler = () => {
     if (!getUser) {
       setButtonPop(true);
-      // setTimeout(() => {
-      //   navigate("/signin");
-      // }, 3000);
-      // alert("Please sign in!");
-      // navigate("/signin");
       return;
     }
     navigate("/createissue");

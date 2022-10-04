@@ -18,6 +18,8 @@ import merge from "../../assets/icons/merge.png";
 import close from "../../assets/icons/close.png";
 import Alert from "../../components/modal/Alert";
 
+import { RootState } from "../..";
+
 const PR = styled.div`
   width: 16px;
   height: 16px;
@@ -100,15 +102,15 @@ const ClickBtn = styled.button`
   margin-left: 5px;
 `;
 
-interface Props {
-  getInvitationList: [];
-}
+// interface Props {
+//   getInvitationList: [{ uesr_name: string; user_id: string }];
+// }
 
-const FriendRequest = ({ getInvitationList }: Props) => {
+const FriendRequest = ({ getInvitationList }: any) => {
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   let navigate = useNavigate();
-  const userData = useSelector((state) => state) as any;
+  const userData = useSelector((state: RootState) => state);
   const db = getFirestore();
   const [getUser, setGetUser] = useState("");
   const [getUserName, setGetUserName] = useState("");
@@ -128,21 +130,14 @@ const FriendRequest = ({ getInvitationList }: Props) => {
   }, []);
 
   const merge = async (e: any) => {
-    console.log(getUser);
-    console.log(getUserName);
-    console.log(e.target.value);
     const index = e.target.value;
-    const newArr = getInvitationList.splice(index, 1) as any;
-    console.log(newArr);
-    console.log(getInvitationList); // 留下來的[obj]
+    const newArr = getInvitationList.splice(index, 1);
     const otherUserID = newArr[0]["user_id"];
-    console.log(otherUserID);
     // 更新自己的DB
     const userRef = doc(db, "Users", getUser);
     await updateDoc(userRef, {
       friend_request: getInvitationList,
     });
-    console.log("更新了自己的DB: friend_request: getInvitationList");
     // 打開repo (setDoc in Chatrooms collection)
     const newChatRef = doc(collection(db, "Chatrooms"));
     await setDoc(newChatRef, {
@@ -155,12 +150,10 @@ const FriendRequest = ({ getInvitationList }: Props) => {
       timestamp: serverTimestamp(),
     });
     // 把名單, repo ID都丟進Friend_list (自己的)
-    // const newdata = { ...newArr, chat_id: newChatRef.id };
     newArr[0].chat_id = newChatRef.id;
     await updateDoc(userRef, {
       friend_list: arrayUnion(newArr[0]),
     });
-    console.log("更新了自己的DB: friend_list");
     // 丟進Friend_list (對方的)
     const userRef2 = doc(db, "Users", otherUserID);
     await updateDoc(userRef2, {
@@ -171,7 +164,6 @@ const FriendRequest = ({ getInvitationList }: Props) => {
         chat_id: newChatRef.id,
       }),
     });
-    console.log("更新了自己的DB: friend_list");
     setButtonPop(true);
     setAlertMsg("You've open a repo!");
   };
@@ -187,7 +179,6 @@ const FriendRequest = ({ getInvitationList }: Props) => {
     await updateDoc(userRef, {
       friend_request: getInvitationList,
     });
-    console.log("更新了自己的DB: friend_request: getInvitationList");
     setButtonPop(true);
     setAlertMsg("You've closed a pull request");
   };
@@ -203,7 +194,7 @@ const FriendRequest = ({ getInvitationList }: Props) => {
         <BoxHeader>Pull requests</BoxHeader>
         <ContentContainer>
           {getInvitationList &&
-            getInvitationList.map((otherUser, index) => {
+            getInvitationList.map((otherUser: any, index: number) => {
               return (
                 <ListContainer>
                   <NameContainer>

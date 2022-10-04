@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
-import { getFirestore } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { BoxHeader } from "../../pages/profile/Profile";
 import merge from "../../assets/icons/merge.png";
+
+import { RootState } from "../..";
 
 const Merge = styled.div`
   width: 16px;
@@ -62,16 +63,14 @@ const RepoBtn = styled.button`
 `;
 
 const ChatList = () => {
-  const userData = useSelector((state) => state) as any;
+  const userData = useSelector((state: RootState) => state);
   let navigate = useNavigate();
-  const [getUser, setGetUser] = useState("");
   const [friendList, setFriendList] = useState<any>();
 
   useEffect(() => {
     const userId = userData.user.user_id;
     console.log(userId);
     if (userId) {
-      setGetUser(userId);
       firebaseapi.readUserData(userId).then((result) => {
         if (result) {
           console.log(result["friend_list"]);

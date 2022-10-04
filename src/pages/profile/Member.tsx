@@ -195,14 +195,14 @@ const Member = () => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state: RootState) => state);
   const [getUser, setGetUser] = useState("");
-  const [logInUserData, setLoginUserData] = useState<any>(null);
+  const [logInUserData, setLoginUserData] = useState<DocumentData>();
   const [memberOverview, setMemberOverview] = useState(true);
   const [openIssue, setOpenIssue] = useState(false);
   const [postedIssues, setPostedIssues] = useState<DocumentData>();
   const [hostedBranches, setHostedBranches] = useState<DocumentData>();
   const [attendedBranches, setAttendedBranches] = useState<DocumentData>();
   const [openBranches, setOpenBranches] = useState(false);
-  const [getInvitationList, setGetInvitationList] = useState<any>();
+  const [getInvitationList, setGetInvitationList] = useState([]);
   const [openFriend, setOpenFriend] = useState(false);
   const [openRepo, setOpenRepo] = useState(false);
 
@@ -214,7 +214,7 @@ const Member = () => {
       return;
     }
     setGetUser(userId);
-    getFriend(userId);
+    // getFriend(userId);
     searchIssues(userId);
     searchHostedBranches(userId);
     searchAttenedBranches(userId);
@@ -222,27 +222,17 @@ const Member = () => {
       if (res) {
         setLoginUserData(res);
         setIsLoading(false);
+        setGetInvitationList(res.friend_request);
       }
     });
   }, []);
 
-  // 讀取好友邀請(讀DB中的friend_request -> get ID -> Search name -> Display name)
-  const getFriend = (id: string) => {
-    onSnapshot(doc(collection(db, "Users"), id), (doc) => {
-      if (doc.exists()) {
-        setGetInvitationList(doc.data().friend_request);
-        // console.log(doc.data().friend_request);
-      }
-    });
-  };
-
   // 搜尋使用者發過的文
   const searchIssues = async (userId: string) => {
-    let temp = [] as any;
+    const temp: DocumentData[] = [];
     const q = query(collection(db, "Issues"), where("posted_by", "==", userId));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      // console.log(doc.data());
       temp.push(doc.data());
     });
     setPostedIssues(temp);
@@ -250,14 +240,13 @@ const Member = () => {
 
   // 搜尋使用者的活動
   const searchHostedBranches = async (userId: string) => {
-    let temp = [] as any;
+    const temp: DocumentData[] = [];
     const q = query(
       collection(db, "Branches"),
       where("hosted_by", "==", userId)
     );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      // console.log(doc.data());
       temp.push(doc.data());
     });
     setHostedBranches(temp);
@@ -265,8 +254,7 @@ const Member = () => {
   const searchAttenedBranches = async (userId: string) => {
     onSnapshot(doc(collection(db, "Users"), userId), async (doc) => {
       if (doc.exists()) {
-        // console.log(doc.data().activity_attend);
-        const newArr = [] as any;
+        const newArr: React.SetStateAction<DocumentData | undefined> = [];
         for (let i = 0; i < doc.data().activity_attend.length; i++) {
           await firebaseapi
             .readBranchData(doc.data().activity_attend[i])
