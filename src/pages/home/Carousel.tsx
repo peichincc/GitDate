@@ -5,7 +5,7 @@ import img03 from "../../assets/images/slider/slider03.jpg";
 import img04 from "../../assets/images/slider/slider04.jpg";
 import img05 from "../../assets/images/slider/slider05.jpg";
 import img06 from "../../assets/images/slider/slider06.jpg";
-import "./test.css";
+import "./carousel.css";
 
 const images = [img01, img02, img03, img04, img05, img06];
 

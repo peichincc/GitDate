@@ -247,7 +247,7 @@ const Readme = () => {
                           setButtonPop((pre) => !pre);
                         }}
                       >
-                        Sourcetree
+                        git graph
                         {ButtonPop ? (
                           <img src={ToggleOn} alt="ToggleBtn" />
                         ) : (

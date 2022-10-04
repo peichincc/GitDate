@@ -218,7 +218,6 @@ const IssueAll = () => {
             {docs && <IssuesList issuesStatus={issuesStatus} docs={docs} />}
           </MainContainer>
         </Container>
-        {/* Filter by Tags: (pending) */}
       </Wrapper>
     </>
   );

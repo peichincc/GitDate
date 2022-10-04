@@ -70,11 +70,9 @@ const ChatList = () => {
 
   useEffect(() => {
     const userId = userData.user.user_id;
-    console.log(userId);
     if (userId) {
       firebaseapi.readUserData(userId).then((result) => {
         if (result) {
-          console.log(result["friend_list"]);
           setFriendList(result["friend_list"]);
         }
       });

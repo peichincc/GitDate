@@ -4,7 +4,6 @@ import { Gitgraph, templateExtend, TemplateName } from "@gitgraph/react";
 import { GitgraphCore } from "@gitgraph/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-
 import "./macOS.css";
 
 // try popup effect
@@ -22,12 +21,6 @@ const ModalBx = styled.div`
   position: fixed;
   border-radius: 6px;
   box-shadow: 0px 0px 20px #acacac;
-  @media screen and (max-width: 1280px) {
-    left: 50%;
-  }
-  @media screen and (max-width: 500px) {
-    display: none;
-  }
 `;
 const TreeContainer = styled.div`
   position: relative;
@@ -52,12 +45,12 @@ const TextBox = styled.div`
 `;
 
 // basic graph if registered
-function buildGraph0(gitgraph: { branch: (arg0: string) => any }) {
+function buildGraph0(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
 }
 // basic graph if write readme
-function buildGraph1(gitgraph: { branch: (arg0: string) => any }) {
+function buildGraph1(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
   const develop = gitgraph.branch("develop");
@@ -65,7 +58,7 @@ function buildGraph1(gitgraph: { branch: (arg0: string) => any }) {
   master.merge(develop);
 }
 // graph if posted issue
-function buildGraph2(gitgraph: { branch: (arg0: string) => any }) {
+function buildGraph2(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
   const develop = gitgraph.branch("develop");
@@ -76,7 +69,7 @@ function buildGraph2(gitgraph: { branch: (arg0: string) => any }) {
   master.merge(feata);
 }
 // graph if host branch
-function buildGraph3(gitgraph: { branch: (arg0: string) => any }) {
+function buildGraph3(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
   const develop = gitgraph.branch("develop");
@@ -86,7 +79,7 @@ function buildGraph3(gitgraph: { branch: (arg0: string) => any }) {
   featb.commit("hosted branch!");
 }
 // graph if attend branch
-function buildGraph4(gitgraph: { branch: (arg0: string) => any }) {
+function buildGraph4(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
   const develop = gitgraph.branch("develop");
@@ -96,7 +89,7 @@ function buildGraph4(gitgraph: { branch: (arg0: string) => any }) {
   featb.commit("attended branch 💃");
 }
 // graph if attend and host branch
-function buildGraph5(gitgraph: { branch: (arg0: string) => any }) {
+function buildGraph5(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
   const develop = gitgraph.branch("develop");
@@ -110,10 +103,7 @@ function buildGraph5(gitgraph: { branch: (arg0: string) => any }) {
   master.merge(develop).tag("v1 👏");
 }
 
-function SourceTree(
-  sourceTreeStatus: any,
-  setButtonPop: (arg0: boolean) => void
-) {
+function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
   const templateConfig = {
     branch: {
       lineWidth: 2,
@@ -186,7 +176,7 @@ function SourceTree(
           </div>
         </div>
         <WindowTitle>
-          <FontAwesomeIcon icon={faLocationDot} /> Sourcetree
+          <FontAwesomeIcon icon={faLocationDot} /> git graph
         </WindowTitle>
       </div>
       <TreeContainer>
@@ -196,8 +186,6 @@ function SourceTree(
           ) : null}
           <Gitgraph
             options={{
-              // orientation: Orientation.VerticalReverse,
-              //author: "Rain120",
               template,
               reverseArrow: true,
             }}
