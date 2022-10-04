@@ -4,9 +4,66 @@ import { Gitgraph, templateExtend, TemplateName } from "@gitgraph/react";
 import { GitgraphCore } from "@gitgraph/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import "./macOS.css";
 
-// try popup effect
+const TitleBar = styled.div`
+  background-color: #f3f1f3;
+  color: #4d494d;
+  font-size: 11pt;
+  line-height: 20px;
+  text-align: center;
+  width: 100%;
+  height: 20px;
+  border-top: 1px solid #f3f1f3;
+  border-bottom: 1px solid #b1aeb1;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  cursor: default;
+`;
+const Buttons = styled.div`
+  padding-left: 8px;
+  padding-top: 3px;
+  float: left;
+  line-height: 0px;
+`;
+const Close = styled.div`
+  cursor: pointer;
+  background: #ff5c5c;
+  font-size: 9pt;
+  width: 11px;
+  line-height: 11px;
+  height: 11px;
+  border: 1px solid #e33e41;
+  border-radius: 50%;
+  display: inline-block;
+`;
+const Minimize = styled.div`
+  background: #ffbd4c;
+  font-size: 9pt;
+  line-height: 11px;
+  margin-left: 4px;
+  width: 11px;
+  height: 11px;
+  border: 1px solid #e09e3e;
+  border-radius: 50%;
+  display: inline-block;
+`;
+const Zoom = styled.div`
+  background: #00ca56;
+  font-size: 9pt;
+  line-height: 11px;
+  margin-left: 6px;
+  width: 11px;
+  height: 11px;
+  border: 1px solid #14ae46;
+  border-radius: 50%;
+  display: inline-block;
+`;
+
 const WindowTitle = styled.div``;
 const ModalBx = styled.div`
   border: 1px solid #acacac;
@@ -146,39 +203,20 @@ function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
 
   return (
     <ModalBx>
-      <div className="titlebar">
-        <div className="buttons">
-          <div
-            className="close"
+      <TitleBar>
+        <Buttons>
+          <Close
             onClick={() => {
               setButtonPop(false);
             }}
-          >
-            <a className="closebutton" href="#">
-              <span>
-                <strong>x</strong>
-              </span>
-            </a>
-          </div>
-          <div className="minimize">
-            <a className="minimizebutton" href="#">
-              <span>
-                <strong>&ndash;</strong>
-              </span>
-            </a>
-          </div>
-          <div className="zoom">
-            <a className="zoombutton" href="#">
-              <span>
-                <strong>+</strong>
-              </span>
-            </a>
-          </div>
-        </div>
+          ></Close>
+          <Minimize></Minimize>
+          <Zoom></Zoom>
+        </Buttons>
         <WindowTitle>
           <FontAwesomeIcon icon={faLocationDot} /> git graph
         </WindowTitle>
-      </div>
+      </TitleBar>
       <TreeContainer>
         <TreeGraph>
           {currentGraph && currentGraph < 5 ? (

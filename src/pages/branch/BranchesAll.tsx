@@ -11,7 +11,6 @@ import {
   DocumentData,
 } from "firebase/firestore";
 import Calendar from "react-calendar";
-import "./calendar.css";
 import BranchesList from "./BranchList";
 import firebaseapi from "../../utils/firebaseapi";
 import { MergeBtn, LabelsButton } from "../../utils/styledComponent";
@@ -50,6 +49,9 @@ const CalendarContainer = styled.div`
   margin: auto;
   margin-top: 0px;
   /* ~~~ navigation styles ~~~ */
+  .highlight {
+    color: red !important;
+  }
   .react-calendar__navigation {
     display: flex;
     .react-calendar__navigation__label {

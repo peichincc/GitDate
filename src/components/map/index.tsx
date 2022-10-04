@@ -5,9 +5,23 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
-import "./map.css";
 import { FormControl } from "../../utils/styledComponent";
 import styled from "styled-components";
+
+const PlacesContainer = styled.div`
+  position: absolute;
+  top: 180px;
+  left: 225px;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: 150px;
+  background-color: white;
+`;
+const MapContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+`;
 
 const LocationInput = styled(FormControl)`
   width: 150px;
@@ -42,20 +56,22 @@ const Map = ({ setLocation, setFormatAddress }: any) => {
 
   return (
     <>
-      <div className="places-container">
+      <PlacesContainer>
         <PlacesAutocomplete
           setSelected={setSelected}
           setLocation={setLocation}
           setFormatAddress={setFormatAddress}
         />
-      </div>
-      <GoogleMap
-        zoom={10}
-        center={center}
-        mapContainerClassName="map-container"
-      >
-        {selected && <Marker position={selected} />}
-      </GoogleMap>
+      </PlacesContainer>
+      <MapContainer>
+        <GoogleMap
+          zoom={10}
+          center={center}
+          mapContainerClassName="map-container"
+        >
+          {selected && <Marker position={selected} />}
+        </GoogleMap>
+      </MapContainer>
     </>
   );
 };
