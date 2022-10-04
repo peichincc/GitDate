@@ -147,10 +147,10 @@ const Chatroom = ({ chatroomId }: any) => {
       console.error(error);
     }
   };
-  const handleChange = (event: any) => {
+  const handleChange = (event: { target: { value: any } }) => {
     setValue(event.target.value);
   };
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     sendMessage(chatroomId, user, value);
     setValue("");

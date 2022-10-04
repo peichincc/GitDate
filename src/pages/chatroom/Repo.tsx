@@ -10,6 +10,7 @@ import Loading from "../../components/Loading";
 import defaultAvatar from "../../assets/images/defaultAvatar.png";
 
 import { RootState } from "../..";
+import { DocumentData } from "firebase/firestore";
 
 // Terminal Container
 const TerminalContainer = styled.div`
@@ -134,15 +135,15 @@ const ChatNameCardName = styled(NameCardName)`
 `;
 
 const Repo = () => {
+  let navigate = useNavigate();
+  const userData = useSelector((state: RootState) => state);
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
-  let navigate = useNavigate();
-  const userData = useSelector((state: RootState) => state);
   const [getUser, setGetUser] = useState("");
   const [getUserName, setGetUserName] = useState("");
   const [getUserPhoto, setGetUserPhoto] = useState("");
-  const [friendList, setFriendList] = useState<any>();
+  const [friendList, setFriendList] = useState<DocumentData>();
   const [openChatroom, setOpenChatroom] = useState(false);
   const [chatroomId, setChatroomId] = useState("");
   const [chaterName, setChaterName] = useState("");
@@ -152,8 +153,6 @@ const Repo = () => {
     const userId = userData.user.user_id;
     const userName = userData.user.user_name;
     const userPhoto = userData.user.user_photo;
-    console.log(userId);
-    console.log(userName);
     if (!userId) {
       setAlertMsg("Please sign in!");
       setButtonPop(true);
@@ -168,7 +167,6 @@ const Repo = () => {
       setGetUserPhoto(userPhoto);
       firebaseapi.readUserData(userId).then((result) => {
         if (result) {
-          console.log(result["friend_list"]);
           setFriendList(result["friend_list"]);
           setIsLoading(false);
         }

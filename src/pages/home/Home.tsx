@@ -156,10 +156,10 @@ const TourReminder = styled.div`
 `;
 
 const Home = () => {
+  const navigate = useNavigate();
   const userInfo = useSelector((state: RootState) => state);
   const [alreadyLogged, setAlreadyLogged] = useState(false);
   const [markersFromDB, setMarkersFromDB] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const userID = userInfo.user.user_id;

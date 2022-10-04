@@ -88,11 +88,11 @@ const AttentionIcon = styled.div`
 `;
 
 const IssueAll = () => {
+  let navigate = useNavigate();
+  const userData = useSelector((state: RootState) => state);
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
-  const userData = useSelector((state: RootState) => state);
   const [getUser, setGetUser] = useState("");
-  let navigate = useNavigate();
   const [docs, setDocs] = useState<DocumentData>();
   const [issuesStatus, setIssuesSatus] = useState("");
   const [allIssue, setAllIssue] = useState<DocumentData>();

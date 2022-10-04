@@ -181,6 +181,7 @@ const CreateBranch = () => {
   const [getUser, setGetUser] = useState("");
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [fileSrc, setFileSrc] = useState<any>(null);
+
   const handleClick = () => {
     hiddenFileInput.current.click();
   };
@@ -311,7 +312,6 @@ const CreateBranch = () => {
           position: location,
         };
         updateDoc(docRef, { markers: arrayUnion(locationInfo) });
-        console.log(`${getUser} hosted this activity!`);
         setIsSending(false);
         setAlertMsg("You hosted an activity successfully!");
         setButtonPop(true);

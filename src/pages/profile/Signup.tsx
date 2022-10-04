@@ -120,9 +120,9 @@ const BlockContent = styled.div`
 `;
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
-  const navigate = useNavigate();
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -157,7 +157,6 @@ const Signup = () => {
         }, 3000);
       })
       .catch((error) => {
-        console.log(error);
         switch (error.code) {
           case "auth/email-already-in-use": {
             setButtonPop(true);

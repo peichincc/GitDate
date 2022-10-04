@@ -117,9 +117,9 @@ export const DataCard = styled.div`
 `;
 
 const Readme = () => {
+  const { id } = useParams();
   let navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const { id } = useParams();
   const [userData, setUserData] = useState<DocumentData>();
   const [postedIssues, setPostedIssues] = useState<DocumentData>();
   const [hostedBranches, setHostedBranches] = useState<DocumentData>();
@@ -129,7 +129,6 @@ const Readme = () => {
   useEffect(() => {
     firebaseapi.readUserData(id).then((res) => {
       if (res) {
-        console.log(res);
         if (res.firstname) {
           setSourceTreeStatus(1);
         }
@@ -152,7 +151,6 @@ const Readme = () => {
           }
         }
         setUserData(res);
-        console.log(res.user_id);
         searchIssues(res.user_id);
         searchHostedBranches(res.user_id);
         searchAttenedBranches(res.user_id);
@@ -167,7 +165,6 @@ const Readme = () => {
     const q = query(collection(db, "Issues"), where("posted_by", "==", userId));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.data());
       temp.push(doc.data());
     });
     setPostedIssues(temp);
@@ -188,7 +185,6 @@ const Readme = () => {
   const searchAttenedBranches = async (userId: string) => {
     onSnapshot(doc(collection(db, "Users"), userId), async (doc) => {
       if (doc.exists()) {
-        console.log(doc.data().activity_attend);
         const newArr: React.SetStateAction<DocumentData | undefined> = [];
         for (let i = 0; i < doc.data().activity_attend.length; i++) {
           await firebaseapi

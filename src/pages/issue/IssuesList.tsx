@@ -13,6 +13,7 @@ import {
 import { ReactComponent as Open } from "../../assets/images/issueOpen.svg";
 import ToggleOn from "../../assets/images/toggleOn.svg";
 import ToggleOff from "../../assets/images/toggleOff.svg";
+import { DocumentData } from "firebase/firestore";
 
 const IssuesHeader = styled(BoxHeader)`
   font-size: 14px;
@@ -107,7 +108,8 @@ const ContentBox = styled.div`
   height: 150px;
 `;
 
-const IssuesList = ({ issuesStatus, docs }: any) => {
+const IssuesList = (props: { issuesStatus: string; docs: DocumentData }) => {
+  const { issuesStatus, docs } = props;
   const [switchMode, setSwitchMode] = useState(true);
   let navigate = useNavigate();
 

@@ -84,20 +84,19 @@ const SignUpBtn = styled.button`
 `;
 
 const Signin = () => {
-  const [ButtonPop, setButtonPop] = useState(false);
-  const [alertMsg, setAlertMsg] = useState("");
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const userInfo = useSelector((state: RootState) => state);
+  const [ButtonPop, setButtonPop] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [alreadyLogged, setAlreadyLogged] = useState(false);
-  const navigate = useNavigate();
   const [recipient, setRecipient] = useState({
     email: "",
     password: "",
   });
 
   useEffect(() => {
-    console.log(userInfo.isLogged);
     setAlreadyLogged(userInfo.isLogged);
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -111,7 +110,6 @@ const Signin = () => {
                 result["main_photo"]
               )
             );
-            console.log(userInfo);
             setAlreadyLogged(true);
           }
         });
@@ -128,7 +126,7 @@ const Signin = () => {
         setAlertMsg("Log in successfully!");
         setAlreadyLogged(userInfo.isLogged);
       })
-      .catch((error) => {
+      .catch(() => {
         setButtonPop(true);
         setAlertMsg("Please enter the correct info");
         setIsLoading(false);
@@ -192,7 +190,9 @@ const Signin = () => {
                         />
                       </FormInputContainer>
                     </FormGroup>
-                    <SubmitBtn onClick={onSubmit}>Sign In</SubmitBtn>
+                    <SubmitBtn onClick={onSubmit} disabled={isLoading}>
+                      Sign In
+                    </SubmitBtn>
                     <TextReminder>
                       New to GitDate?{" "}
                       <SignUpBtn onClick={() => navigate("/signup")}>

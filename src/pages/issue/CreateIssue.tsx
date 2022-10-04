@@ -175,14 +175,14 @@ interface Data {
 }
 
 const CreateIssue = () => {
+  let navigate = useNavigate();
+  const userData = useSelector((state: RootState) => state);
   const [isSending, setIsSending] = useState(false);
   const [ButtonPop, setButtonPop] = useState(false);
-  const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
-  const userData = useSelector((state: RootState) => state);
-  let navigate = useNavigate();
+  const [editorHtmlContent, setEditorHtmlContent] = useState("");
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [fileSrc, setFileSrc] = useState<any>(null);
-  // Select Photo and preview
+
   const hiddenFileInput = useRef<any>(null);
   const handleClick = () => {
     hiddenFileInput.current.click();
@@ -213,11 +213,13 @@ const CreateIssue = () => {
   ];
 
   const [category, setCategory] = useState("");
-  const getCategory = (e: any) => {
+  const getCategory = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
     setCategory(e.target.value);
   };
   const [title, setTitle] = useState("");
-  const getTitle = (e: any) => {
+  const getTitle = (e: { target: { value: React.SetStateAction<string> } }) => {
     setTitle(e.target.value);
   };
   const tagRef = useRef<HTMLInputElement>(null);
@@ -237,10 +239,9 @@ const CreateIssue = () => {
     setTags(newTags);
   };
 
-  const [getUser, setGetUser] = useState<any>("");
+  const [getUser, setGetUser] = useState("");
   useEffect(() => {
     const userId = userData.user.user_id;
-    console.log(userId);
     if (userId) setGetUser(userId);
   }, []);
 
@@ -256,7 +257,6 @@ const CreateIssue = () => {
 
   const [alertMsg, setAlertMsg] = useState("");
 
-  // upload photo w/ doc id, get photo URL, then setDoc
   const postIssue = async () => {
     setIsSending(true);
     if (!category) {

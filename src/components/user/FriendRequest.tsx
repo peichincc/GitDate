@@ -15,8 +15,6 @@ import {
 import { useSelector } from "react-redux";
 import { BoxHeader } from "../../pages/profile/Profile";
 import pr from "../../assets/icons/pr_icon.png";
-import merge from "../../assets/icons/merge.png";
-import close from "../../assets/icons/close.png";
 import Alert from "../../components/modal/Alert";
 
 import { RootState } from "../..";
@@ -103,10 +101,6 @@ const ClickBtn = styled.button`
   margin-left: 5px;
 `;
 
-// interface Props {
-//   getInvitationList: [{ uesr_name: string; user_id: string }];
-// }
-
 const FriendRequest = ({ getInvitationList }: DocumentData) => {
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
@@ -121,8 +115,6 @@ const FriendRequest = ({ getInvitationList }: DocumentData) => {
     const userId = userData.user.user_id;
     const userName = userData.user.user_name;
     const userPhoto = userData.user.user_photo;
-    console.log(userId);
-    console.log(userName);
     if (userId && userName) {
       setGetUser(userId);
       setGetUserName(userName);
