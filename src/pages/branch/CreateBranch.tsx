@@ -28,6 +28,8 @@ import {
 import MapHome from "../../components/map";
 import Alert from "../../components/modal/Alert";
 
+import { FormRecipient } from "../../utils/interface";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 980px;
@@ -235,7 +237,7 @@ const CreateBranch = () => {
   const [location, setLocation] = useState();
   const [formatAddress, setFormatAddress] = useState("");
 
-  const recipient = {
+  const recipient: FormRecipient = {
     type: type,
     title: title,
     content: editorHtmlContent,

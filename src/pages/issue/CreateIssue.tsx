@@ -26,6 +26,8 @@ import {
 } from "../../utils/StyledComponent";
 import Alert from "../../components/modal/Alert";
 
+import { FormRecipient } from "../../utils/interface";
+
 const Wrapper = styled.div`
   display: block;
   max-width: 980px;
@@ -246,7 +248,7 @@ const CreateIssue = () => {
     if (userId) setGetUser(userId);
   }, []);
 
-  const recipient = {
+  const recipient: FormRecipient = {
     category: category,
     title: title,
     content: editorHtmlContent,

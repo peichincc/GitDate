@@ -47,7 +47,6 @@ function App() {
   const [showNotification, setShowNotification] = useState(false);
   const [newMsgNotification, setNewMsgNotification] = useState(false);
   const dispatch = useDispatch();
-  const [getInvitationList, setGetInvitationList] = useState<any>();
   const [arrayLength, setArrayLength] = useState(0);
 
   useEffect(() => {
@@ -74,7 +73,6 @@ function App() {
   const getFriend = (id: string) => {
     onSnapshot(doc(collection(db, "Users"), id), (doc) => {
       if (doc.exists()) {
-        setGetInvitationList(doc.data().friend_request);
         setArrayLength(doc.data().friend_request.length);
         setShowNotification(false);
         if (doc.data().friend_request.length > arrayLength) {
@@ -98,7 +96,6 @@ function App() {
                 id: x.id,
                 ...x.data(),
               }));
-              console.log(messages);
               messages.forEach((details: any) => {
                 const timeDiff = Date.now() - details.timestamp.seconds * 1000;
                 if (timeDiff < 10000) {

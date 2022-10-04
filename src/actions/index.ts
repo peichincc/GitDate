@@ -1,6 +1,10 @@
 // import { CartActionTypes } from "./reducer";
 
-export const setUserData = (user_id: any, user_name: any, user_photo: any) => {
+export const setUserData = (
+  user_id: string,
+  user_name: string,
+  user_photo: string
+) => {
   return {
     type: "setUserData",
     payload: { user_id, user_name, user_photo },

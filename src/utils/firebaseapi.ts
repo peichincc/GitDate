@@ -13,11 +13,14 @@ import {
   arrayUnion,
   onSnapshot,
   orderBy,
+  DocumentData,
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "./firebase";
 import { NavigationType } from "react-router-dom";
+
+import { FormRecipient } from "./interface";
 
 // const db = getFirestore();
 // const storage = getStorage();
@@ -30,9 +33,6 @@ const newBranchRef = doc(collection(db, "Branches"));
 const newIssueRef = doc(collection(db, "Issues"));
 
 const firebaseapi = {
-  test(msg: string) {
-    console.log(`${msg}`);
-  },
   // In Issue
   // 尋找使用者名字by id
   async searchUserName(userid: string) {
@@ -71,7 +71,7 @@ const firebaseapi = {
     const querySnapshot = await getDocs(
       query(issuesRef, orderBy("posted_at", "desc"))
     );
-    let temp = [] as any;
+    let temp: unknown[] = [];
     querySnapshot.forEach((doc) => {
       temp.push(doc.data());
     });
@@ -79,7 +79,7 @@ const firebaseapi = {
   },
   // Read different status issues
   async readStatusIssues(status: string) {
-    let temp = [] as any;
+    let temp: DocumentData[] = [];
     const q = query(collection(db, "Issues"), where("status", "==", status));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
@@ -91,7 +91,11 @@ const firebaseapi = {
   // Post Issue
   // imageUpload -> State to store the e.target.files[0]
   // recipient -> State from create issue data form
-  async postIssue(imageUpload: File, newIssueRef: any, recipient: any) {
+  async postIssue(
+    imageUpload: File,
+    newIssueRef: any,
+    recipient: FormRecipient
+  ) {
     const imageRef = ref(storage, `issues/${newIssueRef.id}.jpg`);
     await uploadBytes(imageRef, imageUpload)
       .then(() => {
@@ -145,20 +149,6 @@ const firebaseapi = {
     await updateDoc(userRef, { ...recipient, main_photo: imageURL });
     // alert("updated!");
   },
-  // In Issue
-  // 更新版本:送出好友邀請Update fields in Users collection
-  // async updateFriendField(otherUserid: string, userid: string) {
-  //   const otherUserRef = doc(db, "Users", otherUserid);
-  //   await updateDoc(otherUserRef, {
-  //     friend_request: arrayUnion(userid),
-  //   });
-  //   const userRef = doc(db, "Users", userid);
-  //   await updateDoc(userRef, {
-  //     friend_sent_request: arrayUnion(otherUserid),
-  //   });
-  // },
-  // 讀取Friend field in user
-  // (讀DB中的friend_request -> get ID -> Search name -> Display name)
   getFriendLists(userid: string) {
     onSnapshot(doc(usersRef, userid), (doc) => {
       if (doc.exists()) {
@@ -194,7 +184,11 @@ const firebaseapi = {
     }
   },
   // CreateBranch
-  async createBranch(imageUpload: File, newBranchRef: any, recipient: any) {
+  async createBranch(
+    imageUpload: File,
+    newBranchRef: any,
+    recipient: FormRecipient
+  ) {
     const imageRef = ref(storage, `branches/${newBranchRef.id}.jpg`);
     await uploadBytes(imageRef, imageUpload)
       .then(() => {
@@ -216,17 +210,11 @@ const firebaseapi = {
     const querySnapshot = await getDocs(
       query(branchesRef, orderBy("date", "desc"))
     );
-    let temp = [] as any;
+    let temp: unknown[] = [];
     querySnapshot.forEach((doc) => {
       temp.push(doc.data());
     });
     return temp;
-    // const querySnapshot = await getDocs(branchesRef);
-    // let temp = [] as any;
-    // querySnapshot.forEach((doc) => {
-    //   temp.push(doc.data());
-    // });
-    // return temp;
   },
   // 讀取單一Branch資料
   async readBranchData(id: string | undefined) {
@@ -261,24 +249,9 @@ const firebaseapi = {
       return null;
     }
   },
-  // Add branch locations to DB
-  // async addBranchLocations(
-  //   branch_id: any,
-  //   branch_title: any,
-  //   location: any
-  // ) {
-  //   const docRef = doc(LocationsRef, "c4ttDiHr8UCyB0OMOtwA");
-  //   updateDoc(docRef, {
-  //     arrayUnion({
-  //     id: branch_id,
-  //     name: branch_title,
-  //     position: location,})
-  //   });
-  // },
-  //
   // Search User by name in DB
   async searchUserByName(userName: string) {
-    let temp = [] as any;
+    let temp: DocumentData[] = [];
     const q = query(
       collection(db, "Users"),
       where("firstname", "==", userName)
@@ -288,17 +261,10 @@ const firebaseapi = {
       temp.push(doc.data());
     });
     return temp;
-    // const q = query(usersRef, where("firstname", "==", userName));
-    // const querySnapshot = await getDocs(q);
-    // let temp;
-    // querySnapshot.forEach((doc) => {
-    //   temp = doc.data();
-    // });
-    // return temp;
   },
   // Refactor -> BranchesAll get different type branches
   async getBranches(field: string, value: string) {
-    let temp = [] as any;
+    let temp: DocumentData[] = [];
     const q = query(collection(db, "Branches"), where(field, "==", value));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
