@@ -110,7 +110,6 @@ export const FormGroup = styled.div`
   margin-top: 10px;
   margin-bottom: 20px;
   width: 100%;
-  /* max-width: 600px; */
 `;
 export const FormLabel = styled.div`
   width: 130px;
@@ -121,12 +120,10 @@ export const FormLabel = styled.div`
 `;
 export const FormControl = styled.input`
   width: 300px;
-  /* width: ${(props) => props.theme.issues}; */
   height: 30px;
   border-radius: 8px;
   border: solid 1px #979797;
 `;
-// FormControl.defaultProps = { theme: { issues: "100%" } };
 export const FormSelect = styled.select`
   width: 300px;
   height: 30px;
@@ -137,9 +134,6 @@ export const FormSelectOptions = styled.option`
   border: solid 1px #979797;
 `;
 
-// customized select
-
-// Photo Preview
 export const UploadCardStyled = styled.label`
   margin-bottom: 5px;
   background-color: #fff;
@@ -206,7 +200,6 @@ export const BlogList = styled.div`
 `;
 export const GithubPostTitle = styled.div`
   padding-right: 2px;
-  /* padding: 2px; */
   font-size: 16px;
   font-weight: 600;
   color: #24292f;
@@ -253,7 +246,6 @@ export const PostBox = styled.div`
   border-radius: 0.4em;
   width: 100%;
   height: auto;
-  /* border: 1px solid #d0d7de; */
   position: relative;
   &:before {
     content: "";
@@ -267,17 +259,6 @@ export const PostBox = styled.div`
     border-left: 0;
     margin-top: -20px;
     margin-left: -20px;
-    /* border: 1px solid black;
-    position: absolute;
-    top: 11px;
-    right: 100%;
-    left: -8px;
-    display: block;
-    width: 8px;
-    height: 16px;
-    pointer-events: none;
-    content: " ";
-    clip-path: polygon(0 50%, 100% 0, 100% 100%); */
   }
 `;
 
@@ -393,7 +374,6 @@ export const TagButton = styled(LabelsButton)`
   margin: 3px;
 `;
 
-// Modal styling
 export const ModalHeader = styled.div`
   background-color: #f6f8fa;
   width: auto;
@@ -438,14 +418,12 @@ export const CloseBtnWrapper = styled.div`
   margin-top: 20px;
 `;
 
-// Go back
 export const GoBackWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
 `;
 
-// Author btn
 export const EditBtn = styled(Button)`
   font-size: 12px;
   line-height: 20px;
