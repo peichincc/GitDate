@@ -53,7 +53,7 @@ function App() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        var uid = user.uid;
+        const uid = user.uid;
         firebaseapi.searchUserName(uid).then((result) => {
           if (result) {
             dispatch(

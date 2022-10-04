@@ -192,15 +192,15 @@ const Branch = () => {
     }
     firebaseapi.readBranchData(id).then((res) => {
       if (res) {
-        var today = new Date();
-        var date =
+        const today = new Date();
+        const date =
           today.getFullYear() +
           "-" +
           (today.getMonth() + 1) +
           "-" +
           today.getDate();
-        var date1 = new Date(res.date);
-        var date2 = new Date(date);
+        const date1 = new Date(res.date);
+        const date2 = new Date(date);
         if (date1 > date2) {
           setIsExpired(false);
         }
@@ -312,9 +312,9 @@ const Branch = () => {
 
   const updateLocationMarkers = () => {
     firebaseapi.readBranchLocations().then((res) => {
-      var ob_array = res?.markers;
-      var my_array = [id];
-      var new_array = ob_array.filter(
+      const ob_array = res?.markers;
+      const my_array = [id];
+      const new_array = ob_array.filter(
         (O: { id: string | undefined }) => !my_array.includes(O.id)
       );
       const LocationsRef = collection(db, "Location");

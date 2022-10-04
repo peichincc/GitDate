@@ -145,7 +145,7 @@ const Repo = () => {
   const [getUserPhoto, setGetUserPhoto] = useState("");
   const [friendList, setFriendList] = useState<DocumentData>();
   const [openChatroom, setOpenChatroom] = useState(false);
-  const [chatroomId, setChatroomId] = useState("");
+  const [chatroomId, setChatroomId] = useState<string>("");
   const [chaterName, setChaterName] = useState("");
   const [chaterID, setChaterID] = useState("");
 

@@ -318,7 +318,7 @@ const BranchAll = () => {
     navigate("/createbranch");
   };
 
-  var moment = require("moment");
+  let moment = require("moment");
   const tileClassName = ({ date }: any) => {
     if (dateDocs?.has(moment(date).format("YYYY-MM-DD"))) {
       return "highlight";

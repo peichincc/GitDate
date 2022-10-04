@@ -140,7 +140,7 @@ const Signup = () => {
       .then(() => {
         onAuthStateChanged(auth, async (user) => {
           if (user) {
-            var uid = user.uid;
+            const uid = user.uid;
             await setDoc(doc(collection(db, "Users"), uid), {
               user_id: uid,
               main_photo:

@@ -189,7 +189,7 @@ const CreateIssue = () => {
   };
   const handleUploadFile = (e: any) => {
     if (!e.target.files[0]) return;
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = function () {
       setFileSrc(reader.result);
     };

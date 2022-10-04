@@ -94,7 +94,8 @@ const EmojiBx = styled.div`
   right: 0;
 `;
 
-const Chatroom = ({ chatroomId }: any) => {
+const Chatroom = (props: { chatroomId: string }) => {
+  const { chatroomId } = props;
   const userData = useSelector((state: RootState) => state);
   const [messages, setMessages] = useState<any>([]);
   const [chosenEmoji, setChosenEmoji] = useState<any>();
@@ -106,7 +107,7 @@ const Chatroom = ({ chatroomId }: any) => {
     }
   });
 
-  const getMessages = (id: any) => {
+  const getMessages = (id: string) => {
     return onSnapshot(
       query(
         collection(db, "Chatrooms", id, "messages"),
@@ -135,7 +136,11 @@ const Chatroom = ({ chatroomId }: any) => {
   const [value, setValue] = useState<any>("");
   const user = userData.user;
 
-  const sendMessage = async (id: any, user: any, text: string) => {
+  const sendMessage = async (
+    id: string,
+    user: { user_id: string; user_name: string },
+    text: string
+  ) => {
     try {
       await addDoc(collection(db, "Chatrooms", id, "messages"), {
         sender_id: user.user_id,
@@ -147,7 +152,7 @@ const Chatroom = ({ chatroomId }: any) => {
       console.error(error);
     }
   };
-  const handleChange = (event: { target: { value: any } }) => {
+  const handleChange = (event: { target: { value: string } }) => {
     setValue(event.target.value);
   };
   const handleSubmit = (event: { preventDefault: () => void }) => {

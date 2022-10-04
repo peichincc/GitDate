@@ -256,7 +256,7 @@ const Profile = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        var uid = user.uid;
+        const uid = user.uid;
         setGetUser(uid);
       }
     });
@@ -359,7 +359,7 @@ const Profile = () => {
   const [fileSrc, setFileSrc] = useState<any>();
   const handleUploadPhoto = (e: any) => {
     if (!e.target.files[0]) return;
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = function () {
       setFileSrc(reader.result);
     };
