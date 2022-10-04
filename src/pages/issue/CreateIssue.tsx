@@ -2,12 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import {
-  getFirestore,
-  doc,
-  serverTimestamp,
-  collection,
-} from "firebase/firestore";
+import { db } from "../../utils/firebase";
+import { doc, serverTimestamp, collection } from "firebase/firestore";
 import firebaseapi from "../../utils/firebaseapi";
 import TiptapEditor from "../../components/editor/Editor";
 import defaultAvatar from "../../assets/images/defaultAvatar.png";
@@ -23,10 +19,11 @@ import {
   UploadPreviewImg,
   UploadCardStyled,
   TagButton,
-} from "../../utils/StyledComponent";
+} from "../../utils/styledComponent";
 import Alert from "../../components/modal/Alert";
 
 import { FormRecipient } from "../../utils/interface";
+import { RootState } from "../..";
 
 const Wrapper = styled.div`
   display: block;
@@ -181,8 +178,7 @@ const CreateIssue = () => {
   const [isSending, setIsSending] = useState(false);
   const [ButtonPop, setButtonPop] = useState(false);
   const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
-  const userData = useSelector((state) => state) as any;
-  const db = getFirestore();
+  const userData = useSelector((state: RootState) => state);
   let navigate = useNavigate();
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [fileSrc, setFileSrc] = useState<any>(null);

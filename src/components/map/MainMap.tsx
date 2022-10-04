@@ -8,7 +8,7 @@ import {
 } from "@react-google-maps/api";
 import GitHub from "../../assets/images/githubPin.png";
 import mapStyle from "./mapStyle";
-import { GithubPostTitle, Button } from "../../utils/StyledComponent";
+import { GithubPostTitle, Button } from "../../utils/styledComponent";
 
 const markers = [
   {

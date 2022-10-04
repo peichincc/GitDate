@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { db } from "../../utils/firebase";
 import {
-  getFirestore,
   collection,
   getDocs,
   query,
@@ -14,13 +14,15 @@ import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
 import IssuesList from "./IssuesList";
 
-import { MergeBtn, Button, LabelsButton } from "../../utils/StyledComponent";
+import { MergeBtn, Button, LabelsButton } from "../../utils/styledComponent";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
+
+import { RootState } from "../..";
 
 const Wrapper = styled.div`
   display: block;
@@ -99,10 +101,9 @@ const AttentionIcon = styled.div`
 const IssueAll = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
-  const userData = useSelector((state) => state) as any;
+  const userData = useSelector((state: RootState) => state);
   const [getUser, setGetUser] = useState<any>("");
   let navigate = useNavigate();
-  const db = getFirestore();
   const [docs, setDocs] = useState<DocumentData>();
   const [issuesStatus, setIssuesSatus] = useState("");
   const [allIssue, setAllIssue] = useState<DocumentData>();

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { doc, setDoc, collection, getFirestore } from "firebase/firestore";
+import { db } from "../../utils/firebase";
+import { doc, setDoc, collection } from "firebase/firestore";
 import { auth } from "../../utils/firebase";
 import {
   createUserWithEmailAndPassword,
@@ -121,7 +122,6 @@ const BlockContent = styled.div`
 const Signup = () => {
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
-  const db = getFirestore();
   const navigate = useNavigate();
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);

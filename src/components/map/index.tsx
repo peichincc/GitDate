@@ -6,7 +6,7 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
 import "./map.css";
-import { FormControl } from "../../utils/StyledComponent";
+import { FormControl } from "../../utils/styledComponent";
 import styled from "styled-components";
 
 const LocationInput = styled(FormControl)`

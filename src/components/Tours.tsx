@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Joyride, { CallBackProps, STATUS, Step } from "react-joyride";
-import styled from "styled-components";
 
 function logGroup(type: string, data: CallBackProps) {
   console.groupCollapsed(type);

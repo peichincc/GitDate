@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { db } from "../../utils/firebase";
 import {
   doc,
-  getFirestore,
   updateDoc,
   arrayUnion,
   QueryDocumentSnapshot,
@@ -10,7 +10,7 @@ import {
   DocumentData,
 } from "firebase/firestore";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import firebaseapi from "../../utils/firebaseapi";
 
 import defaultAvatar from "../../assets/images/defaultAvatar.png";
@@ -37,7 +37,7 @@ import {
   TagButton,
   EditBtn,
   DeleteBtn,
-} from "../../utils/StyledComponent";
+} from "../../utils/styledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCodeMerge,
@@ -50,6 +50,8 @@ import Alert from "../../components/modal/Alert";
 import Confirm from "../../components/modal/Confirm";
 import Loading from "../../components/Loading";
 import AlertWtihCTA from "../../components/modal/AlertWithCTA";
+
+import { RootState } from "../..";
 
 const Wrapper = styled.div`
   display: block;
@@ -166,9 +168,8 @@ const Issue = () => {
   const [confirmPop, setConfirmPop] = useState(false);
   const [confirmMsg, setConfirmMsg] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
-  const userData = useSelector((state) => state) as any;
+  const userData = useSelector((state: RootState) => state);
   let navigate = useNavigate();
-  const db = getFirestore();
   const { id } = useParams<any>();
   type ListData = {
     category: string;

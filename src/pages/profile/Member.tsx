@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import PR from "../../assets/icons/pr_icon.png";
 import { useNavigate } from "react-router-dom";
+import { db } from "../../utils/firebase";
 import {
-  getFirestore,
   doc,
   collection,
   onSnapshot,
@@ -31,10 +30,12 @@ import {
   faCodeBranch,
   faListUl,
 } from "@fortawesome/free-solid-svg-icons";
-import { Button, GithubLink } from "../../utils/StyledComponent";
+import { Button, GithubLink } from "../../utils/styledComponent";
 import Loading from "../../components/Loading";
 import { SubmitBtn } from "./Signup";
 import Alert from "../../components/modal/Alert";
+
+import { RootState } from "../..";
 
 const Wrapper = styled.div`
   display: block;
@@ -192,8 +193,7 @@ const Member = () => {
   const [isLoading, setIsLoading] = useState(true);
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const db = getFirestore();
-  const userInfo = useSelector((state) => state) as any;
+  const userInfo = useSelector((state: RootState) => state);
   const [getUser, setGetUser] = useState("");
   const [logInUserData, setLoginUserData] = useState<any>(null);
   const [memberOverview, setMemberOverview] = useState(true);

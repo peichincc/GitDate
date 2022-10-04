@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { BoxHeader } from "../../pages/profile/Profile";
-import { ClickBtn } from "../../utils/StyledComponent";
+import { ClickBtn } from "../../utils/styledComponent";
 
 const Container = styled.div`
   width: 100%;

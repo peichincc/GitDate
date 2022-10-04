@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import { getFirestore, doc, updateDoc, collection } from "firebase/firestore";
+import { db, storage } from "../../utils/firebase";
+import { doc, updateDoc, collection, DocumentData } from "firebase/firestore";
 import { auth } from "../../utils/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import firebaseapi from "../../utils/firebaseapi";
 import {
@@ -13,7 +12,7 @@ import {
   PhotoContainerImg,
   FormTextRead,
 } from "./Readme";
-import { Button, NavWord } from "../../utils/StyledComponent";
+import { Button, NavWord } from "../../utils/styledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
 import Avatar from "../../assets/images/defaultAvatar.png";
@@ -244,13 +243,11 @@ const ReminderBoxTextSmall = styled.div`
 `;
 
 const Profile = () => {
-  const db = getFirestore();
   const [ButtonPop, setButtonPop] = useState(false);
   const [getUser, setGetUser] = useState("");
   const [imageUpload, setImageUpload] = useState(null);
   const [imageURL, setImageURL] = useState("");
-  const storage = getStorage();
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<DocumentData>();
   const [showPreviewReadme, setShowPreviewReadme] = useState(false);
   const [showContinueBtn, setShowContinueBtn] = useState(false);
 

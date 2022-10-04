@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { db } from "../../utils/firebase";
 import {
-  getFirestore,
   collection,
   getDocs,
   query,
@@ -14,11 +14,13 @@ import Calendar from "react-calendar";
 import "./calendar.css";
 import BranchesList from "./BranchList";
 import firebaseapi from "../../utils/firebaseapi";
-import { MergeBtn, LabelsButton } from "../../utils/StyledComponent";
+import { MergeBtn, LabelsButton } from "../../utils/styledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
+
+import { RootState } from "../..";
 
 const ImgContainer = styled.img`
   overflow: hidden;
@@ -211,11 +213,10 @@ const AttentionIcon = styled.div`
 
 const BranchAll = () => {
   let navigate = useNavigate();
-  const db = getFirestore();
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
-  const userData = useSelector((state) => state) as any;
-  const [getUser, setGetUser] = useState<any>("");
+  const userData = useSelector((state: RootState) => state);
+  const [getUser, setGetUser] = useState("");
   const [date, setDate] = useState(new Date());
   const [docs, setDocs] = useState<DocumentData>();
   const [dateDocs, setDateDocs] = useState<DocumentData>();
@@ -233,20 +234,15 @@ const BranchAll = () => {
     if (userId) {
       setGetUser(userId);
     }
-    console.log(userId);
     const branchesRef = collection(db, "Branches");
     firebaseapi.readAllBranches(branchesRef).then(async (res) => {
       if (res) {
-        // console.log(res);
-        // get all the branch date
-        let dateTemp = [] as any;
+        let dateTemp: DocumentData[] = [];
         res.forEach((doc: any) => {
-          // console.log(doc.date);
           dateTemp.push(doc.date);
         });
         const dates = new Set(dateTemp);
         setDateDocs(dates);
-        //
         setDocs(res);
         setAllbranch(res);
         setIsLoading(false);
@@ -295,7 +291,7 @@ const BranchAll = () => {
     setDocs(expiredBranch);
   };
 
-  const dateClick = async (date: any) => {
+  const dateClick = async (date: Date) => {
     const dateAssigned =
       date.getFullYear() +
       "-" +

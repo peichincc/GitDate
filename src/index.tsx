@@ -25,6 +25,7 @@ import MapHome from "./components/map/index";
 import Repo from "./pages/chatroom/Repo";
 
 const store = createStore(allReducers, composeWithDevTools());
+export type RootState = ReturnType<typeof store.getState>;
 
 const root = ReactDOM.createRoot(document.getElementById("root")!);
 

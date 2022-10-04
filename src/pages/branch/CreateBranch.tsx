@@ -2,8 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { db } from "../../utils/firebase";
 import {
-  getFirestore,
   doc,
   serverTimestamp,
   collection,
@@ -24,11 +24,12 @@ import {
   UploadPreview,
   UploadPreviewImg,
   UploadCardStyled,
-} from "../../utils/StyledComponent";
+} from "../../utils/styledComponent";
 import MapHome from "../../components/map";
 import Alert from "../../components/modal/Alert";
 
 import { FormRecipient } from "../../utils/interface";
+import { RootState } from "../..";
 
 const Wrapper = styled.div`
   display: block;
@@ -171,13 +172,12 @@ interface Data {
 }
 
 const CreateBranch = () => {
+  let navigate = useNavigate();
   const [isSending, setIsSending] = useState(false);
   const [ButtonPop, setButtonPop] = useState(false);
   const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
   const hiddenFileInput = useRef<any>(null);
-  const db = getFirestore();
-  let navigate = useNavigate();
-  const userData = useSelector((state) => state) as any;
+  const userData = useSelector((state: RootState) => state);
   const [getUser, setGetUser] = useState<any>("");
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [fileSrc, setFileSrc] = useState<any>(null);
@@ -270,28 +270,24 @@ const CreateBranch = () => {
       setIsSending(false);
       setAlertMsg("Please select the date");
       setButtonPop(true);
-
       return;
     }
     if (!time) {
       setIsSending(false);
       setAlertMsg("Please select the time");
       setButtonPop(true);
-
       return;
     }
     if (!location) {
       setIsSending(false);
       setAlertMsg("Please select the location");
       setButtonPop(true);
-
       return;
     }
     if (!fileSrc) {
       setIsSending(false);
       setAlertMsg("Please select photo");
       setButtonPop(true);
-
       return;
     }
     if (!editorHtmlContent) {

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import { db } from "../../utils/firebase";
 import firebaseapi from "../../utils/firebaseapi";
 import {
   doc,
-  getFirestore,
   updateDoc,
   arrayUnion,
   collection,
@@ -25,13 +25,15 @@ import {
   DeleteBtn,
   GoBackWrapper,
   Button,
-} from "../../utils/StyledComponent";
+} from "../../utils/styledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import Alert from "../../components/modal/Alert";
 import Confirm from "../../components/modal/Confirm";
 import Loading from "../../components/Loading";
 import AlertWtihCTA from "../../components/modal/AlertWithCTA";
+
+import { RootState } from "../..";
 
 const Wrapper = styled.div`
   display: block;
@@ -121,7 +123,6 @@ const CardContainer = styled.div`
   margin-bottom: 20px;
   margin-right: 20px;
 `;
-
 const MapContainer = styled.div`
   width: 400px;
   height: 200px;
@@ -129,7 +130,6 @@ const MapContainer = styled.div`
     width: 100%;
   }
 `;
-
 const CheckOutBtn = styled(MergeBtn)`
   margin: 20px;
   color: white;
@@ -142,7 +142,6 @@ const CheckOutBtn = styled(MergeBtn)`
   border: 1px solid;
   border-radius: 6px;
 `;
-
 const ParticipantsBtn = styled.button`
   border: none;
   background: none;
@@ -159,38 +158,31 @@ const DeleteWrapper = styled.div`
 `;
 
 const Branch = () => {
+  const { id } = useParams();
+  let navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertWtihCTAPop, setAlertWtihCTAPop] = useState(false);
   const [confirmPop, setConfirmPop] = useState(false);
   const [confirmMsg, setConfirmMsg] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
-  const db = getFirestore();
-  let navigate = useNavigate();
-  const userData = useSelector((state) => state) as any;
-  const { id } = useParams<any>();
+  const userData = useSelector((state: RootState) => state);
   const [getUser, setGetUser] = useState("");
   const [getUserName, setGetUserName] = useState("");
   const [getAuthor, setGetAuthor] = useState("");
   const [getAuthorID, setGetAuthorID] = useState("");
   const [branchData, setBranchData] = useState<DocumentData>();
   const [newT, setNewT] = useState("");
-  const [center, setCenter] = useState();
   const [openParticipants, setOpenParticipants] = useState(false);
-  const [participantsList, setParticipantsList] = useState<any>();
-  // Check author status
+  const [participantsList, setParticipantsList] = useState([{}]);
   const [isAuthor, setIsAuthor] = useState(false);
-  // Check branch expired or not
   const [isExpired, setIsExpired] = useState(true);
   const branchRef = doc(collection(db, "Branches"), id);
-  // Delete branch id in Users
   const [hostedList, setHostedList] = useState([]);
 
   useEffect(() => {
     const userId = userData.user.user_id;
     const userName = userData.user.user_name;
-    console.log(userId);
-    console.log(userName);
     if (userId) {
       setGetUser(userId);
     }
@@ -200,9 +192,6 @@ const Branch = () => {
     }
     firebaseapi.readBranchData(id).then((res) => {
       if (res) {
-        console.log(res);
-        // check whether the branch is expired or not
-        console.log(res.date);
         var today = new Date();
         var date =
           today.getFullYear() +
@@ -210,10 +199,8 @@ const Branch = () => {
           (today.getMonth() + 1) +
           "-" +
           today.getDate();
-        console.log(date);
         var date1 = new Date(res.date);
         var date2 = new Date(date);
-        console.log(date1 > date2);
         if (date1 > date2) {
           setIsExpired(false);
         }
@@ -222,17 +209,13 @@ const Branch = () => {
             status: "Expired",
           });
         }
-        //
         const newT = new Date(res.posted_at.seconds * 1000).toString();
         setNewT(newT);
         setBranchData(res);
-        setCenter(res.location);
       }
       firebaseapi.searchUserName(res?.hosted_by).then((res) => {
         if (res) {
-          console.log(res["activity_hosted"]);
           setHostedList(res["activity_hosted"]);
-          // console.log(res["firstname"]);
           setGetAuthor(res["firstname"]);
           setGetAuthorID(res["user_id"]);
           setTimeout(() => {
@@ -260,21 +243,18 @@ const Branch = () => {
     setConfirmMsg("Do you want to attend this activity?");
     setConfirmPop(true);
   };
-
   const clickToConfirm = (isConfirm: boolean) => {
     if (isConfirm) {
       confirmAttendActivity();
     }
     setConfirmPop(false);
   };
-
   const confirmAttendActivity = async () => {
     const userRef = doc(collection(db, "Users"), getUser);
     const branchRef = doc(collection(db, "Branches"), id);
     await updateDoc(userRef, {
       activity_attend: arrayUnion(id),
     });
-    console.log(`${getUserName} attended this activity!`);
     await updateDoc(branchRef, {
       participants: arrayUnion(getUser),
     });
@@ -282,21 +262,18 @@ const Branch = () => {
     setButtonPop(true);
     setAlertMsg("Attended successful💃");
   };
-
   const getParticipants = async () => {
     const branchRef = doc(collection(db, "Branches"), id);
     onSnapshot(branchRef, async (doc) => {
-      console.log("Current data: ", doc.data());
       if (doc.exists()) {
-        console.log(doc.data().participants);
-        const newArr = [] as any;
+        const newArr:
+          | React.SetStateAction<undefined>
+          | { id: never; name: never; photo: never }[] = [];
         for (let i = 0; i < doc.data().participants.length; i++) {
           await firebaseapi
             .searchUserName(doc.data().participants[i])
             .then((res) => {
-              console.log(res);
               if (res) {
-                console.log(res["user_id"]);
                 const tempObj = {
                   id: res["user_id"],
                   name: res["firstname"],
@@ -306,7 +283,6 @@ const Branch = () => {
               }
             });
         }
-        console.log(newArr);
         setParticipantsList(newArr);
       }
     });
@@ -321,7 +297,6 @@ const Branch = () => {
     let newHostedList = hostedList.filter(function (e) {
       return e !== id;
     });
-    console.log(newHostedList);
     const userRef = doc(db, "Users", getAuthorID);
     await updateDoc(userRef, {
       activity_hosted: newHostedList,
@@ -335,18 +310,10 @@ const Branch = () => {
     }, 1000);
   };
 
-  // To delete the location in the map then update back
   const updateLocationMarkers = () => {
     firebaseapi.readBranchLocations().then((res) => {
-      console.log(res?.markers);
-      console.log(id);
       var ob_array = res?.markers;
       var my_array = [id];
-      console.log(
-        ob_array.filter(
-          (O: { id: string | undefined }) => !my_array.includes(O.id)
-        )
-      );
       var new_array = ob_array.filter(
         (O: { id: string | undefined }) => !my_array.includes(O.id)
       );
@@ -478,7 +445,7 @@ const Branch = () => {
                         <BranchSubTitle>Location: </BranchSubTitle>
                         {branchData.address}
                         <MapContainer>
-                          <ShowMap center={center} />
+                          <ShowMap center={branchData.location} />
                         </MapContainer>
                       </CardContainer>
                       <ParticipantsContainer>

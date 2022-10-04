@@ -12,6 +12,8 @@ import { FormInputContainer } from "./Signup";
 import { SubmitBtn } from "./Signup";
 import Alert from "../../components/modal/Alert";
 
+import { RootState } from "../..";
+
 const Wrapper = styled.div`
   display: block;
   margin: 0 auto;
@@ -85,7 +87,7 @@ const Signin = () => {
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state) as any;
+  const userInfo = useSelector((state: RootState) => state);
   const [isLoading, setIsLoading] = useState(false);
   const [alreadyLogged, setAlreadyLogged] = useState(false);
   const navigate = useNavigate();

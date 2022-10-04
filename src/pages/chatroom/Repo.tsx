@@ -9,6 +9,8 @@ import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
 import defaultAvatar from "../../assets/images/defaultAvatar.png";
 
+import { RootState } from "../..";
+
 // Terminal Container
 const TerminalContainer = styled.div`
   max-width: 1280px;
@@ -136,7 +138,7 @@ const Repo = () => {
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   let navigate = useNavigate();
-  const userData = useSelector((state) => state) as any;
+  const userData = useSelector((state: RootState) => state);
   const [getUser, setGetUser] = useState("");
   const [getUserName, setGetUserName] = useState("");
   const [getUserPhoto, setGetUserPhoto] = useState("");

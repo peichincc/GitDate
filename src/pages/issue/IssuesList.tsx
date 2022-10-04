@@ -9,7 +9,7 @@ import {
   GithubPostTitle,
   GithubSubTitle,
   Button,
-} from "../../utils/StyledComponent";
+} from "../../utils/styledComponent";
 import { ReactComponent as Open } from "../../assets/images/issueOpen.svg";
 import ToggleOn from "../../assets/images/toggleOn.svg";
 import ToggleOff from "../../assets/images/toggleOff.svg";

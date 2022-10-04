@@ -9,7 +9,7 @@ import {
   CloseBtnWrapper,
   MergeBtn,
   CloseBtn,
-} from "../../utils/StyledComponent";
+} from "../../utils/styledComponent";
 
 const Back = styled.div`
   position: fixed;

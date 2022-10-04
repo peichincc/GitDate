@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
+import { db } from "../../utils/firebase";
 import {
-  getFirestore,
   doc,
   collection,
   onSnapshot,
@@ -14,14 +14,14 @@ import {
   DocumentData,
 } from "firebase/firestore";
 import { BoxHeader } from "./Profile";
-import { NavWord } from "../../utils/StyledComponent";
+import { NavWord } from "../../utils/styledComponent";
 import PostedIssues from "../../components/user/PostedIssues";
 import HostedBranches from "../../components/user/HostedBranches";
 import AttendedBranches from "../../components/user/AttendedBranches";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
 import Loading from "../../components/Loading";
-import { GoBackWrapper, Button, GithubLink } from "../../utils/StyledComponent";
+import { GoBackWrapper, Button, GithubLink } from "../../utils/styledComponent";
 import SourceTree from "./Graph";
 import ToggleOn from "../../assets/images/toggleOn.svg";
 import ToggleOff from "../../assets/images/toggleOff.svg";
@@ -119,21 +119,8 @@ export const DataCard = styled.div`
 const Readme = () => {
   let navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const db = getFirestore();
-  const { id } = useParams<any>();
-  type ListData = {
-    lastname: string;
-    firstname: string;
-    age: number | undefined;
-    gender: string;
-    githublink: string;
-    details: string;
-    gender_interested: string;
-    main_photo: string;
-    wish_relationship: string;
-  };
-  // const [userData, setUserData] = useState<ListData | null>(null);
-  const [userData, setUserData] = useState<any>(null);
+  const { id } = useParams();
+  const [userData, setUserData] = useState<DocumentData>();
   const [postedIssues, setPostedIssues] = useState<DocumentData>();
   const [hostedBranches, setHostedBranches] = useState<DocumentData>();
   const [attendedBranches, setAttendedBranches] = useState<DocumentData>();
@@ -176,7 +163,7 @@ const Readme = () => {
 
   // 搜尋使用者發過的文
   const searchIssues = async (userId: string) => {
-    let temp = [] as any;
+    const temp: DocumentData[] = [];
     const q = query(collection(db, "Issues"), where("posted_by", "==", userId));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
@@ -187,7 +174,7 @@ const Readme = () => {
   };
   // 搜尋使用者的活動
   const searchHostedBranches = async (userId: string) => {
-    let temp = [] as any;
+    const temp: DocumentData[] = [];
     const q = query(
       collection(db, "Branches"),
       where("hosted_by", "==", userId)
@@ -202,7 +189,7 @@ const Readme = () => {
     onSnapshot(doc(collection(db, "Users"), userId), async (doc) => {
       if (doc.exists()) {
         console.log(doc.data().activity_attend);
-        const newArr = [] as any;
+        const newArr: React.SetStateAction<DocumentData | undefined> = [];
         for (let i = 0; i < doc.data().activity_attend.length; i++) {
           await firebaseapi
             .readBranchData(doc.data().activity_attend[i])

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import {
@@ -8,7 +8,7 @@ import {
   BlogList,
   GithubPostTitle,
   Button,
-} from "../../utils/StyledComponent";
+} from "../../utils/styledComponent";
 import branch from "../../assets/icons/branch.png";
 
 const BranchesHeader = styled(BoxHeader)`

@@ -3,17 +3,19 @@ import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
 import "./chatroom.css";
 import { useSelector } from "react-redux";
+import { db } from "../../utils/firebase";
 import {
   addDoc,
   collection,
   serverTimestamp,
   query,
-  getFirestore,
   onSnapshot,
   orderBy,
 } from "firebase/firestore";
 import Picker from "emoji-picker-react";
 import useOnclickOutside from "react-cool-onclickoutside";
+
+import { RootState } from "../..";
 
 const ChatContainer = styled.div`
   display: flex;
@@ -93,8 +95,7 @@ const EmojiBx = styled.div`
 `;
 
 const Chatroom = ({ chatroomId }: any) => {
-  const userData = useSelector((state) => state) as any;
-  const db = getFirestore();
+  const userData = useSelector((state: RootState) => state);
   const [messages, setMessages] = useState<any>([]);
   const [chosenEmoji, setChosenEmoji] = useState<any>();
 

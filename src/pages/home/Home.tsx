@@ -7,10 +7,12 @@ import dating from "../../assets/images/feature/dating.jpg";
 import networking from "../../assets/images/feature/networking.jpg";
 import pride from "../../assets/images/feature/pride.jpg";
 import { Tour } from "../../components/Tour";
-import { ActionButton, TagButton } from "../../utils/StyledComponent";
+import { ActionButton, TagButton } from "../../utils/styledComponent";
 import { ShowMainMap } from "../../components/map/MainMap";
 import firebaseapi from "../../utils/firebaseapi";
 import { Carousel } from "./Carousel";
+
+import { RootState } from "../..";
 
 const Wrapper = styled.div`
   display: block;
@@ -154,19 +156,10 @@ const TourReminder = styled.div`
 `;
 
 const Home = () => {
-  const userInfo = useSelector((state) => state) as any;
+  const userInfo = useSelector((state: RootState) => state);
   const [alreadyLogged, setAlreadyLogged] = useState(false);
-
   const [markersFromDB, setMarkersFromDB] = useState([]);
   const navigate = useNavigate();
-  const [photo, setPhoto] = useState(1);
-  const change = () => {
-    if (photo === 7) {
-      setPhoto(1);
-      return;
-    }
-    setPhoto((prev) => prev + 1);
-  };
 
   useEffect(() => {
     const userID = userInfo.user.user_id;

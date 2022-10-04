@@ -8,7 +8,7 @@ import {
   ModalContentsWrapper,
   CloseBtnWrapper,
   Button,
-} from "../../utils/StyledComponent";
+} from "../../utils/styledComponent";
 import git from "../../assets/images/gitIcon.png";
 
 const Back = styled.div`

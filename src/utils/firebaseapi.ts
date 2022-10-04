@@ -7,23 +7,21 @@ import {
   where,
   getDoc,
   getDocs,
-  getFirestore,
   deleteDoc,
   updateDoc,
   arrayUnion,
   onSnapshot,
   orderBy,
   DocumentData,
+  CollectionReference,
+  DocumentReference,
 } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "./firebase";
 import { NavigationType } from "react-router-dom";
 
 import { FormRecipient } from "./interface";
 
-// const db = getFirestore();
-// const storage = getStorage();
 const usersRef = collection(db, "Users");
 const issuesRef = collection(db, "Issues");
 const branchesRef = collection(db, "Branches");
@@ -193,8 +191,6 @@ const firebaseapi = {
     await uploadBytes(imageRef, imageUpload)
       .then(() => {
         // alert("uploaded!");
-        console.log(newBranchRef);
-        console.log(recipient);
         setDoc(newBranchRef, recipient);
       })
       .then(async () => {
@@ -251,7 +247,7 @@ const firebaseapi = {
   },
   // Search User by name in DB
   async searchUserByName(userName: string) {
-    let temp: DocumentData[] = [];
+    const temp: DocumentData[] = [];
     const q = query(
       collection(db, "Users"),
       where("firstname", "==", userName)
@@ -264,7 +260,7 @@ const firebaseapi = {
   },
   // Refactor -> BranchesAll get different type branches
   async getBranches(field: string, value: string) {
-    let temp: DocumentData[] = [];
+    const temp: DocumentData[] = [];
     const q = query(collection(db, "Branches"), where(field, "==", value));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {

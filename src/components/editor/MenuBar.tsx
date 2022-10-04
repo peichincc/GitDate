@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React from "react";
-import { Button } from "../../utils/StyledComponent";
+import { Button } from "../../utils/styledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBold,
