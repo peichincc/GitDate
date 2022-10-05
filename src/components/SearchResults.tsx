@@ -44,7 +44,7 @@ const SearchResults = ({ searchResults }: DocumentData) => {
             lastname: string;
           }) => (
             <>
-              <ResultBox>
+              <ResultBox key={user["user_id"]}>
                 <Results
                   onClick={() => {
                     navigate("/readme/" + user["user_id"]);

@@ -55,7 +55,7 @@ const Participants = ({ participantsList }: any) => {
           participantsList.map(
             (list: { photo: string; id: string; name: string }) => (
               <>
-                <ParticipantContainer>
+                <ParticipantContainer key={list.id}>
                   <PhotoBox
                     src={list.photo}
                     alt="Participants_photo"

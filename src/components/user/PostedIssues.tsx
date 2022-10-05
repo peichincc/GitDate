@@ -48,7 +48,7 @@ const PostedIssues = ({ postedIssues }: DocumentData) => {
             ? postedIssues.map(
                 (blog: { status: string; title: string; issue_id: string }) => (
                   <>
-                    <BlogList key={blog.issue_id.toString()}>
+                    <BlogList key={blog.issue_id}>
                       <BlogTitle>
                         <BlogStatus>{blog.status}</BlogStatus>
                         {blog.title}

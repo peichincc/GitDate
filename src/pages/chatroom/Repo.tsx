@@ -210,6 +210,7 @@ const Repo = () => {
                       }) => {
                         return (
                           <MsgList
+                            key={friend["chat_id"]}
                             onClick={() => {
                               setOpenChatroom(true);
                               setChatroomId(friend["chat_id"]);

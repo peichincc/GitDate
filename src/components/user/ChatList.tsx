@@ -87,7 +87,7 @@ const ChatList = () => {
           {friendList &&
             friendList.map((friend: { user_name: string; user_id: string }) => {
               return (
-                <ListContainer key={friend["user_id"].toString()}>
+                <ListContainer key={friend["user_id"]}>
                   <NameContainer>
                     <Merge />
                     {friend["user_name"]}
