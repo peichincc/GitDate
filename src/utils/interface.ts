@@ -28,5 +28,6 @@ interface ListData {
   wish_relationship: string;
   friend_sent_request: [];
 }
+export const libraries = String(["places"]);
 
 export { FormRecipient, ListData };

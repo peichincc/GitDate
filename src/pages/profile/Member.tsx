@@ -226,7 +226,6 @@ const Member = () => {
     });
     setPostedIssues(temp);
   };
-
   const searchHostedBranches = async (userId: string) => {
     const temp: DocumentData[] = [];
     const q = query(

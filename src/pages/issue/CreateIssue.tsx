@@ -178,9 +178,9 @@ const CreateIssue = () => {
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [fileSrc, setFileSrc] = useState<any>(null);
 
-  const hiddenFileInput = useRef<any>(null);
+  const hiddenFileInput = useRef<HTMLInputElement | null>(null);
   const handleClick = () => {
-    hiddenFileInput.current.click();
+    hiddenFileInput.current?.click();
   };
   const handleUploadFile = (e: any) => {
     if (!e.target.files[0]) return;

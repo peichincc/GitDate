@@ -171,14 +171,14 @@ const CreateBranch = () => {
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
-  const hiddenFileInput = useRef<any>(null);
+  const hiddenFileInput = useRef<HTMLInputElement | null>(null);
   const userData = useSelector((state: RootState) => state);
   const [getUser, setGetUser] = useState("");
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [fileSrc, setFileSrc] = useState<any>(null);
 
   const handleClick = () => {
-    hiddenFileInput.current.click();
+    hiddenFileInput.current?.click();
   };
 
   const TypeList: Data[] = [

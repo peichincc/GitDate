@@ -35,10 +35,18 @@ const markers = [
   },
 ];
 
+const libraries = ["places"] as (
+  | "places"
+  | "drawing"
+  | "geometry"
+  | "localContext"
+  | "visualization"
+)[];
+
 export const ShowMainMap = ({ markersFromDB, position }: any) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
-    libraries: ["places"],
+    libraries,
     language: "en",
   });
 
