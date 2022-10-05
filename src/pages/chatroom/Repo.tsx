@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { useSelector } from "react-redux";
 import firebaseapi from "../../utils/firebaseapi";
 import Chatroom from "./Chatroom";
@@ -9,143 +9,7 @@ import Loading from "../../components/Loading";
 import defaultAvatar from "../../assets/images/defaultAvatar.png";
 import { RootState } from "../..";
 import { DocumentData } from "firebase/firestore";
-
-const ShowP = keyframes` from {
-      width: 0;
-    }
-    to {
-      width: 17px;
-    }`;
-const Paragraph = styled.span`
-  text-align: left;
-  font-size: 1.25em;
-  font-family: monospace;
-  white-space: nowrap;
-  overflow: hidden;
-  /* width: 0; */
-  &.line1 {
-    color: #9cd9f0;
-    animation: ${ShowP} 0.5s 1s steps(20, end) forwards;
-  }
-  &.line2 {
-    color: #cdee69;
-  }
-  &.line3 {
-    color: #e09690;
-  }
-  &.line4 {
-    color: #fff;
-  }
-  @-webkit-keyframes type {
-    from {
-      width: 0;
-    }
-    to {
-      width: 17em;
-    }
-  }
-  @-moz-keyframes type {
-    to {
-      width: 17em;
-    }
-  }
-  @-o-keyframes type {
-    to {
-      width: 17em;
-    }
-  }
-  @keyframes type {
-    to {
-      width: 17em;
-    }
-  }
-`;
-const Cursor1 = styled.div`
-  color: black;
-`;
-const Cursor2 = styled.div`
-  color: black;
-`;
-const Cursor3 = styled.div`
-  color: black;
-`;
-const Cursor4 = styled.span`
-  -webkit-animation: blink 1s 0s infinite;
-  -moz-animation: blink 1s 0s infinite;
-  -o-animation: blink 1s 0s infinite;
-  animation: blink 1s 0.5s infinite;
-  @-webkit-keyframes blink {
-    0% {
-      opacity: 0;
-    }
-    40% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
-
-  @-moz-keyframes blink {
-    0% {
-      opacity: 0;
-    }
-    40% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
-
-  @-o-keyframes blink {
-    0% {
-      opacity: 0;
-    }
-    40% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
-
-  @keyframes blink {
-    0% {
-      opacity: 0;
-    }
-    40% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
-`;
+import Typewriter from "./Typewriter";
 
 const TerminalContainer = styled.div`
   max-width: 1280px;
@@ -375,23 +239,7 @@ const Repo = () => {
                 </>
               ) : (
                 <LineContainer>
-                  <Paragraph className="paragraph line1">
-                    &#91;&nbsp;&ldquo;Sending pull request,&rdquo;
-                    <Cursor1>_</Cursor1>
-                  </Paragraph>
-                  <Paragraph className="paragraph line2">
-                    &nbsp;&nbsp;&ldquo;Merging pull request,&rdquo;
-                    <Cursor2>_</Cursor2>
-                  </Paragraph>
-                  <Paragraph className="paragraph line3">
-                    &nbsp;&nbsp;&ldquo;Let's open a repo!&rdquo;&nbsp;&#93;
-                    <Cursor3>_</Cursor3>
-                  </Paragraph>
-                  <Paragraph className="paragraph line4">
-                    <br />
-                    Start chatting...
-                    <Cursor4>_</Cursor4>
-                  </Paragraph>
+                  <Typewriter />
                 </LineContainer>
               )}
             </Chat>
