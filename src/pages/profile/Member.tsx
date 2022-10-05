@@ -188,12 +188,12 @@ const SignOutBtn = styled(SubmitBtn)`
 `;
 
 const Member = () => {
-  const [ButtonPop, setButtonPop] = useState(false);
-  const [alertMsg, setAlertMsg] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const userInfo = useSelector((state: RootState) => state);
+  const [ButtonPop, setButtonPop] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [getUser, setGetUser] = useState("");
   const [logInUserData, setLoginUserData] = useState<DocumentData>();
   const [memberOverview, setMemberOverview] = useState(true);
@@ -208,7 +208,6 @@ const Member = () => {
 
   useEffect(() => {
     const userId = userInfo.user.user_id;
-    console.log(userId);
     if (!userId) {
       navigate("/");
       return;

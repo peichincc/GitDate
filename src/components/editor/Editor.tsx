@@ -38,7 +38,7 @@ const StyledEditorContent = styled(EditorContent)`
   }
 `;
 
-type TiptapProps = { content?: string; setEditorHtmlContent?: any };
+type TiptapProps = { content?: string; setEditorHtmlContent: any };
 
 const TiptapEditor = ({
   content = "",

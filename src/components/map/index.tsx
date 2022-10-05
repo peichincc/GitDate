@@ -67,7 +67,7 @@ const Map = ({ setLocation, setFormatAddress }: any) => {
         <GoogleMap
           zoom={10}
           center={center}
-          mapContainerClassName="map-container"
+          mapContainerStyle={{ width: "100%", height: "100%" }}
         >
           {selected && <Marker position={selected} />}
         </GoogleMap>
