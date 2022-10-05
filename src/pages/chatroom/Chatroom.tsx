@@ -117,6 +117,83 @@ const EmojiBx = styled.div`
   bottom: 0;
   right: 0;
 `;
+const CursorPlus = styled.span`
+  -webkit-animation: blink 1s 0s infinite;
+  -moz-animation: blink 1s 0s infinite;
+  -o-animation: blink 1s 0s infinite;
+  animation: blink 1s 0.5s infinite;
+  @-webkit-keyframes blink {
+    0% {
+      opacity: 0;
+    }
+    40% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @-moz-keyframes blink {
+    0% {
+      opacity: 0;
+    }
+    40% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @-o-keyframes blink {
+    0% {
+      opacity: 0;
+    }
+    40% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes blink {
+    0% {
+      opacity: 0;
+    }
+    40% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+`;
 
 const Chatroom = (props: { chatroomId: string }) => {
   const { chatroomId } = props;
@@ -223,7 +300,7 @@ const Chatroom = (props: { chatroomId: string }) => {
                 required
                 minLength={1}
               />
-              <span className="cursor_plus">_</span>
+              <CursorPlus>_</CursorPlus>
             </InputContainer>
             <EmojiIcon onClick={showEmoji}>😃</EmojiIcon>
             {chosenEmoji && (
