@@ -200,7 +200,7 @@ const Signup = () => {
               <TextReminder>
                 Already have account?
                 <SignInBtn onClick={() => navigate("/signin")}>
-                  Sign In ➜
+                  <strong>Sign In ➜</strong>
                 </SignInBtn>
               </TextReminder>
               <Container>

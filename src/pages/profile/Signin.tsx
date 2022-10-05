@@ -196,7 +196,7 @@ const Signin = () => {
                     <TextReminder>
                       New to GitDate?{" "}
                       <SignUpBtn onClick={() => navigate("/signup")}>
-                        Create an account.
+                        <strong> Create an account.</strong>
                       </SignUpBtn>
                     </TextReminder>
                     <TextReminder>

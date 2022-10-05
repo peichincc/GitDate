@@ -63,7 +63,7 @@ const Slider = () => {
       <SliderWrapper>
         <CheatSheet trigger={ButtonPop} setButtonPop={setButtonPop} />
         <StickyBox onClick={() => setButtonPop(true)}>
-          <GithubLogo />
+          <GithubLogo id="corner" />
           <Triangle />
         </StickyBox>
       </SliderWrapper>
