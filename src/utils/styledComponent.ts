@@ -13,7 +13,6 @@ export const ActionButton = styled.button`
     background-color: #edede9;
   }
 `;
-
 export const Button = styled.button`
   margin-right: 4px;
   border-radius: 6px;
@@ -73,7 +72,6 @@ export const CloseBtn = styled.button`
     background-color: #e63946;
   }
 `;
-
 export const PhotoContainer = styled.div`
   padding: 10px;
   width: 100%;
@@ -102,7 +100,6 @@ export const AvatarUserImg = styled.img`
     display: none;
   }
 `;
-
 export const FormGroup = styled.div`
   display: flex;
   align-items: center;
@@ -133,7 +130,6 @@ export const FormSelect = styled.select`
 export const FormSelectOptions = styled.option`
   border: solid 1px #979797;
 `;
-
 export const UploadCardStyled = styled.label`
   margin-bottom: 5px;
   background-color: #fff;
@@ -159,7 +155,6 @@ export const UploadPreviewImg = styled.img`
   max-width: 100%;
   max-height: 100%;
 `;
-
 export const BoxHeader = styled.div`
   padding: 16px;
   background-color: #f6f8fa;
@@ -214,7 +209,6 @@ export const GithubSubTitle = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 `;
-
 export const LabelsButton = styled.button`
   padding: 0 10px;
   font-size: 12px;
@@ -228,7 +222,6 @@ export const LabelsButton = styled.button`
   margin-right: 2px;
   cursor: pointer;
 `;
-
 export const AvatarBlock = styled.div`
   width: auto;
   margin-right: 25px;
@@ -261,7 +254,6 @@ export const PostBox = styled.div`
     margin-left: -20px;
   }
 `;
-
 export const PostTitle = styled.div`
   font-weight: 400;
   line-height: 1.25;
@@ -338,7 +330,6 @@ export const GithubLink = styled.button`
     text-decoration: underline;
   }
 `;
-
 export const StatusOpen = styled.div`
   display: flex;
   align-items: center;
@@ -352,11 +343,9 @@ export const StatusOpen = styled.div`
   line-height: 20px;
   text-align: center;
 `;
-
 export const NavWord = styled.div`
   padding-left: 5px;
 `;
-
 export const ClickBtn = styled.button`
   border: 1px solid transparent;
   border-radius: 2em;
@@ -366,14 +355,12 @@ export const ClickBtn = styled.button`
     background-color: #24292f;
   }
 `;
-
 export const TagButton = styled(LabelsButton)`
   cursor: default;
   background-color: #453d38;
   width: fit-content;
   margin: 3px;
 `;
-
 export const ModalHeader = styled.div`
   background-color: #f6f8fa;
   width: auto;
@@ -417,13 +404,11 @@ export const CloseBtnWrapper = styled.div`
   justify-content: center;
   margin-top: 20px;
 `;
-
 export const GoBackWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
 `;
-
 export const EditBtn = styled(Button)`
   font-size: 12px;
   line-height: 20px;

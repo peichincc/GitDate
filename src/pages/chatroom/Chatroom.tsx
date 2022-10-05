@@ -175,7 +175,6 @@ const Chatroom = (props: { chatroomId: string }) => {
   useEffect(() => {
     firebaseapi.readChatData(chatroomId).then((res) => {
       if (res) {
-        console.log(res);
         getMessages(chatroomId);
       }
     });

@@ -136,19 +136,16 @@ const Repo = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
-  const [getUser, setGetUser] = useState("");
-  const [getUserName, setGetUserName] = useState("");
-  const [getUserPhoto, setGetUserPhoto] = useState("");
   const [friendList, setFriendList] = useState<DocumentData>();
   const [openChatroom, setOpenChatroom] = useState(false);
   const [chatroomId, setChatroomId] = useState<string>("");
   const [chaterName, setChaterName] = useState("");
   const [chaterID, setChaterID] = useState("");
+  const userId = userData.user.user_id;
+  const userName = userData.user.user_name;
+  const userPhoto = userData.user.user_photo;
 
   useEffect(() => {
-    const userId = userData.user.user_id;
-    const userName = userData.user.user_name;
-    const userPhoto = userData.user.user_photo;
     if (!userId) {
       setAlertMsg("Please sign in!");
       setButtonPop(true);
@@ -158,9 +155,6 @@ const Repo = () => {
       return;
     }
     if (userId && userName) {
-      setGetUser(userId);
-      setGetUserName(userName);
-      setGetUserPhoto(userPhoto);
       firebaseapi.readUserData(userId).then((result) => {
         if (result) {
           setFriendList(result["friend_list"]);
@@ -188,13 +182,13 @@ const Repo = () => {
             <Sidebar>
               <NameCard>
                 <NameCardPhotoContainer>
-                  {getUser ? (
-                    <NameCardPhoto src={getUserPhoto} id="repoSidebar" />
+                  {userId ? (
+                    <NameCardPhoto src={userPhoto} id="repoSidebar" />
                   ) : (
                     <NameCardPhoto src={defaultAvatar} />
                   )}
                 </NameCardPhotoContainer>
-                <NameCardName>{getUserName}</NameCardName>
+                <NameCardName>{userName}</NameCardName>
               </NameCard>
               {isLoading ? (
                 <Loading />
