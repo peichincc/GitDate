@@ -166,14 +166,14 @@ const Issue = () => {
   const [alertMsg, setAlertMsg] = useState("");
   const [issueData, setIssueData] = useState<DocumentData>();
   const [newT, setNewT] = useState("");
-  const [getUser, setGetUser] = useState("");
-  const [getUserName, setGetUserName] = useState("");
-  const [getUserPhoto, setGetUserPhoto] = useState("");
   const [getAuthor, setGetAuthor] = useState("");
   const [getAuthorID, setGetAuthorID] = useState("");
   const [isAuthor, setIsAuthor] = useState(false);
   const [issueOpen, setIssueOpen] = useState(true);
   const [authorFriends, setAuthorFriends] = useState([]);
+  const userId = userData.user.user_id;
+  const userName = userData.user.user_name;
+  const userPhoto = userData.user.user_photo;
 
   const changeIssueStatus = () => {
     const issueRef = collection(db, "Issues");
@@ -195,17 +195,6 @@ const Issue = () => {
   };
 
   useEffect(() => {
-    const userId = userData.user.user_id;
-    const userName = userData.user.user_name;
-    const userPhoto = userData.user.user_photo;
-    if (userId) {
-      setGetUser(userId);
-    }
-    if (userId && userName) {
-      setGetUser(userId);
-      setGetUserName(userName);
-      setGetUserPhoto(userPhoto);
-    }
     firebaseapi.readIssueData(id).then((res) => {
       if (res) {
         const newT = new Date(res.posted_at.seconds * 1000).toString();
@@ -234,12 +223,12 @@ const Issue = () => {
   }, []);
 
   const sendRequest = async () => {
-    if (!getUser) {
+    if (!userId) {
       setAlertMsg("Please sign in!");
       setButtonPop(true);
       return;
     }
-    if (!getUserName) {
+    if (!userName) {
       setAlertMsg("You haven't completed your README, let's write it here");
       setAlertWtihCTAPop(true);
       return;
@@ -254,7 +243,7 @@ const Issue = () => {
     setConfirmPop(false);
   };
   const confirmSendRequest = async () => {
-    if (authorFriends.some((e: { user_id: string }) => e.user_id === getUser)) {
+    if (authorFriends.some((e: { user_id: string }) => e.user_id === userId)) {
       setButtonPop(true);
       setAlertMsg("You've already merged 😉");
       return;
@@ -262,9 +251,9 @@ const Issue = () => {
     const userRef = doc(db, "Users", getAuthorID);
     await updateDoc(userRef, {
       friend_request: arrayUnion({
-        user_id: getUser,
-        user_name: getUserName,
-        user_photo: getUserPhoto,
+        user_id: userId,
+        user_name: userName,
+        user_photo: userPhoto,
       }),
     });
     setButtonPop(true);

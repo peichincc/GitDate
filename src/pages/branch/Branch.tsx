@@ -167,8 +167,6 @@ const Branch = () => {
   const [confirmPop, setConfirmPop] = useState(false);
   const [confirmMsg, setConfirmMsg] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
-  const [getUser, setGetUser] = useState("");
-  const [getUserName, setGetUserName] = useState("");
   const [getAuthor, setGetAuthor] = useState("");
   const [getAuthorID, setGetAuthorID] = useState("");
   const [branchData, setBranchData] = useState<DocumentData>();
@@ -178,17 +176,10 @@ const Branch = () => {
   const [isAuthor, setIsAuthor] = useState(false);
   const [isExpired, setIsExpired] = useState(true);
   const [hostedList, setHostedList] = useState([]);
+  const userId = userData.user.user_id;
+  const userName = userData.user.user_name;
 
   useEffect(() => {
-    const userId = userData.user.user_id;
-    const userName = userData.user.user_name;
-    if (userId) {
-      setGetUser(userId);
-    }
-    if (userId && userName) {
-      setGetUser(userId);
-      setGetUserName(userName);
-    }
     firebaseapi.readBranchData(id).then((res) => {
       if (res) {
         const today = new Date();
@@ -229,12 +220,12 @@ const Branch = () => {
   }, [openParticipants, participantsList]);
 
   const attendActivity = () => {
-    if (!getUser) {
+    if (!userId) {
       setButtonPop(true);
       setAlertMsg("Please sign in!");
       return;
     }
-    if (!getUserName) {
+    if (!userName) {
       setAlertMsg("You haven't completed your README, let's write it here");
       setAlertWtihCTAPop(true);
       return;
@@ -249,13 +240,13 @@ const Branch = () => {
     setConfirmPop(false);
   };
   const confirmAttendActivity = async () => {
-    const userRef = doc(collection(db, "Users"), getUser);
+    const userRef = doc(collection(db, "Users"), userId);
     const branchRef = doc(collection(db, "Branches"), id);
     await updateDoc(userRef, {
       activity_attend: arrayUnion(id),
     });
     await updateDoc(branchRef, {
-      participants: arrayUnion(getUser),
+      participants: arrayUnion(userId),
     });
     await getParticipants();
     setButtonPop(true);
