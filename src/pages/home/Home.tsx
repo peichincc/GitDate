@@ -161,7 +161,6 @@ const Home = () => {
       setAlreadyLogged(true);
     }
     firebaseapi.readBranchLocations().then((res) => {
-      console.log(res);
       if (res) {
         setMarkersFromDB(res["markers"]);
       }

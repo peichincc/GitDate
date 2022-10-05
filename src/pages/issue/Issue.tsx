@@ -402,7 +402,7 @@ const Issue = () => {
                         <TagsWrapper>
                           {issueData.tags.map((tag: string) => (
                             <>
-                              <TagButton>{tag}</TagButton>
+                              <TagButton key={Math.random()}>{tag}</TagButton>
                             </>
                           ))}
                         </TagsWrapper>

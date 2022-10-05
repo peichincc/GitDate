@@ -66,7 +66,6 @@ const MainMap = ({ markersFromDB }: any) => {
     }
     setActiveMarker(markersFromDB);
   };
-  console.log(markersFromDB);
 
   return (
     <>
