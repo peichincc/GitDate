@@ -422,3 +422,17 @@ export const DeleteBtn = styled(EditBtn)`
     background-color: #953800;
   }
 `;
+export const CopyBtn = styled.button`
+  border: none;
+  background: none;
+  margin-left: 4px;
+  margin-right: 2px;
+  border-radius: 6px;
+  padding: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  &:hover {
+    background-color: gray;
+    color: white;
+  }
+`;

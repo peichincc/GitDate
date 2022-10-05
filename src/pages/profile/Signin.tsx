@@ -11,8 +11,10 @@ import { Title } from "./Signup";
 import { FormInputContainer } from "./Signup";
 import { SubmitBtn } from "./Signup";
 import Alert from "../../components/modal/Alert";
-
+import { CopyBtn } from "../../utils/styledComponent";
 import { RootState } from "../..";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
 const Wrapper = styled.div`
   display: block;
@@ -200,10 +202,40 @@ const Signin = () => {
                       </SignUpBtn>
                     </TextReminder>
                     <TextReminder>
-                      Test account: <br />
-                      test@test.com / password: 123456
+                      Test Accounts <br />
+                      test@test.com
+                      <CopyBtn
+                        onClick={() => {
+                          navigator.clipboard.writeText("test@test.com");
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faCopy} />
+                      </CopyBtn>
+                      / password: 123456
+                      <CopyBtn
+                        onClick={() => {
+                          navigator.clipboard.writeText("123456");
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faCopy} />
+                      </CopyBtn>
                       <br />
-                      test2@test.com / password: 123456
+                      test2@test.com
+                      <CopyBtn
+                        onClick={() => {
+                          navigator.clipboard.writeText("test2@test.com");
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faCopy} />
+                      </CopyBtn>
+                      / password: 123456
+                      <CopyBtn
+                        onClick={() => {
+                          navigator.clipboard.writeText("123456");
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faCopy} />
+                      </CopyBtn>
                     </TextReminder>
                   </>
                 )}
