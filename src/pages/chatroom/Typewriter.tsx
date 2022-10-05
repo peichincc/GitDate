@@ -109,9 +109,9 @@ const Cursor4 = styled.span`
 `;
 
 const Typewriter = () => {
-  const first_text = "Sending pull request,";
-  const second_text = "Merging pull request,";
-  const third_text = "Let's open a repo!";
+  const firstText = "Sending pull request,";
+  const secondText = "Merging pull request,";
+  const thirdText = "Let's open a repo!";
 
   const textState = ["istyping", "isdeleting"];
   const [typing1, setTyping1] = useState(textState[0]);
@@ -121,23 +121,23 @@ const Typewriter = () => {
   const [text2, setText2] = useState("");
   const [text3, setText3] = useState("");
 
-  function sleep(ms: any) {
+  function sleep(ms: number | undefined) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (typing1 === "istyping" && text1 !== first_text) {
-        setText1(first_text.slice(0, text1.length + 1));
-      } else if (text1 === first_text && typing1 === "istyping") {
+      if (typing1 === "istyping" && text1 !== firstText) {
+        setText1(firstText.slice(0, text1.length + 1));
+      } else if (text1 === firstText && typing1 === "istyping") {
         sleep(2000).then(() => {
           setTyping1(textState[1]);
         });
       } else if (
-        (text1 === first_text && typing1 === "isdeleting") ||
+        (text1 === firstText && typing1 === "isdeleting") ||
         typing1 === "isdeleting"
       ) {
-        setText1(first_text.slice(0, text1.length - 1));
+        setText1(firstText.slice(0, text1.length - 1));
         if (text1.length <= 2) {
           setTyping1(textState[0]);
         }
@@ -149,17 +149,17 @@ const Typewriter = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (typing2 === "istyping" && text2 !== second_text) {
-        setText2(second_text.slice(0, text2.length + 1));
-      } else if (text2 === second_text && typing2 === "istyping") {
+      if (typing2 === "istyping" && text2 !== secondText) {
+        setText2(secondText.slice(0, text2.length + 1));
+      } else if (text2 === secondText && typing2 === "istyping") {
         sleep(2000).then(() => {
           setTyping2(textState[1]);
         });
       } else if (
-        (text2 === second_text && typing2 === "isdeleting") ||
+        (text2 === secondText && typing2 === "isdeleting") ||
         typing2 === "isdeleting"
       ) {
-        setText2(second_text.slice(0, text2.length - 1));
+        setText2(secondText.slice(0, text2.length - 1));
         if (text2.length <= 2) {
           setTyping2(textState[0]);
         }
@@ -171,17 +171,17 @@ const Typewriter = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (typing3 === "istyping" && text3 !== third_text) {
-        setText3(third_text.slice(0, text3.length + 1));
-      } else if (text3 === third_text && typing3 === "istyping") {
+      if (typing3 === "istyping" && text3 !== thirdText) {
+        setText3(thirdText.slice(0, text3.length + 1));
+      } else if (text3 === thirdText && typing3 === "istyping") {
         sleep(2000).then(() => {
           setTyping3(textState[1]);
         });
       } else if (
-        (text3 === third_text && typing3 === "isdeleting") ||
+        (text3 === thirdText && typing3 === "isdeleting") ||
         typing3 === "isdeleting"
       ) {
-        setText3(third_text.slice(0, text3.length - 1));
+        setText3(thirdText.slice(0, text3.length - 1));
         if (text3.length <= 2) {
           setTyping3(textState[0]);
         }

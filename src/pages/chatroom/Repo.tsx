@@ -59,7 +59,6 @@ const FakeScreen = styled.div`
 const LineContainer = styled.div`
   padding: 20px;
 `;
-
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -78,7 +77,6 @@ const Sidebar = styled.div`
 const Chat = styled.div`
   width: 100%;
 `;
-
 const NameCard = styled.div`
   display: flex;
   align-items: center;
@@ -203,23 +201,30 @@ const Repo = () => {
               ) : (
                 <>
                   {friendList &&
-                    friendList.map((friend: any) => {
-                      return (
-                        <MsgList
-                          onClick={() => {
-                            setOpenChatroom(true);
-                            setChatroomId(friend["chat_id"]);
-                            setChaterName(friend["user_name"]);
-                            setChaterID(friend["user_id"]);
-                          }}
-                        >
-                          <NameCardPhotoContainer>
-                            <NameCardPhoto src={friend["user_photo"]} />
-                          </NameCardPhotoContainer>
-                          <NameCardName>{friend["user_name"]}</NameCardName>
-                        </MsgList>
-                      );
-                    })}
+                    friendList.map(
+                      (friend: {
+                        chat_id: string;
+                        user_name: string;
+                        user_id: string;
+                        user_photo: string;
+                      }) => {
+                        return (
+                          <MsgList
+                            onClick={() => {
+                              setOpenChatroom(true);
+                              setChatroomId(friend["chat_id"]);
+                              setChaterName(friend["user_name"]);
+                              setChaterID(friend["user_id"]);
+                            }}
+                          >
+                            <NameCardPhotoContainer>
+                              <NameCardPhoto src={friend["user_photo"]} />
+                            </NameCardPhotoContainer>
+                            <NameCardName>{friend["user_name"]}</NameCardName>
+                          </MsgList>
+                        );
+                      }
+                    )}
                 </>
               )}
             </Sidebar>

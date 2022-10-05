@@ -122,60 +122,6 @@ const CursorPlus = styled.span`
   -moz-animation: blink 1s 0s infinite;
   -o-animation: blink 1s 0s infinite;
   animation: blink 1s 0.5s infinite;
-  @-webkit-keyframes blink {
-    0% {
-      opacity: 0;
-    }
-    40% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
-
-  @-moz-keyframes blink {
-    0% {
-      opacity: 0;
-    }
-    40% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
-
-  @-o-keyframes blink {
-    0% {
-      opacity: 0;
-    }
-    40% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
-
   @keyframes blink {
     0% {
       opacity: 0;
@@ -199,9 +145,11 @@ const Chatroom = (props: { chatroomId: string }) => {
   const { chatroomId } = props;
   const userData = useSelector((state: RootState) => state);
   const [messages, setMessages] = useState<any>([]);
-  const [chosenEmoji, setChosenEmoji] = useState<any>();
+  const [chosenEmoji, setChosenEmoji] = useState<boolean>();
+  const [value, setValue] = useState("");
+  const user = userData.user;
 
-  const containerRef = useRef<any>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   useLayoutEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
@@ -225,7 +173,6 @@ const Chatroom = (props: { chatroomId: string }) => {
   };
 
   useEffect(() => {
-    console.log(chatroomId);
     firebaseapi.readChatData(chatroomId).then((res) => {
       if (res) {
         console.log(res);
@@ -233,9 +180,6 @@ const Chatroom = (props: { chatroomId: string }) => {
       }
     });
   }, [chatroomId]);
-
-  const [value, setValue] = useState<any>("");
-  const user = userData.user;
 
   const sendMessage = async (
     id: string,
@@ -261,15 +205,13 @@ const Chatroom = (props: { chatroomId: string }) => {
     sendMessage(chatroomId, user, value);
     setValue("");
   };
-
-  const onEmojiClick = (e: any, emojiObject: any) => {
-    setValue((pre: any) => pre + emojiObject.emoji);
+  const onEmojiClick = (e: any, emojiObject: { emoji: string }) => {
+    setValue((pre) => pre + emojiObject.emoji);
     setChosenEmoji(false);
   };
   const showEmoji = () => {
-    setChosenEmoji((pre: any) => !pre);
+    setChosenEmoji((pre) => !pre);
   };
-
   const ref = useOnclickOutside(() => {
     setChosenEmoji(false);
   });
@@ -279,11 +221,11 @@ const Chatroom = (props: { chatroomId: string }) => {
       <ChatContainer>
         <MsgListContainer ref={containerRef}>
           <MsgList>
-            {messages.map((x: any) => (
+            {messages.map((msg: { id: string; sender_id: string }) => (
               <Message
-                key={x.id}
-                message={x}
-                isOwnMessage={x.sender_id === user.user_id}
+                key={msg.id}
+                message={msg}
+                isOwnMessage={msg.sender_id === user.user_id}
               />
             ))}
           </MsgList>
@@ -308,7 +250,7 @@ const Chatroom = (props: { chatroomId: string }) => {
                 <Picker onEmojiClick={onEmojiClick} />
               </EmojiBx>
             )}
-            <MsgBtn type="submit" disabled={value < 1} className="send-message">
+            <MsgBtn type="submit" className="send-message">
               Send
             </MsgBtn>
           </MsgContainer>
@@ -322,7 +264,6 @@ function Message({ message, isOwnMessage }: any) {
   const { sender_name, text } = message;
   return (
     <MessageLine ownMessage={isOwnMessage}>
-      {/* <li className={["message", isOwnMessage && "own-message"].join(" ")}> */}
       <Sender>{isOwnMessage ? "You" : sender_name}</Sender>
       <div>{text}</div>
     </MessageLine>

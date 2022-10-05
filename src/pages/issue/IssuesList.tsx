@@ -131,80 +131,99 @@ const IssuesList = (props: { issuesStatus: string; docs: DocumentData }) => {
         </IssuesHeader>
         {switchMode ? (
           <ContentContainer>
-            {docs.map((blog: any) => {
-              const newT = new Date(blog?.posted_at.seconds * 1000);
-              const postTime =
-                newT.getFullYear() +
-                "-" +
-                ("0" + (newT.getMonth() + 1)).slice(-2) +
-                "-" +
-                ("0" + newT.getDate()).slice(-2);
-              return (
-                <>
-                  <BlogList>
-                    <LeftContainer>
-                      <IconContainer>
-                        <Open stroke="#adecbf" />
-                      </IconContainer>
-                      <CategoryContainer>{blog.category}</CategoryContainer>
-                      <GithubTitleContainer>
-                        <GithubPostTitle>{blog.title}</GithubPostTitle>
-                        <GithubSubTitle>Posted time: {postTime}</GithubSubTitle>
-                      </GithubTitleContainer>
-                    </LeftContainer>
-                    <RightContainer>
-                      <Button
-                        id="issueClick"
-                        onClick={() => {
-                          navigate("/issue/" + blog.issue_id);
-                        }}
-                      >
-                        Click to issue
-                      </Button>
-                    </RightContainer>
-                  </BlogList>
-                </>
-              );
-            })}
-          </ContentContainer>
-        ) : (
-          <CardsContainer>
-            {docs.map((blog: any) => {
-              const newT = new Date(blog?.posted_at.seconds * 1000);
-              const postTime =
-                newT.getFullYear() +
-                "-" +
-                ("0" + (newT.getMonth() + 1)).slice(-2) +
-                "-" +
-                ("0" + newT.getDate()).slice(-2);
-              return (
-                <>
-                  <CardContainer>
-                    <Card>
-                      <ImageBox>
-                        <ImageBoxImage
+            {docs.map(
+              (blog: {
+                posted_at: { seconds: number };
+                category: string;
+                title: string;
+                issue_id: string;
+              }) => {
+                const newT = new Date(blog?.posted_at.seconds * 1000);
+                const postTime =
+                  newT.getFullYear() +
+                  "-" +
+                  ("0" + (newT.getMonth() + 1)).slice(-2) +
+                  "-" +
+                  ("0" + newT.getDate()).slice(-2);
+                return (
+                  <>
+                    <BlogList>
+                      <LeftContainer>
+                        <IconContainer>
+                          <Open stroke="#adecbf" />
+                        </IconContainer>
+                        <CategoryContainer>{blog.category}</CategoryContainer>
+                        <GithubTitleContainer>
+                          <GithubPostTitle>{blog.title}</GithubPostTitle>
+                          <GithubSubTitle>
+                            Posted time: {postTime}
+                          </GithubSubTitle>
+                        </GithubTitleContainer>
+                      </LeftContainer>
+                      <RightContainer>
+                        <Button
                           id="issueClick"
-                          src={blog.main_image}
-                          alt="issue_photo"
                           onClick={() => {
                             navigate("/issue/" + blog.issue_id);
                           }}
-                        />
-                      </ImageBox>
-                      <ContentBox>
-                        <CategoryContainerGallery>
-                          {blog.category}
-                        </CategoryContainerGallery>
-                        <GithubPostTitleGallery>
-                          {blog.title}
-                        </GithubPostTitleGallery>
-                        <GithubSubTitle>Posted time: {postTime}</GithubSubTitle>
-                      </ContentBox>
-                    </Card>
-                  </CardContainer>
-                </>
-              );
-            })}
+                        >
+                          Click to issue
+                        </Button>
+                      </RightContainer>
+                    </BlogList>
+                  </>
+                );
+              }
+            )}
+          </ContentContainer>
+        ) : (
+          <CardsContainer>
+            {docs.map(
+              (blog: {
+                posted_at: { seconds: number };
+                category: string;
+                title: string;
+                issue_id: string;
+                main_image: string;
+              }) => {
+                const newT = new Date(blog?.posted_at.seconds * 1000);
+                const postTime =
+                  newT.getFullYear() +
+                  "-" +
+                  ("0" + (newT.getMonth() + 1)).slice(-2) +
+                  "-" +
+                  ("0" + newT.getDate()).slice(-2);
+                return (
+                  <>
+                    <CardContainer>
+                      <Card>
+                        <ImageBox>
+                          <ImageBoxImage
+                            id="issueClick"
+                            src={blog.main_image}
+                            alt="issue_photo"
+                            onClick={() => {
+                              navigate("/issue/" + blog.issue_id);
+                            }}
+                          />
+                        </ImageBox>
+                        <ContentBox>
+                          <CategoryContainerGallery>
+                            {blog.category}
+                          </CategoryContainerGallery>
+                          <GithubPostTitleGallery>
+                            {blog.title}
+                          </GithubPostTitleGallery>
+                          <GithubSubTitle>
+                            Posted time: {postTime}
+                          </GithubSubTitle>
+                        </ContentBox>
+                      </Card>
+                    </CardContainer>
+                  </>
+                );
+              }
+            )}
           </CardsContainer>
         )}
       </Container>
