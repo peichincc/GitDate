@@ -188,7 +188,6 @@ const Member = () => {
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [getUser, setGetUser] = useState("");
   const [logInUserData, setLoginUserData] = useState<DocumentData>();
   const [memberOverview, setMemberOverview] = useState(true);
   const [openIssue, setOpenIssue] = useState(false);
@@ -199,14 +198,13 @@ const Member = () => {
   const [getInvitationList, setGetInvitationList] = useState([]);
   const [openFriend, setOpenFriend] = useState(false);
   const [openRepo, setOpenRepo] = useState(false);
+  const userId = userInfo.user.user_id;
 
   useEffect(() => {
-    const userId = userInfo.user.user_id;
     if (!userId) {
       navigate("/");
       return;
     }
-    setGetUser(userId);
     searchIssues(userId);
     searchHostedBranches(userId);
     searchAttenedBranches(userId);
@@ -379,7 +377,7 @@ const Member = () => {
                   </MemberBtn>
                   <ReadmeBtn
                     id="seeReadme"
-                    onClick={() => navigate("/readme/" + getUser)}
+                    onClick={() => navigate("/readme/" + userId)}
                   >
                     README.md
                   </ReadmeBtn>
