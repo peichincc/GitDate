@@ -51,7 +51,6 @@ export const Carousel = () => {
           key={index}
           index={index}
           currentSlide={currentSlide}
-          className={index === currentSlide ? "image active" : "image"}
           src={image}
           style={{
             zIndex: `-${index + 1}`,

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
-import "./chatroom.css";
 import { useSelector } from "react-redux";
 import { db } from "../../utils/firebase";
 import {
@@ -17,6 +16,35 @@ import useOnclickOutside from "react-cool-onclickoutside";
 
 import { RootState } from "../..";
 
+interface Props {
+  ownMessage: boolean;
+}
+
+const MsgListContainer = styled.div`
+  margin-bottom: 16px;
+  flex: 1;
+  overflow: scroll;
+`;
+const MsgList = styled.ul`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+`;
+const MessageLine = styled.li<Props>`
+  color: ${(props) => (props.ownMessage ? "white" : "black")};
+  padding: 8px 16px;
+  margin-bottom: 8px;
+  background: ${(props) => (props.ownMessage ? "#0088ff" : "#d9e0e8")};
+  border-radius: 5px;
+  text-align: ${(props) => (props.ownMessage ? "right" : "left")};
+  align-self: ${(props) => (props.ownMessage ? "flex-end" : null)};
+`;
+const Sender = styled.h4`
+  margin-bottom: 8px;
+`;
+
 const ChatContainer = styled.div`
   display: flex;
   width: 100%;
@@ -28,7 +56,6 @@ const ChatContainer = styled.div`
   color: white;
   position: relative;
 `;
-
 const MsgContainer = styled.div`
   display: flex;
   flex-wrap: nowrap;
@@ -176,8 +203,8 @@ const Chatroom = (props: { chatroomId: string }) => {
   return (
     <>
       <ChatContainer>
-        <div className="message-list-container" ref={containerRef}>
-          <ul className="message-list">
+        <MsgListContainer ref={containerRef}>
+          <MsgList>
             {messages.map((x: any) => (
               <Message
                 key={x.id}
@@ -185,8 +212,8 @@ const Chatroom = (props: { chatroomId: string }) => {
                 isOwnMessage={x.sender_id === user.user_id}
               />
             ))}
-          </ul>
-        </div>
+          </MsgList>
+        </MsgListContainer>
         <form onSubmit={handleSubmit} className="message-input-container">
           <MsgContainer>
             <p>&#65310;</p>
@@ -220,10 +247,11 @@ const Chatroom = (props: { chatroomId: string }) => {
 function Message({ message, isOwnMessage }: any) {
   const { sender_name, text } = message;
   return (
-    <li className={["message", isOwnMessage && "own-message"].join(" ")}>
-      <h4 className="sender">{isOwnMessage ? "You" : sender_name}</h4>
+    <MessageLine ownMessage={isOwnMessage}>
+      {/* <li className={["message", isOwnMessage && "own-message"].join(" ")}> */}
+      <Sender>{isOwnMessage ? "You" : sender_name}</Sender>
       <div>{text}</div>
-    </li>
+    </MessageLine>
   );
 }
 
