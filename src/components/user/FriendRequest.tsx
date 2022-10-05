@@ -192,7 +192,7 @@ const FriendRequest = ({ getInvitationList }: DocumentData) => {
                 index: number
               ) => {
                 return (
-                  <ListContainer>
+                  <ListContainer key={otherUser["user_id"].toString()}>
                     <NameContainer>
                       <PR />
                       <p key={`${otherUser["user_name"]}`}>

@@ -37,7 +37,7 @@ const AttendedBranches = ({ attendedBranches }: DocumentData) => {
           {attendedBranches && attendedBranches.length > 0
             ? attendedBranches.map((blog: { title: string; id: string }) => (
                 <>
-                  <BlogList>
+                  <BlogList key={blog.id.toString()}>
                     <BlogTitle>{blog.title}</BlogTitle>
                     <ClickBtn
                       onClick={() => {
