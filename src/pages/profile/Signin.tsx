@@ -84,6 +84,15 @@ const SignUpBtn = styled.button`
     color: white;
   }
 `;
+const TestTextReminder = styled(TextReminder)`
+  margin-top: 0;
+`;
+const TestWrapper = styled.div`
+  border: 0.5px solid #627597;
+  padding: 10px;
+  margin-top: 20px;
+  opacity: 0.6;
+`;
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -147,7 +156,9 @@ const Signin = () => {
           <BlockInner>
             <BlockContent>
               <Container>
-                <Title>Sign In to GitDate</Title>
+                <Title>
+                  <h2>Sign In to GitDate</h2>
+                </Title>
                 {alreadyLogged ? (
                   <>
                     <h2>Welcome! {userInfo.user.user_name}</h2>
@@ -201,42 +212,44 @@ const Signin = () => {
                         <strong> Create an account.</strong>
                       </SignUpBtn>
                     </TextReminder>
-                    <TextReminder>
-                      Test Accounts <br />
-                      test@test.com
-                      <CopyBtn
-                        onClick={() => {
-                          navigator.clipboard.writeText("test@test.com");
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faCopy} />
-                      </CopyBtn>
-                      / password: 123456
-                      <CopyBtn
-                        onClick={() => {
-                          navigator.clipboard.writeText("123456");
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faCopy} />
-                      </CopyBtn>
-                      <br />
-                      test2@test.com
-                      <CopyBtn
-                        onClick={() => {
-                          navigator.clipboard.writeText("test2@test.com");
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faCopy} />
-                      </CopyBtn>
-                      / password: 123456
-                      <CopyBtn
-                        onClick={() => {
-                          navigator.clipboard.writeText("123456");
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faCopy} />
-                      </CopyBtn>
-                    </TextReminder>
+                    <TestWrapper>
+                      <TestTextReminder>
+                        Test Accounts <br />
+                        test@test.com
+                        <CopyBtn
+                          onClick={() => {
+                            navigator.clipboard.writeText("test@test.com");
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faCopy} />
+                        </CopyBtn>
+                        / password: 123456
+                        <CopyBtn
+                          onClick={() => {
+                            navigator.clipboard.writeText("123456");
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faCopy} />
+                        </CopyBtn>
+                        <br />
+                        test2@test.com
+                        <CopyBtn
+                          onClick={() => {
+                            navigator.clipboard.writeText("test2@test.com");
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faCopy} />
+                        </CopyBtn>
+                        / password: 123456
+                        <CopyBtn
+                          onClick={() => {
+                            navigator.clipboard.writeText("123456");
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faCopy} />
+                        </CopyBtn>
+                      </TestTextReminder>
+                    </TestWrapper>
                   </>
                 )}
               </Container>

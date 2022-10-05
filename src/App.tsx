@@ -45,9 +45,9 @@ a {
 
 function App() {
   const db = getFirestore();
+  const dispatch = useDispatch();
   const [showNotification, setShowNotification] = useState(false);
   const [newMsgNotification, setNewMsgNotification] = useState(false);
-  const dispatch = useDispatch();
   const [arrayLength, setArrayLength] = useState(0);
 
   useEffect(() => {

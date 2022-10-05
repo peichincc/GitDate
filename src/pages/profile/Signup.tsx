@@ -55,6 +55,10 @@ const ContinueBtn = styled.button`
   background: none;
   padding: 5px 12px;
   cursor: pointer;
+  &:hover {
+    background-color: gray;
+    color: white;
+  }
 `;
 export const SubmitBtn = styled.button`
   font-size: 16px;
