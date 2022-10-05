@@ -10,7 +10,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
-
 import { RootState } from "../..";
 
 const Wrapper = styled.div`
@@ -19,7 +18,6 @@ const Wrapper = styled.div`
   margin: 0 auto;
   margin-bottom: 100px;
 `;
-
 const Container = styled.div`
   max-width: 980px;
   margin: 0 auto;
@@ -30,7 +28,6 @@ const FilterContainer = styled.div`
   justify-content: space-between;
 `;
 const MainContainer = styled.div``;
-
 const Filters = styled.div`
   width: 100%;
   margin-right: 10px;
@@ -57,11 +54,9 @@ const FilterText = styled.div`
 const FilterButtons = styled.div`
   margin-left: 5px;
 `;
-
 const CategoryButton = styled(LabelsButton)`
   background-color: #d87613;
 `;
-
 const ReminderBox = styled.div`
   color: #24292f;
   width: 100%;

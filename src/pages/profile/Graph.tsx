@@ -63,7 +63,6 @@ const Zoom = styled.div`
   border-radius: 50%;
   display: inline-block;
 `;
-
 const WindowTitle = styled.div``;
 const ModalBx = styled.div`
   border: 1px solid #acacac;
@@ -89,7 +88,6 @@ const TreeGraph = styled.div`
   bottom: 20px;
   left: 10px;
 `;
-
 const TextBox = styled.div`
   font-size: 26px;
   line-height: 60px;
@@ -101,12 +99,10 @@ const TextBox = styled.div`
   color: white;
 `;
 
-// basic graph if registered
 function buildGraph0(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
 }
-// basic graph if write readme
 function buildGraph1(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
@@ -114,7 +110,6 @@ function buildGraph1(gitgraph: any) {
   develop.commit("write readme");
   master.merge(develop);
 }
-// graph if posted issue
 function buildGraph2(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
@@ -125,7 +120,6 @@ function buildGraph2(gitgraph: any) {
   feata.commit("write issue");
   master.merge(feata);
 }
-// graph if host branch
 function buildGraph3(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
@@ -135,7 +129,6 @@ function buildGraph3(gitgraph: any) {
   const featb = gitgraph.branch("feat/branch");
   featb.commit("hosted branch!");
 }
-// graph if attend branch
 function buildGraph4(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
@@ -145,7 +138,6 @@ function buildGraph4(gitgraph: any) {
   const featb = gitgraph.branch("feat/branch");
   featb.commit("attended branch 💃");
 }
-// graph if attend and host branch
 function buildGraph5(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");

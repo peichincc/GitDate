@@ -27,7 +27,6 @@ import {
 } from "../../utils/styledComponent";
 import MapHome from "../../components/map";
 import Alert from "../../components/modal/Alert";
-
 import { FormRecipient } from "../../utils/interface";
 import { RootState } from "../..";
 
@@ -36,7 +35,6 @@ const Wrapper = styled.div`
   max-width: 980px;
   margin: 0 auto;
 `;
-
 const CreateTitle = styled.div`
   font-size: 28px;
   @media screen and (max-width: 600px) {
@@ -139,22 +137,18 @@ const SubmitWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
 const MapContainer = styled.div`
   width: 400px;
   height: 200px;
   margin-bottom: 30px;
   margin-top: 50px;
 `;
-
 const GitAddBtn = styled(Button)`
   width: 100px;
 `;
-
 const DateFormControl = styled(FormControl)`
   width: 150px;
 `;
-
 const FormCheckInput = styled.input`
   margin-right: 10px;
   width: 15px;
@@ -175,6 +169,7 @@ const CreateBranch = () => {
   let navigate = useNavigate();
   const [isSending, setIsSending] = useState(false);
   const [ButtonPop, setButtonPop] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
   const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
   const hiddenFileInput = useRef<any>(null);
   const userData = useSelector((state: RootState) => state);
@@ -249,8 +244,6 @@ const CreateBranch = () => {
     hosted_by: getUser,
     posted_at: serverTimestamp(),
   };
-
-  const [alertMsg, setAlertMsg] = useState("");
 
   const createBranch = async () => {
     setIsSending(true);

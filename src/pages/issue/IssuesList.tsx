@@ -31,7 +31,6 @@ const ToggleOnBtn = styled.button`
   background: none;
   cursor: pointer;
 `;
-
 const LeftContainer = styled.div`
   display: flex;
   align-items: center;
@@ -60,7 +59,6 @@ const GithubTitleContainer = styled.div`
   text-align: left;
   padding: 8px;
 `;
-
 const CardsContainer = styled.div`
   display: flex;
   margin-top: 20px;

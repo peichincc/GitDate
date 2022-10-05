@@ -17,7 +17,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
 import Avatar from "../../assets/images/defaultAvatar.png";
 import Alert from "../../components/modal/Alert";
-
 import { ListData } from "../../utils/interface";
 
 const Wrapper = styled.div`
@@ -104,7 +103,6 @@ const FormControl = styled.input`
   border-radius: 6px;
   border: solid 1px #d0d7de;
 `;
-
 const TextInputCard = styled.div`
   padding: 20px;
 `;
@@ -170,12 +168,10 @@ const UploadPreviewImg = styled.img`
   max-width: 100%;
   max-height: 100%;
 `;
-
 const WelcomeMsg = styled.div`
   margin-top: 30vh;
   padding: 20px;
 `;
-
 const PreviewReadmeContainer = styled.div`
   display: flex;
   padding: 20px;
@@ -198,7 +194,6 @@ const PhotoContainerEmpty = styled.div`
   width: 200px;
   height: 200px;
 `;
-
 export const BoxHeader = styled.div`
   padding: 16px;
   background-color: #f6f8fa;
@@ -222,7 +217,6 @@ const SubmitBtnWrapper = styled.div`
 const SubmitBtn = styled(Button)`
   margin-right: 12px;
 `;
-
 const ReminderBox = styled.div`
   margin-right: 50px;
   color: #24292f;
@@ -246,6 +240,7 @@ const ReminderBoxTextSmall = styled.div`
 
 const Profile = () => {
   const [ButtonPop, setButtonPop] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
   const [getUser, setGetUser] = useState("");
   const [imageUpload, setImageUpload] = useState(null);
   const [imageURL, setImageURL] = useState("");
@@ -372,22 +367,18 @@ const Profile = () => {
   const [showWelcomeMsg, setShowWelcomeMsg] = useState(false);
   const [hideTitle, setHideTitle] = useState(true);
 
-  // 上傳照片
   const uploadImage = async () => {
     if (imageUpload == null) return;
     const imageRef = ref(storage, `users/${getUser}.jpg`);
     await uploadBytes(imageRef, imageUpload).then(() => {
       setAlertMsg("Photo updated");
       setButtonPop(true);
-      // alert("uploaded photo!");
     });
     const downloadUrl = await getDownloadURL(imageRef);
     setImageURL(downloadUrl);
     setShowContinueBtn(true);
   };
 
-  const [alertMsg, setAlertMsg] = useState("");
-  // 更新資料庫
   const updateDB = async () => {
     const userRef = doc(collection(db, "Users"), `${getUser}`);
     await updateDoc(userRef, { ...recipient, main_photo: imageURL });

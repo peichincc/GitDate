@@ -21,7 +21,6 @@ import {
   TagButton,
 } from "../../utils/styledComponent";
 import Alert from "../../components/modal/Alert";
-
 import { FormRecipient } from "../../utils/interface";
 import { RootState } from "../..";
 
@@ -30,7 +29,6 @@ const Wrapper = styled.div`
   max-width: 980px;
   margin: 0 auto;
 `;
-
 const CreateTitle = styled.div`
   font-size: 28px;
   @media screen and (max-width: 600px) {
@@ -123,7 +121,6 @@ const PostBox = styled.div`
     margin-left: -20px;
   }
 `;
-
 const TagInputWrapper = styled.div``;
 const TagsWrapper = styled.div`
   display: flex;
@@ -148,16 +145,13 @@ const SubmitWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
 const TagFormControl = styled(FormControl)`
   width: 100px;
   margin-right: 5px;
 `;
-
 const GitAddBtn = styled(Button)`
   width: 100px;
 `;
-
 const FormCheckInput = styled.input`
   margin-right: 10px;
   width: 15px;
@@ -179,6 +173,7 @@ const CreateIssue = () => {
   const userData = useSelector((state: RootState) => state);
   const [isSending, setIsSending] = useState(false);
   const [ButtonPop, setButtonPop] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
   const [editorHtmlContent, setEditorHtmlContent] = useState("");
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [fileSrc, setFileSrc] = useState<any>(null);
@@ -254,8 +249,6 @@ const CreateIssue = () => {
     posted_by: getUser,
     posted_at: serverTimestamp(),
   };
-
-  const [alertMsg, setAlertMsg] = useState("");
 
   const postIssue = async () => {
     setIsSending(true);

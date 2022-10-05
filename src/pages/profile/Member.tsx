@@ -34,7 +34,6 @@ import { Button, GithubLink } from "../../utils/styledComponent";
 import Loading from "../../components/Loading";
 import { SubmitBtn } from "./Signup";
 import Alert from "../../components/modal/Alert";
-
 import { RootState } from "../..";
 
 const Wrapper = styled.div`
@@ -101,7 +100,6 @@ const NavTab = styled.button`
     padding-bottom: 5px;
   }
 `;
-
 const PhotoContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -119,8 +117,6 @@ const UserName = styled.div`
   padding-top: 16px;
   padding-bottom: 16px;
 `;
-
-//Readme part
 const Container = styled.div`
   width: 100%;
   margin-top: 20px;
@@ -167,11 +163,9 @@ const DataCard = styled.div`
   width: 130px;
   text-align: left;
 `;
-
 const TextArea = styled.div`
   max-width: 400px;
 `;
-
 const MemberBtn = styled(Button)`
   width: 120px;
   margin-bottom: 20px;
@@ -213,7 +207,6 @@ const Member = () => {
       return;
     }
     setGetUser(userId);
-    // getFriend(userId);
     searchIssues(userId);
     searchHostedBranches(userId);
     searchAttenedBranches(userId);
@@ -226,7 +219,6 @@ const Member = () => {
     });
   }, []);
 
-  // 搜尋使用者發過的文
   const searchIssues = async (userId: string) => {
     const temp: DocumentData[] = [];
     const q = query(collection(db, "Issues"), where("posted_by", "==", userId));
@@ -237,7 +229,6 @@ const Member = () => {
     setPostedIssues(temp);
   };
 
-  // 搜尋使用者的活動
   const searchHostedBranches = async (userId: string) => {
     const temp: DocumentData[] = [];
     const q = query(

@@ -32,7 +32,6 @@ import Alert from "../../components/modal/Alert";
 import Confirm from "../../components/modal/Confirm";
 import Loading from "../../components/Loading";
 import AlertWtihCTA from "../../components/modal/AlertWithCTA";
-
 import { RootState } from "../..";
 
 const Wrapper = styled.div`
@@ -175,7 +174,7 @@ const Branch = () => {
   const [branchData, setBranchData] = useState<DocumentData>();
   const [newT, setNewT] = useState("");
   const [openParticipants, setOpenParticipants] = useState(false);
-  const [participantsList, setParticipantsList] = useState([{}]);
+  const [participantsList, setParticipantsList] = useState([]);
   const [isAuthor, setIsAuthor] = useState(false);
   const [isExpired, setIsExpired] = useState(true);
   const [hostedList, setHostedList] = useState([]);
@@ -266,9 +265,7 @@ const Branch = () => {
     const branchRef = doc(collection(db, "Branches"), id);
     onSnapshot(branchRef, async (doc) => {
       if (doc.exists()) {
-        const newArr:
-          | React.SetStateAction<undefined>
-          | { id: never; name: never; photo: never }[] = [];
+        const newArr = [] as any;
         for (let i = 0; i < doc.data().participants.length; i++) {
           await firebaseapi
             .searchUserName(doc.data().participants[i])

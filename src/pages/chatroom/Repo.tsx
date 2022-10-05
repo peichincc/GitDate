@@ -8,11 +8,9 @@ import Chatroom from "./Chatroom";
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
 import defaultAvatar from "../../assets/images/defaultAvatar.png";
-
 import { RootState } from "../..";
 import { DocumentData } from "firebase/firestore";
 
-// Terminal Container
 const TerminalContainer = styled.div`
   max-width: 1280px;
   width: 100%;

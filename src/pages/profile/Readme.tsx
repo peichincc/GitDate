@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
 import { db } from "../../utils/firebase";
@@ -13,16 +12,20 @@ import {
   getDocs,
   DocumentData,
 } from "firebase/firestore";
-import { BoxHeader } from "./Profile";
-import { NavWord } from "../../utils/styledComponent";
 import PostedIssues from "../../components/user/PostedIssues";
 import HostedBranches from "../../components/user/HostedBranches";
 import AttendedBranches from "../../components/user/AttendedBranches";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
-import Loading from "../../components/Loading";
-import { GoBackWrapper, Button, GithubLink } from "../../utils/styledComponent";
+import { BoxHeader } from "./Profile";
+import {
+  GoBackWrapper,
+  Button,
+  GithubLink,
+  NavWord,
+} from "../../utils/styledComponent";
 import SourceTree from "./Graph";
+import Loading from "../../components/Loading";
 import ToggleOn from "../../assets/images/toggleOn.svg";
 import ToggleOff from "../../assets/images/toggleOff.svg";
 
@@ -96,7 +99,6 @@ const ToggleOnBtn = styled(Button)`
     display: none;
   }
 `;
-
 export const FormTextRead = styled.div`
   line-height: 19px;
   font-size: 16px;
@@ -159,7 +161,6 @@ const Readme = () => {
     });
   }, [id]);
 
-  // 搜尋使用者發過的文
   const searchIssues = async (userId: string) => {
     const temp: DocumentData[] = [];
     const q = query(collection(db, "Issues"), where("posted_by", "==", userId));
@@ -169,7 +170,6 @@ const Readme = () => {
     });
     setPostedIssues(temp);
   };
-  // 搜尋使用者的活動
   const searchHostedBranches = async (userId: string) => {
     const temp: DocumentData[] = [];
     const q = query(

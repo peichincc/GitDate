@@ -18,7 +18,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
-
 import { RootState } from "../..";
 
 const ImgContainer = styled.img`
@@ -36,7 +35,6 @@ const ImgContainer2 = styled.img`
   bottom: 2%;
   left: 25%;
 `;
-
 const CalendarContainer = styled.div`
   position: sticky;
   top: 3%;
@@ -44,11 +42,9 @@ const CalendarContainer = styled.div`
     position: relative;
     top: 0;
   }
-  /* ~~~ container styles ~~~ */
   max-width: 600px;
   margin: auto;
   margin-top: 0px;
-  /* ~~~ navigation styles ~~~ */
   .highlight {
     color: red !important;
   }
@@ -61,11 +57,9 @@ const CalendarContainer = styled.div`
       flex-grow: 0.333;
     }
   }
-  /* ~~~ label styles ~~~ */
   .react-calendar__month-view__weekdays {
     text-align: center;
   }
-  /* ~~~ button styles ~~~ */
   button {
     cursor: pointer;
     margin: 3px;
@@ -81,7 +75,6 @@ const CalendarContainer = styled.div`
       background-color: #f6f8fa;
     }
   }
-  /* ~~~ day grid styles ~~~ */
   .react-calendar__month-view__days {
     display: grid !important;
     grid-template-columns: 14.2% 14.2% 14.2% 14.2% 14.2% 14.2% 14.2%;
@@ -92,14 +85,12 @@ const CalendarContainer = styled.div`
       border: 1px solid;
     }
   }
-  /* ~~~ neighboring month & weekend styles ~~~ */
   .react-calendar__month-view__days__day--neighboringMonth {
     opacity: 0.7;
   }
   .react-calendar__month-view__days__day--weekend {
     color: #929396;
   }
-  /* ~~~ other view styles ~~~ */
   .react-calendar__year-view__months,
   .react-calendar__decade-view__years,
   .react-calendar__century-view__decades {
@@ -113,7 +104,6 @@ const CalendarContainer = styled.div`
     }
   }
 `;
-
 const Wrapper = styled.div`
   display: flex;
   max-width: 1376px;
@@ -149,7 +139,6 @@ const BranchesContainer = styled.div`
     padding-right: 20px;
   }
 `;
-
 const FilterContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -180,14 +169,12 @@ const FilterText = styled.div`
 const FilterButtons = styled.div`
   margin-left: 5px;
 `;
-
 const TypeBtn = styled(LabelsButton)`
   background-color: #453d38;
 `;
 const StatusBtn = styled(LabelsButton)`
   background-color: #d73a4a;
 `;
-
 const ReminderBox = styled.div`
   color: #24292f;
   width: 100%;

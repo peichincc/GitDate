@@ -26,7 +26,6 @@ const ParticipantContainer = styled.div`
   align-items: center;
   background-color: white;
 `;
-
 const PhotoBox = styled.img`
   width: 72px;
   height: 72px;
@@ -42,27 +41,35 @@ const PhotoBox = styled.img`
 const NameTag = styled.div`
   margin-top: 15px;
 `;
+const TextBox = styled.div`
+  padding: 10px;
+`;
 
-const Participants = ({ participantsList }: DocumentData) => {
+const Participants = ({ participantsList }: any) => {
   let navigate = useNavigate();
+  console.log(participantsList.length);
   return (
     <>
       <ParticipantsContainer>
-        {participantsList.map(
-          (list: { photo: string; id: string; name: string }) => (
-            <>
-              <ParticipantContainer>
-                <PhotoBox
-                  src={list.photo}
-                  alt="Participants_photo"
-                  onClick={() => {
-                    navigate("/readme/" + list.id);
-                  }}
-                />
-                <NameTag> {list.name}</NameTag>
-              </ParticipantContainer>
-            </>
+        {participantsList?.length > 0 ? (
+          participantsList.map(
+            (list: { photo: string; id: string; name: string }) => (
+              <>
+                <ParticipantContainer>
+                  <PhotoBox
+                    src={list.photo}
+                    alt="Participants_photo"
+                    onClick={() => {
+                      navigate("/readme/" + list.id);
+                    }}
+                  />
+                  <NameTag> {list.name}</NameTag>
+                </ParticipantContainer>
+              </>
+            )
           )
+        ) : (
+          <TextBox>Be the first one to attend!</TextBox>
         )}
       </ParticipantsContainer>
     </>

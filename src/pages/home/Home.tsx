@@ -11,7 +11,6 @@ import { ActionButton, TagButton } from "../../utils/styledComponent";
 import { ShowMainMap } from "../../components/map/MainMap";
 import firebaseapi from "../../utils/firebaseapi";
 import { Carousel } from "./Carousel";
-
 import { RootState } from "../..";
 
 const Wrapper = styled.div`
@@ -19,12 +18,10 @@ const Wrapper = styled.div`
   margin: 0 auto;
   padding-bottom: 56px;
 `;
-
 const Block = styled.div`
   display: block;
   margin: 0 auto;
 `;
-
 const BlockCarousel = styled.div`
   display: flex;
   width: 100%;
@@ -67,7 +64,6 @@ const SignUpBtn = styled(ActionButton)`
     background-color: #e6e7e9;
   }
 `;
-
 const BlockFeature = styled.div`
   height: 100vh;
   margin-top: 48px;
@@ -141,7 +137,6 @@ const PrideWordWrapper = styled.div`
 const PrideTitle = styled(FeaturesItemTitle)`
   right: 0;
 `;
-
 const MapContainer = styled.div`
   margin-top: 32px;
   margin-bottom: 32px;
@@ -149,7 +144,6 @@ const MapContainer = styled.div`
 const MapBlock = styled.div`
   margin-top: 50px;
 `;
-
 const TourReminder = styled.div`
   margin-top: 20px;
   text-align: right;

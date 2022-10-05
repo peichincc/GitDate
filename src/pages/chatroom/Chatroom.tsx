@@ -13,7 +13,6 @@ import {
 } from "firebase/firestore";
 import Picker from "emoji-picker-react";
 import useOnclickOutside from "react-cool-onclickoutside";
-
 import { RootState } from "../..";
 
 interface Props {
@@ -44,7 +43,6 @@ const MessageLine = styled.li<Props>`
 const Sender = styled.h4`
   margin-bottom: 8px;
 `;
-
 const ChatContainer = styled.div`
   display: flex;
   width: 100%;
@@ -106,7 +104,6 @@ const MsgBtn = styled.button`
     color: #ff69b4;
   }
 `;
-
 const EmojiIcon = styled.div`
   margin-top: 6px;
   margin-left: 6px;

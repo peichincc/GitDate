@@ -11,7 +11,6 @@ import {
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import firebaseapi from "../../utils/firebaseapi";
-
 import defaultAvatar from "../../assets/images/defaultAvatar.png";
 import {
   GoBackWrapper,
@@ -43,12 +42,10 @@ import {
   faMugSaucer,
   faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
-
 import Alert from "../../components/modal/Alert";
 import Confirm from "../../components/modal/Confirm";
 import Loading from "../../components/Loading";
 import AlertWtihCTA from "../../components/modal/AlertWithCTA";
-
 import { RootState } from "../..";
 
 const Wrapper = styled.div`
@@ -151,7 +148,6 @@ const CloseStatus = styled(StatusOpen)`
   width: fit-content;
   background-color: #8250df;
 `;
-
 const TagsWrapper = styled.div`
   display: flex;
   flex-direction: row;
