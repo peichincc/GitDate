@@ -45,7 +45,7 @@ const TextBox = styled.div`
   padding: 10px;
 `;
 
-const Participants = ({ participantsList }: any) => {
+const Participants = ({ participantsList }: DocumentData) => {
   let navigate = useNavigate();
   console.log(participantsList.length);
   return (

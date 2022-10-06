@@ -62,13 +62,15 @@ const MainMap = ({ markersFromDB }: any) => {
   const navigate = useNavigate();
   const [activeMarker, setActiveMarker] = useState(null);
 
-  const handleOnLoad = (map: any) => {
+  const handleOnLoad = (map: {
+    fitBounds: (arg0: google.maps.LatLngBounds) => void;
+  }) => {
     const bounds = new google.maps.LatLngBounds();
     markers.forEach(({ position }: any) => bounds.extend(position));
     map.fitBounds(bounds);
   };
 
-  const handleActiveMarker = (markersFromDB: any) => {
+  const handleActiveMarker = (markersFromDB: React.SetStateAction<null>) => {
     if (markersFromDB === activeMarker) {
       return;
     }

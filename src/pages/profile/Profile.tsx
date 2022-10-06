@@ -314,10 +314,10 @@ const Profile = () => {
     label: string,
     key: string,
     textarea: boolean | undefined,
-    options: any
+    options: { label: string; value: string }[] | undefined
   ) => {
     if (options) {
-      return (options as unknown as any[]).map((option) => (
+      return options.map((option: { value: string; label: string }) => (
         <FormCheck key={option.value}>
           <FormCheckInput
             required
