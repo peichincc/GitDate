@@ -238,12 +238,12 @@ const Member = () => {
     });
     setHostedBranches(temp);
   };
-  const searchAttenedBranches = async (userId: string) => {
+  const searchAttenedBranches = (userId: string) => {
     onSnapshot(doc(collection(db, "Users"), userId), async (doc) => {
       if (doc.exists()) {
         const newArr: React.SetStateAction<DocumentData | undefined> = [];
         for (let i = 0; i < doc.data().activity_attend.length; i++) {
-          await firebaseapi
+          firebaseapi
             .readBranchData(doc.data().activity_attend[i])
             .then((res) => {
               if (res) {

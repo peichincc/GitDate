@@ -222,7 +222,7 @@ const BranchAll = () => {
     if (userId) {
       setGetUser(userId);
     }
-    firebaseapi.readAllBranches().then(async (res) => {
+    firebaseapi.readAllBranches().then((res) => {
       if (res) {
         let dateTemp: DocumentData[] = [];
         res.forEach((doc: any) => {

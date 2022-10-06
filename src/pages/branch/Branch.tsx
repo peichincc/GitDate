@@ -252,32 +252,30 @@ const Branch = () => {
     setButtonPop(true);
     setAlertMsg("Attended successful💃");
   };
-  const getParticipants = async () => {
+  const getParticipants = () => {
     const branchRef = doc(collection(db, "Branches"), id);
-    onSnapshot(branchRef, async (doc) => {
+    onSnapshot(branchRef, (doc) => {
       if (doc.exists()) {
         const newArr = [] as any;
         for (let i = 0; i < doc.data().participants.length; i++) {
-          await firebaseapi
-            .searchUserName(doc.data().participants[i])
-            .then((res) => {
-              if (res) {
-                const tempObj = {
-                  id: res["user_id"],
-                  name: res["firstname"],
-                  photo: res["main_photo"],
-                };
-                newArr.push(tempObj);
-              }
-            });
+          firebaseapi.searchUserName(doc.data().participants[i]).then((res) => {
+            if (res) {
+              const tempObj = {
+                id: res["user_id"],
+                name: res["firstname"],
+                photo: res["main_photo"],
+              };
+              newArr.push(tempObj);
+            }
+          });
         }
         setParticipantsList(newArr);
       }
     });
   };
 
-  const handleChange = async () => {
-    await getParticipants();
+  const handleChange = () => {
+    getParticipants();
     setOpenParticipants(true);
   };
 

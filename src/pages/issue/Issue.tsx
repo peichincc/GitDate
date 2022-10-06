@@ -185,8 +185,8 @@ const Issue = () => {
     setButtonPop(true);
   };
 
-  const deleteIssue = async (id: string | undefined) => {
-    await firebaseapi.deleteIssue(id);
+  const deleteIssue = (id: string | undefined) => {
+    firebaseapi.deleteIssue(id);
     setAlertMsg("Successfully delete this issue!");
     setButtonPop(true);
     setTimeout(() => {

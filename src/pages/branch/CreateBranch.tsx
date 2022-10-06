@@ -245,7 +245,7 @@ const CreateBranch = () => {
     posted_at: serverTimestamp(),
   };
 
-  const createBranch = async () => {
+  const createBranch = () => {
     setIsSending(true);
     if (!type) {
       setAlertMsg("Please select the branch type");
@@ -291,27 +291,25 @@ const CreateBranch = () => {
     }
     const newBranchRef = doc(collection(db, "Branches"));
     const userRef = doc(db, "Users", getUser);
-    await firebaseapi
-      .createBranch(imageUpload, newBranchRef, recipient)
-      .then(() => {
-        updateDoc(userRef, {
-          activity_hosted: arrayUnion(newBranchRef.id),
-        });
-        const LocationsRef = collection(db, "Location");
-        const docRef = doc(LocationsRef, "c4ttDiHr8UCyB0OMOtwA");
-        const locationInfo = {
-          id: newBranchRef.id,
-          name: title,
-          position: location,
-        };
-        updateDoc(docRef, { markers: arrayUnion(locationInfo) });
-        setIsSending(false);
-        setAlertMsg("You hosted an activity successfully!");
-        setButtonPop(true);
-        setTimeout(() => {
-          navigate("/branches");
-        }, 1000);
+    firebaseapi.createBranch(imageUpload, newBranchRef, recipient).then(() => {
+      updateDoc(userRef, {
+        activity_hosted: arrayUnion(newBranchRef.id),
       });
+      const LocationsRef = collection(db, "Location");
+      const docRef = doc(LocationsRef, "c4ttDiHr8UCyB0OMOtwA");
+      const locationInfo = {
+        id: newBranchRef.id,
+        name: title,
+        position: location,
+      };
+      updateDoc(docRef, { markers: arrayUnion(locationInfo) });
+      setIsSending(false);
+      setAlertMsg("You hosted an activity successfully!");
+      setButtonPop(true);
+      setTimeout(() => {
+        navigate("/branches");
+      }, 1000);
+    });
   };
 
   return (
