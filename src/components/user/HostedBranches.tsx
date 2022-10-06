@@ -38,7 +38,7 @@ const HostedBranches = ({ hostedBranches }: DocumentData) => {
             ? hostedBranches.map(
                 (blog: { title: string; branch_id: string }) => (
                   <>
-                    <BlogList key={blog.branch_id}>
+                    <BlogList key={`branch-${blog.branch_id}`}>
                       <BlogTitle>{blog.title}</BlogTitle>
                       <ClickBtn
                         onClick={() => {

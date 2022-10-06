@@ -147,7 +147,7 @@ const IssuesList = (props: { issuesStatus: string; docs: DocumentData }) => {
                   ("0" + newT.getDate()).slice(-2);
                 return (
                   <>
-                    <BlogList key={blog.issue_id}>
+                    <BlogList key={`allissue-${blog.issue_id}`}>
                       <LeftContainer>
                         <IconContainer>
                           <Open stroke="#adecbf" />

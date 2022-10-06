@@ -80,7 +80,7 @@ const BranchesList = ({ branchType, docs }: DocumentData) => {
               title: string;
             }) => (
               <>
-                <BlogList key={blog.branch_id}>
+                <BlogList key={`allbranch-${blog.branch_id}`}>
                   <LeftContainer>
                     <ImageBox>
                       <ImageBoxImage
