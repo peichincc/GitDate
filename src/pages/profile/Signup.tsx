@@ -158,7 +158,7 @@ const Signup = () => {
         setAlertMsg("Sign up successfully, now let's write README!");
         setTimeout(() => {
           navigate("/profile");
-        }, 3000);
+        }, 1500);
       })
       .catch((error) => {
         switch (error.code) {

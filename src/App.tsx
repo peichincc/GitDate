@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
+import { db } from "../src/utils/firebase";
 import {
   doc,
   query,
   collection,
   onSnapshot,
-  getFirestore,
   orderBy,
   DocumentData,
 } from "firebase/firestore";
@@ -44,7 +44,6 @@ a {
 `;
 
 function App() {
-  const db = getFirestore();
   const dispatch = useDispatch();
   const [showNotification, setShowNotification] = useState(false);
   const [newMsgNotification, setNewMsgNotification] = useState(false);

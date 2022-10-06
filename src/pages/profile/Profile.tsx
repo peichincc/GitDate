@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { db, storage } from "../../utils/firebase";
 import { doc, updateDoc, collection, DocumentData } from "firebase/firestore";
@@ -239,6 +240,7 @@ const ReminderBoxTextSmall = styled.div`
 `;
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const [getUser, setGetUser] = useState("");
@@ -393,6 +395,9 @@ const Profile = () => {
     setShowWelcomeMsg(true);
     setShowTextInput(false);
     setHideTitle(false);
+    setTimeout(() => {
+      navigate("/signin");
+    }, 1000);
   };
 
   return (
