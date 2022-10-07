@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { db } from "../../utils/firebase";
 import {
-  getFirestore,
   doc,
   serverTimestamp,
   collection,
@@ -11,9 +11,8 @@ import {
   arrayUnion,
 } from "firebase/firestore";
 import firebaseapi from "../../utils/firebaseapi";
-
 import TiptapEditor from "../../components/editor/Editor";
-import defaultAvatar from "../../utils/DefaultAvatar.png";
+import defaultAvatar from "../../assets/images/defaultAvatar.png";
 import {
   Button,
   MergeBtn,
@@ -22,22 +21,20 @@ import {
   FormControl,
   FormGroup,
   FormLabel,
-  FormSelect,
-  FormSelectOptions,
   UploadPreview,
   UploadPreviewImg,
   UploadCardStyled,
-} from "../../utils/StyledComponent";
+} from "../../utils/styledComponent";
 import MapHome from "../../components/map";
-
 import Alert from "../../components/modal/Alert";
+import { FormRecipient } from "../../utils/interface";
+import { RootState } from "../..";
 
 const Wrapper = styled.div`
   display: block;
   max-width: 980px;
   margin: 0 auto;
 `;
-
 const CreateTitle = styled.div`
   font-size: 28px;
   @media screen and (max-width: 600px) {
@@ -48,7 +45,6 @@ const MainLayout = styled.div`
   margin-top: 50px;
   display: flex;
   flex-direction: column;
-  /* margin: 0 auto; */
   padding: 20px;
 `;
 const TabWraper = styled.div`
@@ -141,22 +137,18 @@ const SubmitWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
 const MapContainer = styled.div`
   width: 400px;
   height: 200px;
   margin-bottom: 30px;
   margin-top: 50px;
 `;
-
 const GitAddBtn = styled(Button)`
   width: 100px;
 `;
-
 const DateFormControl = styled(FormControl)`
   width: 150px;
 `;
-
 const FormCheckInput = styled.input`
   margin-right: 10px;
   width: 15px;
@@ -174,18 +166,19 @@ interface Data {
 }
 
 const CreateBranch = () => {
+  let navigate = useNavigate();
   const [isSending, setIsSending] = useState(false);
   const [ButtonPop, setButtonPop] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
   const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
-  const hiddenFileInput = useRef<any>(null);
-  const db = getFirestore();
-  let navigate = useNavigate();
-  const userData = useSelector((state) => state) as any;
-  const [getUser, setGetUser] = useState<any>("");
+  const hiddenFileInput = useRef<HTMLInputElement | null>(null);
+  const userData = useSelector((state: RootState) => state);
+  const [getUser, setGetUser] = useState("");
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [fileSrc, setFileSrc] = useState<any>(null);
+
   const handleClick = () => {
-    hiddenFileInput.current.click();
+    hiddenFileInput.current?.click();
   };
 
   const TypeList: Data[] = [
@@ -208,12 +201,11 @@ const CreateBranch = () => {
     if (userId) {
       setGetUser(userId);
     }
-    console.log(userId);
   }, []);
 
   const handleUploadFile = (e: any) => {
     if (!e.target.files[0]) return;
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = function () {
       setFileSrc(reader.result);
     };
@@ -222,32 +214,25 @@ const CreateBranch = () => {
   };
 
   const [type, setType] = useState("");
-  const getType = (e: any) => {
+  const getType = (e: React.ChangeEvent<HTMLInputElement>) => {
     setType(e.target.value);
   };
   const [title, setTitle] = useState("");
-  const getTitle = (e: any) => {
+  const getTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
-  const [content, setContent] = useState("");
-  const getContent = (e: any) => {
-    setContent(e.target.value);
-  };
   const [date, setDate] = useState("");
-  const getDate = (e: any) => {
+  const getDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value);
   };
   const [time, setTime] = useState("");
-  const getTime = (e: any) => {
+  const getTime = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTime(e.target.value);
   };
   const [location, setLocation] = useState();
   const [formatAddress, setFormatAddress] = useState("");
-  const getLocation = (e: any) => {
-    setLocation(e.target.value);
-  };
 
-  const recipient = {
+  const recipient: FormRecipient = {
     type: type,
     title: title,
     content: editorHtmlContent,
@@ -260,11 +245,7 @@ const CreateBranch = () => {
     posted_at: serverTimestamp(),
   };
 
-  const [alertMsg, setAlertMsg] = useState("");
-
-  // upload photo w/ doc id, get photo URL, then setDoc
-  // then update user db while hosting an activity
-  const createBranch = async () => {
+  const createBranch = () => {
     setIsSending(true);
     if (!type) {
       setAlertMsg("Please select the branch type");
@@ -282,28 +263,24 @@ const CreateBranch = () => {
       setIsSending(false);
       setAlertMsg("Please select the date");
       setButtonPop(true);
-
       return;
     }
     if (!time) {
       setIsSending(false);
       setAlertMsg("Please select the time");
       setButtonPop(true);
-
       return;
     }
     if (!location) {
       setIsSending(false);
       setAlertMsg("Please select the location");
       setButtonPop(true);
-
       return;
     }
     if (!fileSrc) {
       setIsSending(false);
       setAlertMsg("Please select photo");
       setButtonPop(true);
-
       return;
     }
     if (!editorHtmlContent) {
@@ -314,29 +291,25 @@ const CreateBranch = () => {
     }
     const newBranchRef = doc(collection(db, "Branches"));
     const userRef = doc(db, "Users", getUser);
-    await firebaseapi
-      .createBranch(imageUpload, newBranchRef, recipient)
-      .then(() => {
-        updateDoc(userRef, {
-          activity_hosted: arrayUnion(newBranchRef.id),
-        });
-        // firebaseapi.addBranchLocations(newBranchRef.id, title, location);
-        const LocationsRef = collection(db, "Location");
-        const docRef = doc(LocationsRef, "c4ttDiHr8UCyB0OMOtwA");
-        const locationInfo = {
-          id: newBranchRef.id,
-          name: title,
-          position: location,
-        };
-        updateDoc(docRef, { markers: arrayUnion(locationInfo) });
-        console.log(`${getUser} hosted this activity!`);
-        setIsSending(false);
-        setAlertMsg("You hosted an activity successfully!");
-        setButtonPop(true);
-        setTimeout(() => {
-          navigate("/branches");
-        }, 1000);
+    firebaseapi.createBranch(imageUpload, newBranchRef, recipient).then(() => {
+      updateDoc(userRef, {
+        activity_hosted: arrayUnion(newBranchRef.id),
       });
+      const LocationsRef = collection(db, "Location");
+      const docRef = doc(LocationsRef, "branches");
+      const locationInfo = {
+        id: newBranchRef.id,
+        name: title,
+        position: location,
+      };
+      updateDoc(docRef, { markers: arrayUnion(locationInfo) });
+      setIsSending(false);
+      setAlertMsg("You hosted an activity successfully!");
+      setButtonPop(true);
+      setTimeout(() => {
+        navigate("/branches");
+      }, 1000);
+    });
   };
 
   return (
@@ -370,7 +343,7 @@ const CreateBranch = () => {
             <PostBox>
               <FormGroup id="branchType">
                 <FormLabel>Category</FormLabel>
-                {TypeList.map(({ name, value }, index) => {
+                {TypeList.map(({ name }, index) => {
                   return (
                     <FormCheck key={index}>
                       <FormCheckInput
@@ -385,15 +358,6 @@ const CreateBranch = () => {
                   );
                 })}
               </FormGroup>
-              {/* <FormGroup>
-                <FormLabel>Type</FormLabel>
-                <FormSelect onChange={getType}>
-                  <option value="0">Please Select your brnach type</option>
-                  <option value="Online">Online</option>
-                  <option value="Inperson">In Person</option>
-                  <option value="Mixed">Mixed</option>
-                </FormSelect>
-              </FormGroup> */}
               <FormGroup>
                 <FormLabel>Title</FormLabel>
                 <FormControl onChange={getTitle}></FormControl>
@@ -406,7 +370,6 @@ const CreateBranch = () => {
                   min={new Date().toISOString().split("T")[0]}
                 />
                 <DateFormControl type="time" onChange={getTime} />
-                {/* <input type="datetime-local" onChange={getTime} /> */}
               </FormGroup>
               <FormGroup>
                 <FormLabel>Location</FormLabel>
@@ -420,7 +383,6 @@ const CreateBranch = () => {
               <FormGroup id="branchContent">
                 <FormLabel>Activity Description</FormLabel>
                 <TiptapEditor setEditorHtmlContent={setEditorHtmlContent} />
-                {/* <textarea onChange={getContent}></textarea> */}
               </FormGroup>
               <FormGroup id="branchImage">
                 <FormLabel>Image</FormLabel>

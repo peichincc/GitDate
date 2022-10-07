@@ -2,16 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
-
 import {
   ModalHeader,
-  ModalSubtitle,
   ModalContent,
-  ModalWordWrapper,
   ModalContentsWrapper,
   CloseBtnWrapper,
   Button,
-} from "../../utils/StyledComponent";
+} from "../../utils/styledComponent";
 
 const Back = styled.div`
   position: fixed;
@@ -34,11 +31,9 @@ const ModalBx = styled.div`
   @keyframes slide-down {
     from {
       opacity: 0;
-      /* transform: translateY(-10rem); */
     }
     to {
       opacity: 1;
-      /* transform: translateY(0); */
     }
   }
 `;
@@ -56,7 +51,11 @@ const ModalExplaination = styled(ModalContent)`
   justify-content: center;
 `;
 
-const Alert = (props: any) => {
+const Alert = (props: {
+  trigger: boolean;
+  setButtonPop: (arg0: boolean) => void;
+  alertMsg: string;
+}) => {
   const { trigger, setButtonPop, alertMsg } = props;
   return trigger ? (
     <>

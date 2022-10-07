@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 export const ActionButton = styled.button`
@@ -14,7 +13,6 @@ export const ActionButton = styled.button`
     background-color: #edede9;
   }
 `;
-
 export const Button = styled.button`
   margin-right: 4px;
   border-radius: 6px;
@@ -74,7 +72,6 @@ export const CloseBtn = styled.button`
     background-color: #e63946;
   }
 `;
-
 export const PhotoContainer = styled.div`
   padding: 10px;
   width: 100%;
@@ -103,7 +100,6 @@ export const AvatarUserImg = styled.img`
     display: none;
   }
 `;
-
 export const FormGroup = styled.div`
   display: flex;
   align-items: center;
@@ -111,7 +107,6 @@ export const FormGroup = styled.div`
   margin-top: 10px;
   margin-bottom: 20px;
   width: 100%;
-  /* max-width: 600px; */
 `;
 export const FormLabel = styled.div`
   width: 130px;
@@ -122,12 +117,10 @@ export const FormLabel = styled.div`
 `;
 export const FormControl = styled.input`
   width: 300px;
-  /* width: ${(props) => props.theme.issues}; */
   height: 30px;
   border-radius: 8px;
   border: solid 1px #979797;
 `;
-// FormControl.defaultProps = { theme: { issues: "100%" } };
 export const FormSelect = styled.select`
   width: 300px;
   height: 30px;
@@ -137,10 +130,6 @@ export const FormSelect = styled.select`
 export const FormSelectOptions = styled.option`
   border: solid 1px #979797;
 `;
-
-// customized select
-
-// Photo Preview
 export const UploadCardStyled = styled.label`
   margin-bottom: 5px;
   background-color: #fff;
@@ -166,7 +155,6 @@ export const UploadPreviewImg = styled.img`
   max-width: 100%;
   max-height: 100%;
 `;
-
 export const BoxHeader = styled.div`
   padding: 16px;
   background-color: #f6f8fa;
@@ -207,7 +195,6 @@ export const BlogList = styled.div`
 `;
 export const GithubPostTitle = styled.div`
   padding-right: 2px;
-  /* padding: 2px; */
   font-size: 16px;
   font-weight: 600;
   color: #24292f;
@@ -222,7 +209,6 @@ export const GithubSubTitle = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 `;
-
 export const LabelsButton = styled.button`
   padding: 0 10px;
   font-size: 12px;
@@ -236,7 +222,6 @@ export const LabelsButton = styled.button`
   margin-right: 2px;
   cursor: pointer;
 `;
-
 export const AvatarBlock = styled.div`
   width: auto;
   margin-right: 25px;
@@ -254,7 +239,6 @@ export const PostBox = styled.div`
   border-radius: 0.4em;
   width: 100%;
   height: auto;
-  /* border: 1px solid #d0d7de; */
   position: relative;
   &:before {
     content: "";
@@ -268,20 +252,8 @@ export const PostBox = styled.div`
     border-left: 0;
     margin-top: -20px;
     margin-left: -20px;
-    /* border: 1px solid black;
-    position: absolute;
-    top: 11px;
-    right: 100%;
-    left: -8px;
-    display: block;
-    width: 8px;
-    height: 16px;
-    pointer-events: none;
-    content: " ";
-    clip-path: polygon(0 50%, 100% 0, 100% 100%); */
   }
 `;
-
 export const PostTitle = styled.div`
   font-weight: 400;
   line-height: 1.25;
@@ -358,7 +330,6 @@ export const GithubLink = styled.button`
     text-decoration: underline;
   }
 `;
-
 export const StatusOpen = styled.div`
   display: flex;
   align-items: center;
@@ -372,11 +343,9 @@ export const StatusOpen = styled.div`
   line-height: 20px;
   text-align: center;
 `;
-
 export const NavWord = styled.div`
   padding-left: 5px;
 `;
-
 export const ClickBtn = styled.button`
   border: 1px solid transparent;
   border-radius: 2em;
@@ -386,15 +355,12 @@ export const ClickBtn = styled.button`
     background-color: #24292f;
   }
 `;
-
 export const TagButton = styled(LabelsButton)`
   cursor: default;
   background-color: #453d38;
   width: fit-content;
   margin: 3px;
 `;
-
-// Modal styling
 export const ModalHeader = styled.div`
   background-color: #f6f8fa;
   width: auto;
@@ -438,15 +404,11 @@ export const CloseBtnWrapper = styled.div`
   justify-content: center;
   margin-top: 20px;
 `;
-
-// Go back
 export const GoBackWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
 `;
-
-// Author btn
 export const EditBtn = styled(Button)`
   font-size: 12px;
   line-height: 20px;
@@ -458,5 +420,19 @@ export const DeleteBtn = styled(EditBtn)`
   &:hover {
     color: white;
     background-color: #953800;
+  }
+`;
+export const CopyBtn = styled.button`
+  border: none;
+  background: none;
+  margin-left: 4px;
+  margin-right: 2px;
+  border-radius: 6px;
+  padding: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  &:hover {
+    background-color: gray;
+    color: white;
   }
 `;

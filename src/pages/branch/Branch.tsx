@@ -1,18 +1,16 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { db } from "../../utils/firebase";
 import firebaseapi from "../../utils/firebaseapi";
 import {
   doc,
-  getFirestore,
   updateDoc,
   arrayUnion,
-  QueryDocumentSnapshot,
   collection,
   DocumentData,
   onSnapshot,
-  getDoc,
 } from "firebase/firestore";
 import { ShowMap } from "../../components/map/ShowMap";
 import Participants from "./Participants";
@@ -27,18 +25,17 @@ import {
   DeleteBtn,
   GoBackWrapper,
   Button,
-} from "../../utils/StyledComponent";
+} from "../../utils/styledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-
 import Alert from "../../components/modal/Alert";
 import Confirm from "../../components/modal/Confirm";
 import Loading from "../../components/Loading";
 import AlertWtihCTA from "../../components/modal/AlertWithCTA";
+import { RootState } from "../..";
 
 const Wrapper = styled.div`
   display: block;
-  /* max-width: 1376px; */
   margin: 0 auto;
   margin-bottom: 100px;
 `;
@@ -125,7 +122,6 @@ const CardContainer = styled.div`
   margin-bottom: 20px;
   margin-right: 20px;
 `;
-
 const MapContainer = styled.div`
   width: 400px;
   height: 200px;
@@ -133,7 +129,6 @@ const MapContainer = styled.div`
     width: 100%;
   }
 `;
-
 const CheckOutBtn = styled(MergeBtn)`
   margin: 20px;
   color: white;
@@ -146,7 +141,6 @@ const CheckOutBtn = styled(MergeBtn)`
   border: 1px solid;
   border-radius: 6px;
 `;
-
 const ParticipantsBtn = styled.button`
   border: none;
   background: none;
@@ -163,62 +157,40 @@ const DeleteWrapper = styled.div`
 `;
 
 const Branch = () => {
+  const { id } = useParams();
+  let navigate = useNavigate();
+  const branchRef = doc(collection(db, "Branches"), id);
+  const userData = useSelector((state: RootState) => state);
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertWtihCTAPop, setAlertWtihCTAPop] = useState(false);
   const [confirmPop, setConfirmPop] = useState(false);
   const [confirmMsg, setConfirmMsg] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
-  const db = getFirestore();
-  let navigate = useNavigate();
-  const userData = useSelector((state) => state) as any;
-  const { id } = useParams<any>();
-  const [getUser, setGetUser] = useState("");
-  const [getUserName, setGetUserName] = useState("");
   const [getAuthor, setGetAuthor] = useState("");
   const [getAuthorID, setGetAuthorID] = useState("");
   const [branchData, setBranchData] = useState<DocumentData>();
   const [newT, setNewT] = useState("");
-  const [center, setCenter] = useState();
-  const [newList, setNewList] = useState([]);
   const [openParticipants, setOpenParticipants] = useState(false);
-  const [participantsList, setParticipantsList] = useState<any>();
-  // Check author status
+  const [participantsList, setParticipantsList] = useState([]);
   const [isAuthor, setIsAuthor] = useState(false);
-  // Check branch expired or not
   const [isExpired, setIsExpired] = useState(true);
-  const branchRef = doc(collection(db, "Branches"), id);
-  // Delete branch id in Users
   const [hostedList, setHostedList] = useState([]);
+  const userId = userData.user.user_id;
+  const userName = userData.user.user_name;
 
   useEffect(() => {
-    const userId = userData.user.user_id;
-    const userName = userData.user.user_name;
-    console.log(userId);
-    console.log(userName);
-    if (userId) {
-      setGetUser(userId);
-    }
-    if (userId && userName) {
-      setGetUser(userId);
-      setGetUserName(userName);
-    }
     firebaseapi.readBranchData(id).then((res) => {
       if (res) {
-        console.log(res);
-        // check whether the branch is expired or not
-        console.log(res.date);
-        var today = new Date();
-        var date =
+        const today = new Date();
+        const date =
           today.getFullYear() +
           "-" +
           (today.getMonth() + 1) +
           "-" +
           today.getDate();
-        console.log(date);
-        var date1 = new Date(res.date);
-        var date2 = new Date(date);
-        console.log(date1 > date2);
+        const date1 = new Date(res.date);
+        const date2 = new Date(date);
         if (date1 > date2) {
           setIsExpired(false);
         }
@@ -227,17 +199,13 @@ const Branch = () => {
             status: "Expired",
           });
         }
-        //
         const newT = new Date(res.posted_at.seconds * 1000).toString();
         setNewT(newT);
         setBranchData(res);
-        setCenter(res.location);
       }
       firebaseapi.searchUserName(res?.hosted_by).then((res) => {
         if (res) {
-          console.log(res["activity_hosted"]);
           setHostedList(res["activity_hosted"]);
-          // console.log(res["firstname"]);
           setGetAuthor(res["firstname"]);
           setGetAuthorID(res["user_id"]);
           setTimeout(() => {
@@ -252,17 +220,12 @@ const Branch = () => {
   }, [openParticipants, participantsList]);
 
   const attendActivity = () => {
-    if (!getUser) {
+    if (!userId) {
       setButtonPop(true);
       setAlertMsg("Please sign in!");
-      // setTimeout(() => {
-      //   navigate("/");
-      // }, 1500);
-      // alert("Please sign in!");
-      // navigate("/signin");
       return;
     }
-    if (!getUserName) {
+    if (!userName) {
       setAlertMsg("You haven't completed your README, let's write it here");
       setAlertWtihCTAPop(true);
       return;
@@ -270,65 +233,49 @@ const Branch = () => {
     setConfirmMsg("Do you want to attend this activity?");
     setConfirmPop(true);
   };
-
   const clickToConfirm = (isConfirm: boolean) => {
     if (isConfirm) {
       confirmAttendActivity();
     }
     setConfirmPop(false);
   };
-
   const confirmAttendActivity = async () => {
-    const userRef = doc(collection(db, "Users"), getUser);
+    const userRef = doc(collection(db, "Users"), userId);
     const branchRef = doc(collection(db, "Branches"), id);
     await updateDoc(userRef, {
       activity_attend: arrayUnion(id),
     });
-    console.log(`${getUserName} attended this activity!`);
     await updateDoc(branchRef, {
-      participants: arrayUnion(getUser),
-      // participants: arrayUnion({ user_id: getUser, user_name: getUserName }),
+      participants: arrayUnion(userId),
     });
     await getParticipants();
     setButtonPop(true);
     setAlertMsg("Attended successful💃");
-    // alert("Attended successful!");}
   };
-
-  const getParticipants = async () => {
+  const getParticipants = () => {
     const branchRef = doc(collection(db, "Branches"), id);
-    onSnapshot(branchRef, async (doc) => {
-      console.log("Current data: ", doc.data());
+    onSnapshot(branchRef, (doc) => {
       if (doc.exists()) {
-        console.log(doc.data().participants);
         const newArr = [] as any;
         for (let i = 0; i < doc.data().participants.length; i++) {
-          await firebaseapi
-            .searchUserName(doc.data().participants[i])
-            .then((res) => {
-              console.log(res);
-              if (res) {
-                console.log(res["user_id"]);
-                // console.log(res["firstname"]);
-                // console.log(res["main_photo"]);
-                const tempObj = {
-                  id: res["user_id"],
-                  name: res["firstname"],
-                  photo: res["main_photo"],
-                };
-                newArr.push(tempObj);
-              }
-            });
+          firebaseapi.searchUserName(doc.data().participants[i]).then((res) => {
+            if (res) {
+              const tempObj = {
+                id: res["user_id"],
+                name: res["firstname"],
+                photo: res["main_photo"],
+              };
+              newArr.push(tempObj);
+            }
+          });
         }
-        // Promise.all(promises).then((res) => console.log(res));
-        console.log(newArr);
         setParticipantsList(newArr);
       }
     });
   };
 
-  const handleChange = async () => {
-    await getParticipants();
+  const handleChange = () => {
+    getParticipants();
     setOpenParticipants(true);
   };
 
@@ -336,7 +283,6 @@ const Branch = () => {
     let newHostedList = hostedList.filter(function (e) {
       return e !== id;
     });
-    console.log(newHostedList);
     const userRef = doc(db, "Users", getAuthorID);
     await updateDoc(userRef, {
       activity_hosted: newHostedList,
@@ -350,23 +296,15 @@ const Branch = () => {
     }, 1000);
   };
 
-  // To delete the location in the map then update back
   const updateLocationMarkers = () => {
     firebaseapi.readBranchLocations().then((res) => {
-      console.log(res?.markers);
-      console.log(id);
-      var ob_array = res?.markers;
-      var my_array = [id];
-      console.log(
-        ob_array.filter(
-          (O: { id: string | undefined }) => !my_array.includes(O.id)
-        )
-      );
-      var new_array = ob_array.filter(
+      const ob_array = res?.markers;
+      const my_array = [id];
+      const new_array = ob_array.filter(
         (O: { id: string | undefined }) => !my_array.includes(O.id)
       );
       const LocationsRef = collection(db, "Location");
-      const docRef = doc(LocationsRef, "c4ttDiHr8UCyB0OMOtwA");
+      const docRef = doc(LocationsRef, "branches");
       updateDoc(docRef, { markers: new_array });
     });
   };
@@ -386,7 +324,6 @@ const Branch = () => {
         />
         <Confirm
           trigger={confirmPop}
-          setConfirmPop={setConfirmPop}
           clickToConfirm={clickToConfirm}
           confirmMsg={confirmMsg}
         />
@@ -493,7 +430,7 @@ const Branch = () => {
                         <BranchSubTitle>Location: </BranchSubTitle>
                         {branchData.address}
                         <MapContainer>
-                          <ShowMap center={center} />
+                          <ShowMap center={branchData.location} />
                         </MapContainer>
                       </CardContainer>
                       <ParticipantsContainer>

@@ -10,7 +10,6 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@gitgraph/react": "^1.6.0",
-    "@mui/material": "^5.10.6",
     "@react-google-maps/api": "^2.12.2",
     "@reduxjs/toolkit": "^1.8.5",
     "@testing-library/jest-dom": "^5.16.5",

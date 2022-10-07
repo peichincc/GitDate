@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
 import {
   BoxHeader,
   Container,
@@ -10,11 +9,11 @@ import {
   GithubPostTitle,
   GithubSubTitle,
   Button,
-} from "../../utils/StyledComponent";
-import { ReactComponent as Open } from "./issue-open.svg";
-// import Open from "./Open.png";
-import ToggleOn from "../../utils/toggle-on.svg";
-import ToggleOff from "../../utils/toggle-off.svg";
+} from "../../utils/styledComponent";
+import { ReactComponent as Open } from "../../assets/images/issueOpen.svg";
+import ToggleOn from "../../assets/images/toggleOn.svg";
+import ToggleOff from "../../assets/images/toggleOff.svg";
+import { DocumentData } from "firebase/firestore";
 
 const IssuesHeader = styled(BoxHeader)`
   font-size: 14px;
@@ -32,7 +31,6 @@ const ToggleOnBtn = styled.button`
   background: none;
   cursor: pointer;
 `;
-
 const LeftContainer = styled.div`
   display: flex;
   align-items: center;
@@ -61,7 +59,6 @@ const GithubTitleContainer = styled.div`
   text-align: left;
   padding: 8px;
 `;
-
 const CardsContainer = styled.div`
   display: flex;
   margin-top: 20px;
@@ -80,8 +77,6 @@ const Card = styled.div`
   height: 280px;
   background: #fff;
   border-radius: 4px;
-  /* border: 1px solid #d0d7de; */
-  /* box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15); */
 `;
 const ImageBox = styled.div`
   width: 150px;
@@ -90,11 +85,6 @@ const ImageBox = styled.div`
   border-radius: 20px;
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
   overflow: hidden;
-  /* &:hover {
-    transform: scale(1.1);
-    transition-duration: 0.3s;
-    transition-duration: 0.5s;
-  } */
 `;
 const ImageBoxImage = styled.img`
   width: 150px;
@@ -116,14 +106,10 @@ const ContentBox = styled.div`
   height: 150px;
 `;
 
-const IssuesList = ({ issuesStatus, docs }: any) => {
+const IssuesList = (props: { issuesStatus: string; docs: DocumentData }) => {
+  const { issuesStatus, docs } = props;
   const [switchMode, setSwitchMode] = useState(true);
   let navigate = useNavigate();
-
-  const [isLoading, setIsLoading] = useState(true);
-  function onLoad() {
-    setTimeout(() => setIsLoading(false), 1000);
-  }
 
   return (
     <>
@@ -145,92 +131,99 @@ const IssuesList = ({ issuesStatus, docs }: any) => {
         </IssuesHeader>
         {switchMode ? (
           <ContentContainer>
-            {docs.map((blog: any) => {
-              const newT = new Date(blog?.posted_at.seconds * 1000);
-              const postTime =
-                newT.getFullYear() +
-                "-" +
-                ("0" + (newT.getMonth() + 1)).slice(-2) +
-                "-" +
-                ("0" + newT.getDate()).slice(-2);
-              return (
-                <>
-                  <BlogList>
-                    <LeftContainer>
-                      <IconContainer>
-                        <Open stroke="#adecbf" />
-                      </IconContainer>
-                      <CategoryContainer>{blog.category}</CategoryContainer>
-                      {/* <OpenIcon /> */}
-                      <GithubTitleContainer>
-                        <GithubPostTitle>{blog.title}</GithubPostTitle>
-                        <GithubSubTitle>Posted time: {postTime}</GithubSubTitle>
-                      </GithubTitleContainer>
-                    </LeftContainer>
-                    <RightContainer>
-                      <Button
-                        id="issueClick"
-                        onClick={() => {
-                          navigate("/issue/" + blog.issue_id);
-                        }}
-                      >
-                        Click to issue
-                      </Button>
-                    </RightContainer>
-                  </BlogList>
-                </>
-              );
-            })}
+            {docs.map(
+              (blog: {
+                posted_at: { seconds: number };
+                category: string;
+                title: string;
+                issue_id: string;
+              }) => {
+                const newT = new Date(blog?.posted_at.seconds * 1000);
+                const postTime =
+                  newT.getFullYear() +
+                  "-" +
+                  ("0" + (newT.getMonth() + 1)).slice(-2) +
+                  "-" +
+                  ("0" + newT.getDate()).slice(-2);
+                return (
+                  <>
+                    <BlogList key={`allissue-${blog.issue_id}`}>
+                      <LeftContainer>
+                        <IconContainer>
+                          <Open stroke="#adecbf" />
+                        </IconContainer>
+                        <CategoryContainer>{blog.category}</CategoryContainer>
+                        <GithubTitleContainer>
+                          <GithubPostTitle>{blog.title}</GithubPostTitle>
+                          <GithubSubTitle>
+                            Posted time: {postTime}
+                          </GithubSubTitle>
+                        </GithubTitleContainer>
+                      </LeftContainer>
+                      <RightContainer>
+                        <Button
+                          id="issueClick"
+                          onClick={() => {
+                            navigate("/issue/" + blog.issue_id);
+                          }}
+                        >
+                          Click to issue
+                        </Button>
+                      </RightContainer>
+                    </BlogList>
+                  </>
+                );
+              }
+            )}
           </ContentContainer>
         ) : (
           <CardsContainer>
-            {docs.map((blog: any) => {
-              const newT = new Date(blog?.posted_at.seconds * 1000);
-              const postTime =
-                newT.getFullYear() +
-                "-" +
-                ("0" + (newT.getMonth() + 1)).slice(-2) +
-                "-" +
-                ("0" + newT.getDate()).slice(-2);
-              return (
-                <>
-                  <CardContainer>
-                    <Card>
-                      <ImageBox>
-                        <ImageBoxImage
-                          id="issueClick"
-                          src={blog.main_image}
-                          alt="issue_photo"
-                          onClick={() => {
-                            navigate("/issue/" + blog.issue_id);
-                          }}
-                          // style={{ display: isLoading ? "none" : "block" }}
-                          // onLoad={onLoad}
-                        />
-                        {/* <ImageBoxImage
-                          id="issueClick"
-                          src={Loading}
-                          alt="issue_photo"
-                          onClick={() => {
-                            navigate("/issue/" + blog.issue_id);
-                          }}
-                          style={{ display: isLoading ? "block" : "none" }}
-                        /> */}
-                      </ImageBox>
-                      <ContentBox>
-                        <CategoryContainerGallery>
-                          {blog.category}
-                        </CategoryContainerGallery>
-                        <GithubPostTitleGallery>
-                          {blog.title}
-                        </GithubPostTitleGallery>
-                        <GithubSubTitle>Posted time: {postTime}</GithubSubTitle>
-                      </ContentBox>
-                    </Card>
-                  </CardContainer>
-                </>
-              );
-            })}
+            {docs.map(
+              (blog: {
+                posted_at: { seconds: number };
+                category: string;
+                title: string;
+                issue_id: string;
+                main_image: string;
+              }) => {
+                const newT = new Date(blog?.posted_at.seconds * 1000);
+                const postTime =
+                  newT.getFullYear() +
+                  "-" +
+                  ("0" + (newT.getMonth() + 1)).slice(-2) +
+                  "-" +
+                  ("0" + newT.getDate()).slice(-2);
+                return (
+                  <>
+                    <CardContainer key={blog.issue_id}>
+                      <Card>
+                        <ImageBox>
+                          <ImageBoxImage
+                            id="issueClick"
+                            src={blog.main_image}
+                            alt="issue_photo"
+                            onClick={() => {
+                              navigate("/issue/" + blog.issue_id);
+                            }}
+                          />
+                        </ImageBox>
+                        <ContentBox>
+                          <CategoryContainerGallery>
+                            {blog.category}
+                          </CategoryContainerGallery>
+                          <GithubPostTitleGallery>
+                            {blog.title}
+                          </GithubPostTitleGallery>
+                          <GithubSubTitle>
+                            Posted time: {postTime}
+                          </GithubSubTitle>
+                        </ContentBox>
+                      </Card>
+                    </CardContainer>
+                  </>
+                );
+              }
+            )}
           </CardsContainer>
         )}
       </Container>

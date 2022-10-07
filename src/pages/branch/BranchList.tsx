@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
 import {
   BoxHeader,
   Container,
   ContentContainer,
   BlogList,
   GithubPostTitle,
-  GithubSubTitle,
   Button,
-} from "../../utils/StyledComponent";
-
-import branch from "./branch.png";
-
-import Loading from "../../utils/loading.gif";
+} from "../../utils/styledComponent";
+import branch from "../../assets/icons/branch.png";
+import { DocumentData } from "firebase/firestore";
 
 const BranchesHeader = styled(BoxHeader)`
   font-size: 14px;
@@ -61,12 +57,8 @@ const LeftContainer = styled.div`
 `;
 const RightContainer = styled.div``;
 
-const BranchesList = ({ branchType, docs }: any) => {
+const BranchesList = ({ branchType, docs }: DocumentData) => {
   let navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
-  function onLoad() {
-    setTimeout(() => setIsLoading(false), 1000);
-  }
   return (
     <>
       <Container>
@@ -79,48 +71,46 @@ const BranchesList = ({ branchType, docs }: any) => {
           {branchType} Branches
         </BranchesHeader>
         <ContentContainer>
-          {docs.map((blog: any) => (
-            <>
-              <BlogList>
-                <LeftContainer>
-                  <ImageBox>
-                    <ImageBoxImage
-                      src={blog.main_image}
-                      alt="branch_photo"
+          {docs.map(
+            (blog: {
+              main_image: string;
+              branch_id: string;
+              date: string;
+              time: string;
+              title: string;
+            }) => (
+              <>
+                <BlogList key={`allbranch-${blog.branch_id}`}>
+                  <LeftContainer>
+                    <ImageBox>
+                      <ImageBoxImage
+                        src={blog.main_image}
+                        alt="branch_photo"
+                        onClick={() => {
+                          navigate("/branch/" + blog.branch_id);
+                        }}
+                      />
+                    </ImageBox>
+                    <GithubTitleContainer>
+                      <BranchDate>
+                        {blog.date} · {blog.time}
+                      </BranchDate>
+                      <GithubPostTitle>{blog.title}</GithubPostTitle>
+                    </GithubTitleContainer>
+                  </LeftContainer>
+                  <RightContainer>
+                    <Button
                       onClick={() => {
                         navigate("/branch/" + blog.branch_id);
                       }}
-                      // style={{ display: isLoading ? "none" : "block" }}
-                      // onLoad={onLoad}
-                    />
-                    {/* <ImageBoxImage
-                      src={Loading}
-                      alt="branch_photo"
-                      onClick={() => {
-                        navigate("/branch/" + blog.branch_id);
-                      }}
-                      style={{ display: isLoading ? "block" : "none" }}
-                    /> */}
-                  </ImageBox>
-                  <GithubTitleContainer>
-                    <BranchDate>
-                      {blog.date} · {blog.time}
-                    </BranchDate>
-                    <GithubPostTitle>{blog.title}</GithubPostTitle>
-                  </GithubTitleContainer>
-                </LeftContainer>
-                <RightContainer>
-                  <Button
-                    onClick={() => {
-                      navigate("/branch/" + blog.branch_id);
-                    }}
-                  >
-                    Click to Branch
-                  </Button>
-                </RightContainer>
-              </BlogList>
-            </>
-          ))}
+                    >
+                      Click to Branch
+                    </Button>
+                  </RightContainer>
+                </BlogList>
+              </>
+            )
+          )}
         </ContentContainer>
       </Container>
     </>

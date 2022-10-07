@@ -1,29 +1,24 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-
-import { getFirestore, doc, updateDoc, collection } from "firebase/firestore";
+import styled from "styled-components";
+import { db, storage } from "../../utils/firebase";
+import { doc, updateDoc, collection, DocumentData } from "firebase/firestore";
 import { auth } from "../../utils/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { getStorage } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import firebaseapi from "../../utils/firebaseapi";
-
 import {
   DataCard,
   PhotoContainer,
   PhotoContainerImg,
   FormTextRead,
 } from "./Readme";
-
-import { Button, NavWord } from "../../utils/StyledComponent";
-
+import { Button, NavWord } from "../../utils/styledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
-
-import Avatar from "../../utils/DefaultAvatar.png";
-
+import Avatar from "../../assets/images/defaultAvatar.png";
 import Alert from "../../components/modal/Alert";
+import { ListData } from "../../utils/interface";
 
 const Wrapper = styled.div`
   display: block;
@@ -59,8 +54,6 @@ const PreviewContainer = styled.div`
 `;
 const RightContainer = styled.div`
   flex-grow: 1.5;
-  /* border: 1px solid #d0d7de;
-  border-radius: 6px; */
   width: 750px;
   height: auto;
   @media screen and (max-width: 770px) {
@@ -75,7 +68,6 @@ const FormGroup = styled.div`
   margin-top: 10px;
   margin-bottom: 20px;
   width: 100%;
-  /* max-width: 600px; */
 `;
 const FormLabel = styled.div`
   width: 130px;
@@ -88,9 +80,6 @@ const FormCheck = styled.div`
   margin-left: 8px;
   display: flex;
   align-items: center;
-  /* & + & {
-    margin-left: 30px;
-  } */
 `;
 const FormCheckInput = styled.input`
   margin: 0;
@@ -115,7 +104,6 @@ const FormControl = styled.input`
   border-radius: 6px;
   border: solid 1px #d0d7de;
 `;
-
 const TextInputCard = styled.div`
   padding: 20px;
 `;
@@ -181,26 +169,10 @@ const UploadPreviewImg = styled.img`
   max-width: 100%;
   max-height: 100%;
 `;
-
-const Btn = styled.button`
-  font-size: 16px;
-  margin-top: 20px;
-  width: 200px;
-  border: 1px solid #627597;
-  border-radius: 6px;
-  background: none;
-  padding: 5px 12px;
-  cursor: pointer;
-  &:hover {
-    background-color: #edede9;
-  }
-`;
-
 const WelcomeMsg = styled.div`
   margin-top: 30vh;
   padding: 20px;
 `;
-
 const PreviewReadmeContainer = styled.div`
   display: flex;
   padding: 20px;
@@ -223,7 +195,6 @@ const PhotoContainerEmpty = styled.div`
   width: 200px;
   height: 200px;
 `;
-
 export const BoxHeader = styled.div`
   padding: 16px;
   background-color: #f6f8fa;
@@ -247,7 +218,6 @@ const SubmitBtnWrapper = styled.div`
 const SubmitBtn = styled(Button)`
   margin-right: 12px;
 `;
-
 const ReminderBox = styled.div`
   margin-right: 50px;
   color: #24292f;
@@ -270,42 +240,24 @@ const ReminderBoxTextSmall = styled.div`
 `;
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [ButtonPop, setButtonPop] = useState(false);
-  let navigate = useNavigate();
+  const [alertMsg, setAlertMsg] = useState("");
   const [getUser, setGetUser] = useState("");
   const [imageUpload, setImageUpload] = useState(null);
   const [imageURL, setImageURL] = useState("");
-  const db = getFirestore();
-  const storage = getStorage();
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<DocumentData>();
   const [showPreviewReadme, setShowPreviewReadme] = useState(false);
   const [showContinueBtn, setShowContinueBtn] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        var uid = user.uid;
+        const uid = user.uid;
         setGetUser(uid);
       }
     });
   }, []);
-
-  // 使用者更新資訊
-  type ListData = {
-    lastname: string;
-    firstname: string;
-    age: number | undefined;
-    gender: string;
-    githublink: string;
-    details: string;
-    gender_interested: string;
-    // inerested_gender: [];
-    main_photo: string;
-    wish_relationship: string;
-    // friend_list: [];
-    // friend_request: [];
-    friend_sent_request: [];
-  };
 
   const uploadFormGroups = [
     { label: "First Name", key: "firstname" },
@@ -358,18 +310,16 @@ const Profile = () => {
     gender_interested: "",
     main_photo: "",
     wish_relationship: "",
-    // friend_list: [],
-    // friend_request: [],
     friend_sent_request: [],
   });
   const uploadFormInputCheck = (
     label: string,
     key: string,
     textarea: boolean | undefined,
-    options: any
+    options: { label: string; value: string }[] | undefined
   ) => {
     if (options) {
-      return (options as unknown as any[]).map((option) => (
+      return options.map((option: { value: string; label: string }) => (
         <FormCheck key={option.value}>
           <FormCheckInput
             required
@@ -406,7 +356,7 @@ const Profile = () => {
   const [fileSrc, setFileSrc] = useState<any>();
   const handleUploadPhoto = (e: any) => {
     if (!e.target.files[0]) return;
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = function () {
       setFileSrc(reader.result);
     };
@@ -419,26 +369,21 @@ const Profile = () => {
   const [showWelcomeMsg, setShowWelcomeMsg] = useState(false);
   const [hideTitle, setHideTitle] = useState(true);
 
-  // 上傳照片
   const uploadImage = async () => {
     if (imageUpload == null) return;
     const imageRef = ref(storage, `users/${getUser}.jpg`);
     await uploadBytes(imageRef, imageUpload).then(() => {
       setAlertMsg("Photo updated");
       setButtonPop(true);
-      // alert("uploaded photo!");
     });
     const downloadUrl = await getDownloadURL(imageRef);
     setImageURL(downloadUrl);
     setShowContinueBtn(true);
   };
 
-  const [alertMsg, setAlertMsg] = useState("");
-  // 更新資料庫
   const updateDB = async () => {
     const userRef = doc(collection(db, "Users"), `${getUser}`);
     await updateDoc(userRef, { ...recipient, main_photo: imageURL });
-    // alert("updated README!");
     setAlertMsg("README updated");
     setButtonPop(true);
     setShowPreviewReadme(true);
@@ -450,9 +395,9 @@ const Profile = () => {
     setShowWelcomeMsg(true);
     setShowTextInput(false);
     setHideTitle(false);
-    // setTimeout(() => {
-    //   navigate("/signin");
-    // }, 3000);
+    setTimeout(() => {
+      navigate("/signin");
+    }, 1000);
   };
 
   return (
@@ -472,11 +417,6 @@ const Profile = () => {
                 a README in a repository about you! You can start from here:
               </ReminderBoxTextSmall>
             </ReminderBox>
-            {/* <h1>
-              Welcome to GitDate
-              <br />
-              We are glad that you are here
-            </h1> */}
             <PreviewContainer>
               <BoxHeader>
                 <FontAwesomeIcon icon={faListUl} />

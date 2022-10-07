@@ -1,19 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboardQuestion } from "@fortawesome/free-solid-svg-icons";
-
 import {
   ModalHeader,
-  ModalSubtitle,
   ModalContent,
-  ModalWordWrapper,
   ModalContentsWrapper,
   CloseBtnWrapper,
-  Button,
   MergeBtn,
   CloseBtn,
-} from "../../utils/StyledComponent";
+} from "../../utils/styledComponent";
 
 const Back = styled.div`
   position: fixed;
@@ -36,11 +32,9 @@ const ModalBx = styled.div`
   @keyframes slide-down {
     from {
       opacity: 0;
-      /* transform: translateY(-10rem); */
     }
     to {
       opacity: 1;
-      /* transform: translateY(0); */
     }
   }
 `;
@@ -58,7 +52,11 @@ const ModalExplaination = styled(ModalContent)`
   justify-content: center;
 `;
 
-const Confirm = (props: any) => {
+const Confirm = (props: {
+  trigger: boolean;
+  clickToConfirm: (arg0: boolean) => void;
+  confirmMsg: string;
+}) => {
   const { trigger, confirmMsg, clickToConfirm } = props;
 
   return trigger ? (

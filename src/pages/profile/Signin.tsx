@@ -2,22 +2,19 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setUserData, signin } from "../../actions";
-import back from "./back.jpg";
-
+import { setUserData } from "../../actions";
+import back from "../../assets/images/backSignIn.jpg";
 import firebaseapi from "../../utils/firebaseapi";
 import { auth } from "../../utils/firebase";
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
-
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { Title } from "./Signup";
 import { FormInputContainer } from "./Signup";
 import { SubmitBtn } from "./Signup";
-
 import Alert from "../../components/modal/Alert";
+import { CopyBtn } from "../../utils/styledComponent";
+import { RootState } from "../..";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
 const Wrapper = styled.div`
   display: block;
@@ -50,10 +47,6 @@ const BlockContent = styled.div`
   text-align: center;
   max-width: 680px;
   padding: 32px;
-  /* @media screen and (min-width: 900px) {
-    max-width: 680px;
-    padding: 32px;
-  } */
 `;
 const Container = styled.div`
   margin-left: auto;
@@ -91,31 +84,36 @@ const SignUpBtn = styled.button`
     color: white;
   }
 `;
+const TestTextReminder = styled(TextReminder)`
+  margin-top: 0;
+`;
+const TestWrapper = styled.div`
+  border: 0.5px solid #627597;
+  padding: 10px;
+  margin-top: 20px;
+  opacity: 0.6;
+`;
 
 const Signin = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state: RootState) => state);
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
-  const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state) as any;
-  const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [alreadyLogged, setAlreadyLogged] = useState(false);
-  const navigate = useNavigate();
   const [recipient, setRecipient] = useState({
     email: "",
     password: "",
   });
 
   useEffect(() => {
-    console.log(userInfo.isLogged);
     setAlreadyLogged(userInfo.isLogged);
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        var uid = user.uid;
+        const uid = user.uid;
         firebaseapi.searchUserName(uid).then((result) => {
           if (result) {
-            // console.log(result);
-            // console.log(result["firstname"]);
             dispatch(
               setUserData(
                 result["user_id"],
@@ -123,11 +121,9 @@ const Signin = () => {
                 result["main_photo"]
               )
             );
-            console.log(userInfo);
             setAlreadyLogged(true);
           }
         });
-        // setAlreadyLogged(true);
       }
     });
   }, []);
@@ -136,16 +132,12 @@ const Signin = () => {
     setIsLoading(true);
     signInWithEmailAndPassword(auth, recipient.email, recipient.password)
       .then(() => {
-        // dispatch(signin());
-        // navigate("/");
         setIsLoading(false);
-        // setAlreadyLogged(true);
         setButtonPop(true);
         setAlertMsg("Log in successfully!");
-        // console.log(userInfo.isLogged);
         setAlreadyLogged(userInfo.isLogged);
       })
-      .catch((error) => {
+      .catch(() => {
         setButtonPop(true);
         setAlertMsg("Please enter the correct info");
         setIsLoading(false);
@@ -164,7 +156,9 @@ const Signin = () => {
           <BlockInner>
             <BlockContent>
               <Container>
-                <Title>Sign In to GitDate</Title>
+                <Title>
+                  <h2>Sign In to GitDate</h2>
+                </Title>
                 {alreadyLogged ? (
                   <>
                     <h2>Welcome! {userInfo.user.user_name}</h2>
@@ -209,19 +203,53 @@ const Signin = () => {
                         />
                       </FormInputContainer>
                     </FormGroup>
-                    <SubmitBtn onClick={onSubmit}>Sign In</SubmitBtn>
+                    <SubmitBtn onClick={onSubmit} disabled={isLoading}>
+                      Sign In
+                    </SubmitBtn>
                     <TextReminder>
                       New to GitDate?{" "}
                       <SignUpBtn onClick={() => navigate("/signup")}>
-                        Create an account.
+                        <strong> Create an account.</strong>
                       </SignUpBtn>
                     </TextReminder>
-                    <TextReminder>
-                      Test account: <br />
-                      test@test.com / password: 123456
-                      <br />
-                      test2@test.com / password: 123456
-                    </TextReminder>
+                    <TestWrapper>
+                      <TestTextReminder>
+                        Test Accounts <br />
+                        test@test.com
+                        <CopyBtn
+                          onClick={() => {
+                            navigator.clipboard.writeText("test@test.com");
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faCopy} />
+                        </CopyBtn>
+                        / password: 123456
+                        <CopyBtn
+                          onClick={() => {
+                            navigator.clipboard.writeText("123456");
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faCopy} />
+                        </CopyBtn>
+                        <br />
+                        test2@test.com
+                        <CopyBtn
+                          onClick={() => {
+                            navigator.clipboard.writeText("test2@test.com");
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faCopy} />
+                        </CopyBtn>
+                        / password: 123456
+                        <CopyBtn
+                          onClick={() => {
+                            navigator.clipboard.writeText("123456");
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faCopy} />
+                        </CopyBtn>
+                      </TestTextReminder>
+                    </TestWrapper>
                   </>
                 )}
               </Container>

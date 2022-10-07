@@ -3,17 +3,14 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCodePullRequest } from "@fortawesome/free-solid-svg-icons";
-
 import {
   ModalHeader,
-  ModalSubtitle,
   ModalContent,
-  ModalWordWrapper,
   ModalContentsWrapper,
   CloseBtnWrapper,
   Button,
   MergeBtn,
-} from "../../utils/StyledComponent";
+} from "../../utils/styledComponent";
 
 const Back = styled.div`
   position: fixed;
@@ -36,11 +33,9 @@ const ModalBx = styled.div`
   @keyframes slide-down {
     from {
       opacity: 0;
-      /* transform: translateY(-10rem); */
     }
     to {
       opacity: 1;
-      /* transform: translateY(0); */
     }
   }
 `;
@@ -64,7 +59,11 @@ const CancelBtn = styled(Button)`
   width: 110px;
 `;
 
-const FriendAlert = (props: any) => {
+const FriendAlert = (props: {
+  trigger: boolean;
+  setAlertWtihCTAPop: (arg0: boolean) => void;
+  alertMsg: string;
+}) => {
   let navigate = useNavigate();
   const { trigger, setAlertWtihCTAPop, alertMsg } = props;
   return trigger ? (

@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { db } from "../../utils/firebase";
 import {
   doc,
-  getFirestore,
   updateDoc,
   arrayUnion,
-  QueryDocumentSnapshot,
   collection,
   DocumentData,
 } from "firebase/firestore";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import firebaseapi from "../../utils/firebaseapi";
-
-import defaultAvatar from "../../utils/DefaultAvatar.png";
+import defaultAvatar from "../../assets/images/defaultAvatar.png";
 import {
   GoBackWrapper,
   Button,
@@ -27,7 +25,6 @@ import {
   AvatarBlock,
   AvatarUser,
   AvatarUserImg,
-  LabelsButton,
   LebalContentText,
   LebalsContainer,
   AuthorBtn,
@@ -37,7 +34,7 @@ import {
   TagButton,
   EditBtn,
   DeleteBtn,
-} from "../../utils/StyledComponent";
+} from "../../utils/styledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCodeMerge,
@@ -45,11 +42,11 @@ import {
   faMugSaucer,
   faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
-
 import Alert from "../../components/modal/Alert";
 import Confirm from "../../components/modal/Confirm";
 import Loading from "../../components/Loading";
 import AlertWtihCTA from "../../components/modal/AlertWithCTA";
+import { RootState } from "../..";
 
 const Wrapper = styled.div`
   display: block;
@@ -111,7 +108,6 @@ const PRPostBox = styled.div`
   border-radius: 0.4em;
   width: 100%;
   height: auto;
-  /* border: 1px solid #d0d7de; */
   position: relative;
   &:before {
     content: "";
@@ -152,7 +148,6 @@ const CloseStatus = styled(StatusOpen)`
   width: fit-content;
   background-color: #8250df;
 `;
-
 const TagsWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -160,40 +155,25 @@ const TagsWrapper = styled.div`
 `;
 
 const Issue = () => {
+  const { id } = useParams();
+  let navigate = useNavigate();
+  const userData = useSelector((state: RootState) => state);
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertWtihCTAPop, setAlertWtihCTAPop] = useState(false);
   const [confirmPop, setConfirmPop] = useState(false);
   const [confirmMsg, setConfirmMsg] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
-  const userData = useSelector((state) => state) as any;
-  let navigate = useNavigate();
-  const db = getFirestore();
-  const { id } = useParams<any>();
-  type ListData = {
-    category: string;
-    main_image: string;
-    title: string;
-    content: string;
-    status: string;
-    posted_by: string;
-    posted_at: any;
-    tags: [];
-  };
   const [issueData, setIssueData] = useState<DocumentData>();
-  // const [userData, setUserData] = useState<ListData | null>(null);
   const [newT, setNewT] = useState("");
-  const [getUser, setGetUser] = useState("");
-  const [getUserName, setGetUserName] = useState("");
-  const [getUserPhoto, setGetUserPhoto] = useState("");
   const [getAuthor, setGetAuthor] = useState("");
   const [getAuthorID, setGetAuthorID] = useState("");
-  // Check author status
   const [isAuthor, setIsAuthor] = useState(false);
-  // render issue status
   const [issueOpen, setIssueOpen] = useState(true);
-  // Check friendlist
   const [authorFriends, setAuthorFriends] = useState([]);
+  const userId = userData.user.user_id;
+  const userName = userData.user.user_name;
+  const userPhoto = userData.user.user_photo;
 
   const changeIssueStatus = () => {
     const issueRef = collection(db, "Issues");
@@ -205,8 +185,8 @@ const Issue = () => {
     setButtonPop(true);
   };
 
-  const deleteIssue = async (id: string | undefined) => {
-    await firebaseapi.deleteIssue(id);
+  const deleteIssue = (id: string | undefined) => {
+    firebaseapi.deleteIssue(id);
     setAlertMsg("Successfully delete this issue!");
     setButtonPop(true);
     setTimeout(() => {
@@ -215,36 +195,19 @@ const Issue = () => {
   };
 
   useEffect(() => {
-    const userId = userData.user.user_id;
-    const userName = userData.user.user_name;
-    const userPhoto = userData.user.user_photo;
-    console.log(userId);
-    console.log(userName);
-    if (userId) {
-      setGetUser(userId);
-    }
-    if (userId && userName) {
-      setGetUser(userId);
-      setGetUserName(userName);
-      setGetUserPhoto(userPhoto);
-    }
     firebaseapi.readIssueData(id).then((res) => {
       if (res) {
-        console.log(res);
         const newT = new Date(res.posted_at.seconds * 1000).toString();
         setNewT(newT);
         setIssueData(res);
         if (res.status === "Open") {
-          console.log("open");
           setIssueOpen(true);
         } else {
-          console.log("close");
           setIssueOpen(false);
         }
       }
       firebaseapi.searchUserName(res?.posted_by).then((res) => {
         if (res) {
-          console.log(res["firstname"]);
           setGetAuthor(res["firstname"]);
           setGetAuthorID(res["user_id"]);
           setAuthorFriends(res["friend_list"]);
@@ -260,22 +223,16 @@ const Issue = () => {
   }, []);
 
   const sendRequest = async () => {
-    if (!getUser) {
+    if (!userId) {
       setAlertMsg("Please sign in!");
       setButtonPop(true);
-      // alert("Please sign in!");
-      // navigate("/signin");
-      // setTimeout(() => {
-      //   navigate("/");
-      // }, 1500);
       return;
     }
-    if (!getUserName) {
+    if (!userName) {
       setAlertMsg("You haven't completed your README, let's write it here");
       setAlertWtihCTAPop(true);
       return;
     }
-    // console.log(`User:${getAuthorID}`);
     setConfirmMsg("Do you want to send this pull request?");
     setConfirmPop(true);
   };
@@ -286,32 +243,21 @@ const Issue = () => {
     setConfirmPop(false);
   };
   const confirmSendRequest = async () => {
-    console.log(authorFriends);
-    console.log(getUser);
-    // check friendList
-    if (authorFriends.some((e: { user_id: string }) => e.user_id === getUser)) {
+    if (authorFriends.some((e: { user_id: string }) => e.user_id === userId)) {
       setButtonPop(true);
-      setAlertMsg("You've already merged😉");
+      setAlertMsg("You've already merged 😉");
       return;
     }
     const userRef = doc(db, "Users", getAuthorID);
     await updateDoc(userRef, {
       friend_request: arrayUnion({
-        user_id: getUser,
-        user_name: getUserName,
-        user_photo: getUserPhoto,
+        user_id: userId,
+        user_name: userName,
+        user_photo: userPhoto,
       }),
     });
     setButtonPop(true);
     setAlertMsg("Sent pull request successful!");
-    console.log(`Invitation Sent to ${getAuthor}`);
-    // const userRef2 = doc(db, "Users", getUser);
-    // await updateDoc(userRef2, {
-    //   friend_sent_request: arrayUnion({
-    //     user_id: getAuthorID,
-    //     user_name: getAuthor,
-    //   }),
-    // });}
   };
 
   return (
@@ -329,7 +275,6 @@ const Issue = () => {
         />
         <Confirm
           trigger={confirmPop}
-          setConfirmPop={setConfirmPop}
           clickToConfirm={clickToConfirm}
           confirmMsg={confirmMsg}
         />
@@ -444,9 +389,9 @@ const Issue = () => {
                       <LebalsContainer>
                         <LebalsText>Tags</LebalsText>
                         <TagsWrapper>
-                          {issueData.tags.map((tag: any) => (
+                          {issueData.tags.map((tag: string) => (
                             <>
-                              <TagButton>{tag}</TagButton>
+                              <TagButton key={Math.random()}>{tag}</TagButton>
                             </>
                           ))}
                         </TagsWrapper>

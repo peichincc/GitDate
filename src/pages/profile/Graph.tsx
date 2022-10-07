@@ -2,13 +2,67 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Gitgraph, templateExtend, TemplateName } from "@gitgraph/react";
 import { GitgraphCore } from "@gitgraph/core";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
-import "./macOS.css";
-
-// try popup effect
+const TitleBar = styled.div`
+  background-color: #f3f1f3;
+  color: #4d494d;
+  font-size: 11pt;
+  line-height: 20px;
+  text-align: center;
+  width: 100%;
+  height: 20px;
+  border-top: 1px solid #f3f1f3;
+  border-bottom: 1px solid #b1aeb1;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  cursor: default;
+`;
+const Buttons = styled.div`
+  padding-left: 8px;
+  padding-top: 3px;
+  float: left;
+  line-height: 0px;
+`;
+const Close = styled.div`
+  cursor: pointer;
+  background: #ff5c5c;
+  font-size: 9pt;
+  width: 11px;
+  line-height: 11px;
+  height: 11px;
+  border: 1px solid #e33e41;
+  border-radius: 50%;
+  display: inline-block;
+`;
+const Minimize = styled.div`
+  background: #ffbd4c;
+  font-size: 9pt;
+  line-height: 11px;
+  margin-left: 4px;
+  width: 11px;
+  height: 11px;
+  border: 1px solid #e09e3e;
+  border-radius: 50%;
+  display: inline-block;
+`;
+const Zoom = styled.div`
+  background: #00ca56;
+  font-size: 9pt;
+  line-height: 11px;
+  margin-left: 6px;
+  width: 11px;
+  height: 11px;
+  border: 1px solid #14ae46;
+  border-radius: 50%;
+  display: inline-block;
+`;
 const WindowTitle = styled.div``;
 const ModalBx = styled.div`
   border: 1px solid #acacac;
@@ -23,12 +77,6 @@ const ModalBx = styled.div`
   position: fixed;
   border-radius: 6px;
   box-shadow: 0px 0px 20px #acacac;
-  @media screen and (max-width: 1280px) {
-    left: 50%;
-  }
-  @media screen and (max-width: 500px) {
-    display: none;
-  }
 `;
 const TreeContainer = styled.div`
   position: relative;
@@ -40,7 +88,6 @@ const TreeGraph = styled.div`
   bottom: 20px;
   left: 10px;
 `;
-
 const TextBox = styled.div`
   font-size: 26px;
   line-height: 60px;
@@ -52,12 +99,10 @@ const TextBox = styled.div`
   color: white;
 `;
 
-// basic graph if registered
 function buildGraph0(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
 }
-// basic graph if write readme
 function buildGraph1(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
@@ -65,7 +110,6 @@ function buildGraph1(gitgraph: any) {
   develop.commit("write readme");
   master.merge(develop);
 }
-// graph if posted issue
 function buildGraph2(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
@@ -76,7 +120,6 @@ function buildGraph2(gitgraph: any) {
   feata.commit("write issue");
   master.merge(feata);
 }
-// graph if host branch
 function buildGraph3(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
@@ -86,7 +129,6 @@ function buildGraph3(gitgraph: any) {
   const featb = gitgraph.branch("feat/branch");
   featb.commit("hosted branch!");
 }
-// graph if attend branch
 function buildGraph4(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
@@ -96,13 +138,11 @@ function buildGraph4(gitgraph: any) {
   const featb = gitgraph.branch("feat/branch");
   featb.commit("attended branch 💃");
 }
-// graph if attend and host branch
 function buildGraph5(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
   const develop = gitgraph.branch("develop");
   develop.commit("write readme");
-  // master.merge(develop);
   const featb = gitgraph.branch("feat/branch");
   const featc = gitgraph.branch("feat/new");
   featb.commit("hosted branch!");
@@ -116,25 +156,21 @@ function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
   const templateConfig = {
     branch: {
       lineWidth: 2,
-      // spacing: 15,
       label: {
         display: false,
       },
       widthExtension: 10,
     },
     commit: {
-      // spacing: 10,
       widthExtension: 50,
       dot: {
         size: 4,
-        //   strokeWidth: 2,
       },
       tag: {
         font: "normal 10pt Arial",
         color: "yellow",
       },
       message: {
-        // color: "black",
         displayBranch: false,
         displayHash: false,
         displayAuthor: false,
@@ -153,45 +189,26 @@ function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
     buildGraph5,
   ];
   const [currentGraph, setCurrentGraph] = React.useState(0);
-  const graph = new GitgraphCore() as any;
+  const graph = new GitgraphCore();
   buildGraphs[currentGraph](graph.getUserApi());
   useEffect(() => setCurrentGraph(parseInt(sourceTreeStatus)), []);
 
   return (
     <ModalBx>
-      <div className="titlebar">
-        <div className="buttons">
-          <div
-            className="close"
+      <TitleBar>
+        <Buttons>
+          <Close
             onClick={() => {
               setButtonPop(false);
             }}
-          >
-            <a className="closebutton" href="#">
-              <span>
-                <strong>x</strong>
-              </span>
-            </a>
-          </div>
-          <div className="minimize">
-            <a className="minimizebutton" href="#">
-              <span>
-                <strong>&ndash;</strong>
-              </span>
-            </a>
-          </div>
-          <div className="zoom">
-            <a className="zoombutton" href="#">
-              <span>
-                <strong>+</strong>
-              </span>
-            </a>
-          </div>
-        </div>
+          ></Close>
+          <Minimize></Minimize>
+          <Zoom></Zoom>
+        </Buttons>
         <WindowTitle>
-          <FontAwesomeIcon icon={faLocationDot} /> Sourcetree
+          <FontAwesomeIcon icon={faLocationDot} /> git graph
         </WindowTitle>
-      </div>
+      </TitleBar>
       <TreeContainer>
         <TreeGraph>
           {currentGraph && currentGraph < 5 ? (
@@ -199,8 +216,6 @@ function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
           ) : null}
           <Gitgraph
             options={{
-              // orientation: Orientation.VerticalReverse,
-              //author: "Rain120",
               template,
               reverseArrow: true,
             }}
@@ -211,63 +226,6 @@ function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
         </TreeGraph>
       </TreeContainer>
     </ModalBx>
-    // <ModalBx>
-    //   <TreeContainer>
-    //     <TreeGraph>
-    //       {currentGraph && currentGraph < 4 ? (
-    //         <TextBox>
-    //           You have come so far, well done!
-    //           <br />
-    //           Be an active GitDaters to grow your sourcetree!
-    //         </TextBox>
-    //       ) : null}
-    //       <Gitgraph
-    //         options={{
-    //           // orientation: Orientation.VerticalReverse,
-    //           //author: "Rain120",
-    //           template,
-    //           reverseArrow: true,
-    //         }}
-    //         key={currentGraph}
-    //       >
-    //         {buildGraphs[currentGraph]}
-    //       </Gitgraph>
-    //     </TreeGraph>
-    //   </TreeContainer>
-    // </ModalBx>
-
-    // {(gitgraph) => {
-    //   const master = gitgraph.branch("master");
-    //   master.commit("git init");
-    //   const develop = gitgraph.branch("develop");
-    //   develop.commit("write readme");
-    //   master.merge(develop);
-    //   const feata = gitgraph.branch("feat/issue");
-    //   feata.commit("write issue");
-    // }}
-    // </Gitgraph>
-    // <Gitgraph
-    //   options={{
-    //     author: " ",
-    //   }}
-    // >
-    // {(gitgraph) => {
-    //   // Simulate git commands with Gitgraph API.
-    //   const master = gitgraph.branch("master");
-    //   master.commit("Initial commit");
-    //   const develop = master.branch("develop");
-    //   develop.commit("Add TypeScript");
-    //   const aFeature = develop.branch("a-feature");
-    //   aFeature
-    //     .commit("Make it work")
-    //     .commit("Make it right")
-    //     .commit("Make it fast");
-    //   develop.merge(aFeature);
-    //   develop.commit("Prepare v1");
-
-    //   master.merge(develop).tag("v1.0.0");
-    // }}
-    // </Gitgraph>
   );
 }
 

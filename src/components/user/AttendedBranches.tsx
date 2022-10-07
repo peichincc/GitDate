@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { DocumentData } from "firebase/firestore";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
 import { BoxHeader } from "../../pages/profile/Profile";
-import { ClickBtn } from "../../utils/StyledComponent";
+import { ClickBtn } from "../../utils/styledComponent";
 
 const Container = styled.div`
   width: 100%;
@@ -27,7 +27,7 @@ const BlogTitle = styled.div`
   display: flex;
 `;
 
-const AttendedBranches = ({ attendedBranches }: any) => {
+const AttendedBranches = ({ attendedBranches }: DocumentData) => {
   let navigate = useNavigate();
   return (
     <>
@@ -35,9 +35,9 @@ const AttendedBranches = ({ attendedBranches }: any) => {
         <BoxHeader>Attended branches</BoxHeader>
         <ContentContainer>
           {attendedBranches && attendedBranches.length > 0
-            ? attendedBranches.map((blog: any) => (
+            ? attendedBranches.map((blog: { title: string; id: string }) => (
                 <>
-                  <BlogList>
+                  <BlogList key={`attended-${blog.id}`}>
                     <BlogTitle>{blog.title}</BlogTitle>
                     <ClickBtn
                       onClick={() => {

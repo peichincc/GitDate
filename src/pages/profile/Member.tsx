@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import PR from "./pr_icon.png";
 import { useNavigate } from "react-router-dom";
+import { db } from "../../utils/firebase";
 import {
-  getFirestore,
   doc,
   collection,
   onSnapshot,
@@ -16,18 +15,12 @@ import firebaseapi from "../../utils/firebaseapi";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserData, signin } from "../../actions";
 import { auth } from "../../utils/firebase";
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
-
+import { signOut } from "firebase/auth";
 import PostedIssues from "../../components/user/PostedIssues";
 import AttendedBranches from "../../components/user/AttendedBranches";
 import HostedBranches from "../../components/user/HostedBranches";
 import FriendRequest from "../../components/user/FriendRequest";
 import ChatList from "../../components/user/ChatList";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBook,
@@ -37,18 +30,11 @@ import {
   faCodeBranch,
   faListUl,
 } from "@fortawesome/free-solid-svg-icons";
-
-import { Button, GithubLink } from "../../utils/StyledComponent";
+import { Button, GithubLink } from "../../utils/styledComponent";
 import Loading from "../../components/Loading";
 import { SubmitBtn } from "./Signup";
 import Alert from "../../components/modal/Alert";
-
-const IconContainer = styled.div`
-  width: 16px;
-  height: 16px;
-  background-image: url(${PR});
-  background-size: contain;
-`;
+import { RootState } from "../..";
 
 const Wrapper = styled.div`
   display: block;
@@ -110,12 +96,10 @@ const NavTab = styled.button`
   &:hover {
     background-color: rgb(246, 248, 250);
     border-radius: 6px;
-    /* padding: 5px; */
     padding-top: 5px;
     padding-bottom: 5px;
   }
 `;
-
 const PhotoContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -133,24 +117,6 @@ const UserName = styled.div`
   padding-top: 16px;
   padding-bottom: 16px;
 `;
-const EditBtn = styled.button`
-  color: #24292f;
-  background-color: #f6f8fa;
-  padding: 5px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  white-space: nowrap;
-  vertical-align: middle;
-  cursor: pointer;
-  border: 1px solid;
-  border-radius: 6px;
-  &:hover {
-    border-color: #d0d7de;
-  }
-`;
-
-//Readme part
 const Container = styled.div`
   width: 100%;
   margin-top: 20px;
@@ -191,18 +157,15 @@ const DataCard = styled.div`
   font-weight: 600;
   font-size: 14px;
   border-radius: 8px;
-  /* background-color: rgb(246, 248, 250); */
   padding: 5px;
   margin-right: 10px;
   margin-left: 5px;
   width: 130px;
   text-align: left;
 `;
-
 const TextArea = styled.div`
   max-width: 400px;
 `;
-
 const MemberBtn = styled(Button)`
   width: 120px;
   margin-bottom: 20px;
@@ -219,34 +182,29 @@ const SignOutBtn = styled(SubmitBtn)`
 `;
 
 const Member = () => {
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state: RootState) => state);
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  let navigate = useNavigate();
-  const dispatch = useDispatch();
-  const db = getFirestore();
-  const userInfo = useSelector((state) => state) as any;
-  const [getUser, setGetUser] = useState("");
-  const [logInUserData, setLoginUserData] = useState<any>(null);
+  const [logInUserData, setLoginUserData] = useState<DocumentData>();
   const [memberOverview, setMemberOverview] = useState(true);
   const [openIssue, setOpenIssue] = useState(false);
   const [postedIssues, setPostedIssues] = useState<DocumentData>();
   const [hostedBranches, setHostedBranches] = useState<DocumentData>();
   const [attendedBranches, setAttendedBranches] = useState<DocumentData>();
   const [openBranches, setOpenBranches] = useState(false);
-  const [getInvitationList, setGetInvitationList] = useState<any>();
+  const [getInvitationList, setGetInvitationList] = useState([]);
   const [openFriend, setOpenFriend] = useState(false);
   const [openRepo, setOpenRepo] = useState(false);
+  const userId = userInfo.user.user_id;
 
   useEffect(() => {
-    const userId = userInfo.user.user_id;
-    console.log(userId);
     if (!userId) {
       navigate("/");
       return;
     }
-    setGetUser(userId);
-    getFriend(userId);
     searchIssues(userId);
     searchHostedBranches(userId);
     searchAttenedBranches(userId);
@@ -254,59 +212,41 @@ const Member = () => {
       if (res) {
         setLoginUserData(res);
         setIsLoading(false);
+        setGetInvitationList(res.friend_request);
       }
     });
   }, []);
 
-  // 讀取好友邀請(讀DB中的friend_request -> get ID -> Search name -> Display name)
-  const getFriend = (id: string) => {
-    onSnapshot(doc(collection(db, "Users"), id), (doc) => {
-      if (doc.exists()) {
-        setGetInvitationList(doc.data().friend_request);
-        // console.log(doc.data().friend_request);
-      }
-    });
-  };
-
-  // 搜尋使用者發過的文
   const searchIssues = async (userId: string) => {
-    let temp = [] as any;
+    const temp: DocumentData[] = [];
     const q = query(collection(db, "Issues"), where("posted_by", "==", userId));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      // console.log(doc.data());
       temp.push(doc.data());
     });
     setPostedIssues(temp);
   };
-
-  // 搜尋使用者的活動
   const searchHostedBranches = async (userId: string) => {
-    let temp = [] as any;
+    const temp: DocumentData[] = [];
     const q = query(
       collection(db, "Branches"),
       where("hosted_by", "==", userId)
     );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      // console.log(doc.data());
       temp.push(doc.data());
     });
     setHostedBranches(temp);
   };
-  const searchAttenedBranches = async (userId: string) => {
+  const searchAttenedBranches = (userId: string) => {
     onSnapshot(doc(collection(db, "Users"), userId), async (doc) => {
       if (doc.exists()) {
-        // console.log(doc.data().activity_attend);
-        const newArr = [] as any;
+        const newArr: React.SetStateAction<DocumentData | undefined> = [];
         for (let i = 0; i < doc.data().activity_attend.length; i++) {
-          await firebaseapi
+          firebaseapi
             .readBranchData(doc.data().activity_attend[i])
             .then((res) => {
-              // console.log(res);
               if (res) {
-                // console.log(res["title"]);
-                // console.log(res["main_image"]);
                 const tempObj = {
                   id: res["branch_id"],
                   title: res["title"],
@@ -316,8 +256,6 @@ const Member = () => {
               }
             });
         }
-        // Promise.all(promises).then((res) => console.log(res));
-        // console.log(newArr);
         setAttendedBranches(newArr);
       }
     });
@@ -332,13 +270,11 @@ const Member = () => {
         setAlertMsg("Sign out Successfully!");
         setTimeout(() => {
           window.location.reload();
-          // navigate("/");
         }, 1000);
       })
       .catch((error) => {
         console.log(error);
       });
-    // navigate("/");
   };
 
   return (
@@ -440,7 +376,7 @@ const Member = () => {
                   </MemberBtn>
                   <ReadmeBtn
                     id="seeReadme"
-                    onClick={() => navigate("/readme/" + getUser)}
+                    onClick={() => navigate("/readme/" + userId)}
                   >
                     README.md
                   </ReadmeBtn>

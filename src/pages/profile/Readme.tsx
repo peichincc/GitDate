@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
+import { db } from "../../utils/firebase";
 import {
-  getFirestore,
   doc,
   collection,
   onSnapshot,
@@ -12,20 +11,24 @@ import {
   where,
   getDocs,
   DocumentData,
+  getDoc,
 } from "firebase/firestore";
-import { BoxHeader } from "./Profile";
-import { NavWord } from "../../utils/StyledComponent";
 import PostedIssues from "../../components/user/PostedIssues";
 import HostedBranches from "../../components/user/HostedBranches";
 import AttendedBranches from "../../components/user/AttendedBranches";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
-import Loading from "../../components/Loading";
-import { GoBackWrapper, Button, GithubLink } from "../../utils/StyledComponent";
-
+import { BoxHeader } from "./Profile";
+import {
+  GoBackWrapper,
+  Button,
+  GithubLink,
+  NavWord,
+} from "../../utils/styledComponent";
 import SourceTree from "./Graph";
-import ToggleOn from "../../utils/toggle-on.svg";
-import ToggleOff from "../../utils/toggle-off.svg";
+import Loading from "../../components/Loading";
+import ToggleOn from "../../assets/images/toggleOn.svg";
+import ToggleOff from "../../assets/images/toggleOff.svg";
 
 const Wrapper = styled.div`
   width: 90%;
@@ -97,7 +100,6 @@ const ToggleOnBtn = styled(Button)`
     display: none;
   }
 `;
-
 export const FormTextRead = styled.div`
   line-height: 19px;
   font-size: 16px;
@@ -118,32 +120,19 @@ export const DataCard = styled.div`
 `;
 
 const Readme = () => {
+  const { id } = useParams();
   let navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const db = getFirestore();
-  const { id } = useParams<any>();
-  type ListData = {
-    lastname: string;
-    firstname: string;
-    age: number | undefined;
-    gender: string;
-    githublink: string;
-    details: string;
-    gender_interested: string;
-    main_photo: string;
-    wish_relationship: string;
-  };
-  // const [userData, setUserData] = useState<ListData | null>(null);
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<DocumentData>();
   const [postedIssues, setPostedIssues] = useState<DocumentData>();
   const [hostedBranches, setHostedBranches] = useState<DocumentData>();
   const [attendedBranches, setAttendedBranches] = useState<DocumentData>();
   const [sourceTreeStatus, setSourceTreeStatus] = useState(0);
+  const [ButtonPop, setButtonPop] = useState(false);
 
   useEffect(() => {
     firebaseapi.readUserData(id).then((res) => {
       if (res) {
-        console.log(res);
         if (res.firstname) {
           setSourceTreeStatus(1);
         }
@@ -166,7 +155,6 @@ const Readme = () => {
           }
         }
         setUserData(res);
-        console.log(res.user_id);
         searchIssues(res.user_id);
         searchHostedBranches(res.user_id);
         searchAttenedBranches(res.user_id);
@@ -175,20 +163,17 @@ const Readme = () => {
     });
   }, [id]);
 
-  // 搜尋使用者發過的文
   const searchIssues = async (userId: string) => {
-    let temp = [] as any;
+    const temp: DocumentData[] = [];
     const q = query(collection(db, "Issues"), where("posted_by", "==", userId));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.data());
       temp.push(doc.data());
     });
     setPostedIssues(temp);
   };
-  // 搜尋使用者的活動
   const searchHostedBranches = async (userId: string) => {
-    let temp = [] as any;
+    const temp: DocumentData[] = [];
     const q = query(
       collection(db, "Branches"),
       where("hosted_by", "==", userId)
@@ -199,42 +184,32 @@ const Readme = () => {
     });
     setHostedBranches(temp);
   };
-  const searchAttenedBranches = async (userId: string) => {
-    onSnapshot(doc(collection(db, "Users"), userId), async (doc) => {
-      if (doc.exists()) {
-        console.log(doc.data().activity_attend);
-        const newArr = [] as any;
-        for (let i = 0; i < doc.data().activity_attend.length; i++) {
-          await firebaseapi
-            .readBranchData(doc.data().activity_attend[i])
-            .then((res) => {
-              if (res) {
-                const tempObj = {
-                  id: res["branch_id"],
-                  title: res["title"],
-                  photo: res["main_image"],
-                };
-                newArr.push(tempObj);
-              }
-            });
+  const searchAttenedBranches = (userId: string) => {
+    onSnapshot(doc(collection(db, "Users"), userId), async (branchDoc) => {
+      if (branchDoc.exists()) {
+        const newArr = [];
+        for (let i = 0; i < branchDoc.data().activity_attend.length; i++) {
+          const branchesRef = collection(db, "Branches");
+          const branchid = branchDoc.data().activity_attend[i];
+          const docRef = doc(branchesRef, branchid);
+          const promise = (await getDoc(docRef)).data();
+          newArr.push(promise);
         }
-        setAttendedBranches(newArr);
+        const allNewArr = await Promise.all(newArr);
+        setAttendedBranches(allNewArr);
       }
     });
   };
 
-  const [ButtonPop, setButtonPop] = useState(false);
-
   return (
     <>
       <Wrapper>
-        {ButtonPop ? (
+        {ButtonPop && (
           <SourceTree
-            // trigger={ButtonPop}
             setButtonPop={setButtonPop}
             sourceTreeStatus={sourceTreeStatus}
           />
-        ) : null}
+        )}
         {isLoading ? (
           <Loading />
         ) : (
@@ -266,7 +241,7 @@ const Readme = () => {
                           setButtonPop((pre) => !pre);
                         }}
                       >
-                        Sourcetree
+                        git graph
                         {ButtonPop ? (
                           <img src={ToggleOn} alt="ToggleBtn" />
                         ) : (
@@ -304,14 +279,6 @@ const Readme = () => {
                         {userData.details}
                       </FormTextRead>
                     </RightContainer>
-                    {/* <TreeContainer>
-                      <TreeGraph>
-                        <SourceTree
-                          sourceTreeStatus={sourceTreeStatus}
-                          id="gitgraph"
-                        />
-                      </TreeGraph>
-                    </TreeContainer> */}
                   </InsideContainder>
                 </Container>
                 {postedIssues && <PostedIssues postedIssues={postedIssues} />}

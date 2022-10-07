@@ -1,20 +1,48 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
-import "./chatroom.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { db } from "../../utils/firebase";
 import {
   addDoc,
   collection,
   serverTimestamp,
   query,
-  getFirestore,
   onSnapshot,
   orderBy,
 } from "firebase/firestore";
 import Picker from "emoji-picker-react";
 import useOnclickOutside from "react-cool-onclickoutside";
+import { RootState } from "../..";
 
+interface Props {
+  ownMessage: boolean;
+}
+
+const MsgListContainer = styled.div`
+  margin-bottom: 16px;
+  flex: 1;
+  overflow: scroll;
+`;
+const MsgList = styled.ul`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+`;
+const MessageLine = styled.li<Props>`
+  color: ${(props) => (props.ownMessage ? "white" : "black")};
+  padding: 8px 16px;
+  margin-bottom: 8px;
+  background: ${(props) => (props.ownMessage ? "#0088ff" : "#d9e0e8")};
+  border-radius: 5px;
+  text-align: ${(props) => (props.ownMessage ? "right" : "left")};
+  align-self: ${(props) => (props.ownMessage ? "flex-end" : null)};
+`;
+const Sender = styled.h4`
+  margin-bottom: 8px;
+`;
 const ChatContainer = styled.div`
   display: flex;
   width: 100%;
@@ -26,7 +54,6 @@ const ChatContainer = styled.div`
   color: white;
   position: relative;
 `;
-
 const MsgContainer = styled.div`
   display: flex;
   flex-wrap: nowrap;
@@ -36,8 +63,6 @@ const MsgContainer = styled.div`
   }
   &::-webkit-scrollbar-button {
     display: none;
-    /* background: transparent;
-    border-radius: 4px; */
   }
   &::-webkit-scrollbar-track-piece {
     background: transparent;
@@ -53,16 +78,12 @@ const MsgContainer = styled.div`
 `;
 const MsgInput = styled.input`
   width: 190px;
-  /* width: fit-content; */
   display: inline;
   font-size: 20px;
-  /* padding: 10px 10px;
-  border-radius: 30px; */
   outline: none;
   border: none;
   color: #bbb;
   background-color: rgba(0, 0, 0, 0.4);
-  /* color: black; */
   &:focus {
     width: 90%;
     transition: width 0.4s ease-in-out;
@@ -83,11 +104,9 @@ const MsgBtn = styled.button`
     color: #ff69b4;
   }
 `;
-
 const EmojiIcon = styled.div`
   margin-top: 6px;
   margin-left: 6px;
-  /* position: relative; */
   width: 35px;
   height: 35px;
   cursor: pointer;
@@ -97,24 +116,47 @@ const EmojiBx = styled.div`
   position: absolute;
   bottom: 0;
   right: 0;
-  /* bottom: 10%;
-  left: 0; */
+`;
+const CursorPlus = styled.span`
+  -webkit-animation: blink 1s 0s infinite;
+  -moz-animation: blink 1s 0s infinite;
+  -o-animation: blink 1s 0s infinite;
+  animation: blink 1s 0.5s infinite;
+  @keyframes blink {
+    0% {
+      opacity: 0;
+    }
+    40% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
 `;
 
-const Chatroom = ({ chatroomId }: any) => {
-  const userData = useSelector((state) => state) as any;
-  const db = getFirestore();
+const Chatroom = (props: { chatroomId: string }) => {
+  const { chatroomId } = props;
+  const userData = useSelector((state: RootState) => state);
   const [messages, setMessages] = useState<any>([]);
-  const [chosenEmoji, setChosenEmoji] = useState<any>();
+  const [chosenEmoji, setChosenEmoji] = useState<boolean>();
+  const [value, setValue] = useState("");
+  const user = userData.user;
 
-  const containerRef = useRef<any>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   useLayoutEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
   });
 
-  const getMessages = (id: any) => {
+  const getMessages = (id: string) => {
     return onSnapshot(
       query(
         collection(db, "Chatrooms", id, "messages"),
@@ -125,27 +167,24 @@ const Chatroom = ({ chatroomId }: any) => {
           id: x.id,
           ...x.data(),
         }));
-        // console.log(messages);
         setMessages(messages);
       }
     );
   };
 
   useEffect(() => {
-    console.log(chatroomId);
     firebaseapi.readChatData(chatroomId).then((res) => {
       if (res) {
-        console.log(res);
         getMessages(chatroomId);
       }
     });
   }, [chatroomId]);
 
-  // test send msg function
-  const [value, setValue] = useState<any>("");
-  const user = userData.user;
-
-  const sendMessage = async (id: any, user: any, text: string) => {
+  const sendMessage = async (
+    id: string,
+    user: { user_id: string; user_name: string },
+    text: string
+  ) => {
     try {
       await addDoc(collection(db, "Chatrooms", id, "messages"), {
         sender_id: user.user_id,
@@ -157,23 +196,21 @@ const Chatroom = ({ chatroomId }: any) => {
       console.error(error);
     }
   };
-  const handleChange = (event: any) => {
+  const handleChange = (event: { target: { value: string } }) => {
     setValue(event.target.value);
   };
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     sendMessage(chatroomId, user, value);
     setValue("");
   };
-
-  const onEmojiClick = (e: any, emojiObject: any) => {
-    setValue((pre: any) => pre + emojiObject.emoji);
+  const onEmojiClick = (e: any, emojiObject: { emoji: string }) => {
+    setValue((pre) => pre + emojiObject.emoji);
     setChosenEmoji(false);
   };
   const showEmoji = () => {
-    setChosenEmoji((pre: any) => !pre);
+    setChosenEmoji((pre) => !pre);
   };
-
   const ref = useOnclickOutside(() => {
     setChosenEmoji(false);
   });
@@ -181,21 +218,20 @@ const Chatroom = ({ chatroomId }: any) => {
   return (
     <>
       <ChatContainer>
-        <div className="message-list-container" ref={containerRef}>
-          <ul className="message-list">
-            {messages.map((x: any) => (
+        <MsgListContainer ref={containerRef}>
+          <MsgList>
+            {messages.map((msg: { id: string; sender_id: string }) => (
               <Message
-                key={x.id}
-                message={x}
-                isOwnMessage={x.sender_id === user.user_id}
+                key={msg.id}
+                message={msg}
+                isOwnMessage={msg.sender_id === user.user_id}
               />
             ))}
-          </ul>
-        </div>
+          </MsgList>
+        </MsgListContainer>
         <form onSubmit={handleSubmit} className="message-input-container">
           <MsgContainer>
             <p>&#65310;</p>
-
             <InputContainer>
               <MsgInput
                 type="text"
@@ -205,7 +241,7 @@ const Chatroom = ({ chatroomId }: any) => {
                 required
                 minLength={1}
               />
-              <span className="cursor_plus">_</span>
+              <CursorPlus>_</CursorPlus>
             </InputContainer>
             <EmojiIcon onClick={showEmoji}>😃</EmojiIcon>
             {chosenEmoji && (
@@ -213,7 +249,7 @@ const Chatroom = ({ chatroomId }: any) => {
                 <Picker onEmojiClick={onEmojiClick} />
               </EmojiBx>
             )}
-            <MsgBtn type="submit" disabled={value < 1} className="send-message">
+            <MsgBtn type="submit" className="send-message">
               Send
             </MsgBtn>
           </MsgContainer>
@@ -226,10 +262,10 @@ const Chatroom = ({ chatroomId }: any) => {
 function Message({ message, isOwnMessage }: any) {
   const { sender_name, text } = message;
   return (
-    <li className={["message", isOwnMessage && "own-message"].join(" ")}>
-      <h4 className="sender">{isOwnMessage ? "You" : sender_name}</h4>
+    <MessageLine ownMessage={isOwnMessage}>
+      <Sender>{isOwnMessage ? "You" : sender_name}</Sender>
       <div>{text}</div>
-    </li>
+    </MessageLine>
   );
 }
 

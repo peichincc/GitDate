@@ -1,9 +1,6 @@
 import styled from "styled-components";
-import { useCallback } from "react";
 import React from "react";
-import { Button } from "../../utils/StyledComponent";
-import HorizontalRule from "@tiptap/extension-horizontal-rule";
-
+import { Button } from "../../utils/styledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBold,
@@ -24,23 +21,6 @@ const Container = styled.div`
   border-radius: 6px;
 `;
 const ButtonGroup = styled.div``;
-const StyledButton = styled.button`
-  height: 24px;
-  width: 24px;
-  padding: 0;
-  border: none;
-  margin-right: 4px;
-  background-color: #fff;
-  &.is-active {
-    background-color: #cacbd5;
-    border-radius: 4px;
-  }
-`;
-const FormatButtonsGroup = styled.div`
-  :first-child {
-    margin-left: 15px;
-  }
-`;
 const Divider = styled.div`
   border-left: 1px solid #cacbd5;
   height: 24px;

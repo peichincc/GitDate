@@ -1,16 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  getFirestore,
-  doc,
-  serverTimestamp,
-  collection,
-} from "firebase/firestore";
+import { useSelector } from "react-redux";
+import { db } from "../../utils/firebase";
+import { doc, serverTimestamp, collection } from "firebase/firestore";
 import firebaseapi from "../../utils/firebaseapi";
 import TiptapEditor from "../../components/editor/Editor";
-import defaultAvatar from "../../utils/DefaultAvatar.png";
+import defaultAvatar from "../../assets/images/defaultAvatar.png";
 import {
   Button,
   MergeBtn,
@@ -19,21 +15,20 @@ import {
   FormControl,
   FormGroup,
   FormLabel,
-  FormSelect,
-  FormSelectOptions,
   UploadPreview,
   UploadPreviewImg,
   UploadCardStyled,
   TagButton,
-} from "../../utils/StyledComponent";
+} from "../../utils/styledComponent";
 import Alert from "../../components/modal/Alert";
+import { FormRecipient } from "../../utils/interface";
+import { RootState } from "../..";
 
 const Wrapper = styled.div`
   display: block;
   max-width: 980px;
   margin: 0 auto;
 `;
-
 const CreateTitle = styled.div`
   font-size: 28px;
   @media screen and (max-width: 600px) {
@@ -126,16 +121,10 @@ const PostBox = styled.div`
     margin-left: -20px;
   }
 `;
-
 const TagInputWrapper = styled.div``;
 const TagsWrapper = styled.div`
   display: flex;
   margin-bottom: 10px;
-`;
-const Tag = styled.div`
-  border-radius: 6px;
-  border: 1px solid rgba(27, 31, 36, 0.15);
-  padding: 5px 16px;
 `;
 const Tags = styled.div`
   margin-right: 4px;
@@ -156,16 +145,13 @@ const SubmitWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
 const TagFormControl = styled(FormControl)`
   width: 100px;
   margin-right: 5px;
 `;
-
 const GitAddBtn = styled(Button)`
   width: 100px;
 `;
-
 const FormCheckInput = styled.input`
   margin-right: 10px;
   width: 15px;
@@ -183,22 +169,22 @@ interface Data {
 }
 
 const CreateIssue = () => {
+  let navigate = useNavigate();
+  const userData = useSelector((state: RootState) => state);
   const [isSending, setIsSending] = useState(false);
   const [ButtonPop, setButtonPop] = useState(false);
-  const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
-  const userData = useSelector((state) => state) as any;
-  const db = getFirestore();
-  let navigate = useNavigate();
+  const [alertMsg, setAlertMsg] = useState("");
+  const [editorHtmlContent, setEditorHtmlContent] = useState("");
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [fileSrc, setFileSrc] = useState<any>(null);
-  // Select Photo and preview
-  const hiddenFileInput = useRef<any>(null);
+
+  const hiddenFileInput = useRef<HTMLInputElement | null>(null);
   const handleClick = () => {
-    hiddenFileInput.current.click();
+    hiddenFileInput.current?.click();
   };
   const handleUploadFile = (e: any) => {
     if (!e.target.files[0]) return;
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = function () {
       setFileSrc(reader.result);
     };
@@ -222,16 +208,14 @@ const CreateIssue = () => {
   ];
 
   const [category, setCategory] = useState("");
-  const getCategory = (e: any) => {
+  const getCategory = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
     setCategory(e.target.value);
   };
   const [title, setTitle] = useState("");
-  const getTitle = (e: any) => {
+  const getTitle = (e: { target: { value: React.SetStateAction<string> } }) => {
     setTitle(e.target.value);
-  };
-  const [content, setContent] = useState("");
-  const getContent = (e: any) => {
-    setContent(e.target.value);
   };
   const tagRef = useRef<HTMLInputElement>(null);
   const [tags, setTags] = useState<string[]>([]);
@@ -250,14 +234,13 @@ const CreateIssue = () => {
     setTags(newTags);
   };
 
-  const [getUser, setGetUser] = useState<any>("");
+  const [getUser, setGetUser] = useState("");
   useEffect(() => {
     const userId = userData.user.user_id;
-    console.log(userId);
     if (userId) setGetUser(userId);
   }, []);
 
-  const recipient = {
+  const recipient: FormRecipient = {
     category: category,
     title: title,
     content: editorHtmlContent,
@@ -267,9 +250,6 @@ const CreateIssue = () => {
     posted_at: serverTimestamp(),
   };
 
-  const [alertMsg, setAlertMsg] = useState("");
-
-  // upload photo w/ doc id, get photo URL, then setDoc
   const postIssue = async () => {
     setIsSending(true);
     if (!category) {
@@ -306,7 +286,6 @@ const CreateIssue = () => {
         setTimeout(() => {
           navigate("/issues");
         }, 1000);
-        // navigate("/");
       });
   };
 
@@ -357,21 +336,6 @@ const CreateIssue = () => {
                   );
                 })}
               </FormGroup>
-              {/* <FormGroup>
-                  <FormLabel>Category</FormLabel>
-                  <FormSelect onChange={getCategory}>
-                    <FormSelectOptions value="0">
-                      Please Select your issue type
-                    </FormSelectOptions>
-                    <FormSelectOptions value="Date">Date</FormSelectOptions>
-                    <FormSelectOptions value="Hang Out">
-                      Hang out
-                    </FormSelectOptions>
-                    <FormSelectOptions value="Networking">
-                      Networking
-                    </FormSelectOptions>
-                  </FormSelect>
-                </FormGroup> */}
               <FormGroup>
                 <FormLabel>Title</FormLabel>
                 <FormControl onChange={getTitle}></FormControl>

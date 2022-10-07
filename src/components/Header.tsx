@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import logo from "./logo.png";
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import firebaseapi from "../../src/utils/firebaseapi";
 import { DocumentData } from "firebase/firestore";
 import useOnclickOutside from "react-cool-onclickoutside";
@@ -10,6 +9,8 @@ import { ReactComponent as GitHub } from "../assets/images/github.svg";
 import { ReactComponent as Member } from "../assets/images/member.svg";
 import { Tours, stepType } from "./Tours";
 import SearchResults from "./SearchResults";
+
+import { RootState } from "..";
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,7 +24,6 @@ const Wrapper = styled.div`
     padding-left: 0;
   }
 `;
-
 const LogoContainer = styled(Link)`
   cursor: pointer;
   width: 62px;
@@ -44,7 +44,6 @@ const SearchForm = styled.div`
   margin-left: 10px;
   max-width: 272px;
   height: auto;
-  /* min-height: 28px; */
   margin-top: 6px;
   background-color: #24292f;
   border: 1px solid #57606a;
@@ -82,7 +81,6 @@ const SearchContainer = styled.div`
   background-color: white;
   border-radius: 0px 0px 6px 6px;
 `;
-
 const CategoryLinks = styled.div`
   display: flex;
   justify-content: center;
@@ -181,21 +179,16 @@ const ClostBtn = styled.button`
 
 const Header = () => {
   const currentPage = useLocation();
-  const [page, setPage] = useState<any>("");
+  const [page, setPage] = useState("");
   let navigate = useNavigate();
-  const userInfo = useSelector((state) => state) as any;
-
+  const userInfo = useSelector((state: RootState) => state);
   const [searchResults, setSearchRsults] = useState<DocumentData>();
-
-  // Mobile sidebar (RWD)
   const [showSidebar, setShowSidebar] = useState(false);
   const clickhandler = () => {
     setShowSidebar(true);
   };
 
   useEffect(() => {
-    // console.log(currentPage);
-    // console.log(currentPage.pathname);
     setPage(currentPage.pathname);
   }, [currentPage]);
 
@@ -213,8 +206,6 @@ const Header = () => {
     setExpanded(true);
   }
   const ref = useOnclickOutside(() => {
-    // When user clicks outside of the component, we can dismiss
-    // the searched suggestions by calling this method
     setExpanded(false);
     setShowSidebar(false);
   });
@@ -225,10 +216,8 @@ const Header = () => {
   const getSearchResults = () => {
     setSearchName("");
     firebaseapi.searchUserByName(searchName).then((res) => {
-      console.log(res);
       if (res) {
         expand();
-        // console.log(res["firstname"]);
         setSearchRsults(res);
       }
     });

@@ -1,17 +1,16 @@
-import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import firebaseapi from "../../utils/firebaseapi";
-
-import "./terminal.css";
-
 import Chatroom from "./Chatroom";
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
-import defaultAvatar from "../../utils/DefaultAvatar.png";
+import defaultAvatar from "../../assets/images/defaultAvatar.png";
+import { RootState } from "../..";
+import { DocumentData } from "firebase/firestore";
+import Typewriter from "./Typewriter";
 
-// Terminal Container
 const TerminalContainer = styled.div`
   max-width: 1280px;
   width: 100%;
@@ -60,7 +59,6 @@ const FakeScreen = styled.div`
 const LineContainer = styled.div`
   padding: 20px;
 `;
-
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -79,7 +77,6 @@ const Sidebar = styled.div`
 const Chat = styled.div`
   width: 100%;
 `;
-
 const NameCard = styled.div`
   display: flex;
   align-items: center;
@@ -87,13 +84,6 @@ const NameCard = styled.div`
   @media screen and (max-width: 1280px) {
     justify-content: center;
   }
-  /* height: 75px;
-  padding: 10px; */
-  /* background: hsla(0, 0%, 100%, 0.3); */
-  /* display: flex;
-  align-items: center;
-  border-top: 1px solid; */
-  /* border-right: 1px solid black; */
 `;
 const NameCardPhotoContainer = styled.div``;
 const NameCardPhoto = styled.img`
@@ -141,26 +131,21 @@ const ChatNameCardName = styled(NameCardName)`
 `;
 
 const Repo = () => {
+  let navigate = useNavigate();
+  const userData = useSelector((state: RootState) => state);
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
-  let navigate = useNavigate();
-  const userData = useSelector((state) => state) as any;
-  const [getUser, setGetUser] = useState("");
-  const [getUserName, setGetUserName] = useState("");
-  const [getUserPhoto, setGetUserPhoto] = useState("");
-  const [friendList, setFriendList] = useState<any>();
+  const [friendList, setFriendList] = useState<DocumentData>();
   const [openChatroom, setOpenChatroom] = useState(false);
-  const [chatroomId, setChatroomId] = useState("");
+  const [chatroomId, setChatroomId] = useState<string>("");
   const [chaterName, setChaterName] = useState("");
   const [chaterID, setChaterID] = useState("");
+  const userId = userData.user.user_id;
+  const userName = userData.user.user_name;
+  const userPhoto = userData.user.user_photo;
 
   useEffect(() => {
-    const userId = userData.user.user_id;
-    const userName = userData.user.user_name;
-    const userPhoto = userData.user.user_photo;
-    console.log(userId);
-    console.log(userName);
     if (!userId) {
       setAlertMsg("Please sign in!");
       setButtonPop(true);
@@ -170,12 +155,8 @@ const Repo = () => {
       return;
     }
     if (userId && userName) {
-      setGetUser(userId);
-      setGetUserName(userName);
-      setGetUserPhoto(userPhoto);
       firebaseapi.readUserData(userId).then((result) => {
         if (result) {
-          console.log(result["friend_list"]);
           setFriendList(result["friend_list"]);
           setIsLoading(false);
         }
@@ -201,36 +182,44 @@ const Repo = () => {
             <Sidebar>
               <NameCard>
                 <NameCardPhotoContainer>
-                  {getUser ? (
-                    <NameCardPhoto src={getUserPhoto} id="repoSidebar" />
+                  {userId ? (
+                    <NameCardPhoto src={userPhoto} id="repoSidebar" />
                   ) : (
                     <NameCardPhoto src={defaultAvatar} />
                   )}
                 </NameCardPhotoContainer>
-                <NameCardName>{getUserName}</NameCardName>
+                <NameCardName>{userName}</NameCardName>
               </NameCard>
               {isLoading ? (
                 <Loading />
               ) : (
                 <>
                   {friendList &&
-                    friendList.map((friend: any) => {
-                      return (
-                        <MsgList
-                          onClick={() => {
-                            setOpenChatroom(true);
-                            setChatroomId(friend["chat_id"]);
-                            setChaterName(friend["user_name"]);
-                            setChaterID(friend["user_id"]);
-                          }}
-                        >
-                          <NameCardPhotoContainer>
-                            <NameCardPhoto src={friend["user_photo"]} />
-                          </NameCardPhotoContainer>
-                          <NameCardName>{friend["user_name"]}</NameCardName>
-                        </MsgList>
-                      );
-                    })}
+                    friendList.map(
+                      (friend: {
+                        chat_id: string;
+                        user_name: string;
+                        user_id: string;
+                        user_photo: string;
+                      }) => {
+                        return (
+                          <MsgList
+                            key={friend["chat_id"]}
+                            onClick={() => {
+                              setOpenChatroom(true);
+                              setChatroomId(friend["chat_id"]);
+                              setChaterName(friend["user_name"]);
+                              setChaterID(friend["user_id"]);
+                            }}
+                          >
+                            <NameCardPhotoContainer>
+                              <NameCardPhoto src={friend["user_photo"]} />
+                            </NameCardPhotoContainer>
+                            <NameCardName>{friend["user_name"]}</NameCardName>
+                          </MsgList>
+                        );
+                      }
+                    )}
                 </>
               )}
             </Sidebar>
@@ -250,23 +239,7 @@ const Repo = () => {
                 </>
               ) : (
                 <LineContainer>
-                  <p className="paragraph line1">
-                    &#91;&nbsp;&ldquo;Sending pull request,&rdquo;
-                    <span className="cursor1">_</span>
-                  </p>
-                  <p className="paragraph line2">
-                    &nbsp;&nbsp;&ldquo;Merging pull request,&rdquo;
-                    <span className="cursor2">_</span>
-                  </p>
-                  <p className="paragraph line3">
-                    &nbsp;&nbsp;&ldquo;Let's open a repo!&rdquo;&nbsp;&#93;
-                    <span className="cursor3">_</span>
-                  </p>
-                  <p className="paragraph line4">
-                    <br />
-                    Start chatting...
-                    <span className="cursor4">_</span>
-                  </p>
+                  <Typewriter />
                 </LineContainer>
               )}
             </Chat>

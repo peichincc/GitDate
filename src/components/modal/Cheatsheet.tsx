@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-
 import {
   ModalHeader,
   ModalSubtitle,
@@ -9,8 +8,8 @@ import {
   ModalContentsWrapper,
   CloseBtnWrapper,
   Button,
-} from "../../utils/StyledComponent";
-import git from "./gitIcon.png";
+} from "../../utils/styledComponent";
+import git from "../../assets/images/gitIcon.png";
 
 const Back = styled.div`
   position: fixed;
@@ -32,11 +31,9 @@ const ModalBx = styled.div`
   @keyframes slide-down {
     from {
       opacity: 0;
-      /* transform: translateY(-10rem); */
     }
     to {
       opacity: 1;
-      /* transform: translateY(0); */
     }
   }
 `;
@@ -55,7 +52,10 @@ const Title = styled.h2`
   padding-left: 5px;
 `;
 
-const CheatSheet = (props: any) => {
+const CheatSheet = (props: {
+  trigger: boolean;
+  setButtonPop: (arg0: boolean) => void;
+}) => {
   const { trigger, setButtonPop } = props;
   return trigger ? (
     <>

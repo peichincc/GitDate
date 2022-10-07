@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
-import loadingGif from "../utils/loading.gif";
+import loadingGif from "../assets/images/loading.gif";
 
 const LoadingWrapper = styled.div`
   display: flex;
@@ -10,7 +9,6 @@ const LoadingWrapper = styled.div`
   justify-content: center;
   margin: 50px;
 `;
-
 const BlankArea = styled.div`
   height: 30px;
 `;

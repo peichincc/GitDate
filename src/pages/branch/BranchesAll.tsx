@@ -1,28 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import styled from "styled-components";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { db } from "../../utils/firebase";
 import {
-  getFirestore,
   collection,
   getDocs,
   query,
   where,
   DocumentData,
 } from "firebase/firestore";
-import styled from "styled-components";
 import Calendar from "react-calendar";
-import "./calendar.css";
 import BranchesList from "./BranchList";
-
 import firebaseapi from "../../utils/firebaseapi";
-
-import { MergeBtn, LabelsButton } from "../../utils/StyledComponent";
-
+import { MergeBtn, LabelsButton } from "../../utils/styledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
-
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
+import { RootState } from "../..";
 
 const ImgContainer = styled.img`
   overflow: hidden;
@@ -39,7 +35,6 @@ const ImgContainer2 = styled.img`
   bottom: 2%;
   left: 25%;
 `;
-
 const CalendarContainer = styled.div`
   position: sticky;
   top: 3%;
@@ -47,11 +42,12 @@ const CalendarContainer = styled.div`
     position: relative;
     top: 0;
   }
-  /* ~~~ container styles ~~~ */
   max-width: 600px;
   margin: auto;
   margin-top: 0px;
-  /* ~~~ navigation styles ~~~ */
+  .highlight {
+    color: red !important;
+  }
   .react-calendar__navigation {
     display: flex;
     .react-calendar__navigation__label {
@@ -61,11 +57,9 @@ const CalendarContainer = styled.div`
       flex-grow: 0.333;
     }
   }
-  /* ~~~ label styles ~~~ */
   .react-calendar__month-view__weekdays {
     text-align: center;
   }
-  /* ~~~ button styles ~~~ */
   button {
     cursor: pointer;
     margin: 3px;
@@ -81,7 +75,6 @@ const CalendarContainer = styled.div`
       background-color: #f6f8fa;
     }
   }
-  /* ~~~ day grid styles ~~~ */
   .react-calendar__month-view__days {
     display: grid !important;
     grid-template-columns: 14.2% 14.2% 14.2% 14.2% 14.2% 14.2% 14.2%;
@@ -92,14 +85,12 @@ const CalendarContainer = styled.div`
       border: 1px solid;
     }
   }
-  /* ~~~ neighboring month & weekend styles ~~~ */
   .react-calendar__month-view__days__day--neighboringMonth {
     opacity: 0.7;
   }
   .react-calendar__month-view__days__day--weekend {
     color: #929396;
   }
-  /* ~~~ other view styles ~~~ */
   .react-calendar__year-view__months,
   .react-calendar__decade-view__years,
   .react-calendar__century-view__decades {
@@ -113,7 +104,6 @@ const CalendarContainer = styled.div`
     }
   }
 `;
-
 const Wrapper = styled.div`
   display: flex;
   max-width: 1376px;
@@ -149,7 +139,6 @@ const BranchesContainer = styled.div`
     padding-right: 20px;
   }
 `;
-
 const FilterContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -180,15 +169,12 @@ const FilterText = styled.div`
 const FilterButtons = styled.div`
   margin-left: 5px;
 `;
-
 const TypeBtn = styled(LabelsButton)`
   background-color: #453d38;
 `;
 const StatusBtn = styled(LabelsButton)`
   background-color: #d73a4a;
-  /* color: black; */
 `;
-
 const ReminderBox = styled.div`
   color: #24292f;
   width: 100%;
@@ -216,11 +202,10 @@ const AttentionIcon = styled.div`
 
 const BranchAll = () => {
   let navigate = useNavigate();
-  const db = getFirestore();
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
-  const userData = useSelector((state) => state) as any;
-  const [getUser, setGetUser] = useState<any>("");
+  const userData = useSelector((state: RootState) => state);
+  const [getUser, setGetUser] = useState("");
   const [date, setDate] = useState(new Date());
   const [docs, setDocs] = useState<DocumentData>();
   const [dateDocs, setDateDocs] = useState<DocumentData>();
@@ -233,25 +218,18 @@ const BranchAll = () => {
   const [expiredBranch, setExpiredBranch] = useState<DocumentData>();
 
   useEffect(() => {
-    // Check log in
     const userId = userData.user.user_id;
     if (userId) {
       setGetUser(userId);
     }
-    console.log(userId);
-    const branchesRef = collection(db, "Branches");
-    firebaseapi.readAllBranches(branchesRef).then(async (res) => {
+    firebaseapi.readAllBranches().then((res) => {
       if (res) {
-        // console.log(res);
-        // get all the branch date
-        let dateTemp = [] as any;
+        let dateTemp: DocumentData[] = [];
         res.forEach((doc: any) => {
-          // console.log(doc.date);
           dateTemp.push(doc.date);
         });
         const dates = new Set(dateTemp);
         setDateDocs(dates);
-        //
         setDocs(res);
         setAllbranch(res);
         setIsLoading(false);
@@ -300,18 +278,14 @@ const BranchAll = () => {
     setDocs(expiredBranch);
   };
 
-  const dateClick = async (date: any) => {
-    // console.log(date);
+  const dateClick = async (date: Date) => {
     const dateAssigned =
       date.getFullYear() +
       "-" +
       ("0" + (date.getMonth() + 1)).slice(-2) +
       "-" +
       ("0" + date.getDate()).slice(-2);
-    // console.log(dateAssigned);
-    // console.log(date.toISOString().split("T")[0]);
-    // const dateAssigned = date.toISOString().split("T")[0];
-    let temp = [] as any;
+    const temp: DocumentData[] = [];
     const q = query(
       collection(db, "Branches"),
       where("date", "==", dateAssigned)
@@ -326,19 +300,13 @@ const BranchAll = () => {
   const CreateHandler = () => {
     if (!getUser) {
       setButtonPop(true);
-      // setTimeout(() => {
-      //   navigate("/signin");
-      // }, 3000);
-      // alert("Please sign in!");
-      // navigate("/signin");
       return;
     }
     navigate("/createbranch");
   };
 
-  var moment = require("moment");
+  let moment = require("moment");
   const tileClassName = ({ date }: any) => {
-    // console.log(moment(date).format("YYYY-MM-DD"));
     if (dateDocs?.has(moment(date).format("YYYY-MM-DD"))) {
       return "highlight";
     }

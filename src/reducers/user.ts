@@ -1,4 +1,8 @@
-type Action = { type: "setUserData"; setUserData: string; payload: any };
+type Action = {
+  type: "setUserData";
+  setUserData: string;
+  payload: { user_id: string; user_name: string; user_photo: string };
+};
 
 const initialState = {
   user_id: "",
@@ -20,29 +24,5 @@ const userReducer = (state = initialState, action: Action) => {
       return state;
   }
 };
-
-// interface ActionA {
-//   type: "getProfile";
-//   getProfile: string;
-// }
-// interface ActionB {
-//   type: "updateProfile";
-//   updateProfile: string;
-// }
-// type Action = ActionA | ActionB;
-
-// const userReducer = (state = 0, action: Action) => {
-//   switch (action.type) {
-//     case "getProfile": {
-//       return state;
-//     }
-//     case "updateProfile": {
-//       const updateProfile = 1;
-//       return updateProfile;
-//     }
-//     default:
-//       return state;
-//   }
-// };
 
 export default userReducer;

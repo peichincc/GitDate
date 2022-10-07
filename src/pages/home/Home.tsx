@@ -1,82 +1,31 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-
-import img01 from "./slider/slider01.jpg";
-import img02 from "./slider/slider02.jpg";
-import img03 from "./slider/slider03.jpg";
-import img04 from "./slider/slider04.jpg";
-import img05 from "./slider/slider05.jpg";
-import img06 from "./slider/slider06.jpg";
-import hangout from "./feature/hangout.jpg";
-import dating from "./feature/dating.jpg";
-import networking from "./feature/networking.jpg";
-import pride from "./feature/pride.jpg";
+import { useSelector } from "react-redux";
+import hangout from "../../assets/images/feature/hangout.jpg";
+import dating from "../../assets/images/feature/dating.jpg";
+import networking from "../../assets/images/feature/networking.jpg";
+import pride from "../../assets/images/feature/pride.jpg";
 import { Tour } from "../../components/Tour";
-
-import { ActionButton, TagButton } from "../../utils/StyledComponent";
+import { ActionButton, TagButton } from "../../utils/styledComponent";
 import { ShowMainMap } from "../../components/map/MainMap";
-
 import firebaseapi from "../../utils/firebaseapi";
-
 import { Carousel } from "./Carousel";
+import { RootState } from "../..";
 
 const Wrapper = styled.div`
   display: block;
   margin: 0 auto;
   padding-bottom: 56px;
 `;
-
 const Block = styled.div`
   display: block;
   margin: 0 auto;
-`;
-
-const BlockInnerImg = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  background-color: #24292f;
-  background-position: top;
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: #333;
-  height: calc(100vh - 64px);
-  /* @media (max-width: 770px) {
-    height: calc(100vh - 64px);
-  } */
-  opacity: 1;
-  animation-name: fadeInOpacity;
-  animation-iteration-count: 1;
-  animation-timing-function: ease-in;
-  animation-duration: 4s;
-  @keyframes fadeInOpacity {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
 `;
 const BlockCarousel = styled.div`
   display: flex;
   width: 100%;
   height: calc(100vh - 64px);
-  /* opacity: 1;
-  animation-name: fadeInOpacity;
-  animation-iteration-count: 1;
-  animation-timing-function: ease-in;
-  animation-duration: 4s;
-  @keyframes fadeInOpacity {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  } */
 `;
 const BlockInner = styled.div`
   display: flex;
@@ -115,7 +64,6 @@ const SignUpBtn = styled(ActionButton)`
     background-color: #e6e7e9;
   }
 `;
-
 const BlockFeature = styled.div`
   height: 100vh;
   margin-top: 48px;
@@ -135,8 +83,6 @@ const FeaturesList = styled.div`
   }
 `;
 const FeaturesItem = styled.div`
-  /* flex: 1 1 auto;
-  display: flex; */
   position: relative;
   width: 30%;
   margin: 20px;
@@ -191,7 +137,6 @@ const PrideWordWrapper = styled.div`
 const PrideTitle = styled(FeaturesItemTitle)`
   right: 0;
 `;
-
 const MapContainer = styled.div`
   margin-top: 32px;
   margin-bottom: 32px;
@@ -199,43 +144,16 @@ const MapContainer = styled.div`
 const MapBlock = styled.div`
   margin-top: 50px;
 `;
-
 const TourReminder = styled.div`
   margin-top: 20px;
   text-align: right;
 `;
 
-const images = [img01, img02, img03, img04, img05, img06];
-
 const Home = () => {
-  const userInfo = useSelector((state) => state) as any;
-  const [alreadyLogged, setAlreadyLogged] = useState(false);
-  // // New Carousel
-  // const slidePresentationTime = 3000; // after how many ms slide will change - now 3s / 3000ms
-  // const [currentSlide, setCurrentSlide] = useState(0);
-  // let sliderInterval = useRef() as any; // interval ref
-  // //
-
-  const [markersFromDB, setMarkersFromDB] = useState([]);
   const navigate = useNavigate();
-  const [photo, setPhoto] = useState(1);
-  const change = () => {
-    if (photo === 7) {
-      setPhoto(1);
-      return;
-    }
-    setPhoto((prev) => prev + 1);
-  };
-
-  // useEffect(() => {
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   sliderInterval = setInterval(() => {
-  //     setCurrentSlide((currentSlide + 1) % images.length); // change current slide to next after 3s
-  //   }, slidePresentationTime);
-  //   return () => {
-  //     clearInterval(sliderInterval);
-  //   };
-  // });
+  const userInfo = useSelector((state: RootState) => state);
+  const [alreadyLogged, setAlreadyLogged] = useState(false);
+  const [markersFromDB, setMarkersFromDB] = useState([]);
 
   useEffect(() => {
     const userID = userInfo.user.user_id;
@@ -243,38 +161,11 @@ const Home = () => {
       setAlreadyLogged(true);
     }
     firebaseapi.readBranchLocations().then((res) => {
-      console.log(res);
       if (res) {
         setMarkersFromDB(res["markers"]);
       }
     });
-    //   const interval = setInterval(() => {
-    //     change();
-    //   }, 5000);
-    //   return () => {
-    //     clearInterval(interval);
-    //   };
-    // }, [photo]
   }, []);
-
-  const returnPhotoURL = () => {
-    switch (photo) {
-      case 1:
-        return img01;
-      case 2:
-        return img02;
-      case 3:
-        return img03;
-      case 4:
-        return img04;
-      case 5:
-        return img05;
-      case 6:
-        return img06;
-      default:
-        return img01;
-    }
-  };
 
   return (
     <>
@@ -317,11 +208,9 @@ const Home = () => {
                 <TourReminder>
                   <Tour />
                 </TourReminder>
-                {/* <Tour /> */}
               </BlockContent>
             </BlockInner>
           </BlockCarousel>
-          {/* </BlockInnerImg> */}
         </Block>
         <Block>
           <BlockFeature>
@@ -392,9 +281,6 @@ const Home = () => {
               </PrideWordWrapper>
               <PrideItem>
                 <PrideTitle>Building a better world</PrideTitle>
-                {/* <FeaturesPhoto>
-                  <FeaturesPhotoImg src={pride} />
-                </FeaturesPhoto> */}
               </PrideItem>
             </PrideContainer>
           </BlockFeature>

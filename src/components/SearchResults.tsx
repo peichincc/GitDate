@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { DocumentData } from "firebase/firestore";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -30,29 +31,36 @@ const PhotoContainerImg = styled.img`
   object-fit: cover;
 `;
 
-const SearchResults = ({ searchResults }: any) => {
+const SearchResults = ({ searchResults }: DocumentData) => {
   let navigate = useNavigate();
   return (
     <>
       {searchResults &&
-        searchResults.map((user: any) => (
-          <>
-            <ResultBox>
-              <Results
-                onClick={() => {
-                  navigate("/readme/" + user["user_id"]);
-                }}
-              >
-                <PhotoContainer>
-                  <PhotoContainerImg src={user["main_photo"]} />
-                </PhotoContainer>
-                <div>
-                  {user["firstname"]} {user["lastname"]}
-                </div>
-              </Results>
-            </ResultBox>
-          </>
-        ))}
+        searchResults.map(
+          (user: {
+            user_id: string;
+            main_photo: string;
+            firstname: string;
+            lastname: string;
+          }) => (
+            <>
+              <ResultBox key={user["user_id"]}>
+                <Results
+                  onClick={() => {
+                    navigate("/readme/" + user["user_id"]);
+                  }}
+                >
+                  <PhotoContainer>
+                    <PhotoContainerImg src={user["main_photo"]} />
+                  </PhotoContainer>
+                  <div>
+                    {user["firstname"]} {user["lastname"]}
+                  </div>
+                </Results>
+              </ResultBox>
+            </>
+          )
+        )}
     </>
   );
 };

@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-
-import { doc, setDoc, collection, getFirestore } from "firebase/firestore";
+import { db } from "../../utils/firebase";
+import { doc, setDoc, collection } from "firebase/firestore";
 import { auth } from "../../utils/firebase";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
-
-import back from "./SignUpBack.jpg";
+import back from "../../assets/images/backSignUp.jpg";
 import Alert from "../../components/modal/Alert";
 
 const Wrapper = styled.div`
@@ -56,6 +55,10 @@ const ContinueBtn = styled.button`
   background: none;
   padding: 5px 12px;
   cursor: pointer;
+  &:hover {
+    background-color: gray;
+    color: white;
+  }
 `;
 export const SubmitBtn = styled.button`
   font-size: 16px;
@@ -118,17 +121,12 @@ const BlockContent = styled.div`
   text-align: center;
   max-width: 680px;
   padding: 32px;
-  /* @media screen and (min-width: 770px) {
-    max-width: 680px;
-    padding: 32px;
-  } */
 `;
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
-  const db = getFirestore();
-  const navigate = useNavigate();
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -146,7 +144,7 @@ const Signup = () => {
       .then(() => {
         onAuthStateChanged(auth, async (user) => {
           if (user) {
-            var uid = user.uid;
+            const uid = user.uid;
             await setDoc(doc(collection(db, "Users"), uid), {
               user_id: uid,
               main_photo:
@@ -160,10 +158,9 @@ const Signup = () => {
         setAlertMsg("Sign up successfully, now let's write README!");
         setTimeout(() => {
           navigate("/profile");
-        }, 3000);
+        }, 1500);
       })
       .catch((error) => {
-        console.log(error);
         switch (error.code) {
           case "auth/email-already-in-use": {
             setButtonPop(true);
@@ -207,7 +204,7 @@ const Signup = () => {
               <TextReminder>
                 Already have account?
                 <SignInBtn onClick={() => navigate("/signin")}>
-                  Sign In ➜
+                  <strong>Sign In ➜</strong>
                 </SignInBtn>
               </TextReminder>
               <Container>

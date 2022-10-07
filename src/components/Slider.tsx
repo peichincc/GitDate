@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-
 import CheatSheet from "./modal/Cheatsheet";
 import { ReactComponent as Logo } from "../assets/images/githubConer.svg";
-import "./corner.css";
 
 const SliderWrapper = styled.div`
   position: fixed;
@@ -28,6 +26,35 @@ const Triangle = styled.div`
   border-top: 100px solid transparent;
   border-bottom-right-radius: 10px;
 `;
+const GithubLogo = styled(Logo)`
+  &:hover {
+    .octo-arm {
+      animation: octocat-wave 560ms ease-in-out infinite;
+      @keyframes octocat-wave {
+        0%,
+        100% {
+          transform: rotate(0);
+        }
+        20%,
+        60% {
+          transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+          transform: rotate(10deg);
+        }
+      }
+      @media (max-width: 500px) {
+        .github-corner:hover .octo-arm {
+          animation: none;
+        }
+        .github-corner .octo-arm {
+          animation: octocat-wave 560ms ease-in-out;
+        }
+      }
+    }
+  }
+`;
 
 const Slider = () => {
   const [ButtonPop, setButtonPop] = useState(false);
@@ -36,7 +63,7 @@ const Slider = () => {
       <SliderWrapper>
         <CheatSheet trigger={ButtonPop} setButtonPop={setButtonPop} />
         <StickyBox onClick={() => setButtonPop(true)}>
-          <Logo className="github-corner" id="corner" />
+          <GithubLogo id="corner" />
           <Triangle />
         </StickyBox>
       </SliderWrapper>

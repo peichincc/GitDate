@@ -1,14 +1,27 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
-
-import "./map.css";
-import { FormControl } from "../../utils/StyledComponent";
+import { FormControl } from "../../utils/styledComponent";
 import styled from "styled-components";
+
+const PlacesContainer = styled.div`
+  position: absolute;
+  top: 180px;
+  left: 225px;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: 150px;
+  background-color: white;
+`;
+const MapContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+`;
 
 const LocationInput = styled(FormControl)`
   width: 150px;
@@ -19,10 +32,18 @@ const RenderSuggestion = styled.div`
   }
 `;
 
+const libraries = ["places"] as (
+  | "places"
+  | "drawing"
+  | "geometry"
+  | "localContext"
+  | "visualization"
+)[];
+
 const MapHome = ({ setLocation, setFormatAddress }: any) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
-    libraries: ["places"],
+    libraries,
     language: "en",
   });
 
@@ -35,7 +56,6 @@ const Map = ({ setLocation, setFormatAddress }: any) => {
     lat: 25.0384803,
     lng: 121.5301824,
   });
-  // const center = useMemo(() => ({ lat: 25.0384803, lng: 121.5301824 }), []);
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
@@ -44,20 +64,22 @@ const Map = ({ setLocation, setFormatAddress }: any) => {
 
   return (
     <>
-      <div className="places-container">
+      <PlacesContainer>
         <PlacesAutocomplete
           setSelected={setSelected}
           setLocation={setLocation}
           setFormatAddress={setFormatAddress}
         />
-      </div>
-      <GoogleMap
-        zoom={10}
-        center={center}
-        mapContainerClassName="map-container"
-      >
-        {selected && <Marker position={selected} />}
-      </GoogleMap>
+      </PlacesContainer>
+      <MapContainer>
+        <GoogleMap
+          zoom={10}
+          center={center}
+          mapContainerStyle={{ width: "100%", height: "100%" }}
+        >
+          {selected && <Marker position={selected} />}
+        </GoogleMap>
+      </MapContainer>
     </>
   );
 };
@@ -76,28 +98,20 @@ const PlacesAutocomplete = ({
   } = usePlacesAutocomplete();
 
   const ref = useOnclickOutside(() => {
-    // When user clicks outside of the component, we can dismiss
-    // the searched suggestions by calling this method
     clearSuggestions();
   });
 
-  const handleInput = (e: any) => {
-    // Update the keyword of the input element
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
   const handleSelect =
     ({ description }: any) =>
     () => {
-      // When user selects a place, we can replace the keyword without request data from API
-      // by setting the second parameter to "false"
       setValue(description, false);
       clearSuggestions();
 
-      // Get latitude and longitude via utility functions
       getGeocode({ address: description }).then((results) => {
-        console.log(results[0].formatted_address);
         const { lat, lng } = getLatLng(results[0]);
-        console.log("📍 Coordinates: ", { lat, lng });
         setSelected({ lat, lng });
         setLocation({ lat, lng });
         setFormatAddress(results[0].formatted_address);
@@ -128,36 +142,9 @@ const PlacesAutocomplete = ({
         disabled={!ready}
         placeholder="Where are you going?"
       />
-      {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && <ul>{renderSuggestions()}</ul>}
     </div>
   );
-  // const handleSelect = async (address?: string | null | undefined) => {
-  //   setValue(address, false);
-  //   clearSuggestions();
-
-  //   const results = await getGeocode({ address });
-  //   const { lat, lng } = await getLatLng(results[0]);
-  //   setSelected({ lat, lng });
-  // };
-
-  // return (
-  //   <>
-  //     <div className="input-container" onSelect={handleSelect}>
-  //       <input
-  //         className="input-container"
-  //         placeholder="Search an address"
-  //         value={value}
-  //         onChange={(e) => setValue(e.target.value)}
-  //         disabled={!ready}
-  //       />
-  //       <div>
-  //         {status === "OK" &&
-  //           data.map((place_id, description) => <option value={description} />)}
-  //       </div>
-  //     </div>
-  //   </>
-  // );
 };
 
 export default MapHome;

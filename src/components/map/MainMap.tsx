@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   GoogleMap,
@@ -7,10 +7,10 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 
-import GitHub from "./github.png";
+import GitHub from "../../assets/images/githubPin.png";
 import mapStyle from "./mapStyle";
 
-import { GithubPostTitle, Button } from "../../utils/StyledComponent";
+import { GithubPostTitle, Button } from "../../utils/styledComponent";
 
 const markers = [
   {
@@ -35,10 +35,18 @@ const markers = [
   },
 ];
 
+const libraries = ["places"] as (
+  | "places"
+  | "drawing"
+  | "geometry"
+  | "localContext"
+  | "visualization"
+)[];
+
 export const ShowMainMap = ({ markersFromDB, position }: any) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
-    libraries: ["places"],
+    libraries,
     language: "en",
   });
 
@@ -54,26 +62,25 @@ const MainMap = ({ markersFromDB }: any) => {
   const navigate = useNavigate();
   const [activeMarker, setActiveMarker] = useState(null);
 
-  const handleOnLoad = (map: any) => {
+  const handleOnLoad = (map: {
+    fitBounds: (arg0: google.maps.LatLngBounds) => void;
+  }) => {
     const bounds = new google.maps.LatLngBounds();
     markers.forEach(({ position }: any) => bounds.extend(position));
     map.fitBounds(bounds);
   };
 
-  const handleActiveMarker = (markersFromDB: any) => {
+  const handleActiveMarker = (markersFromDB: React.SetStateAction<null>) => {
     if (markersFromDB === activeMarker) {
       return;
     }
     setActiveMarker(markersFromDB);
   };
-  console.log(markersFromDB);
-  // const center = useMemo(() => ({ lat: 25.0384803, lng: 121.5301824 }), []);
 
   return (
     <>
       <GoogleMap
         mapContainerStyle={{ width: "100vw", height: "80vh" }}
-        // zoom={10}
         onLoad={handleOnLoad}
         mapContainerClassName="map-container"
         onClick={() => setActiveMarker(null)}
@@ -106,7 +113,6 @@ const MainMap = ({ markersFromDB }: any) => {
             ) : null}
           </Marker>
         ))}
-        {/* <Marker position={center} /> */}
       </GoogleMap>
     </>
   );

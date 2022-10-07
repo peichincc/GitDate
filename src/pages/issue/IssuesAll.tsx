@@ -1,26 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  query,
-  where,
-  DocumentData,
-  orderBy,
-} from "firebase/firestore";
+import { DocumentData } from "firebase/firestore";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
 import IssuesList from "./IssuesList";
-
-import { MergeBtn, Button, LabelsButton } from "../../utils/StyledComponent";
-
+import { MergeBtn, LabelsButton } from "../../utils/styledComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
-
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
+import { RootState } from "../..";
 
 const Wrapper = styled.div`
   display: block;
@@ -28,7 +18,6 @@ const Wrapper = styled.div`
   margin: 0 auto;
   margin-bottom: 100px;
 `;
-
 const Container = styled.div`
   max-width: 980px;
   margin: 0 auto;
@@ -39,7 +28,6 @@ const FilterContainer = styled.div`
   justify-content: space-between;
 `;
 const MainContainer = styled.div``;
-
 const Filters = styled.div`
   width: 100%;
   margin-right: 10px;
@@ -66,11 +54,9 @@ const FilterText = styled.div`
 const FilterButtons = styled.div`
   margin-left: 5px;
 `;
-
 const CategoryButton = styled(LabelsButton)`
   background-color: #d87613;
 `;
-
 const ReminderBox = styled.div`
   color: #24292f;
   width: 100%;
@@ -97,12 +83,11 @@ const AttentionIcon = styled.div`
 `;
 
 const IssueAll = () => {
+  let navigate = useNavigate();
+  const userData = useSelector((state: RootState) => state);
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
-  const userData = useSelector((state) => state) as any;
-  const [getUser, setGetUser] = useState<any>("");
-  let navigate = useNavigate();
-  const db = getFirestore();
+  const [getUser, setGetUser] = useState("");
   const [docs, setDocs] = useState<DocumentData>();
   const [issuesStatus, setIssuesSatus] = useState("");
   const [allIssue, setAllIssue] = useState<DocumentData>();
@@ -113,73 +98,31 @@ const IssueAll = () => {
   const [networkingIssue, setNetworkingIssue] = useState<DocumentData>();
 
   useEffect(() => {
-    // Check log in
     const userId = userData.user.user_id;
     if (userId) {
       setGetUser(userId);
     }
-    const issuesRef = collection(db, "Issues");
-    firebaseapi.readAllIssues(issuesRef).then(async (res) => {
+    firebaseapi.readAllIssues().then(async (res) => {
       if (res) {
         setDocs(res);
         setAllIssue(res);
         setIsLoading(false);
         setIssuesSatus("All");
-        // get open issues
-        let temp = [] as any;
-        const q = query(
-          collection(db, "Issues"),
-          where("status", "==", "Open")
-        );
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          temp.push(doc.data());
+        firebaseapi.getIssues("status", "Open").then((res) => {
+          setOpenIssue(res);
         });
-        setOpenIssue(temp);
-        // get closed issues
-        let temp2 = [] as any;
-        const q2 = query(
-          collection(db, "Issues"),
-          where("status", "==", "Closed")
-        );
-        const querySnapshot2 = await getDocs(q2);
-        querySnapshot2.forEach((doc) => {
-          temp2.push(doc.data());
+        firebaseapi.getIssues("status", "Closed").then((res) => {
+          setClosedIssue(res);
         });
-        setClosedIssue(temp2);
-        // get issues by category: Date
-        let tempDate = [] as any;
-        const qDate = query(
-          collection(db, "Issues"),
-          where("category", "==", "Date")
-        );
-        const querySnapshotDate = await getDocs(qDate);
-        querySnapshotDate.forEach((doc) => {
-          tempDate.push(doc.data());
+        firebaseapi.getIssues("category", "Date").then((res) => {
+          setDateIssue(res);
         });
-        setDateIssue(tempDate);
-        // get issues by category: Hang out
-        let tempHangOut = [] as any;
-        const qHangOut = query(
-          collection(db, "Issues"),
-          where("category", "==", "Hang Out")
-        );
-        const querySnapshotHangOut = await getDocs(qHangOut);
-        querySnapshotHangOut.forEach((doc) => {
-          tempHangOut.push(doc.data());
+        firebaseapi.getIssues("category", "Hang Out").then((res) => {
+          setHangOutIssue(res);
         });
-        setHangOutIssue(tempHangOut);
-        // get issues by category: Networking
-        let tempNetworking = [] as any;
-        const qNetworking = query(
-          collection(db, "Issues"),
-          where("category", "==", "Networking")
-        );
-        const querySnapshotNetworking = await getDocs(qNetworking);
-        querySnapshotNetworking.forEach((doc) => {
-          tempNetworking.push(doc.data());
+        firebaseapi.getIssues("category", "Networking").then((res) => {
+          setNetworkingIssue(res);
         });
-        setNetworkingIssue(tempNetworking);
       }
     });
   }, []);
@@ -213,11 +156,6 @@ const IssueAll = () => {
   const CreateHandler = () => {
     if (!getUser) {
       setButtonPop(true);
-      // setTimeout(() => {
-      //   navigate("/signin");
-      // }, 3000);
-      // alert("Please sign in!");
-      // navigate("/signin");
       return;
     }
     navigate("/createissue");
@@ -275,7 +213,6 @@ const IssueAll = () => {
             {docs && <IssuesList issuesStatus={issuesStatus} docs={docs} />}
           </MainContainer>
         </Container>
-        {/* Filter by Tags: (pending) */}
       </Wrapper>
     </>
   );

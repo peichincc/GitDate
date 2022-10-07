@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import firebaseapi from "../../utils/firebaseapi";
 import {
   doc,
   setDoc,
@@ -11,15 +10,14 @@ import {
   updateDoc,
   arrayUnion,
   serverTimestamp,
+  DocumentData,
 } from "firebase/firestore";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { BoxHeader } from "../../pages/profile/Profile";
-
-import pr from "./pr_icon.png";
-import merge from "./merge.png";
-import close from "./close.png";
-
+import pr from "../../assets/icons/pr_icon.png";
 import Alert from "../../components/modal/Alert";
+
+import { RootState } from "../..";
 
 const PR = styled.div`
   width: 16px;
@@ -27,18 +25,6 @@ const PR = styled.div`
   background-image: url(${pr});
   background-size: contain;
   margin-right: 5px;
-`;
-const Merge = styled.div`
-  width: 16px;
-  height: 16px;
-  background-image: url(${merge});
-  background-size: contain;
-`;
-const Close = styled.div`
-  width: 16px;
-  height: 16px;
-  background-image: url(${close});
-  background-size: contain;
 `;
 
 const Container = styled.div`
@@ -115,15 +101,11 @@ const ClickBtn = styled.button`
   margin-left: 5px;
 `;
 
-interface Props {
-  getInvitationList: [];
-}
-
-const FriendRequest = ({ getInvitationList }: Props) => {
+const FriendRequest = ({ getInvitationList }: DocumentData) => {
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   let navigate = useNavigate();
-  const userData = useSelector((state) => state) as any;
+  const userData = useSelector((state: RootState) => state);
   const db = getFirestore();
   const [getUser, setGetUser] = useState("");
   const [getUserName, setGetUserName] = useState("");
@@ -133,8 +115,6 @@ const FriendRequest = ({ getInvitationList }: Props) => {
     const userId = userData.user.user_id;
     const userName = userData.user.user_name;
     const userPhoto = userData.user.user_photo;
-    console.log(userId);
-    console.log(userName);
     if (userId && userName) {
       setGetUser(userId);
       setGetUserName(userName);
@@ -143,21 +123,14 @@ const FriendRequest = ({ getInvitationList }: Props) => {
   }, []);
 
   const merge = async (e: any) => {
-    console.log(getUser);
-    console.log(getUserName);
-    console.log(e.target.value);
     const index = e.target.value;
-    const newArr = getInvitationList.splice(index, 1) as any;
-    console.log(newArr); // 被切出來的[obj]
-    console.log(getInvitationList); // 留下來的[obj]
+    const newArr = getInvitationList.splice(index, 1);
     const otherUserID = newArr[0]["user_id"];
-    console.log(otherUserID);
     // 更新自己的DB
     const userRef = doc(db, "Users", getUser);
     await updateDoc(userRef, {
       friend_request: getInvitationList,
     });
-    console.log("更新了自己的DB: friend_request: getInvitationList");
     // 打開repo (setDoc in Chatrooms collection)
     const newChatRef = doc(collection(db, "Chatrooms"));
     await setDoc(newChatRef, {
@@ -170,12 +143,10 @@ const FriendRequest = ({ getInvitationList }: Props) => {
       timestamp: serverTimestamp(),
     });
     // 把名單, repo ID都丟進Friend_list (自己的)
-    // const newdata = { ...newArr, chat_id: newChatRef.id };
     newArr[0].chat_id = newChatRef.id;
     await updateDoc(userRef, {
       friend_list: arrayUnion(newArr[0]),
     });
-    console.log("更新了自己的DB: friend_list");
     // 丟進Friend_list (對方的)
     const userRef2 = doc(db, "Users", otherUserID);
     await updateDoc(userRef2, {
@@ -186,23 +157,20 @@ const FriendRequest = ({ getInvitationList }: Props) => {
         chat_id: newChatRef.id,
       }),
     });
-    console.log("更新了自己的DB: friend_list");
     setButtonPop(true);
     setAlertMsg("You've open a repo!");
   };
 
   const close = async (e: any) => {
-    console.log(e.target.value);
     const index = e.target.value;
     const newArr = getInvitationList.splice(index, 1);
-    console.log(newArr); // 被切出來的[obj]
-    console.log(getInvitationList); // 留下來的[obj]
+    // console.log(newArr); // 被切出來的[obj]
+    // console.log(getInvitationList); // 留下來的[obj]
     // 更新自己的DB
     const userRef = doc(db, "Users", getUser);
     await updateDoc(userRef, {
       friend_request: getInvitationList,
     });
-    console.log("更新了自己的DB: friend_request: getInvitationList");
     setButtonPop(true);
     setAlertMsg("You've closed a pull request");
   };
@@ -218,33 +186,38 @@ const FriendRequest = ({ getInvitationList }: Props) => {
         <BoxHeader>Pull requests</BoxHeader>
         <ContentContainer>
           {getInvitationList &&
-            getInvitationList.map((otherUser, index) => {
-              return (
-                <ListContainer>
-                  <NameContainer>
-                    <PR />
-                    <p key={`${otherUser["user_name"]}`}>
-                      {otherUser["user_name"]}
-                    </p>
-                    <ClickBtn
-                      onClick={() => {
-                        navigate("/readme/" + otherUser["user_id"]);
-                      }}
-                    >
-                      README
-                    </ClickBtn>
-                  </NameContainer>
-                  <BtnContainer>
-                    <MergeBtn value={index} onClick={merge}>
-                      Merge
-                    </MergeBtn>
-                    <CloseBtn value={index} onClick={close}>
-                      Close
-                    </CloseBtn>
-                  </BtnContainer>
-                </ListContainer>
-              );
-            })}
+            getInvitationList.map(
+              (
+                otherUser: { user_name: string; user_id: string },
+                index: number
+              ) => {
+                return (
+                  <ListContainer key={otherUser["user_id"]}>
+                    <NameContainer>
+                      <PR />
+                      <p key={`${otherUser["user_name"]}`}>
+                        {otherUser["user_name"]}
+                      </p>
+                      <ClickBtn
+                        onClick={() => {
+                          navigate("/readme/" + otherUser["user_id"]);
+                        }}
+                      >
+                        README
+                      </ClickBtn>
+                    </NameContainer>
+                    <BtnContainer>
+                      <MergeBtn value={index} onClick={merge}>
+                        Merge
+                      </MergeBtn>
+                      <CloseBtn value={index} onClick={close}>
+                        Close
+                      </CloseBtn>
+                    </BtnContainer>
+                  </ListContainer>
+                );
+              }
+            )}
         </ContentContainer>
       </Container>
     </>

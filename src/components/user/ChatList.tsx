@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import firebaseapi from "../../utils/firebaseapi";
-import { getFirestore } from "firebase/firestore";
-import { useSelector, useDispatch } from "react-redux";
-
+import { useSelector } from "react-redux";
 import { BoxHeader } from "../../pages/profile/Profile";
+import merge from "../../assets/icons/merge.png";
 
-import merge from "./merge.png";
+import { RootState } from "../..";
+import { DocumentData } from "firebase/firestore";
 
 const Merge = styled.div`
   width: 16px;
@@ -16,7 +16,6 @@ const Merge = styled.div`
   background-size: contain;
   margin-right: 5px;
 `;
-
 const Container = styled.div`
   width: 100%;
   margin-top: 20px;
@@ -65,20 +64,15 @@ const RepoBtn = styled.button`
 `;
 
 const ChatList = () => {
-  const userData = useSelector((state) => state) as any;
+  const userData = useSelector((state: RootState) => state);
   let navigate = useNavigate();
-  const db = getFirestore();
-  const [getUser, setGetUser] = useState("");
-  const [friendList, setFriendList] = useState<any>();
+  const [friendList, setFriendList] = useState<DocumentData>();
 
   useEffect(() => {
     const userId = userData.user.user_id;
-    console.log(userId);
     if (userId) {
-      setGetUser(userId);
       firebaseapi.readUserData(userId).then((result) => {
         if (result) {
-          console.log(result["friend_list"]);
           setFriendList(result["friend_list"]);
         }
       });
@@ -91,9 +85,9 @@ const ChatList = () => {
         <BoxHeader>Friend list</BoxHeader>
         <ContentContainer>
           {friendList &&
-            friendList.map((friend: any) => {
+            friendList.map((friend: { user_name: string; user_id: string }) => {
               return (
-                <ListContainer>
+                <ListContainer key={friend["user_id"]}>
                   <NameContainer>
                     <Merge />
                     {friend["user_name"]}
