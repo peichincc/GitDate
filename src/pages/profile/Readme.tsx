@@ -11,6 +11,7 @@ import {
   where,
   getDocs,
   DocumentData,
+  getDoc,
 } from "firebase/firestore";
 import PostedIssues from "../../components/user/PostedIssues";
 import HostedBranches from "../../components/user/HostedBranches";
@@ -182,25 +183,21 @@ const Readme = () => {
     });
     setHostedBranches(temp);
   };
-  const searchAttenedBranches = async (userId: string) => {
-    onSnapshot(doc(collection(db, "Users"), userId), async (doc) => {
-      if (doc.exists()) {
-        const newArr: React.SetStateAction<DocumentData | undefined> = [];
-        for (let i = 0; i < doc.data().activity_attend.length; i++) {
-          await firebaseapi
-            .readBranchData(doc.data().activity_attend[i])
-            .then((res) => {
-              if (res) {
-                const tempObj = {
-                  id: res["branch_id"],
-                  title: res["title"],
-                  photo: res["main_image"],
-                };
-                newArr.push(tempObj);
-              }
-            });
+  const searchAttenedBranches = (userId: string) => {
+    onSnapshot(doc(collection(db, "Users"), userId), async (branchdoc) => {
+      if (branchdoc.exists()) {
+        const newArr = [];
+        for (let i = 0; i < branchdoc.data().activity_attend.length; i++) {
+          const branchesRef = collection(db, "Branches");
+          const branchid = branchdoc.data().activity_attend[i];
+          const docRef = doc(branchesRef, branchid);
+          const promise = getDoc(docRef).then((res) => {
+            return res.data();
+          });
+          newArr.push(promise);
         }
-        setAttendedBranches(newArr);
+        const allNewArr = await Promise.all(newArr);
+        setAttendedBranches(allNewArr);
       }
     });
   };
@@ -210,12 +207,12 @@ const Readme = () => {
   return (
     <>
       <Wrapper>
-        {ButtonPop ? (
+        {ButtonPop && (
           <SourceTree
             setButtonPop={setButtonPop}
             sourceTreeStatus={sourceTreeStatus}
           />
-        ) : null}
+        )}
         {isLoading ? (
           <Loading />
         ) : (

@@ -211,7 +211,6 @@ const Home = () => {
               </BlockContent>
             </BlockInner>
           </BlockCarousel>
-          {/* </BlockInnerImg> */}
         </Block>
         <Block>
           <BlockFeature>
