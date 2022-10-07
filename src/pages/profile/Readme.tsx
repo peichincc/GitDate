@@ -185,12 +185,12 @@ const Readme = () => {
     setHostedBranches(temp);
   };
   const searchAttenedBranches = (userId: string) => {
-    onSnapshot(doc(collection(db, "Users"), userId), async (branchdoc) => {
-      if (branchdoc.exists()) {
+    onSnapshot(doc(collection(db, "Users"), userId), async (branchDoc) => {
+      if (branchDoc.exists()) {
         const newArr = [];
-        for (let i = 0; i < branchdoc.data().activity_attend.length; i++) {
+        for (let i = 0; i < branchDoc.data().activity_attend.length; i++) {
           const branchesRef = collection(db, "Branches");
-          const branchid = branchdoc.data().activity_attend[i];
+          const branchid = branchDoc.data().activity_attend[i];
           const docRef = doc(branchesRef, branchid);
           const promise = (await getDoc(docRef)).data();
           newArr.push(promise);

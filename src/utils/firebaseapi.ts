@@ -23,14 +23,49 @@ const LocationsRef = collection(db, "Location");
 const chatsRef = collection(db, "Chatrooms");
 
 const firebaseapi = {
-  async searchUserName(userid: string) {
-    const q = query(usersRef, where("user_id", "==", userid));
+  async pushUserToDB(userId: string) {
+    await setDoc(doc(usersRef, userId), {
+      user_id: `${userId}`,
+    });
+  },
+  async uploadImage(imageUpload: File, userId: string) {
+    if (imageUpload == null) return;
+    const imageRef = ref(storage, `users/${userId}.jpg`);
+    await uploadBytes(imageRef, imageUpload);
+    const downloadUrl = await getDownloadURL(imageRef);
+    return downloadUrl;
+  },
+  async updateDB(userid: string, recipient: ListData, imageURL: string) {
+    const userRef = doc(usersRef, `${userid}`);
+    await updateDoc(userRef, { ...recipient, main_photo: imageURL });
+  },
+  async searchUserName(userId: string) {
+    const q = query(usersRef, where("user_id", "==", userId));
     const querySnapshot = await getDocs(q);
     let temp;
     querySnapshot.forEach((doc) => {
       temp = doc.data();
     });
     return temp;
+  },
+  async searchUserByName(userName: string) {
+    const temp: DocumentData[] = [];
+    const q = query(
+      collection(db, "Users"),
+      where("firstname", "==", userName)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      temp.push(doc.data());
+    });
+    return temp;
+  },
+  async readUserData(id: string | undefined) {
+    const docRef = doc(usersRef, id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    }
   },
   async readIssueData(id: string | undefined) {
     const docRef = doc(issuesRef, id);
@@ -81,31 +116,8 @@ const firebaseapi = {
         });
       });
   },
-  async readUserData(id: string | undefined) {
-    const docRef = doc(usersRef, id);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return docSnap.data();
-    }
-  },
-  async pushUserToDB(userid: string) {
-    await setDoc(doc(usersRef, userid), {
-      user_id: `${userid}`,
-    });
-  },
-  async uploadImage(imageUpload: File, userid: string) {
-    if (imageUpload == null) return;
-    const imageRef = ref(storage, `users/${userid}.jpg`);
-    await uploadBytes(imageRef, imageUpload);
-    const downloadUrl = await getDownloadURL(imageRef);
-    return downloadUrl;
-  },
-  async updateDB(userid: string, recipient: ListData, imageURL: string) {
-    const userRef = doc(usersRef, `${userid}`);
-    await updateDoc(userRef, { ...recipient, main_photo: imageURL });
-  },
-  getFriendLists(userid: string) {
-    onSnapshot(doc(usersRef, userid), (doc) => {
+  getFriendLists(userId: string) {
+    onSnapshot(doc(usersRef, userId), (doc) => {
       if (doc.exists()) {
         const getInvitationList = doc.data().friend_request;
         return getInvitationList;
@@ -114,8 +126,8 @@ const firebaseapi = {
       }
     });
   },
-  sentFriendLists(userid: string) {
-    onSnapshot(doc(usersRef, userid), (doc) => {
+  sentFriendLists(userId: string) {
+    onSnapshot(doc(usersRef, userId), (doc) => {
       if (doc.exists()) {
         const sentInvitationList = doc.data().friend_sent_request;
         return sentInvitationList;
@@ -181,18 +193,6 @@ const firebaseapi = {
     } else {
       return null;
     }
-  },
-  async searchUserByName(userName: string) {
-    const temp: DocumentData[] = [];
-    const q = query(
-      collection(db, "Users"),
-      where("firstname", "==", userName)
-    );
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      temp.push(doc.data());
-    });
-    return temp;
   },
   async getBranches(field: string, value: string) {
     const temp: DocumentData[] = [];
