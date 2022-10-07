@@ -186,7 +186,7 @@ const firebaseapi = {
     await deleteDoc(doc(branchesRef, id));
   },
   async readBranchLocations() {
-    const docRef = doc(LocationsRef, "c4ttDiHr8UCyB0OMOtwA");
+    const docRef = doc(LocationsRef, "branches");
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       return docSnap.data();

@@ -304,7 +304,7 @@ const Branch = () => {
         (O: { id: string | undefined }) => !my_array.includes(O.id)
       );
       const LocationsRef = collection(db, "Location");
-      const docRef = doc(LocationsRef, "c4ttDiHr8UCyB0OMOtwA");
+      const docRef = doc(LocationsRef, "branches");
       updateDoc(docRef, { markers: new_array });
     });
   };

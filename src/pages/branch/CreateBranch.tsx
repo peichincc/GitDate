@@ -296,7 +296,7 @@ const CreateBranch = () => {
         activity_hosted: arrayUnion(newBranchRef.id),
       });
       const LocationsRef = collection(db, "Location");
-      const docRef = doc(LocationsRef, "c4ttDiHr8UCyB0OMOtwA");
+      const docRef = doc(LocationsRef, "branches");
       const locationInfo = {
         id: newBranchRef.id,
         name: title,
