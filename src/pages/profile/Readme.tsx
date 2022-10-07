@@ -128,6 +128,7 @@ const Readme = () => {
   const [hostedBranches, setHostedBranches] = useState<DocumentData>();
   const [attendedBranches, setAttendedBranches] = useState<DocumentData>();
   const [sourceTreeStatus, setSourceTreeStatus] = useState(0);
+  const [ButtonPop, setButtonPop] = useState(false);
 
   useEffect(() => {
     firebaseapi.readUserData(id).then((res) => {
@@ -191,9 +192,7 @@ const Readme = () => {
           const branchesRef = collection(db, "Branches");
           const branchid = branchdoc.data().activity_attend[i];
           const docRef = doc(branchesRef, branchid);
-          const promise = getDoc(docRef).then((res) => {
-            return res.data();
-          });
+          const promise = (await getDoc(docRef)).data();
           newArr.push(promise);
         }
         const allNewArr = await Promise.all(newArr);
@@ -201,8 +200,6 @@ const Readme = () => {
       }
     });
   };
-
-  const [ButtonPop, setButtonPop] = useState(false);
 
   return (
     <>
