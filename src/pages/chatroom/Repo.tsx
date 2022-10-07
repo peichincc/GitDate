@@ -6,7 +6,7 @@ import firebaseapi from "../../utils/firebaseapi";
 import Chatroom from "./Chatroom";
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
-import defaultAvatar from "../../assets/images/defaultAvatar.png";
+import defaultAvatar from "../../assets/images/githubAvatar.png";
 import { RootState } from "../..";
 import { DocumentData } from "firebase/firestore";
 import Typewriter from "./Typewriter";

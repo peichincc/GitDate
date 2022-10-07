@@ -11,7 +11,7 @@ import {
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import firebaseapi from "../../utils/firebaseapi";
-import defaultAvatar from "../../assets/images/defaultAvatar.png";
+import defaultAvatar from "../../assets/images/githubAvatar.png";
 import {
   GoBackWrapper,
   Button,
