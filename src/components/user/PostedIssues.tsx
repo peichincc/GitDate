@@ -55,7 +55,7 @@ const BlogStatus = styled.div`
   width: 60px;
   text-align: center;
   @media screen and (max-width: 770px) {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     margin-right: 0px;
   }
 `;
