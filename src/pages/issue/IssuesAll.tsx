@@ -22,6 +22,11 @@ const Container = styled.div`
   max-width: 980px;
   margin: 0 auto;
   margin-top: 40px;
+  @media screen and (max-width: 980px) {
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 `;
 const FilterContainer = styled.div`
   display: flex;
@@ -31,7 +36,7 @@ const MainContainer = styled.div``;
 const Filters = styled.div`
   width: 100%;
   margin-right: 10px;
-  height: 35px;
+  height: auto;
   border-radius: 6px;
   background-color: #f6f8fa;
   border-color: #d0d7de;

@@ -15,6 +15,12 @@ import ToggleOn from "../../assets/images/toggleOn.svg";
 import ToggleOff from "../../assets/images/toggleOff.svg";
 import { DocumentData } from "firebase/firestore";
 
+const IssueList = styled(BlogList)`
+  @media screen and (max-width: 770px) {
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+`;
 const IssuesHeader = styled(BoxHeader)`
   font-size: 14px;
   line-height: 1.5;
@@ -147,7 +153,7 @@ const IssuesList = (props: { issuesStatus: string; docs: DocumentData }) => {
                   ("0" + newT.getDate()).slice(-2);
                 return (
                   <>
-                    <BlogList key={`allissue-${blog.issue_id}`}>
+                    <IssueList key={`allissue-${blog.issue_id}`}>
                       <LeftContainer>
                         <IconContainer>
                           <Open stroke="#adecbf" />
@@ -170,7 +176,7 @@ const IssuesList = (props: { issuesStatus: string; docs: DocumentData }) => {
                           Click to issue
                         </Button>
                       </RightContainer>
-                    </BlogList>
+                    </IssueList>
                   </>
                 );
               }
