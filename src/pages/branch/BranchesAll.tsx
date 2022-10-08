@@ -42,6 +42,11 @@ const CalendarContainer = styled.div`
     position: relative;
     top: 0;
   }
+  @media screen and (max-width: 770px) {
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
   max-width: 600px;
   margin: auto;
   margin-top: 0px;
@@ -133,7 +138,7 @@ const CalendarContainerIn = styled.div`
 const BranchesContainer = styled.div`
   margin-top: 20px;
   width: 60%;
-  @media screen and (max-width: 661px) {
+  @media screen and (max-width: 770px) {
     width: 100%;
     padding-left: 20px;
     padding-right: 20px;
@@ -146,7 +151,7 @@ const FilterContainer = styled.div`
 const Filters = styled.div`
   width: 100%;
   margin-right: 10px;
-  height: 35px;
+  height: auto;
   border-radius: 6px;
   background-color: #f6f8fa;
   border-color: #d0d7de;
@@ -154,7 +159,7 @@ const Filters = styled.div`
   border-width: 1px;
   display: flex;
   align-items: center;
-  @media screen and (max-width: 661px) {
+  @media screen and (max-width: 770px) {
     height: auto;
   }
 `;

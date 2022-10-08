@@ -36,6 +36,7 @@ const ContentContainer = styled.div`
     border-radius: 4px;
     background-color: #f6f8fa;
     border: 1px solid #d0d7de;
+    border-bottom: 0px;
   }
   &::-webkit-scrollbar-track {
     box-shadow: transparent;
