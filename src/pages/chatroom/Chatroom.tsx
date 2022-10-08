@@ -59,6 +59,9 @@ const MessageLine = styled.li<Props>`
   border-radius: 5px;
   text-align: ${(props) => (props.ownMessage ? "right" : "left")};
   align-self: ${(props) => (props.ownMessage ? "flex-end" : null)};
+  @media screen and (max-width: 992px) {
+    font-size: 14px;
+  }
 `;
 const Sender = styled.h4`
   margin-bottom: 8px;
@@ -91,6 +94,9 @@ const MsgInput = styled.input`
     width: 90%;
     transition: width 0.4s ease-in-out;
   }
+  @media screen and (max-width: 992px) {
+    font-size: 16px;
+  }
 `;
 const InputContainer = styled.div`
   width: 100%;
@@ -105,6 +111,9 @@ const MsgBtn = styled.button`
   cursor: pointer;
   &:hover {
     color: #ff69b4;
+  }
+  @media screen and (max-width: 992px) {
+    font-size: 16px;
   }
 `;
 const EmojiIcon = styled.div`

@@ -128,6 +128,9 @@ const ChatNameCardName = styled(NameCardName)`
   &:hover {
     color: #ff69b4;
   }
+  @media screen and (max-width: 992px) {
+    font-size: 14px;
+  }
 `;
 
 const Repo = () => {
