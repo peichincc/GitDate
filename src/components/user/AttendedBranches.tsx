@@ -21,6 +21,25 @@ const ContentContainer = styled.div`
     overflow-y: hidden;
     white-space: nowrap;
   }
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+  &::-webkit-scrollbar-button {
+    display: none;
+    background: transparent;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-track-piece {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #f6f8fa;
+    border: 1px solid #d0d7de;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: transparent;
+  }
 `;
 const BlogList = styled.div`
   display: flex;
