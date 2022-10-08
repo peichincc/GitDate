@@ -42,6 +42,7 @@ const BlogTitle = styled.div`
     white-space: nowrap;
     text-overflow: ellipsis;
     margin-top: 20px;
+    text-align: center;
   }
 `;
 const CardsContainer = styled.div`
