@@ -59,6 +59,11 @@ const Container = styled.div`
   width: 100%;
   margin: 0 auto;
   padding-top: 24px;
+  @media screen and (max-width: 1216px) {
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 `;
 const TopContainer = styled.div`
   border-bottom: 1px solid #d0d7de;
@@ -75,12 +80,16 @@ const MainContainer = styled.div`
 `;
 const LeftContainer = styled.div`
   width: 80%;
+  @media screen and (max-width: 770px) {
+    width: 100%;
+  }
 `;
 const RightContainer = styled.div`
   width: 20%;
   padding-left: 20px;
   @media screen and (max-width: 770px) {
     display: flex;
+    width: 100%;
   }
 `;
 const IssueSubTitle = styled.div`
