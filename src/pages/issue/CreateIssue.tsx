@@ -6,7 +6,7 @@ import { db } from "../../utils/firebase";
 import { doc, serverTimestamp, collection } from "firebase/firestore";
 import firebaseapi from "../../utils/firebaseapi";
 import TiptapEditor from "../../components/editor/Editor";
-import defaultAvatar from "../../assets/images/defaultAvatar.png";
+import defaultAvatar from "../../assets/images/githubAvatar.png";
 import {
   Button,
   MergeBtn,

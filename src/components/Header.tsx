@@ -55,6 +55,7 @@ const SearchInput = styled.input`
   line-height: 20px;
   background: none;
   border: none;
+  outline: none;
   &:focus {
     background-color: white;
   }

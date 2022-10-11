@@ -201,6 +201,10 @@ export const GithubPostTitle = styled.div`
   line-height: 1.5;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 export const GithubSubTitle = styled.div`
   font-size: 12px;

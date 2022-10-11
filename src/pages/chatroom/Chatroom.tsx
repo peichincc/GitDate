@@ -23,6 +23,26 @@ const MsgListContainer = styled.div`
   margin-bottom: 16px;
   flex: 1;
   overflow: scroll;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-button {
+    display: none;
+    background: transparent;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-track-piece {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: black;
+    border: 1px solid black;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: transparent;
+  }
 `;
 const MsgList = styled.ul`
   height: 100%;
@@ -39,6 +59,9 @@ const MessageLine = styled.li<Props>`
   border-radius: 5px;
   text-align: ${(props) => (props.ownMessage ? "right" : "left")};
   align-self: ${(props) => (props.ownMessage ? "flex-end" : null)};
+  @media screen and (max-width: 992px) {
+    font-size: 14px;
+  }
 `;
 const Sender = styled.h4`
   margin-bottom: 8px;
@@ -53,28 +76,14 @@ const ChatContainer = styled.div`
   overflow: hidden;
   color: white;
   position: relative;
+  @media screen and (max-width: 450px) {
+    width: 90%;
+  }
 `;
 const MsgContainer = styled.div`
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-button {
-    display: none;
-  }
-  &::-webkit-scrollbar-track-piece {
-    background: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, 0.4);
-    border: 1px solid slategrey;
-  }
-  &::-webkit-scrollbar-track {
-    box-shadow: transparent;
-  }
 `;
 const MsgInput = styled.input`
   width: 190px;
@@ -87,6 +96,13 @@ const MsgInput = styled.input`
   &:focus {
     width: 90%;
     transition: width 0.4s ease-in-out;
+  }
+  @media screen and (max-width: 992px) {
+    font-size: 16px;
+  }
+  @media screen and (max-width: 450px) {
+    width: 100px;
+    font-size: 14px;
   }
 `;
 const InputContainer = styled.div`
@@ -102,6 +118,11 @@ const MsgBtn = styled.button`
   cursor: pointer;
   &:hover {
     color: #ff69b4;
+  }
+  @media screen and (max-width: 992px) {
+    font-size: 14px;
+    margin-left: 0px;
+    margin-right: 0px;
   }
 `;
 const EmojiIcon = styled.div`

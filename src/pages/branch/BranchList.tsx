@@ -56,6 +56,11 @@ const LeftContainer = styled.div`
   display: flex;
 `;
 const RightContainer = styled.div``;
+const BranchBtn = styled(Button)`
+  @media screen and (max-width: 770px) {
+    display: none;
+  }
+`;
 
 const BranchesList = ({ branchType, docs }: DocumentData) => {
   let navigate = useNavigate();
@@ -99,13 +104,13 @@ const BranchesList = ({ branchType, docs }: DocumentData) => {
                     </GithubTitleContainer>
                   </LeftContainer>
                   <RightContainer>
-                    <Button
+                    <BranchBtn
                       onClick={() => {
                         navigate("/branch/" + blog.branch_id);
                       }}
                     >
                       Click to Branch
-                    </Button>
+                    </BranchBtn>
                   </RightContainer>
                 </BlogList>
               </>

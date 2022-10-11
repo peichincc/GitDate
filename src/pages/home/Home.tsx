@@ -40,6 +40,10 @@ const BlockContent = styled.div`
   width: 100%;
   background-color: rgba(255, 255, 255, 0.9);
   text-align: center;
+  padding-top: 40px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
   @media screen and (min-width: 770px) {
     max-width: 680px;
     padding-bottom: 15px;
