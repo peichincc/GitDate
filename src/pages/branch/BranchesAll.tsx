@@ -38,7 +38,7 @@ const ImgContainer2 = styled.img`
 const CalendarContainer = styled.div`
   position: sticky;
   top: 3%;
-  @media screen and (max-width: 1280px) {
+  @media screen and (max-width: 1279px) {
     position: relative;
     top: 0;
   }
@@ -116,13 +116,13 @@ const Wrapper = styled.div`
   margin-bottom: 100px;
 `;
 const Container = styled.div`
-  max-width: 1280px;
+  max-width: 1279px;
   margin: 0 auto;
   margin-top: 40px;
   width: 100%;
   display: flex;
   justify-content: space-evenly;
-  @media screen and (max-width: 1280px) {
+  @media screen and (max-width: 1279px) {
     flex-direction: column;
     justify-content: center;
     align-items: center;

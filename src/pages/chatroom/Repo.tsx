@@ -12,7 +12,7 @@ import { DocumentData } from "firebase/firestore";
 import Typewriter from "./Typewriter";
 
 const TerminalContainer = styled.div`
-  max-width: 1280px;
+  max-width: 1279px;
   width: 100%;
   margin: 0 auto;
 `;
@@ -81,7 +81,7 @@ const NameCard = styled.div`
   display: flex;
   align-items: center;
   padding: 10px;
-  @media screen and (max-width: 1280px) {
+  @media screen and (max-width: 1279px) {
     justify-content: center;
   }
 `;
@@ -105,7 +105,7 @@ const NameCardName = styled.div`
   width: 200px;
   word-break: break-all;
   word-wrap: break-word;
-  @media screen and (max-width: 1280px) {
+  @media screen and (max-width: 1279px) {
     display: none;
   }
 `;
@@ -122,7 +122,7 @@ const ChatNameCard = styled(NameCard)`
 `;
 const ChatNameCardName = styled(NameCardName)`
   cursor: pointer;
-  @media screen and (max-width: 1280px) {
+  @media screen and (max-width: 1279px) {
     display: block;
   }
   &:hover {
