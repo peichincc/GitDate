@@ -76,6 +76,9 @@ const ChatContainer = styled.div`
   overflow: hidden;
   color: white;
   position: relative;
+  @media screen and (max-width: 450px) {
+    width: 90%;
+  }
 `;
 const MsgContainer = styled.div`
   display: flex;
@@ -97,6 +100,10 @@ const MsgInput = styled.input`
   @media screen and (max-width: 992px) {
     font-size: 16px;
   }
+  @media screen and (max-width: 450px) {
+    width: 100px;
+    font-size: 14px;
+  }
 `;
 const InputContainer = styled.div`
   width: 100%;
@@ -113,7 +120,9 @@ const MsgBtn = styled.button`
     color: #ff69b4;
   }
   @media screen and (max-width: 992px) {
-    font-size: 16px;
+    font-size: 14px;
+    margin-left: 0px;
+    margin-right: 0px;
   }
 `;
 const EmojiIcon = styled.div`
