@@ -205,6 +205,9 @@ export const GithubPostTitle = styled.div`
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+  @media screen and (max-width: 450px) {
+    max-width: 200px;
+  }
 `;
 export const GithubSubTitle = styled.div`
   font-size: 12px;
