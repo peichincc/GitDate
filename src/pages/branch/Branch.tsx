@@ -177,19 +177,18 @@ const Branch = () => {
   const [isExpired, setIsExpired] = useState(true);
   const [hostedList, setHostedList] = useState([]);
   const [branchStatus, setBranchStatus] = useState("Upcoming");
+  const currentDate = new Date(
+    new Date().getFullYear() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getDate()
+  );
 
   useEffect(() => {
     firebaseapi.readBranchData(id).then((res) => {
       if (res) {
-        const today = new Date();
-        const date =
-          today.getFullYear() +
-          "-" +
-          (today.getMonth() + 1) +
-          "-" +
-          today.getDate();
         const branchDate = new Date(res.date);
-        const currentDate = new Date(date);
         if (branchDate > currentDate) {
           setIsExpired(false);
         }
