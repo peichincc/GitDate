@@ -174,7 +174,6 @@ const Issue = () => {
   const [confirmMsg, setConfirmMsg] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
   const [issueData, setIssueData] = useState<DocumentData>();
-  const [newT, setNewT] = useState("");
   const [getAuthor, setGetAuthor] = useState("");
   const [getAuthorID, setGetAuthorID] = useState("");
   const [isAuthor, setIsAuthor] = useState(false);
@@ -194,7 +193,7 @@ const Issue = () => {
     setButtonPop(true);
   };
 
-  const deleteIssue = (id: string | undefined) => {
+  const deleteIssueHandler = (id: string | undefined) => {
     firebaseapi.deleteIssue(id);
     setAlertMsg("Successfully delete this issue!");
     setButtonPop(true);
@@ -206,8 +205,6 @@ const Issue = () => {
   useEffect(() => {
     firebaseapi.readIssueData(id).then((res) => {
       if (res) {
-        const newT = new Date(res.posted_at.seconds * 1000).toString();
-        setNewT(newT);
         setIssueData(res);
         if (res.status === "Open") {
           setIssueOpen(true);
@@ -231,7 +228,7 @@ const Issue = () => {
     });
   }, []);
 
-  const sendRequest = async () => {
+  const sendRequest = () => {
     if (!userId) {
       setAlertMsg("Please sign in!");
       setButtonPop(true);
@@ -321,7 +318,9 @@ const Issue = () => {
                             {getAuthor}
                           </AuthorBtn>
                           posted this issue at:{"  "}
-                          {newT}
+                          {new Date(
+                            issueData.posted_at.seconds * 1000
+                          ).toString()}
                         </PostSubTitle>
                       </AuthorContainer>
                     </IssueSubTitle>
@@ -415,7 +414,7 @@ const Issue = () => {
                               </EditBtn>
                               <DeleteBtn
                                 onClick={() => {
-                                  deleteIssue(id);
+                                  deleteIssueHandler(id);
                                 }}
                               >
                                 Delete issue

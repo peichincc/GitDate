@@ -36,6 +36,12 @@ const ModalBx = styled.div`
       opacity: 1;
     }
   }
+  @media screen and (max-width: 770px) {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    max-height: 500px;
+  }
 `;
 const ModalContents = styled.div`
   display: flex;
@@ -47,6 +53,10 @@ const ModalExplaination = styled(ModalContent)`
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 10px;
+  @media screen and (max-width: 770px) {
+    width: 100%;
+    max-width: 360px;
+  }
 `;
 const Title = styled.h2`
   padding-left: 5px;

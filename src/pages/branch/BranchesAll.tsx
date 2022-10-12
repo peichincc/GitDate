@@ -221,6 +221,13 @@ const BranchAll = () => {
   const [mixedBranch, setMixedBranch] = useState<DocumentData>();
   const [upcomingBranch, setUpcomingBranch] = useState<DocumentData>();
   const [expiredBranch, setExpiredBranch] = useState<DocumentData>();
+  const currentDate = new Date(
+    new Date().getFullYear() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getDate()
+  );
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -248,12 +255,22 @@ const BranchAll = () => {
         firebaseapi.getBranches("type", "Mixed").then((res) => {
           setMixedBranch(res);
         });
-        firebaseapi.getBranches("status", "Upcoming").then((res) => {
-          setUpcomingBranch(res);
+        let expiredTemp: DocumentData[] = [];
+        res.forEach((branch: any) => {
+          const branchDate = new Date(branch.date);
+          if (branchDate < currentDate) {
+            expiredTemp.push(branch);
+          }
         });
-        firebaseapi.getBranches("status", "Expired").then((res) => {
-          setExpiredBranch(res);
+        setExpiredBranch(expiredTemp);
+        let upcomingTemp: DocumentData[] = [];
+        res.forEach((branch: any) => {
+          const branchDate = new Date(branch.date);
+          if (branchDate > currentDate) {
+            upcomingTemp.push(branch);
+          }
         });
+        setUpcomingBranch(upcomingTemp);
       }
     });
   }, []);
@@ -302,7 +319,7 @@ const BranchAll = () => {
     setDocs(temp);
   };
 
-  const CreateHandler = () => {
+  const createHandler = () => {
     if (!getUser) {
       setButtonPop(true);
       return;
@@ -365,7 +382,7 @@ const BranchAll = () => {
                   <TypeBtn onClick={mixedBranches}>Mixed</TypeBtn>
                 </FilterButtons>
               </Filters>
-              <MergeBtn onClick={CreateHandler} id="createBranch">
+              <MergeBtn onClick={createHandler} id="createBranch">
                 New branch
               </MergeBtn>
             </FilterContainer>

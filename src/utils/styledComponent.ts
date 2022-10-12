@@ -205,6 +205,9 @@ export const GithubPostTitle = styled.div`
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+  @media screen and (max-width: 450px) {
+    max-width: 200px;
+  }
 `;
 export const GithubSubTitle = styled.div`
   font-size: 12px;
@@ -375,6 +378,9 @@ export const ModalHeader = styled.div`
 `;
 export const ModalContentsWrapper = styled.div`
   padding: 20px;
+  @media screen and (max-width: 770px) {
+    padding: 5px;
+  }
 `;
 export const ModalSubtitle = styled.div`
   color: #333;
@@ -386,6 +392,8 @@ export const ModalSubtitle = styled.div`
   width: 175px;
   @media screen and (max-width: 770px) {
     font-size: 14px;
+    line-height: 15px;
+    width: 100px;
   }
 `;
 export const ModalContent = styled.div`
@@ -396,6 +404,7 @@ export const ModalContent = styled.div`
   line-height: 30px;
   @media screen and (max-width: 770px) {
     font-size: 12px;
+    line-height: 15px;
   }
 `;
 export const ModalWordWrapper = styled.div`

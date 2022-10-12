@@ -159,8 +159,9 @@ const DeleteWrapper = styled.div`
 const Branch = () => {
   const { id } = useParams();
   let navigate = useNavigate();
-  const branchRef = doc(collection(db, "Branches"), id);
   const userData = useSelector((state: RootState) => state);
+  const userId = userData.user.user_id;
+  const userName = userData.user.user_name;
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertWtihCTAPop, setAlertWtihCTAPop] = useState(false);
@@ -170,37 +171,30 @@ const Branch = () => {
   const [getAuthor, setGetAuthor] = useState("");
   const [getAuthorID, setGetAuthorID] = useState("");
   const [branchData, setBranchData] = useState<DocumentData>();
-  const [newT, setNewT] = useState("");
   const [openParticipants, setOpenParticipants] = useState(false);
   const [participantsList, setParticipantsList] = useState([]);
   const [isAuthor, setIsAuthor] = useState(false);
   const [isExpired, setIsExpired] = useState(true);
   const [hostedList, setHostedList] = useState([]);
-  const userId = userData.user.user_id;
-  const userName = userData.user.user_name;
+  const [branchStatus, setBranchStatus] = useState("Upcoming");
+  const currentDate = new Date(
+    new Date().getFullYear() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getDate()
+  );
 
   useEffect(() => {
     firebaseapi.readBranchData(id).then((res) => {
       if (res) {
-        const today = new Date();
-        const date =
-          today.getFullYear() +
-          "-" +
-          (today.getMonth() + 1) +
-          "-" +
-          today.getDate();
-        const date1 = new Date(res.date);
-        const date2 = new Date(date);
-        if (date1 > date2) {
+        const branchDate = new Date(res.date);
+        if (branchDate > currentDate) {
           setIsExpired(false);
         }
-        if (date1 < date2) {
-          updateDoc(branchRef, {
-            status: "Expired",
-          });
+        if (branchDate < currentDate) {
+          setBranchStatus("Expired");
         }
-        const newT = new Date(res.posted_at.seconds * 1000).toString();
-        setNewT(newT);
         setBranchData(res);
       }
       firebaseapi.searchUserName(res?.hosted_by).then((res) => {
@@ -248,7 +242,7 @@ const Branch = () => {
     await updateDoc(branchRef, {
       participants: arrayUnion(userId),
     });
-    await getParticipants();
+    getParticipants();
     setButtonPop(true);
     setAlertMsg("Attended successful💃");
   };
@@ -279,7 +273,7 @@ const Branch = () => {
     setOpenParticipants(true);
   };
 
-  const deleteBranch = async (id: string | undefined) => {
+  const deleteBranchHandler = async (id: string | undefined) => {
     let newHostedList = hostedList.filter(function (e) {
       return e !== id;
     });
@@ -350,7 +344,7 @@ const Branch = () => {
                         {getAuthor}{" "}
                       </AuthorBtn>
                       at{"  "}
-                      {newT}
+                      {new Date(branchData.posted_at.seconds * 1000).toString()}
                     </LebalsText>
                   </TopContentContainer>
                 </TopContainer>
@@ -404,7 +398,7 @@ const Branch = () => {
                           <DeleteWrapper>
                             <DeleteBtn
                               onClick={() => {
-                                deleteBranch(id);
+                                deleteBranchHandler(id);
                               }}
                             >
                               Delete this branch
@@ -420,7 +414,7 @@ const Branch = () => {
                       </CardContainer>
                       <CardContainer>
                         <BranchSubTitle>Branch status:</BranchSubTitle>
-                        {branchData.status}
+                        {branchStatus}
                       </CardContainer>
                       <CardContainer>
                         <BranchSubTitle>Date:</BranchSubTitle>
