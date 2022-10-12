@@ -159,8 +159,9 @@ const DeleteWrapper = styled.div`
 const Branch = () => {
   const { id } = useParams();
   let navigate = useNavigate();
-  const branchRef = doc(collection(db, "Branches"), id);
   const userData = useSelector((state: RootState) => state);
+  const userId = userData.user.user_id;
+  const userName = userData.user.user_name;
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertWtihCTAPop, setAlertWtihCTAPop] = useState(false);
@@ -176,8 +177,7 @@ const Branch = () => {
   const [isAuthor, setIsAuthor] = useState(false);
   const [isExpired, setIsExpired] = useState(true);
   const [hostedList, setHostedList] = useState([]);
-  const userId = userData.user.user_id;
-  const userName = userData.user.user_name;
+  const [branchStatus, setBranchStatus] = useState("Upcoming");
 
   useEffect(() => {
     firebaseapi.readBranchData(id).then((res) => {
@@ -189,15 +189,13 @@ const Branch = () => {
           (today.getMonth() + 1) +
           "-" +
           today.getDate();
-        const date1 = new Date(res.date);
-        const date2 = new Date(date);
-        if (date1 > date2) {
+        const branchDate = new Date(res.date);
+        const currentDate = new Date(date);
+        if (branchDate > currentDate) {
           setIsExpired(false);
         }
-        if (date1 < date2) {
-          updateDoc(branchRef, {
-            status: "Expired",
-          });
+        if (branchDate < currentDate) {
+          setBranchStatus("Expired");
         }
         const newT = new Date(res.posted_at.seconds * 1000).toString();
         setNewT(newT);
@@ -248,7 +246,7 @@ const Branch = () => {
     await updateDoc(branchRef, {
       participants: arrayUnion(userId),
     });
-    await getParticipants();
+    getParticipants();
     setButtonPop(true);
     setAlertMsg("Attended successful💃");
   };
@@ -420,7 +418,7 @@ const Branch = () => {
                       </CardContainer>
                       <CardContainer>
                         <BranchSubTitle>Branch status:</BranchSubTitle>
-                        {branchData.status}
+                        {branchStatus}
                       </CardContainer>
                       <CardContainer>
                         <BranchSubTitle>Date:</BranchSubTitle>
