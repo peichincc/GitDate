@@ -193,7 +193,7 @@ const Issue = () => {
     setButtonPop(true);
   };
 
-  const deleteIssue = (id: string | undefined) => {
+  const deleteIssueHandler = (id: string | undefined) => {
     firebaseapi.deleteIssue(id);
     setAlertMsg("Successfully delete this issue!");
     setButtonPop(true);
@@ -228,7 +228,7 @@ const Issue = () => {
     });
   }, []);
 
-  const sendRequest = async () => {
+  const sendRequest = () => {
     if (!userId) {
       setAlertMsg("Please sign in!");
       setButtonPop(true);
@@ -414,7 +414,7 @@ const Issue = () => {
                               </EditBtn>
                               <DeleteBtn
                                 onClick={() => {
-                                  deleteIssue(id);
+                                  deleteIssueHandler(id);
                                 }}
                               >
                                 Delete issue

@@ -274,7 +274,7 @@ const Branch = () => {
     setOpenParticipants(true);
   };
 
-  const deleteBranch = async (id: string | undefined) => {
+  const deleteBranchHandler = async (id: string | undefined) => {
     let newHostedList = hostedList.filter(function (e) {
       return e !== id;
     });
@@ -399,7 +399,7 @@ const Branch = () => {
                           <DeleteWrapper>
                             <DeleteBtn
                               onClick={() => {
-                                deleteBranch(id);
+                                deleteBranchHandler(id);
                               }}
                             >
                               Delete this branch
