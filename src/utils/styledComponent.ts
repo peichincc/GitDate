@@ -375,6 +375,9 @@ export const ModalHeader = styled.div`
 `;
 export const ModalContentsWrapper = styled.div`
   padding: 20px;
+  @media screen and (max-width: 770px) {
+    padding: 5px;
+  }
 `;
 export const ModalSubtitle = styled.div`
   color: #333;
@@ -386,6 +389,8 @@ export const ModalSubtitle = styled.div`
   width: 175px;
   @media screen and (max-width: 770px) {
     font-size: 14px;
+    line-height: 15px;
+    width: 100px;
   }
 `;
 export const ModalContent = styled.div`
@@ -396,6 +401,7 @@ export const ModalContent = styled.div`
   line-height: 30px;
   @media screen and (max-width: 770px) {
     font-size: 12px;
+    line-height: 15px;
   }
 `;
 export const ModalWordWrapper = styled.div`
