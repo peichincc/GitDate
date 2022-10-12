@@ -107,7 +107,7 @@ const IssueAll = () => {
     if (userId) {
       setGetUser(userId);
     }
-    firebaseapi.readAllIssues().then(async (res) => {
+    firebaseapi.readAllIssues().then((res) => {
       if (res) {
         setDocs(res);
         setAllIssue(res);
