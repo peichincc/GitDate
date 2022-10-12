@@ -171,7 +171,6 @@ const Branch = () => {
   const [getAuthor, setGetAuthor] = useState("");
   const [getAuthorID, setGetAuthorID] = useState("");
   const [branchData, setBranchData] = useState<DocumentData>();
-  const [newT, setNewT] = useState("");
   const [openParticipants, setOpenParticipants] = useState(false);
   const [participantsList, setParticipantsList] = useState([]);
   const [isAuthor, setIsAuthor] = useState(false);
@@ -197,8 +196,6 @@ const Branch = () => {
         if (branchDate < currentDate) {
           setBranchStatus("Expired");
         }
-        const newT = new Date(res.posted_at.seconds * 1000).toString();
-        setNewT(newT);
         setBranchData(res);
       }
       firebaseapi.searchUserName(res?.hosted_by).then((res) => {
@@ -348,7 +345,7 @@ const Branch = () => {
                         {getAuthor}{" "}
                       </AuthorBtn>
                       at{"  "}
-                      {newT}
+                      {new Date(branchData.posted_at.seconds * 1000).toString()}
                     </LebalsText>
                   </TopContentContainer>
                 </TopContainer>
