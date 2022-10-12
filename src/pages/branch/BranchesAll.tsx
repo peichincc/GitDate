@@ -19,6 +19,8 @@ import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
 import { RootState } from "../..";
+import yellowBack from "../../assets/images/yellowBlob.svg";
+import redBack from "../../assets/images/redBlob.svg";
 
 const ImgContainer = styled.img`
   overflow: hidden;
@@ -344,8 +346,8 @@ const BranchAll = () => {
           alertMsg={"Please sign in!"}
         />
         <Container>
-          <ImgContainer src="https://secure.meetupstatic.com/next/images/blobs/yellow-blob.svg" />
-          <ImgContainer2 src="https://secure.meetupstatic.com/next/images/blobs/red-blob.svg" />
+          <ImgContainer src={yellowBack} />
+          <ImgContainer2 src={redBack} />
           <CalendarContainer>
             <h1>Select date to see branches</h1>
             <CalendarContainerIn id="branchCalendar">
