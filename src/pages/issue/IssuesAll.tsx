@@ -158,7 +158,7 @@ const IssueAll = () => {
     setDocs(networkingIssue);
   };
 
-  const CreateHandler = () => {
+  const createHandler = () => {
     if (!getUser) {
       setButtonPop(true);
       return;
@@ -209,7 +209,7 @@ const IssueAll = () => {
                 </CategoryButton>
               </FilterButtons>
             </Filters>
-            <MergeBtn onClick={CreateHandler} id="createIssue">
+            <MergeBtn onClick={createHandler} id="createIssue">
               New issue
             </MergeBtn>
           </FilterContainer>

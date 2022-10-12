@@ -319,7 +319,7 @@ const BranchAll = () => {
     setDocs(temp);
   };
 
-  const CreateHandler = () => {
+  const createHandler = () => {
     if (!getUser) {
       setButtonPop(true);
       return;
@@ -382,7 +382,7 @@ const BranchAll = () => {
                   <TypeBtn onClick={mixedBranches}>Mixed</TypeBtn>
                 </FilterButtons>
               </Filters>
-              <MergeBtn onClick={CreateHandler} id="createBranch">
+              <MergeBtn onClick={createHandler} id="createBranch">
                 New branch
               </MergeBtn>
             </FilterContainer>
