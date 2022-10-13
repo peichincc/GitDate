@@ -58,6 +58,9 @@ const FilterText = styled.div`
 `;
 const FilterButtons = styled.div`
   margin-left: 5px;
+  @media screen and (max-width: 770px) {
+    padding: 5px;
+  }
 `;
 const StatusButton = styled(LabelsButton)`
   @media screen and (max-width: 770px) {

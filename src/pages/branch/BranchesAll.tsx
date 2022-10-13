@@ -175,6 +175,9 @@ const FilterText = styled.div`
 `;
 const FilterButtons = styled.div`
   margin-left: 5px;
+  @media screen and (max-width: 1279px) {
+    padding: 5px;
+  }
 `;
 const TypeBtn = styled(LabelsButton)`
   background-color: #453d38;
