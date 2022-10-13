@@ -88,6 +88,14 @@
 
 ![Demo3](https://user-images.githubusercontent.com/104899687/195573840-8ce184ac-4c79-46c0-b601-ceeae1ac45c4.gif)
 
+4. You can find all the `Issues` (posts) created by users, and click to see the author's README. If you are interested in the author, don't hesitate to send a pull request!
+
+![Demo4](https://user-images.githubusercontent.com/104899687/195574708-33f5d1d2-3e83-4b17-b241-ce93f1255578.gif)
+
+5. When another user recieved a pull request, the notification will appear, user could decide to merge or close the PR. If PR merged, the `Repo` (chatrooms) will open, then both user can start chatting!
+
+![Demo5](https://user-images.githubusercontent.com/104899687/195575529-67a832b6-4b7c-401e-8b85-38cfb2a0757d.gif)
+
 
 ## Contact 🙋‍♀️
 
