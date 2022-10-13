@@ -14,17 +14,17 @@
 
 ## About GitDate 🖐
 
-> 👥 Find activities 👥
->
-> 👀 Meet people 👀
->
-> 💜 Find love 💜
-> 
-> 💻 With computer and smartphone 💻 
->
-> ✈ Without borders ✈
->
-> ⚡ With GitHub styles ⚡
+ <p align="center">👥 Find activities 👥
+
+<p align="center"> 👀 Meet people 👀
+
+ <p align="center"> 💜 Find love 💜
+ 
+<p align="center">  💻 With computer and smartphone 💻 
+
+<p align="center">  ✈ Without borders ✈
+
+<p align="center">  ⚡ With GitHub styles ⚡
 
 * Developed with **TypeScript**, **React**, **React Router v6**, **Redux** (User registration and login state management), and **Styled Components** for RWD layout, and **CSS animation**.
 * Aligned **React Joyride** to provide guided tours for users to have a deeper understanding of the website.
