@@ -43,18 +43,21 @@
 * React
 * TypeScript
 * Redux
-* Google Maps Platform: Places API, Geocoding API, Maps JavaScript API
+* Google Maps Platform
+  - Places API
+  - Geocoding API
+  - Maps JavaScript API
 * <a href="https://github.com/gilbarbara/react-joyride" target="_blank">React Joyride</a>
-* <a href="https://github.com/ueberdosis/tiptap" target="_blank">Tiptap Editor</a>
-* <a href="https://github.com/nicoespeon/gitgraph.js/" target="_blank">GitGraph.js</a>
 * <a href="https://github.com/wojtekmaj/react-calendar" target="_blank">React Calendar</a>
+* <a href="https://github.com/nicoespeon/gitgraph.js/" target="_blank">GitGraph.js</a>
+* <a href="https://github.com/ueberdosis/tiptap" target="_blank">Tiptap Editor</a>
 
 ![git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
 ![github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
 ![react](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![js](	https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
 ![redux](https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white)
+![js](	https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
 ![css](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![html5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![firebase](https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black)
