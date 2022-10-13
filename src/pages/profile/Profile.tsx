@@ -312,6 +312,7 @@ const Profile = () => {
     wish_relationship: "",
     friend_sent_request: [],
   });
+  const [ageOk, setAgeOK] = useState(false);
   const [urlOk, setUrlOK] = useState(false);
   const uploadFormInputCheck = (
     label: string,
@@ -370,8 +371,39 @@ const Profile = () => {
             }}
           />
           {!urlOk && (
-            <div style={{ color: "#F61C04", fontSize: 12, paddingLeft: 2 }}>
+            <div style={{ color: "#F61C04", fontSize: 11, paddingLeft: 2 }}>
               Plese enter valid URL.
+            </div>
+          )}
+        </>
+      );
+    } else if (key === "age") {
+      const validateAge = (age: string) => {
+        const regex = new RegExp("^[0-9]+$");
+        return regex.test(age);
+      };
+      const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const isValid = validateAge(e.target.value);
+        if (isValid) {
+          setAgeOK(true);
+        } else {
+          setAgeOK(false);
+        }
+      };
+      return (
+        <>
+          <FormControl
+            value={recipient[key as keyof typeof recipient]}
+            onBlur={(e) => {
+              handleOnchange(e);
+            }}
+            onChange={(e) => {
+              setRecipient({ ...recipient, [key]: e.target.value });
+            }}
+          />
+          {!ageOk && (
+            <div style={{ color: "#F61C04", fontSize: 11, paddingLeft: 2 }}>
+              Plese enter valid age (number only).
             </div>
           )}
         </>
