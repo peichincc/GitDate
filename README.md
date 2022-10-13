@@ -40,12 +40,33 @@
 
 ### Development tools
 
-![git](https://user-images.githubusercontent.com/104899687/195481744-3d3eda15-4e9a-4c7f-bc94-ee388b327e81.png)
-![github](https://user-images.githubusercontent.com/104899687/195481747-ace90324-dafe-469f-ab4e-fe18e967a6bf.png)
-![react](https://user-images.githubusercontent.com/104899687/195481748-c5cf4e7b-9ec6-449c-a1f2-0830c9571a9c.png)
-![typescript](https://user-images.githubusercontent.com/104899687/195481750-0a86efab-fd83-4c1d-91ed-11d1576e1677.png)
-![css](https://user-images.githubusercontent.com/104899687/195481741-ae528dc9-ebc0-46b4-9aa5-5ca89a3002f3.png)
-![visual-studio](https://user-images.githubusercontent.com/104899687/195481755-71182ce2-316b-4ec2-b70e-8e8fcfc9162a.png)
+* React
+* TypeScript
+* Redux
+* Google Maps Platform: Places API, Geocoding API, Maps JavaScript API
+* <a href="https://github.com/gilbarbara/react-joyride" target="_blank">React Joyride</a>
+* <a href="https://github.com/ueberdosis/tiptap" target="_blank">Tiptap Editor</a>
+* <a href="https://github.com/nicoespeon/gitgraph.js/" target="_blank">GitGraph.js</a>
+* <a href="https://github.com/wojtekmaj/react-calendar" target="_blank">React Calendar</a>
+
+![git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
+![github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
+![react](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![js](	https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
+![redux](https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white)
+![css](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![html5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![firebase](https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black)
+![google](https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)
+![vscode](https://img.shields.io/badge/VSCode-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
+![npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)
+![eslint](https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white)
+![prettier](https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E)
+![trello](https://img.shields.io/badge/Trello-0052CC?style=for-the-badge&logo=trello&logoColor=white)
+![mac](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white)
+![chrome](https://img.shields.io/badge/Google_chrome-4285F4?style=for-the-badge&logo=Google-chrome&logoColor=white)
+![safari](https://img.shields.io/badge/Safari-FF1B2D?style=for-the-badge&logo=Safari&logoColor=white)
 
 ## Demo 💖
 
