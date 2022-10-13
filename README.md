@@ -80,7 +80,7 @@
 
 ![Screen Recording 2022-10-13 at 5 51 38 PM](https://user-images.githubusercontent.com/104899687/195567116-51e61081-f0de-495e-ad08-a81a3d86851b.gif)
 
-2. After Sign in / Sign Up, you could write your own README and see/share your public README!
+2. After Sign in / Sign Up, you could write your own `README` and see/share your public README!
 
 ![Demo2](https://user-images.githubusercontent.com/104899687/195571005-b162713a-e39a-41a1-9b0a-e733e2111ca1.gif)
 
