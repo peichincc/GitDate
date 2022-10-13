@@ -1,70 +1,54 @@
-# Getting Started with Create React App
+<p align="center">
+<img width="300" alt="GitDate_Readme" src="https://user-images.githubusercontent.com/104899687/195538342-8b0c2e42-605d-4e2b-ba89-e0251b183ada.png">
+</p>
+<div align="center">
+<a href="#about-gitdate-" >About</a> | <a href="#demo-" >Demo</a> | <a href="#contact-%EF%B8%8F" >Contact</a>
+</div>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# GitDate
 
-## Available Scripts
+<a href="https://gitdate-ec8a6.web.app/" target="_blank">GitDate</a> is a dating, event website for digital nomads with Gitflow and GitHub interface.
 
-In the project directory, you can run:
+## About GitDate 🖐
 
-### `npm start`
+> 👥 Find activities 👥
+>
+> 👀 Meet people 👀
+>
+> 💜 Find love 💜
+> 
+> 💻 With computer and smartphone 💻 
+>
+> ✈ Without borders ✈
+>
+> ⚡ With GitHub styles ⚡
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+* Developed with **TypeScript**, **React**, **React Router v6**, **Redux** (User registration and login state management), and **Styled Components** for RWD layout, and **CSS animation**.
+* Aligned **React Joyride** to provide guided tours for users to have a deeper understanding of the website.
+* Adopted **Tiptap Editor** to create more customized and diverse user-generated content.
+* Connected **Google Maps Platform (Places, Geocoding, Maps JavaScript API)** to provide a better user experience by auto-completing addresses, and rendering geocode locations into UI.
+* Integrated **GitGraph.js** to visualize dynamic interaction among users by representing Gitflow feature. 
+* Utilized **React Calendar** to manipulate and manage dates for activities created by users.
+* Completed native user management system with **Firebase Authentication**.
+* Designed data structure of chatroom and managed data with **Firebase Firestore Database**.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Flow chart
 
-### `npm test`
+<p align="center">
+<img width="600" alt="Flowchart Graph" src="https://user-images.githubusercontent.com/104899687/195541421-9a82cb92-e479-4d04-8f2c-aba380cd1a3b.png">
+</p>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Development tools
 
-### `npm run build`
+![git](https://user-images.githubusercontent.com/104899687/195481744-3d3eda15-4e9a-4c7f-bc94-ee388b327e81.png)
+![github](https://user-images.githubusercontent.com/104899687/195481747-ace90324-dafe-469f-ab4e-fe18e967a6bf.png)
+![react](https://user-images.githubusercontent.com/104899687/195481748-c5cf4e7b-9ec6-449c-a1f2-0830c9571a9c.png)
+![typescript](https://user-images.githubusercontent.com/104899687/195481750-0a86efab-fd83-4c1d-91ed-11d1576e1677.png)
+![css](https://user-images.githubusercontent.com/104899687/195481741-ae528dc9-ebc0-46b4-9aa5-5ca89a3002f3.png)
+![visual-studio](https://user-images.githubusercontent.com/104899687/195481755-71182ce2-316b-4ec2-b70e-8e8fcfc9162a.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Demo 💖
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Contact 🙋‍♀️
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[![linkedin](https://user-images.githubusercontent.com/104899687/195479536-a8b8f85e-48c8-4a31-b4f6-9d98878736a8.png)](https://www.linkedin.com/in/pei-chin-chiang/)
