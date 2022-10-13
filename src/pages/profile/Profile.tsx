@@ -312,6 +312,7 @@ const Profile = () => {
     wish_relationship: "",
     friend_sent_request: [],
   });
+  const [urlOk, setUrlOK] = useState(false);
   const uploadFormInputCheck = (
     label: string,
     key: string,
@@ -341,6 +342,39 @@ const Profile = () => {
             setRecipient({ ...recipient, [key]: e.target.value })
           }
         />
+      );
+    } else if (key === "githublink") {
+      const validateUrl = (url: string) => {
+        const regex = new RegExp(
+          "(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?"
+        );
+        return regex.test(url);
+      };
+      const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const isValid = validateUrl(e.target.value);
+        if (isValid) {
+          setUrlOK(true);
+        } else {
+          setUrlOK(false);
+        }
+      };
+      return (
+        <>
+          <FormControl
+            value={recipient[key as keyof typeof recipient]}
+            onBlur={(e) => {
+              handleOnchange(e);
+            }}
+            onChange={(e) => {
+              setRecipient({ ...recipient, [key]: e.target.value });
+            }}
+          />
+          {!urlOk && (
+            <div style={{ color: "#F61C04", fontSize: 12, paddingLeft: 2 }}>
+              Plese enter valid URL.
+            </div>
+          )}
+        </>
       );
     } else {
       return (
@@ -384,8 +418,6 @@ const Profile = () => {
   const updateDB = async () => {
     const userRef = doc(collection(db, "Users"), `${getUser}`);
     await updateDoc(userRef, { ...recipient, main_photo: imageURL });
-    setAlertMsg("README updated");
-    setButtonPop(true);
     setShowPreviewReadme(true);
     await firebaseapi.readUserData(getUser).then((res) => {
       if (res) {
@@ -395,9 +427,11 @@ const Profile = () => {
     setShowWelcomeMsg(true);
     setShowTextInput(false);
     setHideTitle(false);
+    setAlertMsg("README updated, redirecting soon!");
+    setButtonPop(true);
     setTimeout(() => {
       navigate("/signin");
-    }, 1000);
+    }, 3000);
   };
 
   return (

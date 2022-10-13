@@ -48,7 +48,6 @@ const TextBox = styled.div`
 
 const Participants = ({ participantsList }: DocumentData) => {
   let navigate = useNavigate();
-  console.log(participantsList.length);
   return (
     <>
       <ParticipantsContainer>
