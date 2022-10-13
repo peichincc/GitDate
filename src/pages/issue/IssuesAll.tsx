@@ -59,8 +59,16 @@ const FilterText = styled.div`
 const FilterButtons = styled.div`
   margin-left: 5px;
 `;
+const StatusButton = styled(LabelsButton)`
+  @media screen and (max-width: 770px) {
+    margin: 2px;
+  }
+`;
 const CategoryButton = styled(LabelsButton)`
   background-color: #d87613;
+  @media screen and (max-width: 770px) {
+    margin: 2px;
+  }
 `;
 const ReminderBox = styled.div`
   color: #24292f;
@@ -191,13 +199,13 @@ const IssueAll = () => {
             <Filters>
               <FilterText id="issuesFilter">Filters</FilterText>
               <FilterButtons>
-                <LabelsButton onClick={allIssues}>All</LabelsButton>
-                <LabelsButton onClick={searchOpenIssues}>
+                <StatusButton onClick={allIssues}>All</StatusButton>
+                <StatusButton onClick={searchOpenIssues}>
                   Status Open
-                </LabelsButton>
-                <LabelsButton onClick={searchClosedIssues}>
+                </StatusButton>
+                <StatusButton onClick={searchClosedIssues}>
                   Status Close
-                </LabelsButton>
+                </StatusButton>
               </FilterButtons>
               <FilterButtons>
                 <CategoryButton onClick={dateIssues}>Date</CategoryButton>

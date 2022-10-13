@@ -181,6 +181,9 @@ const TypeBtn = styled(LabelsButton)`
 `;
 const StatusBtn = styled(LabelsButton)`
   background-color: #d73a4a;
+  @media screen and (max-width: 770px) {
+    margin: 2px;
+  }
 `;
 const ReminderBox = styled.div`
   color: #24292f;
