@@ -92,10 +92,13 @@
 
 ![Demo4](https://user-images.githubusercontent.com/104899687/195574708-33f5d1d2-3e83-4b17-b241-ce93f1255578.gif)
 
-5. When another user recieved a pull request, the notification will appear, user could decide to merge or close the PR. If PR merged, the `Repo` (chatrooms) will open, then both user can start chatting!
+5. When another user recieved a pull request, the notification will appear, user could decide to merge or close the PR. If PR merged, the `Repo` (chatrooms) will open, then both users can start chatting!
 
 ![Demo5](https://user-images.githubusercontent.com/104899687/195575529-67a832b6-4b7c-401e-8b85-38cfb2a0757d.gif)
 
+> Push on GitDate, Merge your soulmate!
+>
+> Happy coding and Happy dating! ✨✨✨
 
 ## Contact 🙋‍♀️
 
