@@ -76,6 +76,15 @@
 
 ## Demo 💖
 
+1. Auto-start tours in GitDate, and `Docs` for tours in every page
+
+![Screen Recording 2022-10-13 at 5 51 38 PM](https://user-images.githubusercontent.com/104899687/195567116-51e61081-f0de-495e-ad08-a81a3d86851b.gif)
+
+2. After Sign in / Sign Up, you could write your own README and see/share your public README!
+
+![Demo2](https://user-images.githubusercontent.com/104899687/195571005-b162713a-e39a-41a1-9b0a-e733e2111ca1.gif)
+
+
 ## Contact 🙋‍♀️
 
 [![linkedin](https://user-images.githubusercontent.com/104899687/195479536-a8b8f85e-48c8-4a31-b4f6-9d98878736a8.png)](https://www.linkedin.com/in/pei-chin-chiang/)
