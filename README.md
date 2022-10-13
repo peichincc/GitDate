@@ -84,6 +84,10 @@
 
 ![Demo2](https://user-images.githubusercontent.com/104899687/195571005-b162713a-e39a-41a1-9b0a-e733e2111ca1.gif)
 
+3. You can find different types of `Branches` (activities) by filters or dates, then checkout to this branch. Of course, you can initial new branch as well! 
+
+![Demo3](https://user-images.githubusercontent.com/104899687/195573840-8ce184ac-4c79-46c0-b601-ceeae1ac45c4.gif)
+
 
 ## Contact 🙋‍♀️
 
