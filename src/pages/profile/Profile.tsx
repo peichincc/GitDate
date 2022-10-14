@@ -320,7 +320,7 @@ const Profile = () => {
   const [recipient, setRecipient] = useState<ListData>({
     lastname: "",
     firstname: "",
-    age: undefined,
+    age: "",
     gender: "",
     githublink: "",
     details: "",
