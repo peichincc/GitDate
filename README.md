@@ -111,6 +111,10 @@
 
 ![Demo5](https://user-images.githubusercontent.com/104899687/195575529-67a832b6-4b7c-401e-8b85-38cfb2a0757d.gif)
 
+6. Mobile version is available as well!
+
+<img width="200" alt="DemoMobile" src="https://user-images.githubusercontent.com/104899687/195788948-311baeea-5cea-4874-a679-223750d65a0d.gif"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img width="200" alt="DemoMobile" src="https://user-images.githubusercontent.com/104899687/195789025-02d676f9-9cca-43cf-98d6-a91575bf5ba8.gif"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img width="200" alt="DemoMobile" src="https://user-images.githubusercontent.com/104899687/195789483-559fe0ca-557a-441c-9600-2dbb06f375e1.gif">
+
 > Push on GitDate, Merge your soulmate!
 >
 > Happy coding and Happy dating! ✨✨✨
