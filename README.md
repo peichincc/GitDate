@@ -5,12 +5,17 @@
 <a href="#about-gitdate-" >About</a> | <a href="#demo-" >Demo</a> | <a href="#contact-%EF%B8%8F" >Contact</a>
 </div>
 
+<div align="center">
+  <br />
+  
+[![Generic badge](https://img.shields.io/badge/version-dev-green.svg)](https://shields.io/) [![Generic badge](https://img.shields.io/badge/release-v1.0.0-blue.svg)](https://shields.io/) [![GitHub](https://badgen.net/badge/icon/github?icon=github&label)](https://github.com)
+</div>
+
 # GitDate
 
 <a href="https://gitdate-ec8a6.web.app/" target="_blank">GitDate</a> is a dating, event website for digital nomads with Gitflow and GitHub interface.
 
 <img src="https://user-images.githubusercontent.com/104899687/195480043-5e88af11-64e2-4d21-9a63-fd0bb35c51c0.png" width="400"> <img src="https://user-images.githubusercontent.com/104899687/195564437-567cbb41-c09d-471a-b689-b1a4e057b953.png" width="400">
-
 
 ## About GitDate 🖐
 
