@@ -33,6 +33,8 @@ const Container = styled.div`
   @media screen and (max-width: 770px) {
     flex-direction: column;
     height: auto;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 `;
 const LeftContainer = styled.div`
@@ -238,6 +240,21 @@ const ReminderBoxText = styled.div`
 const ReminderBoxTextSmall = styled.div`
   font-size: 12px;
 `;
+const CheckTextWrap = styled.div`
+  display: flex;
+  @media screen and (max-width: 770px) {
+    flex-direction: column;
+  }
+`;
+const CheckText = styled.div`
+  color: #f61c04;
+  font-size: 11px;
+  padding-left: 2px;
+  @media screen and (max-width: 770px) {
+    padding-left: 0;
+    padding-top: 2px;
+  }
+`;
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -312,8 +329,8 @@ const Profile = () => {
     wish_relationship: "",
     friend_sent_request: [],
   });
-  const [ageOk, setAgeOK] = useState(false);
-  const [urlOk, setUrlOK] = useState(false);
+  const [ageOK, setAgeOK] = useState(true);
+  const [urlOK, setUrlOK] = useState(true);
   const uploadFormInputCheck = (
     label: string,
     key: string,
@@ -361,20 +378,18 @@ const Profile = () => {
       };
       return (
         <>
-          <FormControl
-            value={recipient[key as keyof typeof recipient]}
-            onBlur={(e) => {
-              handleOnchange(e);
-            }}
-            onChange={(e) => {
-              setRecipient({ ...recipient, [key]: e.target.value });
-            }}
-          />
-          {!urlOk && (
-            <div style={{ color: "#F61C04", fontSize: 11, paddingLeft: 2 }}>
-              Plese enter valid URL.
-            </div>
-          )}
+          <CheckTextWrap>
+            <FormControl
+              value={recipient[key as keyof typeof recipient]}
+              onBlur={(e) => {
+                handleOnchange(e);
+              }}
+              onChange={(e) => {
+                setRecipient({ ...recipient, [key]: e.target.value });
+              }}
+            />
+            {!urlOK && <CheckText>Plese enter valid URL.</CheckText>}
+          </CheckTextWrap>
         </>
       );
     } else if (key === "age") {
@@ -392,20 +407,20 @@ const Profile = () => {
       };
       return (
         <>
-          <FormControl
-            value={recipient[key as keyof typeof recipient]}
-            onBlur={(e) => {
-              handleOnchange(e);
-            }}
-            onChange={(e) => {
-              setRecipient({ ...recipient, [key]: e.target.value });
-            }}
-          />
-          {!ageOk && (
-            <div style={{ color: "#F61C04", fontSize: 11, paddingLeft: 2 }}>
-              Plese enter valid age (number only).
-            </div>
-          )}
+          <CheckTextWrap>
+            <FormControl
+              value={recipient[key as keyof typeof recipient]}
+              onBlur={(e) => {
+                handleOnchange(e);
+              }}
+              onChange={(e) => {
+                setRecipient({ ...recipient, [key]: e.target.value });
+              }}
+            />
+            {!ageOK && (
+              <CheckText>Plese enter valid age (number only).</CheckText>
+            )}
+          </CheckTextWrap>
         </>
       );
     } else {
