@@ -103,8 +103,8 @@ const Signin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [alreadyLogged, setAlreadyLogged] = useState(false);
   const [recipient, setRecipient] = useState({
-    email: "",
-    password: "",
+    email: "test@test.com",
+    password: "123456",
   });
 
   useEffect(() => {

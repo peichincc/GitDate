@@ -6,6 +6,7 @@ import { DocumentData } from "firebase/firestore";
 const ParticipantsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  width: 450px;
   @media screen and (max-width: 450px) {
     flex-direction: column;
   }
@@ -47,7 +48,6 @@ const TextBox = styled.div`
 
 const Participants = ({ participantsList }: DocumentData) => {
   let navigate = useNavigate();
-  console.log(participantsList.length);
   return (
     <>
       <ParticipantsContainer>

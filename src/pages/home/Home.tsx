@@ -228,13 +228,13 @@ const Home = () => {
                 <FeaturesItem>
                   <FeaturesItemTitleDate>Dating</FeaturesItemTitleDate>
                   <FeaturesPhoto>
-                    <FeaturesPhotoImg src={dating} />
+                    <FeaturesPhotoImg src={dating} alt="date" />
                   </FeaturesPhoto>
                 </FeaturesItem>
                 <FeaturesItem>
                   <FeaturesItemTitle>Hang Out</FeaturesItemTitle>
                   <FeaturesPhoto>
-                    <FeaturesPhotoImg src={hangout} />
+                    <FeaturesPhotoImg src={hangout} alt="hangout" />
                   </FeaturesPhoto>
                 </FeaturesItem>
                 <FeaturesItem>
@@ -242,7 +242,7 @@ const Home = () => {
                     Networking
                   </FeaturesItemTitleNetworking>
                   <FeaturesPhoto>
-                    <FeaturesPhotoImg src={networking} />
+                    <FeaturesPhotoImg src={networking} alt="networking" />
                   </FeaturesPhoto>
                 </FeaturesItem>
               </FeaturesList>

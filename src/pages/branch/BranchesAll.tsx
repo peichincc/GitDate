@@ -19,6 +19,8 @@ import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import Alert from "../../components/modal/Alert";
 import Loading from "../../components/Loading";
 import { RootState } from "../..";
+import yellowBack from "../../assets/images/yellowBlob.svg";
+import redBack from "../../assets/images/redBlob.svg";
 
 const ImgContainer = styled.img`
   overflow: hidden;
@@ -173,12 +175,18 @@ const FilterText = styled.div`
 `;
 const FilterButtons = styled.div`
   margin-left: 5px;
+  @media screen and (max-width: 1279px) {
+    padding: 5px;
+  }
 `;
 const TypeBtn = styled(LabelsButton)`
   background-color: #453d38;
 `;
 const StatusBtn = styled(LabelsButton)`
   background-color: #d73a4a;
+  @media screen and (max-width: 770px) {
+    margin: 2px;
+  }
 `;
 const ReminderBox = styled.div`
   color: #24292f;
@@ -221,6 +229,13 @@ const BranchAll = () => {
   const [mixedBranch, setMixedBranch] = useState<DocumentData>();
   const [upcomingBranch, setUpcomingBranch] = useState<DocumentData>();
   const [expiredBranch, setExpiredBranch] = useState<DocumentData>();
+  const currentDate = new Date(
+    new Date().getFullYear() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getDate()
+  );
 
   useEffect(() => {
     const userId = userData.user.user_id;
@@ -248,12 +263,22 @@ const BranchAll = () => {
         firebaseapi.getBranches("type", "Mixed").then((res) => {
           setMixedBranch(res);
         });
-        firebaseapi.getBranches("status", "Upcoming").then((res) => {
-          setUpcomingBranch(res);
+        let expiredTemp: DocumentData[] = [];
+        res.forEach((branch: any) => {
+          const branchDate = new Date(branch.date);
+          if (branchDate < currentDate) {
+            expiredTemp.push(branch);
+          }
         });
-        firebaseapi.getBranches("status", "Expired").then((res) => {
-          setExpiredBranch(res);
+        setExpiredBranch(expiredTemp);
+        let upcomingTemp: DocumentData[] = [];
+        res.forEach((branch: any) => {
+          const branchDate = new Date(branch.date);
+          if (branchDate > currentDate) {
+            upcomingTemp.push(branch);
+          }
         });
+        setUpcomingBranch(upcomingTemp);
       }
     });
   }, []);
@@ -302,7 +327,7 @@ const BranchAll = () => {
     setDocs(temp);
   };
 
-  const CreateHandler = () => {
+  const createHandler = () => {
     if (!getUser) {
       setButtonPop(true);
       return;
@@ -327,8 +352,8 @@ const BranchAll = () => {
           alertMsg={"Please sign in!"}
         />
         <Container>
-          <ImgContainer src="https://secure.meetupstatic.com/next/images/blobs/yellow-blob.svg" />
-          <ImgContainer2 src="https://secure.meetupstatic.com/next/images/blobs/red-blob.svg" />
+          <ImgContainer src={yellowBack} />
+          <ImgContainer2 src={redBack} />
           <CalendarContainer>
             <h1>Select date to see branches</h1>
             <CalendarContainerIn id="branchCalendar">
@@ -365,7 +390,7 @@ const BranchAll = () => {
                   <TypeBtn onClick={mixedBranches}>Mixed</TypeBtn>
                 </FilterButtons>
               </Filters>
-              <MergeBtn onClick={CreateHandler} id="createBranch">
+              <MergeBtn onClick={createHandler} id="createBranch">
                 New branch
               </MergeBtn>
             </FilterContainer>
