@@ -112,6 +112,7 @@ const ParticipantsContainer = styled.div`
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 const CardContainer = styled.div`
   padding: 1.5rem;
@@ -172,7 +173,7 @@ const Branch = () => {
   const [getAuthorID, setGetAuthorID] = useState("");
   const [branchData, setBranchData] = useState<DocumentData>();
   const [openParticipants, setOpenParticipants] = useState(false);
-  const [participantsList, setParticipantsList] = useState([]);
+  const [participantsList, setParticipantsList] = useState<DocumentData>();
   const [isAuthor, setIsAuthor] = useState(false);
   const [isExpired, setIsExpired] = useState(true);
   const [hostedList, setHostedList] = useState([]);
@@ -250,7 +251,7 @@ const Branch = () => {
     const branchRef = doc(collection(db, "Branches"), id);
     onSnapshot(branchRef, (doc) => {
       if (doc.exists()) {
-        const newArr = [] as any;
+        const newArr: React.SetStateAction<DocumentData | undefined> = [];
         for (let i = 0; i < doc.data().participants.length; i++) {
           firebaseapi.searchUserName(doc.data().participants[i]).then((res) => {
             if (res) {

@@ -47,6 +47,7 @@ export const MergeBtn = styled.button`
   color: white;
   border-radius: 6px;
   width: 150px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;

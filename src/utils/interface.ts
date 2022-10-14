@@ -19,7 +19,7 @@ interface FormRecipient {
 interface ListData {
   lastname: string;
   firstname: string;
-  age: number | undefined;
+  age: string;
   gender: string;
   githublink: string;
   details: string;
