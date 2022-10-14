@@ -46,6 +46,16 @@
 <img width="600" alt="Flowchart Graph" src="https://user-images.githubusercontent.com/104899687/195541421-9a82cb92-e479-4d04-8f2c-aba380cd1a3b.png">
 </p>
 
+### Other cool features
+
+* README.md - You can create your own README and share with others 🙌
+* GitGraph - To show how active you are in GitDate! 💃
+<img width="600" alt="Readme" src="https://user-images.githubusercontent.com/104899687/195785999-2d525b67-ddf4-4915-9021-742b41ac8a85.png">
+
+* git cheatsheet - Don't be afraid if you are not an engineer 😉
+<img width="600" alt="gitcheatsheet" src="https://user-images.githubusercontent.com/104899687/195786188-16caec95-5fa4-4474-a79d-7e2255b7f864.png">
+
+
 ### Development tools
 
 * React
