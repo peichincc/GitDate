@@ -40,11 +40,27 @@
 * Completed native user management system with **Firebase Authentication**.
 * Designed data structure of chatroom and managed data with **Firebase Firestore Database**.
 
-### Flow chart
+### Website structure
 
 <p align="center">
 <img width="600" alt="Flowchart Graph" src="https://user-images.githubusercontent.com/104899687/195541421-9a82cb92-e479-4d04-8f2c-aba380cd1a3b.png">
 </p>
+
+### Flow chart
+
+```mermaid
+graph TD
+    A(GitDate) -->|New user?| B(Sign Up)
+    A --> |Sign In|C{GitDate Features}
+    B --> C{GitDate Features}
+    C -->|Write profile| D[README]
+    C --> E[Issue] -->|Create Issue| H(git push)
+    E -->|Read Issue| J[Issue] -->|Send Pull Request| D
+        C --> F[Branch] -->|Create Branch| G(git branch)
+    F -->|Attend Branch| I(git checkout)
+    D -->|Merge PR| K(Repo)
+    D --> |Close PR| L(GitDate)
+```
 
 ### Other cool features
 
