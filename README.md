@@ -50,13 +50,13 @@
 
 ```mermaid
 graph TD
-    A(GitDate) -->|New user?| B(Sign Up)
+    A(GitDate) -->|New user?| B[Sign Up]
     A --> |Sign In|C{GitDate Features}
     B --> C{GitDate Features}
     C -->|Write profile| D[README]
     C --> E[Issues] -->|Create Issue| H(git push)
     E -->|Read Issue| J[Issues] -->|Send Pull Request| D
-        C --> F[Branhes] -->|Create Branch| G(git branch)
+        C --> F[Branches] -->|Create Branch| G(git branch)
     F -->|Attend Branch| I(git checkout)
     D -->|Merge PR| K(Repo)
     D --> |Close PR| L(To GitDate, find next one)
