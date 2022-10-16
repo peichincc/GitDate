@@ -129,7 +129,8 @@ graph TD
 
 6. Mobile version is available as well!
 
-<img width="200" alt="DemoMobile" src="https://user-images.githubusercontent.com/104899687/195788948-311baeea-5cea-4874-a679-223750d65a0d.gif"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img width="200" alt="DemoMobile" src="https://user-images.githubusercontent.com/104899687/195789025-02d676f9-9cca-43cf-98d6-a91575bf5ba8.gif"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img width="200" alt="DemoMobile" src="https://user-images.githubusercontent.com/104899687/195789483-559fe0ca-557a-441c-9600-2dbb06f375e1.gif">
+<img width="200" alt="DemoMobile" src="https://user-images.githubusercontent.com/104899687/196017992-fa054215-aeea-4e66-8a5b-70cb1f38859d.gif"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img width="200" alt="DemoMobile" src="https://user-images.githubusercontent.com/104899687/195789025-02d676f9-9cca-43cf-98d6-a91575bf5ba8.gif"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img width="200" alt="DemoMobile" src="https://user-images.githubusercontent.com/104899687/195789483-559fe0ca-557a-441c-9600-2dbb06f375e1.gif">
+
 
 > Push on GitDate, Merge your soulmate!
 >
