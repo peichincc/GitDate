@@ -43,7 +43,7 @@
 ### Website structure
 
 <p align="center">
-<img width="600" alt="Flowchart Graph" src="https://user-images.githubusercontent.com/104899687/195541421-9a82cb92-e479-4d04-8f2c-aba380cd1a3b.png">
+<img width="600" alt="Flowchart Graph" src="https://user-images.githubusercontent.com/104899687/196017500-cf98ffee-08da-46ea-bd56-ec42f10cd7fc.png">
 </p>
 
 ### Flow chart
@@ -54,12 +54,12 @@ graph TD
     A --> |Sign In|C{GitDate Features}
     B --> C{GitDate Features}
     C -->|Write profile| D[README]
-    C --> E[Issue] -->|Create Issue| H(git push)
-    E -->|Read Issue| J[Issue] -->|Send Pull Request| D
-        C --> F[Branch] -->|Create Branch| G(git branch)
+    C --> E[Issues] -->|Create Issue| H(git push)
+    E -->|Read Issue| J[Issues] -->|Send Pull Request| D
+        C --> F[Branhes] -->|Create Branch| G(git branch)
     F -->|Attend Branch| I(git checkout)
     D -->|Merge PR| K(Repo)
-    D --> |Close PR| L(GitDate)
+    D --> |Close PR| L(To GitDate, find next one)
 ```
 
 ### Other cool features
