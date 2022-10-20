@@ -125,7 +125,7 @@ const Container = styled.div`
   border-radius: 6px;
   height: auto;
 `;
-const InsideContainder = styled.div`
+const InsideContainer = styled.div`
   display: flex;
   margin-top: 20px;
   flex-direction: column;
@@ -207,7 +207,7 @@ const Member = () => {
     }
     searchIssues(userId);
     searchHostedBranches(userId);
-    searchAttenedBranches(userId);
+    searchAttendedBranches(userId);
     firebaseapi.readUserData(userId).then((res) => {
       if (res) {
         setLoginUserData(res);
@@ -238,7 +238,7 @@ const Member = () => {
     });
     setHostedBranches(temp);
   };
-  const searchAttenedBranches = (userId: string) => {
+  const searchAttendedBranches = (userId: string) => {
     onSnapshot(doc(collection(db, "Users"), userId), async (doc) => {
       if (doc.exists()) {
         const newArr: React.SetStateAction<DocumentData | undefined> = [];
@@ -392,7 +392,7 @@ const Member = () => {
                       <FontAwesomeIcon icon={faListUl} />
                       <NavWord>README.md</NavWord>
                     </BoxHeader>
-                    <InsideContainder>
+                    <InsideContainer>
                       <FormTextRead>
                         <DataCard> Name </DataCard>
                         {logInUserData.firstname} {logInUserData.lastname}
@@ -429,7 +429,7 @@ const Member = () => {
                         <DataCard> Details</DataCard>
                         <TextArea>{logInUserData.details}</TextArea>
                       </FormTextRead>
-                    </InsideContainder>
+                    </InsideContainer>
                   </Container>
                 </>
               )}

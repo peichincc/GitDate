@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import CheatSheet from "./modal/Cheatsheet";
-import { ReactComponent as Logo } from "../assets/images/githubConer.svg";
+import { ReactComponent as Logo } from "../assets/images/githubCorner.svg";
 
 const SliderWrapper = styled.div`
   position: fixed;

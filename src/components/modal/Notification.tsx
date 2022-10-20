@@ -28,18 +28,18 @@ const NotificationBox = styled.div`
 `;
 
 const Notification = () => {
-  const [alertWtihCTAPop, setAlertWtihCTAPop] = useState(false);
+  const [alertWithCTAPop, setAlertWithCTAPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const openAlert = () => {
     setAlertMsg("You have pull requests, let's go checking!");
-    setAlertWtihCTAPop(true);
+    setAlertWithCTAPop(true);
     return;
   };
   return (
     <>
       <FriendAlert
-        trigger={alertWtihCTAPop}
-        setAlertWtihCTAPop={setAlertWtihCTAPop}
+        trigger={alertWithCTAPop}
+        setAlertWithCTAPop={setAlertWithCTAPop}
         alertMsg={alertMsg}
       />
       <NotificationBox>

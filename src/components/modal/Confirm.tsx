@@ -43,7 +43,7 @@ const ModalContents = styled.div`
   flex-direction: column;
   justify-content: center;
 `;
-const ModalExplaination = styled(ModalContent)`
+const ModelExplanation = styled(ModalContent)`
   width: auto;
   display: flex;
   flex-wrap: wrap;
@@ -70,7 +70,7 @@ const Confirm = (props: {
               </h2>
             </ModalHeader>
             <ModalContentsWrapper>
-              <ModalExplaination>{confirmMsg}</ModalExplaination>
+              <ModelExplanation>{confirmMsg}</ModelExplanation>
               <CloseBtnWrapper>
                 <MergeBtn
                   onClick={() => {

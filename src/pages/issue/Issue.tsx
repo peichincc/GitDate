@@ -15,18 +15,18 @@ import defaultAvatar from "../../assets/images/githubAvatar.png";
 import {
   GoBackWrapper,
   Button,
-  LebalsText,
+  LabelsText,
   PostImgContainer,
   PostTitle,
   PostSubTitle,
   PostContentText,
-  PostWraper,
+  PostWrapper,
   PostBox,
   AvatarBlock,
   AvatarUser,
   AvatarUserImg,
-  LebalContentText,
-  LebalsContainer,
+  LabelContentText,
+  LabelsContainer,
   AuthorBtn,
   MergeBtn,
   PostImgBoxImg,
@@ -45,7 +45,7 @@ import {
 import Alert from "../../components/modal/Alert";
 import Confirm from "../../components/modal/Confirm";
 import Loading from "../../components/Loading";
-import AlertWtihCTA from "../../components/modal/AlertWithCTA";
+import AlertWithCTA from "../../components/modal/AlertWithCTA";
 import { RootState } from "../..";
 
 const Wrapper = styled.div`
@@ -169,7 +169,7 @@ const Issue = () => {
   const userData = useSelector((state: RootState) => state);
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
-  const [alertWtihCTAPop, setAlertWtihCTAPop] = useState(false);
+  const [alertWithCTAPop, setAlertWithCTAPop] = useState(false);
   const [confirmPop, setConfirmPop] = useState(false);
   const [confirmMsg, setConfirmMsg] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
@@ -236,7 +236,7 @@ const Issue = () => {
     }
     if (!userName) {
       setAlertMsg("You haven't completed your README, let's write it here");
-      setAlertWtihCTAPop(true);
+      setAlertWithCTAPop(true);
       return;
     }
     setConfirmMsg("Do you want to send this pull request?");
@@ -274,9 +274,9 @@ const Issue = () => {
           setButtonPop={setButtonPop}
           alertMsg={alertMsg}
         />
-        <AlertWtihCTA
-          trigger={alertWtihCTAPop}
-          setAlertWtihCTAPop={setAlertWtihCTAPop}
+        <AlertWithCTA
+          trigger={alertWithCTAPop}
+          setAlertWithCTAPop={setAlertWithCTAPop}
           alertMsg={alertMsg}
         />
         <Confirm
@@ -327,7 +327,7 @@ const Issue = () => {
                   </TopContainer>
                   <MainContainer>
                     <LeftContainer>
-                      <PostWraper>
+                      <PostWrapper>
                         <AvatarBlock>
                           <AvatarUser>
                             <AvatarUserImg src={defaultAvatar} />
@@ -350,11 +350,11 @@ const Issue = () => {
                             </PostContentText>
                           </ContentContainer>
                         </PostBox>
-                      </PostWraper>
+                      </PostWrapper>
                       {!isAuthor && (
                         <>
                           <PRContainer>
-                            <PostWraper>
+                            <PostWrapper>
                               <AvatarBlock>
                                 <MergeIcon>
                                   <FontAwesomeIcon icon={faCodeMerge} />
@@ -382,20 +382,20 @@ const Issue = () => {
                                   </PRBox>
                                 </PRPostBox>
                               )}
-                            </PostWraper>
+                            </PostWrapper>
                           </PRContainer>
                         </>
                       )}
                     </LeftContainer>
                     <RightContainer>
-                      <LebalsContainer>
-                        <LebalsText>Category</LebalsText>
-                        <LebalContentText>
+                      <LabelsContainer>
+                        <LabelsText>Category</LabelsText>
+                        <LabelContentText>
                           {issueData.category}
-                        </LebalContentText>
-                      </LebalsContainer>
-                      <LebalsContainer>
-                        <LebalsText>Tags</LebalsText>
+                        </LabelContentText>
+                      </LabelsContainer>
+                      <LabelsContainer>
+                        <LabelsText>Tags</LabelsText>
                         <TagsWrapper>
                           {issueData.tags.map((tag: string) => (
                             <>
@@ -403,12 +403,12 @@ const Issue = () => {
                             </>
                           ))}
                         </TagsWrapper>
-                      </LebalsContainer>
+                      </LabelsContainer>
                       {isAuthor && (
                         <>
-                          <LebalsContainer>
-                            <LebalsText>Area for author</LebalsText>
-                            <LebalContentText>
+                          <LabelsContainer>
+                            <LabelsText>Area for author</LabelsText>
+                            <LabelContentText>
                               <EditBtn onClick={changeIssueStatus}>
                                 Close issue
                               </EditBtn>
@@ -419,8 +419,8 @@ const Issue = () => {
                               >
                                 Delete issue
                               </DeleteBtn>
-                            </LebalContentText>
-                          </LebalsContainer>
+                            </LabelContentText>
+                          </LabelsContainer>
                         </>
                       )}
                     </RightContainer>

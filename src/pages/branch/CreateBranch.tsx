@@ -47,7 +47,7 @@ const MainLayout = styled.div`
   flex-direction: column;
   padding: 20px;
 `;
-const TabWraper = styled.div`
+const TabWrapper = styled.div`
   margin-left: 70px;
   width: 100%;
   display: flex;
@@ -98,7 +98,7 @@ const TabButton = styled.button`
     background-color: #e6e7e9;
   }
 `;
-const PostWraper = styled.div`
+const PostWrapper = styled.div`
   display: flex;
 `;
 const AvatarBlock = styled.div`
@@ -321,7 +321,7 @@ const CreateBranch = () => {
           alertMsg={alertMsg}
         />
         <MainLayout>
-          <TabWraper>
+          <TabWrapper>
             <CreateTitle>To Create...</CreateTitle>
             <TabsContainer>
               <TabButton
@@ -333,8 +333,8 @@ const CreateBranch = () => {
               </TabButton>
               <TabChoseBtn>Branch</TabChoseBtn>
             </TabsContainer>
-          </TabWraper>
-          <PostWraper>
+          </TabWrapper>
+          <PostWrapper>
             <AvatarBlock>
               <AvatarUser>
                 <AvatarUserImg src={defaultAvatar} />
@@ -417,7 +417,7 @@ const CreateBranch = () => {
                 </MergeBtn>
               </SubmitWrapper>
             </PostBox>
-          </PostWraper>
+          </PostWrapper>
         </MainLayout>
       </Wrapper>
     </>

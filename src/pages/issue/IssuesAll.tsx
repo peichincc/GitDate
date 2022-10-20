@@ -105,7 +105,7 @@ const IssueAll = () => {
   const [ButtonPop, setButtonPop] = useState(false);
   const [getUser, setGetUser] = useState("");
   const [docs, setDocs] = useState<DocumentData>();
-  const [issuesStatus, setIssuesSatus] = useState("");
+  const [issuesStatus, setIssuesStatus] = useState("");
   const [allIssue, setAllIssue] = useState<DocumentData>();
   const [openIssue, setOpenIssue] = useState<DocumentData>();
   const [closedIssue, setClosedIssue] = useState<DocumentData>();
@@ -123,7 +123,7 @@ const IssueAll = () => {
         setDocs(res);
         setAllIssue(res);
         setIsLoading(false);
-        setIssuesSatus("All");
+        setIssuesStatus("All");
         firebaseapi.getIssues("status", "Open").then((res) => {
           setOpenIssue(res);
         });
@@ -144,28 +144,28 @@ const IssueAll = () => {
   }, []);
 
   const allIssues = () => {
-    setIssuesSatus("All");
+    setIssuesStatus("All");
     setDocs(allIssue);
   };
   const searchOpenIssues = () => {
-    setIssuesSatus("Open");
+    setIssuesStatus("Open");
     setDocs(openIssue);
   };
   const searchClosedIssues = () => {
-    setIssuesSatus("Closed");
+    setIssuesStatus("Closed");
     setDocs(closedIssue);
   };
 
   const dateIssues = () => {
-    setIssuesSatus("Date");
+    setIssuesStatus("Date");
     setDocs(dateIssue);
   };
   const hangOutIssues = () => {
-    setIssuesSatus("Hang Out");
+    setIssuesStatus("Hang Out");
     setDocs(hangOutIssue);
   };
   const networkingIssues = () => {
-    setIssuesSatus("Networking");
+    setIssuesStatus("Networking");
     setDocs(networkingIssue);
   };
 

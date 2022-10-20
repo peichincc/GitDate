@@ -44,7 +44,7 @@ const ModalContents = styled.div`
   flex-direction: column;
   justify-content: center;
 `;
-const ModalExplaination = styled(ModalContent)`
+const ModelExplanation = styled(ModalContent)`
   width: auto;
   display: flex;
   flex-wrap: wrap;
@@ -61,11 +61,11 @@ const CancelBtn = styled(Button)`
 
 const FriendAlert = (props: {
   trigger: boolean;
-  setAlertWtihCTAPop: (arg0: boolean) => void;
+  setAlertWithCTAPop: (arg0: boolean) => void;
   alertMsg: string;
 }) => {
   let navigate = useNavigate();
-  const { trigger, setAlertWtihCTAPop, alertMsg } = props;
+  const { trigger, setAlertWithCTAPop, alertMsg } = props;
   return trigger ? (
     <>
       <Back>
@@ -77,19 +77,19 @@ const FriendAlert = (props: {
               </h2>
             </ModalHeader>
             <ModalContentsWrapper>
-              <ModalExplaination>{alertMsg}</ModalExplaination>
+              <ModelExplanation>{alertMsg}</ModelExplanation>
               <CloseBtnWrapper>
                 <CTABtn
                   onClick={() => {
                     navigate("/member");
-                    setAlertWtihCTAPop(false);
+                    setAlertWithCTAPop(false);
                   }}
                 >
                   To Member
                 </CTABtn>
                 <CancelBtn
                   onClick={() => {
-                    setAlertWtihCTAPop(false);
+                    setAlertWithCTAPop(false);
                   }}
                 >
                   Maybe Later

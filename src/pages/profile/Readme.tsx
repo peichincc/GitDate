@@ -43,7 +43,7 @@ const Container = styled.div`
   border-radius: 6px;
   height: auto;
 `;
-const InsideContainder = styled.div`
+const InsideContainer = styled.div`
   height: auto;
   display: flex;
   margin-top: 20px;
@@ -157,7 +157,7 @@ const Readme = () => {
         setUserData(res);
         searchIssues(res.user_id);
         searchHostedBranches(res.user_id);
-        searchAttenedBranches(res.user_id);
+        searchAttendedBranches(res.user_id);
         setIsLoading(false);
       }
     });
@@ -184,7 +184,7 @@ const Readme = () => {
     });
     setHostedBranches(temp);
   };
-  const searchAttenedBranches = (userId: string) => {
+  const searchAttendedBranches = (userId: string) => {
     onSnapshot(doc(collection(db, "Users"), userId), async (branchDoc) => {
       if (branchDoc.exists()) {
         const newArr = [];
@@ -221,7 +221,7 @@ const Readme = () => {
                     <FontAwesomeIcon icon={faListUl} />{" "}
                     <NavWord>README.md</NavWord>
                   </BoxHeader>
-                  <InsideContainder id="readme">
+                  <InsideContainer id="readme">
                     <LeftContainer>
                       <PhotoContainer>
                         <PhotoContainerImg
@@ -279,7 +279,7 @@ const Readme = () => {
                         {userData.details}
                       </FormTextRead>
                     </RightContainer>
-                  </InsideContainder>
+                  </InsideContainer>
                 </Container>
                 {postedIssues && <PostedIssues postedIssues={postedIssues} />}
                 {hostedBranches && (

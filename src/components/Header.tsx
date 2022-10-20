@@ -166,7 +166,7 @@ const MobileLinkContainer = styled.div`
   flex-direction: column;
   padding: 16px;
 `;
-const ClostBtn = styled.button`
+const CloseBtn = styled.button`
   font-size: 20px;
   background-color: #24292f;
   border: none;
@@ -183,7 +183,7 @@ const Header = () => {
   const [page, setPage] = useState("");
   let navigate = useNavigate();
   const userInfo = useSelector((state: RootState) => state);
-  const [searchResults, setSearchRsults] = useState<DocumentData>();
+  const [searchResults, setSearchResults] = useState<DocumentData>();
   const [showSidebar, setShowSidebar] = useState(false);
   const clickhandler = () => {
     setShowSidebar(true);
@@ -219,7 +219,7 @@ const Header = () => {
     firebaseapi.searchUserByName(searchName).then((res) => {
       if (res) {
         expand();
-        setSearchRsults(res);
+        setSearchResults(res);
       }
     });
   };
@@ -252,13 +252,13 @@ const Header = () => {
               <Category as="div" onClick={memberHandler}>
                 Member
               </Category>
-              <ClostBtn
+              <CloseBtn
                 onClick={() => {
                   setShowSidebar(false);
                 }}
               >
                 &times;
-              </ClostBtn>
+              </CloseBtn>
             </MobileLinkContainer>
           </MobileSidebar>
         )}
