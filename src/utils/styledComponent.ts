@@ -237,7 +237,7 @@ export const AvatarBlock = styled.div`
     display: none;
   }
 `;
-export const PostWraper = styled.div`
+export const PostWrapper = styled.div`
   display: flex;
 `;
 export const PostBox = styled.div`
@@ -300,18 +300,18 @@ export const PostImgBoxImg = styled.img`
     height: 200px;
   }
 `;
-export const LebalsText = styled.div`
+export const LabelsText = styled.div`
   font-size: 12px;
   color: #57606a;
   font-weight: 600;
   padding: 4px 0;
   margin-bottom: 4px;
 `;
-export const LebalContentText = styled.div`
+export const LabelContentText = styled.div`
   font-size: 12px;
   line-height: 1.5;
 `;
-export const LebalsContainer = styled.div`
+export const LabelsContainer = styled.div`
   border-bottom: 1px solid #d0d7de;
   padding: 10px;
   @media screen and (max-width: 770px) {

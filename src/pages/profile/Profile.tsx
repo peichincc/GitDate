@@ -388,7 +388,7 @@ const Profile = () => {
                 setRecipient({ ...recipient, [key]: e.target.value });
               }}
             />
-            {!urlOK && <CheckText>Plese enter valid URL.</CheckText>}
+            {!urlOK && <CheckText>Please enter valid URL.</CheckText>}
           </CheckTextWrap>
         </>
       );
@@ -418,7 +418,7 @@ const Profile = () => {
               }}
             />
             {!ageOK && (
-              <CheckText>Plese enter valid age (number only).</CheckText>
+              <CheckText>Please enter valid age (number only).</CheckText>
             )}
           </CheckTextWrap>
         </>
@@ -566,7 +566,7 @@ const Profile = () => {
                   <PhotoContainerEmpty>
                     <PhotoContainerImg src={Avatar} />
                   </PhotoContainerEmpty>
-                  <FormTextReadEmpty>Aftet finishing README,</FormTextReadEmpty>
+                  <FormTextReadEmpty>After finishing README,</FormTextReadEmpty>
                   <FormTextReadEmpty>
                     you can make pull requests to others and checkout to
                     branches.

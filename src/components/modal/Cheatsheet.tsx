@@ -48,7 +48,7 @@ const ModalContents = styled.div`
   flex-direction: column;
   justify-content: center;
 `;
-const ModalExplaination = styled(ModalContent)`
+const ModelExplanation = styled(ModalContent)`
   width: 600px;
   display: flex;
   flex-wrap: wrap;
@@ -81,12 +81,12 @@ const CheatSheet = (props: {
               <Title>GIT CHEAT SHEET</Title>
             </ModalHeader>
             <ModalContentsWrapper>
-              <ModalExplaination>
+              <ModelExplanation>
                 Git is a free and open source distributed version control system
                 designed to handle everything from small to very large projects
                 with speed and efficiency. <br />
                 Here we tweak these git commands a bit ✨
-              </ModalExplaination>
+              </ModelExplanation>
               <ModalWordWrapper>
                 <ModalSubtitle>git add</ModalSubtitle>
                 <ModalContent>To add image into posts </ModalContent>

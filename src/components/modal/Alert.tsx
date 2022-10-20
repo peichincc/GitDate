@@ -42,7 +42,7 @@ const ModalContents = styled.div`
   flex-direction: column;
   justify-content: center;
 `;
-const ModalExplaination = styled(ModalContent)`
+const ModelExplanation = styled(ModalContent)`
   width: auto;
   display: flex;
   flex-wrap: wrap;
@@ -68,7 +68,7 @@ const Alert = (props: {
               </h2>
             </ModalHeader>
             <ModalContentsWrapper>
-              <ModalExplaination>{alertMsg}</ModalExplaination>
+              <ModelExplanation>{alertMsg}</ModelExplanation>
               <CloseBtnWrapper>
                 <Button
                   onClick={() => {

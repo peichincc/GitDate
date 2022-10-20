@@ -41,7 +41,7 @@ const MainLayout = styled.div`
   flex-direction: column;
   padding: 20px;
 `;
-const TabWraper = styled.div`
+const TabWrapper = styled.div`
   margin-left: 70px;
   width: 100%;
   display: flex;
@@ -92,7 +92,7 @@ const TabButton = styled.button`
     background-color: #e6e7e9;
   }
 `;
-const PostWraper = styled.div`
+const PostWrapper = styled.div`
   display: flex;
 `;
 const AvatarBlock = styled.div`
@@ -281,7 +281,7 @@ const CreateIssue = () => {
       .postIssue(imageUpload, newIssueRef, recipient)
       .then(() => {
         setIsSending(false);
-        setAlertMsg("Commited successfully!");
+        setAlertMsg("Committed successfully!");
         setButtonPop(true);
         setTimeout(() => {
           navigate("/issues");
@@ -298,7 +298,7 @@ const CreateIssue = () => {
           alertMsg={alertMsg}
         />
         <MainLayout>
-          <TabWraper>
+          <TabWrapper>
             <CreateTitle>To Create...</CreateTitle>
             <TabsContainer>
               <TabChoseBtn>Issue</TabChoseBtn>
@@ -310,8 +310,8 @@ const CreateIssue = () => {
                 Branch
               </TabButton>
             </TabsContainer>
-          </TabWraper>
-          <PostWraper>
+          </TabWrapper>
+          <PostWrapper>
             <AvatarBlock>
               <AvatarUser>
                 <AvatarUserImg src={defaultAvatar} />
@@ -404,7 +404,7 @@ const CreateIssue = () => {
                 </MergeBtn>
               </SubmitWrapper>
             </PostBox>
-          </PostWraper>
+          </PostWrapper>
         </MainLayout>
       </Wrapper>
     </>

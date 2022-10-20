@@ -18,7 +18,7 @@ import {
   AuthorBtn,
   PostTitle,
   PostSubTitle,
-  LebalsText,
+  LabelsText,
   PostImgContainer,
   MergeBtn,
   PostContentText,
@@ -31,7 +31,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import Alert from "../../components/modal/Alert";
 import Confirm from "../../components/modal/Confirm";
 import Loading from "../../components/Loading";
-import AlertWtihCTA from "../../components/modal/AlertWithCTA";
+import AlertWithCTA from "../../components/modal/AlertWithCTA";
 import { RootState } from "../..";
 
 const Wrapper = styled.div`
@@ -103,7 +103,7 @@ const BranchSubTitle = styled.div`
   line-height: 1.75rem;
   padding-bottom: 4px;
 `;
-const BranchConent = styled(PostContentText)`
+const BranchContent = styled(PostContentText)`
   margin-left: 0;
   margin-top: 0;
 `;
@@ -165,7 +165,7 @@ const Branch = () => {
   const userName = userData.user.user_name;
   const [isLoading, setIsLoading] = useState(true);
   const [ButtonPop, setButtonPop] = useState(false);
-  const [alertWtihCTAPop, setAlertWtihCTAPop] = useState(false);
+  const [alertWithCTAPop, setAlertWithCTAPop] = useState(false);
   const [confirmPop, setConfirmPop] = useState(false);
   const [confirmMsg, setConfirmMsg] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
@@ -222,7 +222,7 @@ const Branch = () => {
     }
     if (!userName) {
       setAlertMsg("You haven't completed your README, let's write it here");
-      setAlertWtihCTAPop(true);
+      setAlertWithCTAPop(true);
       return;
     }
     setConfirmMsg("Do you want to attend this activity?");
@@ -312,9 +312,9 @@ const Branch = () => {
           setButtonPop={setButtonPop}
           alertMsg={alertMsg}
         />
-        <AlertWtihCTA
-          trigger={alertWtihCTAPop}
-          setAlertWtihCTAPop={setAlertWtihCTAPop}
+        <AlertWithCTA
+          trigger={alertWithCTAPop}
+          setAlertWithCTAPop={setAlertWithCTAPop}
           alertMsg={alertMsg}
         />
         <Confirm
@@ -334,7 +334,7 @@ const Branch = () => {
                       {branchData.date} · {branchData.time}
                     </PostSubTitle>
                     <PostTitle>{branchData.title}</PostTitle>
-                    <LebalsText>
+                    <LabelsText>
                       Posted by
                       <AuthorBtn
                         id="branchAuthor"
@@ -346,7 +346,7 @@ const Branch = () => {
                       </AuthorBtn>
                       at{"  "}
                       {new Date(branchData.posted_at.seconds * 1000).toString()}
-                    </LebalsText>
+                    </LabelsText>
                   </TopContentContainer>
                 </TopContainer>
                 <MainContainer>
@@ -359,13 +359,13 @@ const Branch = () => {
                         />
                       </BranchImgBox>
                       <BranchSubTitle>Details</BranchSubTitle>
-                      <BranchConent>
+                      <BranchContent>
                         <div
                           dangerouslySetInnerHTML={{
                             __html: branchData.content,
                           }}
                         ></div>
-                      </BranchConent>
+                      </BranchContent>
                       {!isAuthor && (
                         <>
                           <CardContainer>
