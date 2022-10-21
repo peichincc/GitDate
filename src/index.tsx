@@ -5,6 +5,7 @@ import { createStore } from "redux";
 import allReducers from "./reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
+import { LocationType } from "./utils/interface";
 
 import App from "./App";
 import Home from "./pages/home/Home";
@@ -47,7 +48,23 @@ root.render(
           <Route path="createbranch" element={<CreateBranch />} />
           <Route path="branch/:id" element={<Branch />} />
           <Route path="branches" element={<BranchAll />} />
-          <Route path="map" element={<MapHome />} />
+          <Route
+            path="map"
+            element={
+              <MapHome
+                setLocation={function (
+                  value: React.SetStateAction<LocationType | undefined>
+                ): void {
+                  throw new Error("Function not implemented.");
+                }}
+                setFormatAddress={function (
+                  value: React.SetStateAction<string>
+                ): void {
+                  throw new Error("Function not implemented.");
+                }}
+              />
+            }
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

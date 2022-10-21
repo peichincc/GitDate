@@ -162,10 +162,18 @@ const CursorPlus = styled.span`
   }
 `;
 
+interface MsgType {
+  id: string;
+  sender_id?: string;
+  sender_name?: string;
+  timestamp?: number;
+  text?: string;
+}
+
 const Chatroom = (props: { chatroomId: string }) => {
   const { chatroomId } = props;
   const userData = useSelector((state: RootState) => state);
-  const [messages, setMessages] = useState<any>([]);
+  const [messages, setMessages] = useState<MsgType[]>([]);
   const [chosenEmoji, setChosenEmoji] = useState<boolean>();
   const [value, setValue] = useState("");
   const user = userData.user;
@@ -225,7 +233,10 @@ const Chatroom = (props: { chatroomId: string }) => {
     sendMessage(chatroomId, user, value);
     setValue("");
   };
-  const onEmojiClick = (e: any, emojiObject: { emoji: string }) => {
+  const onEmojiClick = (
+    e: React.MouseEvent,
+    emojiObject: { emoji: string }
+  ) => {
     setValue((pre) => pre + emojiObject.emoji);
     setChosenEmoji(false);
   };
@@ -241,7 +252,7 @@ const Chatroom = (props: { chatroomId: string }) => {
       <ChatContainer>
         <MsgListContainer ref={containerRef}>
           <MsgList>
-            {messages.map((msg: { id: string; sender_id: string }) => (
+            {messages.map((msg) => (
               <Message
                 key={msg.id}
                 message={msg}
@@ -280,7 +291,13 @@ const Chatroom = (props: { chatroomId: string }) => {
   );
 };
 
-function Message({ message, isOwnMessage }: any) {
+function Message({
+  message,
+  isOwnMessage,
+}: {
+  message: MsgType;
+  isOwnMessage: boolean;
+}) {
   const { sender_name, text } = message;
   return (
     <MessageLine ownMessage={isOwnMessage}>

@@ -261,7 +261,7 @@ const Profile = () => {
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const [getUser, setGetUser] = useState("");
-  const [imageUpload, setImageUpload] = useState(null);
+  const [imageUpload, setImageUpload] = useState<File>();
   const [imageURL, setImageURL] = useState("");
   const [userData, setUserData] = useState<DocumentData>();
   const [showPreviewReadme, setShowPreviewReadme] = useState(false);
@@ -434,12 +434,15 @@ const Profile = () => {
       );
     }
   };
-  const [fileSrc, setFileSrc] = useState<any>();
-  const handleUploadPhoto = (e: any) => {
-    if (!e.target.files[0]) return;
+  const [fileSrc, setFileSrc] = useState<string>();
+  const handleUploadPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
     const reader = new FileReader();
     reader.onload = function () {
-      setFileSrc(reader.result);
+      if (!reader.result) return;
+      if (typeof reader.result === "string") {
+        setFileSrc(reader.result);
+      }
     };
     reader?.readAsDataURL(e?.target?.files[0]);
     setImageUpload(e.target.files[0]);

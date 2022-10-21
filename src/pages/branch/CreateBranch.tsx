@@ -165,17 +165,22 @@ interface Data {
   value: string;
 }
 
+interface LocationType {
+  lat: number;
+  lng: number;
+}
+
 const CreateBranch = () => {
   let navigate = useNavigate();
   const [isSending, setIsSending] = useState(false);
   const [ButtonPop, setButtonPop] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
-  const [editorHtmlContent, setEditorHtmlContent] = React.useState("");
+  const [editorHtmlContent, setEditorHtmlContent] = useState("");
   const hiddenFileInput = useRef<HTMLInputElement | null>(null);
   const userData = useSelector((state: RootState) => state);
   const [getUser, setGetUser] = useState("");
-  const [imageUpload, setImageUpload] = useState<any>(null);
-  const [fileSrc, setFileSrc] = useState<any>(null);
+  const [imageUpload, setImageUpload] = useState<File>();
+  const [fileSrc, setFileSrc] = useState<string>();
 
   const handleClick = () => {
     hiddenFileInput.current?.click();
@@ -203,11 +208,14 @@ const CreateBranch = () => {
     }
   }, []);
 
-  const handleUploadFile = (e: any) => {
-    if (!e.target.files[0]) return;
+  const handleUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
     const reader = new FileReader();
     reader.onload = function () {
-      setFileSrc(reader.result);
+      if (!reader.result) return;
+      if (typeof reader.result === "string") {
+        setFileSrc(reader.result);
+      }
     };
     reader?.readAsDataURL(e?.target?.files[0]);
     setImageUpload(e.target.files[0]);
@@ -229,7 +237,7 @@ const CreateBranch = () => {
   const getTime = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTime(e.target.value);
   };
-  const [location, setLocation] = useState();
+  const [location, setLocation] = useState<LocationType>();
   const [formatAddress, setFormatAddress] = useState("");
 
   const recipient: FormRecipient = {

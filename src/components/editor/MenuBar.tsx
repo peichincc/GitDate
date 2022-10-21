@@ -10,6 +10,7 @@ import {
   faRotateLeft,
   faGripLines,
 } from "@fortawesome/free-solid-svg-icons";
+import { Editor } from "@tiptap/core";
 
 const Container = styled.div`
   display: flex;
@@ -27,11 +28,14 @@ const Divider = styled.div`
   margin: 0 10px;
 `;
 
-const MenuBar = ({ editor }: any) => {
+interface MenuProps {
+  editor: Editor | null;
+}
+
+const MenuBar = ({ editor }: MenuProps) => {
   if (!editor) {
     return null;
   }
-
   return (
     <>
       <Container>

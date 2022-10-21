@@ -159,7 +159,13 @@ function buildGraph5(gitgraph: any) {
   master.merge(develop).tag("v1 👏");
 }
 
-function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
+function SourceTree({
+  sourceTreeStatus,
+  setButtonPop,
+}: {
+  sourceTreeStatus: number;
+  setButtonPop: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const templateConfig = {
     branch: {
       lineWidth: 2,
@@ -198,7 +204,7 @@ function SourceTree({ sourceTreeStatus, setButtonPop }: any) {
   const [currentGraph, setCurrentGraph] = React.useState(0);
   const graph = new GitgraphCore();
   buildGraphs[currentGraph](graph.getUserApi());
-  useEffect(() => setCurrentGraph(parseInt(sourceTreeStatus)), []);
+  useEffect(() => setCurrentGraph(sourceTreeStatus), []);
 
   return (
     <ModalBx>

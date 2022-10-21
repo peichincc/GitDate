@@ -1,5 +1,6 @@
 import React from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import { LocationType } from "../../utils/interface";
 
 const libraries = ["places"] as (
   | "places"
@@ -9,7 +10,7 @@ const libraries = ["places"] as (
   | "visualization"
 )[];
 
-export const ShowMap = ({ center }: any) => {
+export const ShowMap = ({ center }: { center: LocationType }) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
     libraries,
@@ -17,14 +18,6 @@ export const ShowMap = ({ center }: any) => {
   });
 
   if (!isLoaded) return <div>Loading...</div>;
-  return (
-    <>
-      <Map center={center} />
-    </>
-  );
-};
-
-const Map = ({ center }: any) => {
   return (
     <>
       <GoogleMap
