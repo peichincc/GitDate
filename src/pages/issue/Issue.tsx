@@ -191,6 +191,9 @@ const Issue = () => {
     });
     setAlertMsg("Successfully closed this issue!");
     setButtonPop(true);
+    setTimeout(() => {
+      navigate("/issues");
+    }, 1000);
   };
 
   const deleteIssueHandler = (id: string | undefined) => {
@@ -198,7 +201,7 @@ const Issue = () => {
     setAlertMsg("Successfully delete this issue!");
     setButtonPop(true);
     setTimeout(() => {
-      navigate("/");
+      navigate("/issues");
     }, 1000);
   };
 
