@@ -106,6 +106,13 @@ const TextBox = styled.div`
   color: white;
 `;
 
+// function buildGraph(statusCode, gitgraph){
+//   if(statusCode ===0){
+//      const master = gitgraph.branch("master");
+//      master.commit("git init");
+//   }
+// }
+
 function buildGraph0(gitgraph: any) {
   const master = gitgraph.branch("master");
   master.commit("git init");
