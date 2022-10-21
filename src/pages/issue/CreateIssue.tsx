@@ -224,8 +224,11 @@ const CreateIssue = () => {
   const [tags, setTags] = useState<string[]>([]);
   const addTag = () => {
     if (!tagRef.current) return;
+    if (tagRef.current.value === " ") return;
+    if (tags.includes(tagRef.current.value)) return;
     let currentTags = [...tags];
-    currentTags.push(tagRef.current.value);
+    const text = tagRef.current.value.trim();
+    currentTags.push(text);
     setTags(currentTags);
     tagRef.current.value = "";
   };
