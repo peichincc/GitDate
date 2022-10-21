@@ -242,19 +242,21 @@ const Member = () => {
     onSnapshot(doc(collection(db, "Users"), userId), async (doc) => {
       if (doc.exists()) {
         const newArr: React.SetStateAction<DocumentData | undefined> = [];
-        for (let i = 0; i < doc.data().activity_attend.length; i++) {
-          firebaseapi
-            .readBranchData(doc.data().activity_attend[i])
-            .then((res) => {
-              if (res) {
-                const tempObj = {
-                  id: res["branch_id"],
-                  title: res["title"],
-                  photo: res["main_image"],
-                };
-                newArr.push(tempObj);
-              }
-            });
+        if (doc.data().activity_attend) {
+          for (let i = 0; i < doc.data().activity_attend.length; i++) {
+            firebaseapi
+              .readBranchData(doc.data().activity_attend[i])
+              .then((res) => {
+                if (res) {
+                  const tempObj = {
+                    id: res["branch_id"],
+                    title: res["title"],
+                    photo: res["main_image"],
+                  };
+                  newArr.push(tempObj);
+                }
+              });
+          }
         }
         setAttendedBranches(newArr);
       }
