@@ -8,7 +8,7 @@ interface FormRecipient {
   type?: string;
   date?: string;
   time?: string;
-  location?: { lat: string; lng: string };
+  location?: { lat: number; lng: number };
   address?: string;
   tags?: string[];
   posted_by?: string;
@@ -28,6 +28,10 @@ interface ListData {
   wish_relationship: string;
   friend_sent_request: [];
 }
-export const libraries = String(["places"]);
 
-export { FormRecipient, ListData };
+interface LocationType {
+  lat: number;
+  lng: number;
+}
+
+export { FormRecipient, ListData, LocationType };

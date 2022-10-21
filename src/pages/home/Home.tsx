@@ -153,11 +153,17 @@ const TourReminder = styled.div`
   text-align: right;
 `;
 
+interface LocationTypes {
+  id: string;
+  name: string;
+  position: { lat: number; lng: number };
+}
+
 const Home = () => {
   const navigate = useNavigate();
   const userInfo = useSelector((state: RootState) => state);
   const [alreadyLogged, setAlreadyLogged] = useState(false);
-  const [markersFromDB, setMarkersFromDB] = useState([]);
+  const [markersFromDB, setMarkersFromDB] = useState<LocationTypes[]>([]);
 
   useEffect(() => {
     const userID = userInfo.user.user_id;
@@ -170,7 +176,7 @@ const Home = () => {
       }
     });
   }, []);
-
+  // console.log(markersFromDB);
   return (
     <>
       <Wrapper>

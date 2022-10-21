@@ -32,7 +32,7 @@ const Image = styled.img<Props>`
 export const Carousel = () => {
   const slidePresentationTime = 5000;
   const [currentSlide, setCurrentSlide] = useState<number>(0);
-  let sliderInterval = useRef() as any;
+  let sliderInterval: string | number | NodeJS.Timer | undefined;
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -43,6 +43,7 @@ export const Carousel = () => {
       clearInterval(sliderInterval);
     };
   });
+
   return (
     <>
       {images.map((image, index: number) => (

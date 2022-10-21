@@ -10,7 +10,7 @@ import {
   where,
   DocumentData,
 } from "firebase/firestore";
-import Calendar from "react-calendar";
+import Calendar, { CalendarTileProperties } from "react-calendar";
 import BranchesList from "./BranchList";
 import firebaseapi from "../../utils/firebaseapi";
 import { MergeBtn, LabelsButton } from "../../utils/styledComponent";
@@ -244,8 +244,8 @@ const BranchAll = () => {
     }
     firebaseapi.readAllBranches().then((res) => {
       if (res) {
-        let dateTemp: DocumentData[] = [];
-        res.forEach((doc: any) => {
+        let dateTemp: string[] = [];
+        res.forEach((doc: DocumentData) => {
           dateTemp.push(doc.date);
         });
         const dates = new Set(dateTemp);
@@ -264,7 +264,7 @@ const BranchAll = () => {
           setMixedBranch(res);
         });
         let expiredTemp: DocumentData[] = [];
-        res.forEach((branch: any) => {
+        res.forEach((branch) => {
           const branchDate = new Date(branch.date);
           if (branchDate < currentDate) {
             expiredTemp.push(branch);
@@ -272,7 +272,7 @@ const BranchAll = () => {
         });
         setExpiredBranch(expiredTemp);
         let upcomingTemp: DocumentData[] = [];
-        res.forEach((branch: any) => {
+        res.forEach((branch) => {
           const branchDate = new Date(branch.date);
           if (branchDate > currentDate) {
             upcomingTemp.push(branch);
@@ -336,7 +336,7 @@ const BranchAll = () => {
   };
 
   let moment = require("moment");
-  const tileClassName = ({ date }: any) => {
+  const tileClassName = ({ date }: CalendarTileProperties) => {
     if (dateDocs?.has(moment(date).format("YYYY-MM-DD"))) {
       return "highlight";
     }

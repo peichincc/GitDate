@@ -7,6 +7,7 @@ import usePlacesAutocomplete, {
 import useOnclickOutside from "react-cool-onclickoutside";
 import { FormControl } from "../../utils/styledComponent";
 import styled from "styled-components";
+import { LocationType } from "../../utils/interface";
 
 const PlacesContainer = styled.div`
   position: absolute;
@@ -40,7 +41,13 @@ const libraries = ["places"] as (
   | "visualization"
 )[];
 
-const MapHome = ({ setLocation, setFormatAddress }: any) => {
+const MapHome = ({
+  setLocation,
+  setFormatAddress,
+}: {
+  setLocation: React.Dispatch<React.SetStateAction<LocationType | undefined>>;
+  setFormatAddress: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
     libraries,
@@ -51,15 +58,23 @@ const MapHome = ({ setLocation, setFormatAddress }: any) => {
   return <Map setLocation={setLocation} setFormatAddress={setFormatAddress} />;
 };
 
-const Map = ({ setLocation, setFormatAddress }: any) => {
-  const [center, setCenter] = useState<any>({
+const Map = ({
+  setLocation,
+  setFormatAddress,
+}: {
+  setLocation: React.Dispatch<React.SetStateAction<LocationType | undefined>>;
+  setFormatAddress: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  const [center, setCenter] = useState({
     lat: 25.0384803,
     lng: 121.5301824,
   });
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState<LocationType>();
 
   useEffect(() => {
-    setCenter(selected);
+    if (selected) {
+      setCenter(selected);
+    }
   }, [selected]);
 
   return (
@@ -88,7 +103,11 @@ const PlacesAutocomplete = ({
   setLocation,
   setSelected,
   setFormatAddress,
-}: any) => {
+}: {
+  setLocation: React.Dispatch<React.SetStateAction<LocationType | undefined>>;
+  setSelected: React.Dispatch<React.SetStateAction<LocationType | undefined>>;
+  setFormatAddress: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const {
     ready,
     value,
@@ -104,12 +123,12 @@ const PlacesAutocomplete = ({
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
+
   const handleSelect =
     ({ description }: any) =>
     () => {
       setValue(description, false);
       clearSuggestions();
-
       getGeocode({ address: description }).then((results) => {
         const { lat, lng } = getLatLng(results[0]);
         setSelected({ lat, lng });
@@ -124,7 +143,6 @@ const PlacesAutocomplete = ({
         place_id,
         structured_formatting: { main_text, secondary_text },
       } = suggestion;
-
       return (
         <RenderSuggestion>
           <li key={place_id} onClick={handleSelect(suggestion)}>

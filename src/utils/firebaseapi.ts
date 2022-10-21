@@ -11,6 +11,7 @@ import {
   onSnapshot,
   orderBy,
   DocumentData,
+  DocumentReference,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "./firebase";
@@ -99,11 +100,12 @@ const firebaseapi = {
     return temp;
   },
   async postIssue(
-    imageUpload: File,
-    newIssueRef: any,
+    imageUpload: File | undefined,
+    newIssueRef: DocumentReference<DocumentData>,
     recipient: FormRecipient
   ) {
     const imageRef = ref(storage, `issues/${newIssueRef.id}.jpg`);
+    if (!imageUpload) return;
     await uploadBytes(imageRef, imageUpload)
       .then(() => {
         setDoc(newIssueRef, recipient);
@@ -146,11 +148,12 @@ const firebaseapi = {
     }
   },
   async createBranch(
-    imageUpload: File,
-    newBranchRef: any,
+    imageUpload: File | undefined,
+    newBranchRef: DocumentReference<DocumentData>,
     recipient: FormRecipient
   ) {
     const imageRef = ref(storage, `branches/${newBranchRef.id}.jpg`);
+    if (!imageUpload) return;
     await uploadBytes(imageRef, imageUpload)
       .then(() => {
         setDoc(newBranchRef, recipient);
@@ -167,7 +170,7 @@ const firebaseapi = {
     const querySnapshot = await getDocs(
       query(collection(db, "Branches"), orderBy("date", "desc"))
     );
-    let temp: unknown[] = [];
+    let temp: DocumentData[] = [];
     querySnapshot.forEach((doc) => {
       temp.push(doc.data());
     });

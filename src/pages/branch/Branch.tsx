@@ -252,17 +252,21 @@ const Branch = () => {
     onSnapshot(branchRef, (doc) => {
       if (doc.exists()) {
         const newArr: React.SetStateAction<DocumentData | undefined> = [];
-        for (let i = 0; i < doc.data().participants.length; i++) {
-          firebaseapi.searchUserName(doc.data().participants[i]).then((res) => {
-            if (res) {
-              const tempObj = {
-                id: res["user_id"],
-                name: res["firstname"],
-                photo: res["main_photo"],
-              };
-              newArr.push(tempObj);
-            }
-          });
+        if (doc.data().participants) {
+          for (let i = 0; i < doc.data().participants.length; i++) {
+            firebaseapi
+              .searchUserName(doc.data().participants[i])
+              .then((res) => {
+                if (res) {
+                  const tempObj = {
+                    id: res["user_id"],
+                    name: res["firstname"],
+                    photo: res["main_photo"],
+                  };
+                  newArr.push(tempObj);
+                }
+              });
+          }
         }
         setParticipantsList(newArr);
       }

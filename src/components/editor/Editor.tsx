@@ -38,12 +38,12 @@ const StyledEditorContent = styled(EditorContent)`
   }
 `;
 
-type TiptapProps = { content?: string; setEditorHtmlContent: any };
+type TiptapProps = {
+  content?: string;
+  setEditorHtmlContent: React.Dispatch<React.SetStateAction<string>>;
+};
 
-const TiptapEditor = ({
-  content = "",
-  setEditorHtmlContent = "",
-}: TiptapProps) => {
+const TiptapEditor = ({ content, setEditorHtmlContent }: TiptapProps) => {
   const editor = useEditor({
     extensions: [StarterKit],
     content: "",

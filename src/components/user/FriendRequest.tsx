@@ -122,16 +122,15 @@ const FriendRequest = ({ getInvitationList }: DocumentData) => {
     }
   }, []);
 
-  const merge = async (e: any) => {
-    const index = e.target.value;
+  const merge = async (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLButtonElement;
+    const index = target.value;
     const newArr = getInvitationList.splice(index, 1);
     const otherUserID = newArr[0]["user_id"];
-    // 更新自己的DB
     const userRef = doc(db, "Users", getUser);
     await updateDoc(userRef, {
       friend_request: getInvitationList,
     });
-    // 打開repo (setDoc in Chatrooms collection)
     const newChatRef = doc(collection(db, "Chatrooms"));
     await setDoc(newChatRef, {
       chat_id: newChatRef.id,
@@ -142,12 +141,10 @@ const FriendRequest = ({ getInvitationList }: DocumentData) => {
       sender_name: getUserName,
       timestamp: serverTimestamp(),
     });
-    // 把名單, repo ID都丟進Friend_list (自己的)
     newArr[0].chat_id = newChatRef.id;
     await updateDoc(userRef, {
       friend_list: arrayUnion(newArr[0]),
     });
-    // 丟進Friend_list (對方的)
     const userRef2 = doc(db, "Users", otherUserID);
     await updateDoc(userRef2, {
       friend_list: arrayUnion({
@@ -161,12 +158,10 @@ const FriendRequest = ({ getInvitationList }: DocumentData) => {
     setAlertMsg("You've open a repo!");
   };
 
-  const close = async (e: any) => {
-    const index = e.target.value;
+  const close = async (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLButtonElement;
+    const index = target.value;
     const newArr = getInvitationList.splice(index, 1);
-    // console.log(newArr); // 被切出來的[obj]
-    // console.log(getInvitationList); // 留下來的[obj]
-    // 更新自己的DB
     const userRef = doc(db, "Users", getUser);
     await updateDoc(userRef, {
       friend_request: getInvitationList,
