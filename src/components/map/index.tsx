@@ -125,10 +125,11 @@ const PlacesAutocomplete = ({
   };
 
   const handleSelect =
-    ({ description }: any) =>
+    ({ description }: { description: string }) =>
     () => {
       setValue(description, false);
       clearSuggestions();
+      console.log(description);
       getGeocode({ address: description }).then((results) => {
         const { lat, lng } = getLatLng(results[0]);
         setSelected({ lat, lng });
@@ -143,6 +144,7 @@ const PlacesAutocomplete = ({
         place_id,
         structured_formatting: { main_text, secondary_text },
       } = suggestion;
+      console.log(suggestion);
       return (
         <RenderSuggestion>
           <li key={place_id} onClick={handleSelect(suggestion)}>
