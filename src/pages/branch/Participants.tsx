@@ -51,7 +51,7 @@ const Participants = ({ participantsList }: DocumentData) => {
   return (
     <>
       <ParticipantsContainer>
-        {participantsList?.length > 0 ? (
+        {participantsList && participantsList.length > 0 ? (
           participantsList.map(
             (list: { photo: string; id: string; name: string }) => (
               <>
