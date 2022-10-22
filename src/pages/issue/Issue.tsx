@@ -271,7 +271,7 @@ const Issue = () => {
 
   return (
     <>
-      <Wrapper>
+      <Wrapper id="issues_in">
         <Alert
           trigger={ButtonPop}
           setButtonPop={setButtonPop}
