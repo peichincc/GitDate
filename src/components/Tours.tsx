@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Joyride, { CallBackProps, STATUS, Step } from "react-joyride";
+import styled from "styled-components";
 
 interface State {
   run: boolean;
   steps: Step[];
 }
+
+const MobileTourWrapper = styled.div`
+  @media screen and (max-width: 770px) {
+    display: none;
+  }
+`;
 
 export const stepType = {
   all: [
@@ -67,7 +74,7 @@ export const stepType = {
   ],
   issue: [
     {
-      target: "#issues",
+      target: "#issues_in",
       content: "Issues are posts created by other users",
       disableBeacon: true,
     },
@@ -122,7 +129,7 @@ export const stepType = {
   ],
   branch: [
     {
-      target: "#branches",
+      target: "#branches_in",
       content: "Branches are activities created by other users",
       disableBeacon: true,
     },

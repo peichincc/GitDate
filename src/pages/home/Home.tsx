@@ -151,6 +151,9 @@ const MapBlock = styled.div`
 const TourReminder = styled.div`
   margin-top: 20px;
   text-align: right;
+  @media screen and (max-width: 770px) {
+    display: none;
+  }
 `;
 
 interface LocationTypes {

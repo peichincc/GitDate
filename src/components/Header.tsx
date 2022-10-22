@@ -177,6 +177,11 @@ const CloseBtn = styled.button`
     color: #9a9b9d;
   }
 `;
+const MobileTourWrapper = styled.div`
+  @media screen and (max-width: 770px) {
+    display: none;
+  }
+`;
 
 const Header = () => {
   const currentPage = useLocation();
@@ -243,9 +248,11 @@ const Header = () => {
               <Category to="issues" id="issues">
                 Issues
               </Category>
-              <Category as="div" id="docs">
-                <Tours stepType={stepType} page={page} />
-              </Category>
+              <MobileTourWrapper>
+                <Category as="div" id="docs">
+                  <Tours stepType={stepType} page={page} />
+                </Category>
+              </MobileTourWrapper>
               <Category to="repo" id="repo">
                 Repo
               </Category>
