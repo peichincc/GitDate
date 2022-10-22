@@ -188,12 +188,14 @@ const Readme = () => {
     onSnapshot(doc(collection(db, "Users"), userId), async (branchDoc) => {
       if (branchDoc.exists()) {
         const newArr = [];
-        for (let i = 0; i < branchDoc.data().activity_attend.length; i++) {
-          const branchesRef = collection(db, "Branches");
-          const branchid = branchDoc.data().activity_attend[i];
-          const docRef = doc(branchesRef, branchid);
-          const promise = (await getDoc(docRef)).data();
-          newArr.push(promise);
+        if (branchDoc.data().activity_attend) {
+          for (let i = 0; i < branchDoc.data().activity_attend.length; i++) {
+            const branchesRef = collection(db, "Branches");
+            const branchid = branchDoc.data().activity_attend[i];
+            const docRef = doc(branchesRef, branchid);
+            const promise = (await getDoc(docRef)).data();
+            newArr.push(promise);
+          }
         }
         const allNewArr = await Promise.all(newArr);
         setAttendedBranches(allNewArr);
