@@ -287,7 +287,9 @@ const CreateIssue = () => {
       .postIssue(imageUpload, newIssueRef, recipient)
       .then(() => {
         setIsSending(false);
-        setAlertMsg("Committed successfully!");
+        setAlertMsg(
+          "Committed successfully! Redirect to Issues after 3 seconds."
+        );
         setButtonPop(true);
         setTimeout(() => {
           navigate("/issues");

@@ -312,11 +312,13 @@ const CreateBranch = () => {
       };
       updateDoc(docRef, { markers: arrayUnion(locationInfo) });
       setIsSending(false);
-      setAlertMsg("You hosted an activity successfully!");
+      setAlertMsg(
+        "You hosted an activity successfully! Redirect to Branches after 3 seconds."
+      );
       setButtonPop(true);
       setTimeout(() => {
         navigate("/branches");
-      }, 1000);
+      }, 3000);
     });
   };
 
