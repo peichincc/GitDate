@@ -141,6 +141,7 @@ graph TD
 * Recommendation: You might also like...
 * Search nearby branches!
 * Terminal to control the website / VIM commands
+* Video chatting
 * ...more to come
 
 ## Contact 🙋‍♀️
