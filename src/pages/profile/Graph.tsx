@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Gitgraph, templateExtend, TemplateName } from "@gitgraph/react";
-import { GitgraphCore } from "@gitgraph/core";
+import { GitgraphUserApi } from "@gitgraph/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { ReactSvgElement } from "@gitgraph/react/lib/types";
 
 const TitleBar = styled.div`
   background-color: #f3f1f3;
@@ -106,25 +107,18 @@ const TextBox = styled.div`
   color: white;
 `;
 
-// function buildGraph(statusCode, gitgraph){
-//   if(statusCode ===0){
-//      const master = gitgraph.branch("master");
-//      master.commit("git init");
-//   }
-// }
-
-function buildGraph0(gitgraph: any) {
+function buildGraph0(gitgraph: GitgraphUserApi<ReactSvgElement>) {
   const master = gitgraph.branch("master");
   master.commit("git init");
 }
-function buildGraph1(gitgraph: any) {
+function buildGraph1(gitgraph: GitgraphUserApi<ReactSvgElement>) {
   const master = gitgraph.branch("master");
   master.commit("git init");
   const develop = gitgraph.branch("develop");
   develop.commit("write readme");
   master.merge(develop);
 }
-function buildGraph2(gitgraph: any) {
+function buildGraph2(gitgraph: GitgraphUserApi<ReactSvgElement>) {
   const master = gitgraph.branch("master");
   master.commit("git init");
   const develop = gitgraph.branch("develop");
@@ -134,7 +128,7 @@ function buildGraph2(gitgraph: any) {
   feata.commit("write issue");
   master.merge(feata);
 }
-function buildGraph3(gitgraph: any) {
+function buildGraph3(gitgraph: GitgraphUserApi<ReactSvgElement>) {
   const master = gitgraph.branch("master");
   master.commit("git init");
   const develop = gitgraph.branch("develop");
@@ -143,7 +137,7 @@ function buildGraph3(gitgraph: any) {
   const featb = gitgraph.branch("feat/branch");
   featb.commit("hosted branch!");
 }
-function buildGraph4(gitgraph: any) {
+function buildGraph4(gitgraph: GitgraphUserApi<ReactSvgElement>) {
   const master = gitgraph.branch("master");
   master.commit("git init");
   const develop = gitgraph.branch("develop");
@@ -152,7 +146,7 @@ function buildGraph4(gitgraph: any) {
   const featb = gitgraph.branch("feat/branch");
   featb.commit("attended branch 💃");
 }
-function buildGraph5(gitgraph: any) {
+function buildGraph5(gitgraph: GitgraphUserApi<ReactSvgElement>) {
   const master = gitgraph.branch("master");
   master.commit("git init");
   const develop = gitgraph.branch("develop");
@@ -208,9 +202,7 @@ function SourceTree({
     buildGraph4,
     buildGraph5,
   ];
-  const [currentGraph, setCurrentGraph] = React.useState(0);
-  const graph = new GitgraphCore();
-  buildGraphs[currentGraph](graph.getUserApi());
+  const [currentGraph, setCurrentGraph] = useState(0);
   useEffect(() => setCurrentGraph(sourceTreeStatus), []);
 
   return (

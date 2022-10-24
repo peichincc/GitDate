@@ -189,20 +189,24 @@ const Issue = () => {
     updateDoc(updateRef, {
       status: "Closed",
     });
-    setAlertMsg("Successfully closed this issue!");
+    setAlertMsg(
+      "Successfully closed this issue! Redirect to Issues after 3 seconds."
+    );
     setButtonPop(true);
     setTimeout(() => {
       navigate("/issues");
-    }, 1000);
+    }, 3000);
   };
 
   const deleteIssueHandler = (id: string | undefined) => {
     firebaseapi.deleteIssue(id);
-    setAlertMsg("Successfully delete this issue!");
+    setAlertMsg(
+      "Successfully delete this issue! Redirect to Issues after 3 seconds."
+    );
     setButtonPop(true);
     setTimeout(() => {
       navigate("/issues");
-    }, 1000);
+    }, 3000);
   };
 
   useEffect(() => {
