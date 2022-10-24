@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -168,18 +168,21 @@ const Home = () => {
   const [alreadyLogged, setAlreadyLogged] = useState(false);
   const [markersFromDB, setMarkersFromDB] = useState<LocationTypes[]>([]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const userID = userInfo.user.user_id;
     if (userID) {
       setAlreadyLogged(true);
     }
+  }, []);
+
+  useEffect(() => {
     firebaseapi.readBranchLocations().then((res) => {
       if (res) {
         setMarkersFromDB(res["markers"]);
       }
     });
   }, []);
-  // console.log(markersFromDB);
+
   return (
     <>
       <Wrapper>

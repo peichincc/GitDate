@@ -51,25 +51,31 @@ const Participants = ({ participantsList }: DocumentData) => {
   return (
     <>
       <ParticipantsContainer>
-        {participantsList && participantsList.length > 0 ? (
-          participantsList.map(
-            (list: { photo: string; id: string; name: string }) => (
-              <>
-                <ParticipantContainer key={list.id}>
-                  <PhotoBox
-                    src={list.photo}
-                    alt="Participants_photo"
-                    onClick={() => {
-                      navigate("/readme/" + list.id);
-                    }}
-                  />
-                  <NameTag> {list.name}</NameTag>
-                </ParticipantContainer>
-              </>
-            )
-          )
+        {participantsList.length !== 0 ? (
+          <>
+            {participantsList.length > 0 ? (
+              participantsList.map(
+                (list: { photo: string; id: string; name: string }) => (
+                  <>
+                    <ParticipantContainer key={list.id}>
+                      <PhotoBox
+                        src={list.photo}
+                        alt="Participants_photo"
+                        onClick={() => {
+                          navigate("/readme/" + list.id);
+                        }}
+                      />
+                      <NameTag> {list.name}</NameTag>
+                    </ParticipantContainer>
+                  </>
+                )
+              )
+            ) : (
+              <TextBox>Be the first one to attend!</TextBox>
+            )}
+          </>
         ) : (
-          <TextBox>Be the first one to attend!</TextBox>
+          ""
         )}
       </ParticipantsContainer>
     </>
