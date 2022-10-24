@@ -288,11 +288,13 @@ const Branch = () => {
     });
     updateLocationMarkers();
     await firebaseapi.deleteBranch(id);
-    setAlertMsg("Successfully delete this branch!");
+    setAlertMsg(
+      "Successfully delete this branch! Redirect to Branches after 3 seconds."
+    );
     setButtonPop(true);
     setTimeout(() => {
-      navigate("/");
-    }, 1000);
+      navigate("/branches");
+    }, 3000);
   };
 
   const updateLocationMarkers = () => {
