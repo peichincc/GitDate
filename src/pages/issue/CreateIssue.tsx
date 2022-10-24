@@ -293,7 +293,7 @@ const CreateIssue = () => {
         setButtonPop(true);
         setTimeout(() => {
           navigate("/issues");
-        }, 1000);
+        }, 3000);
       });
   };
 
